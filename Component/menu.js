@@ -1,5 +1,5 @@
 import React from 'react';
-import { DeviceEventEmitter ,View,Text} from 'react-native';
+import {View,Text} from 'react-native';
 
 
 export default class ToastExample extends React.Component {
@@ -7,21 +7,12 @@ export default class ToastExample extends React.Component {
     super(props)
   }
   componentDidMount() {
-    DeviceEventEmitter.addListener('navigatorBack', () => {
-    });
-  }
 
-  componentWillUnmount() {
-    if (this.timer) {
-      clearTimeout(this.timer);
-      this.timer = null;
-    }
   }
-
 
   render() {
-    return (
-<View><Text>777777777</Text></View>
-    );
+    return (<View>
+        <Text>777777777</Text>
+        </View>);
   }
 }
