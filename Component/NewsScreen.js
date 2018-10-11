@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View,TouchableOpacity } from 'react-native';
 
 export default class ActivityIndicatorExample extends React.Component{
   constructor(props) {
@@ -11,9 +11,10 @@ export default class ActivityIndicatorExample extends React.Component{
 
 
   render() {
+    const { navigate } = this.props.navigation;
     return (
       <View>
-      <Text>444444444444444</Text>
+      <TouchableOpacity onPress={()=> navigate('litile')}><Text>444444444444444</Text></TouchableOpacity>
       </View>
     );
   }
