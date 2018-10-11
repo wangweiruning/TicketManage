@@ -8,8 +8,9 @@ import React, { Component } from 'react';
 
 import HomeScreen from './Component/HomeScreen';
 import ToastExample from './Component/menu';
-import NewsScreen from './Component/NewsScreen';
+import ActivityIndicatorExample from './Component/NewsScreen';
 import FlexExample from './Component/flex';
+import Litile from './Component/litile';
 import {StackNavigator, TabBarBottom, TabNavigator} from "react-navigation";
 import {
   Platform,
@@ -26,17 +27,17 @@ const TabRouteConfigs = { // 表示各个页面路由配置,让导航器知道�
       navigationOptions: ({ navigation }) => ({
           header:null,
           headerMode:"none",
-          tabBarLabel: '首页',
+          tabBarLabel: '管理',
           tabBarIcon: ({ focused }) => ( 
               <Image resizeMode = 'contain' source = { focused ? require('./images/whome.png') : require('./images/home.png') } style = { { width: 20, height: 20 } }
               />
           )
       }),
   },
-  News: {
-      screen: NewsScreen,
+  ActivityIndicatorExample: {
+      screen: ActivityIndicatorExample,
       navigationOptions: { // 指定路由页面的配置选项
-          tabBarLabel: '模块', // 可用作头部标�?headerTitle ，或者Tab标题 tabBarLabel
+          tabBarLabel: '查询', // 可用作头部标�?headerTitle ，或者Tab标题 tabBarLabel
           tabBarIcon: ({ focused }) => ( 
               <Image resizeMode = 'contain' source = { focused ? require('./images/wmode.png') : require('./images/moda.png') } style = { { width: 20, height: 20 } }
               />
@@ -46,7 +47,7 @@ const TabRouteConfigs = { // 表示各个页面路由配置,让导航器知道�
   ToastExample: {
       screen: ToastExample,
       navigationOptions: { // 指定路由页面的配置选项
-          tabBarLabel: '我的', // 可用作头部标�?headerTitle ，或者Tab标题 tabBarLabel
+          tabBarLabel: '信息', // 可用作头部标�?headerTitle ，或者Tab标题 tabBarLabel
           tabBarIcon: ({ focused }) => ( 
               <Image resizeMode = 'contain' source = { focused ? require('./images/wmy.png') : require('./images/my.png') } style = { { width: 20, height: 20 } }
               />
@@ -56,7 +57,7 @@ const TabRouteConfigs = { // 表示各个页面路由配置,让导航器知道�
   // FlexExample: {
   //     screen: FlexExample,
   //     navigationOptions: { // 指定路由页面的配置选项
-  //         tabBarLabel: '收藏', // 可用作头部标�?headerTitle ，或者Tab标题 tabBarLabel
+  //         tabBarLabel: 'wo', // 可用作头部标�?headerTitle ，或者Tab标题 tabBarLabel
   //         tabBarIcon: ({ focused }) => ( 
   //             <Image resizeMode = 'contain' source = { focused ? require('./images/cfjj.png') : require('./images/cfj.png') } style = { { width: 20, height: 20 } }
   //             />
@@ -90,6 +91,15 @@ const StackRouteConfigs={
   Tab: {
       screen: Tab,
   },
+  litile:{
+    screen: Litile,
+    path:'app/litile',
+    header: null,
+    navigationOptions: {
+            header: null,
+            gesturesEnabled: true
+        }
+  }
 };
 
 const StackNavigatorConfigs={
