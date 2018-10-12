@@ -31,8 +31,12 @@ export default class HomeScreen extends React.Component {
                <NavigationBar navigation={this.props.navigation} centertext={'管理'}/>
           {
             this.state.content.map((v)=><View>
-            <TouchableOpacity style={{height:50,backgroundColor:'#3e5ed2',top:10,display:'flex',alignItems:'center',flexDirection:'row'}} activeOpacity={.8}>
-            <View style={{flex:1,display:'flex',alignItems:'center',flexDirection:'row'}}><Image source={require('../images/unhandle_ticket.png')} style={{width:15,resizeMode:Image.resizeMode.contain,left:15,marginTop:2}}/>
+            <TouchableOpacity 
+                  onPress={()=>navigate('waitPlan')}
+                  style={{height:50,backgroundColor:'#3e5ed2',top:10,display:'flex',alignItems:'center',flexDirection:'row'}} 
+                  activeOpacity={.8}>
+            <View style={{flex:1,display:'flex',alignItems:'center',flexDirection:'row'}}>
+                  <Image source={require('../images/unhandle_ticket.png')} style={{width:15,resizeMode:Image.resizeMode.contain,left:15,marginTop:2}}/>
                   <Text style={{
                     left:40,
                     color:'white',
@@ -40,8 +44,12 @@ export default class HomeScreen extends React.Component {
                     }}>{v.wait}</Text></View>
                     <Image source={v.img} style={{right:5,width:15,resizeMode:Image.resizeMode.contain}}/>
           </TouchableOpacity>
-          <TouchableOpacity style={{height:50,backgroundColor:'#3e5ed2',top:20,display:'flex',alignItems:'center',flexDirection:'row'}} activeOpacity={.8}>
-             <View style={{flex:1,display:'flex',alignItems:'center',flexDirection:'row'}}><Image source={require('../images/online_ticket.png')} style={{width:15,resizeMode:Image.resizeMode.contain,left:15,marginTop:2}}/>
+          <TouchableOpacity 
+                   onPress={()=>navigate('correlationPlan')}
+                   style={{height:50,backgroundColor:'#3e5ed2',top:20,display:'flex',alignItems:'center',flexDirection:'row'}} 
+                   activeOpacity={.8}>
+             <View style={{flex:1,display:'flex',alignItems:'center',flexDirection:'row'}}>
+                  <Image source={require('../images/online_ticket.png')} style={{width:15,resizeMode:Image.resizeMode.contain,left:15,marginTop:2}}/>
                   <Text style={{
                     left:40,
                     color:'white',
@@ -49,8 +57,12 @@ export default class HomeScreen extends React.Component {
                     }}>{v.about}</Text></View>
                     <Image source={v.img} style={{right:5,width:15,resizeMode:Image.resizeMode.contain}}/>
           </TouchableOpacity>
-          <TouchableOpacity style={{height:50,backgroundColor:'#3e5ed2',top:30,display:'flex',alignItems:'center',flexDirection:'row'}} activeOpacity={.8}>
-          <View style={{flex:1,display:'flex',alignItems:'center',flexDirection:'row'}}><Image source={require('../images/search_ticket.png')} style={{width:15,resizeMode:Image.resizeMode.contain,left:15,marginTop:2}}/>
+          <TouchableOpacity 
+                    onPress={()=>navigate('historyPlan')}
+                    style={{height:50,backgroundColor:'#3e5ed2',top:30,display:'flex',alignItems:'center',flexDirection:'row'}} 
+                    activeOpacity={.8}>
+          <View style={{flex:1,display:'flex',alignItems:'center',flexDirection:'row'}}>
+                  <Image source={require('../images/search_ticket.png')} style={{width:15,resizeMode:Image.resizeMode.contain,left:15,marginTop:2}}/>
                   <Text style={{
                     left:40,
                     color:'white',
