@@ -21,7 +21,9 @@ export default class ToastExample extends React.Component {
 
   render() {
     return (
-<View><Text>777777777</Text></View>
+          <View>
+            <Text>777777777</Text>
+          </View>
     );
   }
 }
