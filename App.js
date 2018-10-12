@@ -25,8 +25,6 @@ const TabRouteConfigs = { // 表示各个页面路由配置,让导航器知道�
   Home: { // 路由名称
       screen: HomeScreen, // 对应的路由页�?
       navigationOptions: ({ navigation }) => ({
-          header:null,
-          headerMode:"none",
           tabBarLabel: '管理',
           tabBarIcon: ({ focused }) => ( 
               <Image resizeMode = 'contain' source = { focused ? require('./images/whome.png') : require('./images/home.png') } style = { { width: 20, height: 20 } }
@@ -34,16 +32,16 @@ const TabRouteConfigs = { // 表示各个页面路由配置,让导航器知道�
           )
       }),
   },
-  ActivityIndicatorExample: {
-      screen: ActivityIndicatorExample,
-      navigationOptions: { // 指定路由页面的配置选项
-          tabBarLabel: '查询', // 可用作头部标�?headerTitle ，或者Tab标题 tabBarLabel
-          tabBarIcon: ({ focused }) => ( 
-              <Image resizeMode = 'contain' source = { focused ? require('./images/wmode.png') : require('./images/moda.png') } style = { { width: 20, height: 20 } }
-              />
-          )
-      },
-  },
+//   ActivityIndicatorExample: {
+//       screen: ActivityIndicatorExample,
+//       navigationOptions: { // 指定路由页面的配置选项
+//           tabBarLabel: '查询', // 可用作头部标�?headerTitle ，或者Tab标题 tabBarLabel
+//           tabBarIcon: ({ focused }) => ( 
+//               <Image resizeMode = 'contain' source = { focused ? require('./images/wmode.png') : require('./images/moda.png') } style = { { width: 20, height: 20 } }
+//               />
+//           )
+//       },
+//   },
   ToastExample: {
       screen: ToastExample,
       navigationOptions: { // 指定路由页面的配置选项

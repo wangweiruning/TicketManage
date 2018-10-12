@@ -15,7 +15,7 @@ export default class ActivityIndicatorExample extends React.Component{
     return (
       <View>
       <TouchableOpacity onPress={()=> navigate('litile')}>
-         <Text>444444444444444</Text>
+         <Text></Text>
       </TouchableOpacity>
       </View>
     );
