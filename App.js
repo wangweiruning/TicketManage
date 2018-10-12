@@ -8,8 +8,10 @@ import React, { Component } from 'react';
 
 import HomeScreen from './Component/HomeScreen';
 import ToastExample from './Component/menu';
-import ActivityIndicatorExample from './Component/NewsScreen';
-import FlexExample from './Component/flex';
+import Newticket from './Component/newticket';
+// import ActivityIndicatorExample from './Component/NewsScreen';
+// import FlexExample from './Component/flex';
+import Tdetail from './Component/TicketDetail';
 import Litile from './Component/litile';
 import {StackNavigator, TabBarBottom, TabNavigator} from "react-navigation";
 import {
@@ -97,6 +99,24 @@ const StackRouteConfigs={
             header: null,
             gesturesEnabled: true
         }
+  },
+  newticket:{
+    screen: Newticket,
+    path:'app/newticket',
+    header: null,
+    navigationOptions: {
+            header: null,
+            gesturesEnabled: true
+        }
+  },
+  TicketDetail:{
+      screen:Tdetail,
+      path:'app/TicketDetail',
+      header:null,
+      navigationOptions: {
+        header: null,
+        gesturesEnabled: true
+    }
   }
 };
 

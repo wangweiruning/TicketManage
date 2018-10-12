@@ -1,12 +1,13 @@
 import React from 'react';
 import NavigationBar from './NavigationBar';
-import {Text,View,ScrollView,Image,TouchableOpacity,Alert} from 'react-native';
+import {Text,View,ScrollView,Image,TouchableOpacity,Alert,Modal} from 'react-native';
 
 export default class HomeScreen extends React.Component {
 
   constructor(props){
     super(props)
     this.state={
+      modalVisible:false,
       content:[
         {
           img:require('../images/go.png'),
@@ -22,7 +23,7 @@ export default class HomeScreen extends React.Component {
      
   }
 
-
+  
 
   render() {
       const { navigate } = this.props.navigation;
