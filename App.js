@@ -11,6 +11,9 @@ import ToastExample from './Component/menu';
 import ActivityIndicatorExample from './Component/NewsScreen';
 import FlexExample from './Component/flex';
 import Litile from './Component/litile';
+import WaitPlan from './Component/waitPlan'
+import CorrelationPlan from './Component/correlationPlan'
+import HistoryPlan from './Component/historyPlan'
 import {StackNavigator, TabBarBottom, TabNavigator} from "react-navigation";
 import {
   Platform,
@@ -97,7 +100,19 @@ const StackRouteConfigs={
             header: null,
             gesturesEnabled: true
         }
-  }
+  },
+  waitPlan:{
+    screen: WaitPlan,
+    path:'app/waitPlan'
+  },
+  correlationPlan:{
+    screen: CorrelationPlan,
+    path:'app/correlationPlan'
+  },
+  historyPlan:{
+    screen: HistoryPlan,
+    path:'app/historyPlan'
+  },
 };
 
 const StackNavigatorConfigs={

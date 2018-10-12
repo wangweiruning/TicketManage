@@ -11,8 +11,10 @@ export default class Litile extends React.Component{
     }
 
     render(){
+        const data= this.props.navigation.state.params.TicketSerialNum;
         return(<View>
               <Title navigation={this.props.navigation} centerText={'信息管理系统'} />
+              <Text>   {data}</Text>
             </View>)
     }
 }
