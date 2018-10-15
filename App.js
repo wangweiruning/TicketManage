@@ -10,7 +10,7 @@ import HomeScreen from './Component/HomeScreen';
 import ToastExample from './Component/menu';
 
 import Newticket from './Component/newticket';
-
+import Login from './Component/login';
 import Tdetail from './Component/TicketDetail';
 import Litile from './Component/litile';
 import WaitPlan from './Component/waitPlan'
@@ -131,7 +131,17 @@ const StackRouteConfigs={
         header: null,
         gesturesEnabled: true
     }
-  }};
+  },
+  login:{
+    screen:Login,
+    path:'app/login',
+    header:null,
+    navigationOptions: {
+      header: null,
+      gesturesEnabled: true
+  }
+  }
+};
 
 const StackNavigatorConfigs={
   initialRouteName:'Tab',
