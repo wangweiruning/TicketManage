@@ -28,11 +28,9 @@ export default class HttpUtils{
                 .then(response=>response.json())
                 .then(result=>{
                     resolve(result);
-                    console.log(result)
                 })
                 .catch(error=> {
                     reject(error);
-                    console.log(error)
                 })
             })
         )

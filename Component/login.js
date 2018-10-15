@@ -10,13 +10,11 @@ export default class Login extends React.Component{
          this.state={
                     user:'',
                     pass:'',
-                    result:{
-                        form:{}
-                    }
+                    result:{}
             }
      }
      
-     submitgo(url,data){
+    submitgo(url,data){
         HttpUtils.post(url,data)
         .then(result=>{
             this.setState({
@@ -29,9 +27,9 @@ export default class Login extends React.Component{
                 result: JSON.stringify(error),//把错误信息格式化为字符串
             })
         })
-        // if(data.username!=form.user){
-        //     alert(form.targetresult)
-        // }
+        if(data.username!=this.state.result.user){
+            alert(this.state.result.targetresult)
+        }
      }
 
      handleInput(k, v){
@@ -41,6 +39,7 @@ export default class Login extends React.Component{
     }
       
     render(){
+        console.log(this.state.result,'fuck')
         let username = this.state.user;
         let password = this.state.pass;
         return(
