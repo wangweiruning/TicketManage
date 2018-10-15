@@ -15,7 +15,7 @@ export default class HttpUtils{
     };
 
     static post=(url,data)=>{
-        url = url +"?form.user="+data.username+"&form.pass="+data.password+"&code="+'50ACD07A6C49F3B9E082EF40461AC6D1';
+        
         return new Promise(((resolve, reject) => {
             fetch(url,{
                 method:'POST',
