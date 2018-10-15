@@ -30,7 +30,7 @@ export default class Tdetail extends React.Component{
     render(){
         return(<View style={{alignItems:'center'}}>
             <Title navigation={this.props.navigation} centerText={this.props.navigation.state.params.name}/>
-        <ScrollView>
+        <ScrollView style={{display:'flex'}}>
             <View style={{backgroundColor:'white',marginTop:5}}>
               <View style={{
                   width:'100%',
@@ -325,12 +325,22 @@ export default class Tdetail extends React.Component{
                 <Text style={{left:5}}>流转目标</Text>
                 <ModalDropdown options={['option 1', 'option 2']}/>
             </View>
+            
+            </View>
+            <View style={{marginBottom:60}}>
+                <TouchableOpacity 
+                            style={{
+                                justifyContent:'center',
+                                alignItems:'center',
+                                width:'60%',
+                                marginLeft:'12.5%',
+                                backgroundColor:'#3e5ed2',
+                                borderRadius:5,height:40}}>
+                        <Text style={{color:'white',fontSize:20}}>退出</Text>
+                </TouchableOpacity>
             </View>
         </ScrollView>
-        <View style={{marginBottom:40}}>
-        <TouchableOpacity style={{justifyContent:'center',alignItems:'center',width:'80%',backgroundColor:'#3e5ed2',borderRadius:5,height:40}}>
-                <Text style={{color:'white',fontSize:20}}>退出</Text>
-        </TouchableOpacity></View>
+        
         </View>)
     }
 }
