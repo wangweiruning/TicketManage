@@ -1,6 +1,7 @@
 import React from 'react';
 import NavigationBar from './NavigationBar';
 import {View,Text,TouchableOpacity} from 'react-native';
+import HttpUtils from '../api/Httpdata';
 
 
 export default class ToastExample extends React.Component {
@@ -8,7 +9,12 @@ export default class ToastExample extends React.Component {
     super(props)
   }
   componentDidMount() {
+    HttpUtils.get()
+    .then(jsdata=>{
+          
+    }).catch({
 
+    })
   }
 
   render() {
