@@ -1,13 +1,17 @@
 import React from 'react';
 import Title from './Title';
-import {InputItem,DatePickerView,DatePicker,List } from 'antd-mobile-rn';
+import {InputItem,DatePickerView,DatePicker,List,Radio} from 'antd-mobile-rn';
 import {View,Text,ScrollView,TouchableOpacity} from 'react-native';
+import ModalDropdown from 'react-native-modal-dropdown';
+const RadioItem = Radio.RadioItem;
 
 export default class Tdetail extends React.Component{
     constructor(props){
         super(props)
         this.state={
             username:'',
+            part1Value: 1,
+            part2Value: 1,
             value: null,
         }
     }
@@ -15,9 +19,6 @@ export default class Tdetail extends React.Component{
       onChange = (value) => {
         console.log(value);
         this.setState({ value });
-      }
-      onValueChange = (...args) => {
-        console.log(args);
       }
 
     handleInput(k, v){
@@ -108,32 +109,27 @@ export default class Tdetail extends React.Component{
                   }}>
                   <Text style={{color:'#3e5ed2',left:5}}>注意事项</Text>
               </View>
-            <View style={{display:'flex',flexDirection:'row',alignItems:'center'}}>
-                <Text style={{left:5}}>单位</Text>
+            <View style={{}}>
+                <Text style={{left:5}}>安全措施（必要时可附页绘图说明）</Text>
+                <InputItem onChange={(v)=>this.handleInput('username',v)} style={{borderRadius:5,backgroundColor:'white',width:'85%'}}/>
+                <Radio
+            checked={this.state.part1Value === 1}
+            onChange={(event) => {
+              if (event.target.checked) {
+                this.setState({ part1Value: 1 });
+              }
+            }}
+            style={{ borderWidth: 1, borderColor: '#999', margin: 10 }}
+          >
+           是否已执行
+          </Radio>
+            </View>
+            <View style={{}}>
+                <Text style={{left:5}}>工作地点保留带电部分或注意事项（由工作票签发人填写）</Text>
                 <InputItem onChange={(v)=>this.handleInput('username',v)} style={{borderRadius:5,backgroundColor:'white',width:'85%'}}/>
             </View>
-            <View style={{display:'flex',flexDirection:'row',alignItems:'center'}}>
-                <Text style={{left:5}}>编号</Text>
-                <InputItem onChange={(v)=>this.handleInput('username',v)} style={{borderRadius:5,backgroundColor:'white',width:'85%'}}/>
-            </View>
-            <View style={{display:'flex',flexDirection:'row',alignItems:'center'}}>
-                <Text style={{left:5}}>工作负责人</Text>
-                <InputItem onChange={(v)=>this.handleInput('username',v)} style={{borderRadius:5,backgroundColor:'white',width:'85%'}}/>
-            </View>
-            <View style={{display:'flex',flexDirection:'row',alignItems:'center'}}>
-                <Text style={{left:5}}>班组</Text>
-                <InputItem onChange={(v)=>this.handleInput('username',v)} style={{borderRadius:5,backgroundColor:'white',width:'85%'}}/>
-            </View>
-            <View style={{display:'flex',flexDirection:'row',alignItems:'center'}}>
-                <Text style={{left:5}}>工作组成员</Text>
-                <InputItem onChange={(v)=>this.handleInput('username',v)} style={{borderRadius:5,backgroundColor:'white',width:'85%'}}/>
-            </View>
-            <View style={{display:'flex',flexDirection:'row',alignItems:'center'}}>
-                <Text style={{left:5}}>工作发电厂名称</Text>
-                <InputItem onChange={(v)=>this.handleInput('username',v)} style={{borderRadius:5,backgroundColor:'white',width:'85%'}}/>
-            </View>
-            <View style={{display:'flex',flexDirection:'row',alignItems:'center'}}>
-                <Text style={{left:5}}>设备名称</Text>
+            <View style={{}}>
+                <Text style={{left:5}}>补充工作地点保留带电部分或安全措施（由工作许可人填写）</Text>
                 <InputItem onChange={(v)=>this.handleInput('username',v)} style={{borderRadius:5,backgroundColor:'white',width:'85%'}}/>
             </View>
             </View>
@@ -177,11 +173,11 @@ export default class Tdetail extends React.Component{
               </View>
             <View style={{display:'flex',flexDirection:'row',alignItems:'center'}}>
                 <Text style={{left:5}}>原工作负责人</Text>
-                
+                <ModalDropdown options={['option 1', 'option 2']}/>
             </View>
             <View style={{display:'flex',flexDirection:'row',alignItems:'center'}}>
                 <Text style={{left:5}}>变更后工作负责人</Text>
-                
+                <ModalDropdown options={['option 1', 'option 2']}/>
             </View>
             <View style={{display:'flex',flexDirection:'row',alignItems:'center'}}>
                 <Text style={{left:5}}>工作人员变动情况</Text>
@@ -294,7 +290,7 @@ export default class Tdetail extends React.Component{
               </View>
             <View style={{display:'flex',flexDirection:'row',alignItems:'center'}}>
                 <Text style={{left:5}}>制定专责监护人</Text>
-                 
+                <ModalDropdown options={['option 1', 'option 2']}/>
             </View>
             <View>
             <Text style={{left:5}}>地点及具体工作</Text>
@@ -318,12 +314,21 @@ export default class Tdetail extends React.Component{
                   <Text style={{color:'#3e5ed2',left:5}}>提交</Text>
               </View>
             <View>
-                <Text style={{left:5}}>许可开始工作时间</Text>
+                <Text style={{left:5}}>是否同意</Text>
+                <ModalDropdown options={['option 1', 'option 2']}/>
+            </View>
+            <View>
+                <Text style={{left:5}}>流转状态</Text>
+                <ModalDropdown options={['option 1', 'option 2']}/>
+            </View>
+            <View>
+                <Text style={{left:5}}>流转目标</Text>
+                <ModalDropdown options={['option 1', 'option 2']}/>
             </View>
             </View>
         </ScrollView>
         <View style={{marginBottom:40}}>
-             <TouchableOpacity style={{justifyContent:'center',alignItems:'center',width:'80%',backgroundColor:'#3e5ed2',borderRadius:5,height:40}}>
+        <TouchableOpacity style={{justifyContent:'center',alignItems:'center',width:'80%',backgroundColor:'#3e5ed2',borderRadius:5,height:40}}>
                 <Text style={{color:'white',fontSize:20}}>退出</Text>
         </TouchableOpacity></View>
         </View>)
