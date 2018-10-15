@@ -102,7 +102,6 @@ const StackRouteConfigs={
             header: null,
             gesturesEnabled: true
         }
- 
   },
   waitPlan:{
     screen: WaitPlan,
