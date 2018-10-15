@@ -3,6 +3,7 @@ import Title from './Title';
 import {InputItem,DatePickerView,DatePicker,List,Radio} from 'antd-mobile-rn';
 import {View,Text,ScrollView,TouchableOpacity} from 'react-native';
 import ModalDropdown from 'react-native-modal-dropdown';
+import HttpUtils from '../api/Httpdata';
 const RadioItem = Radio.RadioItem;
 
 export default class Tdetail extends React.Component{
@@ -16,6 +17,10 @@ export default class Tdetail extends React.Component{
         }
     }
     
+      sub(url,{}){
+        HttpUtils.post({}).then({}).catch({})
+      }
+
       onChange = (value) => {
         console.log(value);
         this.setState({ value });
@@ -336,7 +341,7 @@ export default class Tdetail extends React.Component{
                                 marginLeft:'12.5%',
                                 backgroundColor:'#3e5ed2',
                                 borderRadius:5,height:40}}>
-                        <Text style={{color:'white',fontSize:20}}>退出</Text>
+                        <Text style={{color:'white',fontSize:20}}>提交</Text>
                 </TouchableOpacity>
             </View>
         </ScrollView>

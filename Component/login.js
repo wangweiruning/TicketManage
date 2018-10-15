@@ -3,7 +3,6 @@ import {View,TouchableOpacity,Text} from 'react-native';
 import {InputItem} from 'antd-mobile-rn';
 import HttpUtils from '../api/Httpdata';
 
-
 export default class Login extends React.Component{
      constructor(props){
          super(props)
@@ -16,10 +15,14 @@ export default class Login extends React.Component{
      }
      
      submitgo(url,data){
-        // url = url +"?form.user="+data.username+"&form.pass="+data.password+"&code="+'50ACD07A6C49F3B9E082EF40461AC6D1';
+        const {navigate} = this.props.navigation
+        url = url +"?form.user="+data.username+"&form.pass="+data.password+"&code="+'50ACD07A6C49F3B9E082EF40461AC6D1';
         HttpUtils.post(url,data)
         .then(result=>{
-            if(data.username!=result.form.user){
+            if(data.username!=result.form.user || data.password!=result.form.pass){
+                alert(result.form.targetresult)
+            }
+            else{
                 alert(result.form.targetresult)
             }
             this.setState({
@@ -32,7 +35,6 @@ export default class Login extends React.Component{
                 result: JSON.stringify(error),//把错误信息格式化为字符串
             })
         })
-        
      }
 
      handleInput(k, v){

@@ -15,7 +15,6 @@ export default class HttpUtils{
     };
 
     static post=(url,data)=>{
-        
         return new Promise(((resolve, reject) => {
             fetch(url,{
                 method:'POST',
@@ -28,6 +27,7 @@ export default class HttpUtils{
                 .then(response=>response.json())
                 .then(result=>{
                     resolve(result);
+                    console.log(result)
                 })
                 .catch(error=> {
                     reject(error);
