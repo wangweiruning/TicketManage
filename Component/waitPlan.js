@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View,TouchableOpacity ,ScrollView,Button,Alert} from 'react-native';
 import Title from './Title'
 import {awaitdeteal} from './../api/api'
+import MySorage from '../api/storage';
 export default class WaitPlan extends React.Component{
   constructor(props) {
     super(props);
@@ -20,26 +21,25 @@ export default class WaitPlan extends React.Component{
     };
   }
   componentDidMount(){
-    this.submitgo('123')
+    this.submitgo()
     // this.showpage()
 }
     getDate(item){
         console.log("获取数据")
    
     }
-   async submitgo(data){
-      const datas = "?form.userId="+data;
-      const result = await awaitdeteal(datas);
-      console.log(result)
-      console.log(result.form.dataList,"0000000000000000000000")
-             if(result&&result.form.dataList.length>0){
-            this.setState({
-                result:result.form.dataList,//序列化：转换为一个 (字符串)JSON字符串
-            },function(){
-                this.showpage()
-            });
-           }  
-     }
+    submitgo(){
+    MySorage._load("userid",async (res) => {
+        const datas = "?form.userId="+res;
+        const result = await awaitdeteal(datas);
+        console.log(result.form.dataList,"0000000000000000000000")
+               if(result&&result.form.dataList.length>0){
+              this.setState({
+                  result:result.form.dataList,//序列化：转换为一个 (字符串)JSON字符串
+              });
+             }  
+    });
+}
 
      showpage(){
         let itemdatas = this.state.result;
@@ -47,7 +47,7 @@ export default class WaitPlan extends React.Component{
         console.log(itemdatas)
         if (itemdatas.length>0) {
             return  itemdatas.map((itemdata)=>{
-                return <View 
+                return <View key={itemdata.tickettemplateid}
                             onPress={()=>this.gotoItem(itemdata)}
                             style={{marginTop:5,paddingBottom:10,paddingTop:10,color:"#000000",width:"90%",marginLeft:20}}>
                         <Text style={{color:"#000000"}}>两票类型：{itemdata.tickettypename}</Text>
@@ -71,7 +71,7 @@ export default class WaitPlan extends React.Component{
             style={{marginTop:5,paddingBottom:10,paddingTop:10,color:"#000000",width:"90%",marginLeft:20}}>
         <Text style={{color:"#000000",textAlign:"center",marginTop:10,marginBottom:10}}>暂时没有数据~~</Text>
         <Button
-            onPress={()=>this.submitgo('techlab')}
+            onPress={()=>this.submitgo()}
             title="获取数据"
             color="#406ea4"
             />

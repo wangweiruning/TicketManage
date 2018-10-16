@@ -1,5 +1,5 @@
 import React from 'react';
-import {View,TouchableOpacity,Text,Alert,ToastAndroid} from 'react-native';
+import {View,TouchableOpacity,Text} from 'react-native';
 import {InputItem} from 'antd-mobile-rn';
 import {login} from '../api/api';
 import MySorage from '../api/storage';
@@ -20,24 +20,20 @@ export default class Login extends React.Component{
                     }
             }
      }
-
-
-     componentWillUnmount(){
-        this.setState = (state,callback)=>{
-        return;
-      };
-      }
      
 async submitgo(data){
          const datas ="?form.user="+data.username+"&form.pass="+data.password+"&code="+'50ACD07A6C49F3B9E082EF40461AC6D1'; 
          const result = await login(datas)
-         console.log(result.form,'qqqqqqqqqq')
+         console.log(result.form.user,'qqqqqqqqqq')
+        //  if(data.username!=result.form.user || data.password!=result.form.pass){
+            
+            MySorage._sava("userid",result.form.user);
         if(result.form.status == 0){    
-            Alert.alert('',result.form.targetresult,[{text:'是',onPress:this.opntion2Selected}
-        ])
-        }
+                alert(result.form.targetresult)
+                return
+         }
             else{
-                ToastAndroid.show('登录成功', ToastAndroid.SHORT)
+                alert(result.form.targetresult)
                 this.props.navigation.dispatch(resetAction);
             }
             this.setState({
@@ -46,8 +42,7 @@ async submitgo(data){
             MySorage._sava("isLogin", JSON.stringify({status: true}));
             MySorage._load("isLogin", (data) => {
                 let res = JSON.parse(data);
-                result.form.status=res.status;
-                console.log(res,res.status,'qwrrqwassss')
+                console.log(res)
             });
      }
 

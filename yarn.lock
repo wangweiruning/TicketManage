@@ -4356,7 +4356,7 @@ react-native-screens@^1.0.0-alpha.11:
 
 react-native-storage@^0.2.3:
   version "0.2.3"
-  resolved "http://registry.npm.taobao.org/react-native-storage/download/react-native-storage-0.2.3.tgz#294f034c6ecbd9e08cfe02fa24ecb9db7a861a1b"
+  resolved "https://registry.yarnpkg.com/react-native-storage/-/react-native-storage-0.2.3.tgz#294f034c6ecbd9e08cfe02fa24ecb9db7a861a1b"
 
 react-native-swipeout@^2.2.2:
   version "2.3.6"
