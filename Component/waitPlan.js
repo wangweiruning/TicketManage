@@ -22,7 +22,7 @@ export default class WaitPlan extends React.Component{
     };
   }
     async componentDidMount(){
-        this.submitgo()
+       await this.submitgo()
         this.showpage()
     }
     getDate(item){

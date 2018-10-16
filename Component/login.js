@@ -14,8 +14,8 @@ export default class Login extends React.Component{
          super(props);
          MySorage._getStorage();
          this.state={
-            user:'',
-            pass:'',
+            user:'techlab',
+            pass:'Whu2008',
             result:{}
         }
      }
@@ -58,8 +58,8 @@ async submitgo(data){
         let password = this.state.pass;
         return(
         <View>
-           <InputItem placeholder="账号" onChange={(v)=>this.handleInput('user',v)} style={{borderRadius:5,backgroundColor:'white',width:'85%'}}/>
-           <InputItem type="password" placeholder="密码" onChange={(v)=>this.handleInput('pass',v)} style={{borderRadius:5,backgroundColor:'white',width:'85%'}}/>
+           <InputItem defaultValue={username} placeholder="账号" onChange={(v)=>this.handleInput('user',v)} style={{borderRadius:5,backgroundColor:'white',width:'85%'}}/>
+           <InputItem defaultValue={password} type="password" placeholder="密码" onChange={(v)=>this.handleInput('pass',v)} style={{borderRadius:5,backgroundColor:'white',width:'85%'}}/>
            <TouchableOpacity onPress={()=>this.submitgo({username,password,code:'50ACD07A6C49F3B9E082EF40461AC6D1'})} 
                style={{top:40,justifyContent:'center',alignItems:'center',width:'80%',backgroundColor:'#3e5ed2',borderRadius:5,height:40}}>
           <Text style={{color:'white',fontSize:20}}>登录</Text>
