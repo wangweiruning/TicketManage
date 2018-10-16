@@ -24,8 +24,10 @@ export default class Login extends React.Component{
 async submitgo(data){
          const datas ="?form.user="+data.username+"&form.pass="+data.password+"&code="+'50ACD07A6C49F3B9E082EF40461AC6D1'; 
          const result = await login(datas)
-         console.log(result.form,'qqqqqqqqqq')
+         console.log(result.form.user,'qqqqqqqqqq')
         //  if(data.username!=result.form.user || data.password!=result.form.pass){
+            
+            MySorage._sava("userid",result.form.user);
         if(result.form.status == 0){    
                 alert(result.form.targetresult)
                 return
