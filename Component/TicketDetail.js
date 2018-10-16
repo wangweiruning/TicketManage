@@ -178,11 +178,11 @@ export default class Tdetail extends React.Component{
               </View>
             <View style={{display:'flex',flexDirection:'row',alignItems:'center'}}>
                 <Text style={{left:5}}>原工作负责人</Text>
-                <ModalDropdown options={['option 1', 'option 2']}/>
+                <ModalDropdown defaultValue={'请选择'} options={['option 1', 'option 2']}/>
             </View>
             <View style={{display:'flex',flexDirection:'row',alignItems:'center'}}>
                 <Text style={{left:5}}>变更后工作负责人</Text>
-                <ModalDropdown options={['option 1', 'option 2']}/>
+                <ModalDropdown defaultValue={'请选择'} options={['option 1', 'option 2']}/>
             </View>
             <View style={{display:'flex',flexDirection:'row',alignItems:'center'}}>
                 <Text style={{left:5}}>工作人员变动情况</Text>
@@ -295,7 +295,7 @@ export default class Tdetail extends React.Component{
               </View>
             <View style={{display:'flex',flexDirection:'row',alignItems:'center'}}>
                 <Text style={{left:5}}>制定专责监护人</Text>
-                <ModalDropdown options={['option 1', 'option 2']}/>
+                <ModalDropdown defaultValue={'请选择'} options={['option 1', 'option 2']}/>
             </View>
             <View>
             <Text style={{left:5}}>地点及具体工作</Text>
@@ -320,15 +320,15 @@ export default class Tdetail extends React.Component{
               </View>
             <View>
                 <Text style={{left:5}}>是否同意</Text>
-                <ModalDropdown options={['option 1', 'option 2']}/>
+                <ModalDropdown defaultValue={'请选择'} options={['同意', '拒绝']}/>
             </View>
             <View>
                 <Text style={{left:5}}>流转状态</Text>
-                <ModalDropdown options={['option 1', 'option 2']}/>
+                <ModalDropdown defaultValue={'请选择'} options={['option 1', 'option 2']}/>
             </View>
             <View>
                 <Text style={{left:5}}>流转目标</Text>
-                <ModalDropdown options={['option 1', 'option 2']}/>
+                <ModalDropdown defaultValue={'请选择'} options={['option 1', 'option 2']}/>
             </View>
             
             </View>
