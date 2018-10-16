@@ -39,8 +39,8 @@ export default class Newticket extends React.Component{
             <View>
              <Title navigation={this.props.navigation} centerText={'选择模板'}/>
              {
-                 this.state.type.map((v)=>
-                    <TouchableOpacity onPress={()=>this.goticket(v.name)} style={{display:'flex',flexDirection:'row',width:'100%',backgroundColor:'#beebff',height:50,display:'flex',alignItems:'center',marginTop:10}}>
+                 this.state.type.map((v,i)=>
+                    <TouchableOpacity key={i} onPress={()=>this.goticket(v.name)} style={{display:'flex',flexDirection:'row',width:'100%',backgroundColor:'#beebff',height:50,display:'flex',alignItems:'center',marginTop:10}}>
                             <Text style={{fontSize:18,color:'black',left:10,flex:1}}>{v.name}</Text>
                         <Image source={require('../images/go.png')} style={{right:5,width:15,resizeMode:Image.resizeMode.contain}}/>
                     </TouchableOpacity>)

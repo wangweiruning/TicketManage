@@ -30,7 +30,7 @@ export default class HomeScreen extends React.Component {
       return (<View>
                <NavigationBar navigation={this.props.navigation} centertext={'管理'}/>
           {
-            this.state.content.map((v)=><View>
+            this.state.content.map((v,i)=><View key={i}>
             <TouchableOpacity 
                   onPress={()=>navigate('waitPlan')}
                   style={{height:50,backgroundColor:'#3e5ed2',top:10,display:'flex',alignItems:'center',flexDirection:'row'}} 
