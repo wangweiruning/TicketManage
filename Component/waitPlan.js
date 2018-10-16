@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View,TouchableOpacity ,ScrollView,Button,Alert} from 'react-native';
 import Title from './Title'
-import HttpUtils from './../api/Httpdata'
+import {awaitdeteal} from './../api/api'
 export default class WaitPlan extends React.Component{
   constructor(props) {
     super(props);
@@ -20,31 +20,25 @@ export default class WaitPlan extends React.Component{
     };
   }
   componentDidMount(){
-    this.submitgo('http://59.172.204.182:8030/ttms/ticketMng/ticketMng_searchUnhandle.action','techlab')
-    this.showpage()
+    this.submitgo('123')
+    // this.showpage()
 }
     getDate(item){
         console.log("获取数据")
    
     }
-    submitgo(url,data){
-        url = url +"?form.userId="+data;
-        HttpUtils.post(url,data)
-        .then( result=>{
-             console.log(result.form.dataList,"0000000000000000000000")
+   async submitgo(data){
+      const datas = "?form.userId="+data;
+      const result = await awaitdeteal(datas);
+      console.log(result)
+      console.log(result.form.dataList,"0000000000000000000000")
              if(result&&result.form.dataList.length>0){
             this.setState({
                 result:result.form.dataList,//序列化：转换为一个 (字符串)JSON字符串
+            },function(){
+                this.showpage()
             });
-           }
-        })
-        .catch(error=> {
-            Alert.alert("服务器出错了~~")
-            console.log(JSON.stringify(error),"4444444")
-            // this.setState({
-            //     result: JSON.stringify(error),//把错误信息格式化为字符串
-            // })
-        })
+           }  
      }
 
      showpage(){
@@ -53,7 +47,6 @@ export default class WaitPlan extends React.Component{
         console.log(itemdatas)
         if (itemdatas.length>0) {
             return  itemdatas.map((itemdata)=>{
-                console.log(itemdata)
                 return <View 
                             onPress={()=>this.gotoItem(itemdata)}
                             style={{marginTop:5,paddingBottom:10,paddingTop:10,color:"#000000",width:"90%",marginLeft:20}}>
@@ -78,7 +71,7 @@ export default class WaitPlan extends React.Component{
             style={{marginTop:5,paddingBottom:10,paddingTop:10,color:"#000000",width:"90%",marginLeft:20}}>
         <Text style={{color:"#000000",textAlign:"center",marginTop:10,marginBottom:10}}>暂时没有数据~~</Text>
         <Button
-            onPress={()=>this.submitgo('http://59.172.204.182:8030/ttms/ticketMng/ticketMng_searchUnhandle.action','techlab')}
+            onPress={()=>this.submitgo('techlab')}
             title="获取数据"
             color="#406ea4"
             />
