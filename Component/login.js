@@ -2,9 +2,25 @@ import React from 'react';
 import {View,TouchableOpacity,Text} from 'react-native';
 import {InputItem} from 'antd-mobile-rn';
 import {login} from '../api/api';
+import MySorage from '../api/storage';
+import {StackActions, NavigationActions} from 'react-navigation';
+
+console.log("++++++++>",NavigationActions);
+
+// const resetAction=(routeName)=>NavigationActions.reset({
+//     index: 0,
+//     actions: [
+//       NavigationActions.navigate({ routeName})
+//     ]
+// });
+const resetAction = StackActions.reset({
+    index: 0,
+    actions: [NavigationActions.navigate({ routeName: 'Tab' })],
+  });
 
 export default class Login extends React.Component{
      constructor(props){
+        MySorage._getStorage()
          super(props)
          this.state={
                     user:'',
@@ -14,21 +30,31 @@ export default class Login extends React.Component{
             }
      }
      
-    async submitgo(data){
+async submitgo(data){
          const datas ="?form.user="+data.username+"&form.pass="+data.password+"&code="+'50ACD07A6C49F3B9E082EF40461AC6D1'; 
          const result = await login(datas)
 
          console.log(result)
+
+
+
+
+
+
+
+
+
+            console.log(result,'qqqqqqqqqq')
             if(data.username!=result.form.user || data.password!=result.form.pass){
                 alert(result.form.targetresult)
             }
             else{
-                alert(result.form.targetresult)
+                alert(":LLLLL"+result.form.targetresult)
+                this.props.navigation.dispatch(resetAction);
             }
             this.setState({
                 result:JSON.stringify(result),//序列化：转换为一个 (字符串)JSON字符串
             });
-            console.log(result,'qqqqqqqqqq')
      }
 
      handleInput(k, v){
