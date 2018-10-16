@@ -28,7 +28,7 @@ export function login(data) {
 		contentType: "application/x-www-form-urlencoded",
     });
 }
-//待处理数据
+//待处理流程
 export function awaitdeteal(data) {
     return Httpdata.post({
         url: url.awaitdeteal+data,
@@ -38,3 +38,12 @@ export function awaitdeteal(data) {
     });
 }
 
+//相关处理流程
+export function correation(data) {
+    return Httpdata.post({
+        url: url.correation+data,
+        method: 'post',
+        dataType: "json",
+		contentType: "application/x-www-form-urlencoded",
+    });
+}

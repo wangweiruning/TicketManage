@@ -5,6 +5,7 @@ import {awaitdeteal} from './../api/api'
 import MySorage from '../api/storage';
 export default class WaitPlan extends React.Component{
   constructor(props) {
+    MySorage._getStorage()
     super(props);
     this.state = {
       animating: false,
@@ -22,7 +23,8 @@ export default class WaitPlan extends React.Component{
   }
   componentDidMount(){
     this.submitgo()
-    // this.showpage()
+  
+    this.showpage()
 }
     getDate(item){
         console.log("获取数据")
@@ -46,8 +48,9 @@ export default class WaitPlan extends React.Component{
         const { navigate } = this.props.navigation;
         console.log(itemdatas)
         if (itemdatas.length>0) {
+     
             return  itemdatas.map((itemdata,i)=>{
-                return <View key={itemdata.tickettemplateid}
+                return <View Key={itemdata.tickettemplateid}
                             onPress={()=>this.gotoItem(itemdata)}
                             style={{marginTop:5,paddingBottom:10,paddingTop:10,color:"#000000",width:"90%",marginLeft:20}}>
                         <Text style={{color:"#000000"}}>两票类型：{itemdata.tickettypename}</Text>
