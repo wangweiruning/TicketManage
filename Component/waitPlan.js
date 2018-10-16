@@ -46,7 +46,7 @@ export default class WaitPlan extends React.Component{
         const { navigate } = this.props.navigation;
         console.log(itemdatas)
         if (itemdatas.length>0) {
-            return  itemdatas.map((itemdata)=>{
+            return  itemdatas.map((itemdata,i)=>{
                 return <View key={itemdata.tickettemplateid}
                             onPress={()=>this.gotoItem(itemdata)}
                             style={{marginTop:5,paddingBottom:10,paddingTop:10,color:"#000000",width:"90%",marginLeft:20}}>

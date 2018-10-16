@@ -1,6 +1,8 @@
 import React from 'react';
 import NavigationBar from './NavigationBar';
+import MySorage from '../api/storage';
 import {Text,View,ScrollView,Image,TouchableOpacity,Alert,Modal} from 'react-native';
+
 
 export default class HomeScreen extends React.Component {
 
@@ -20,7 +22,11 @@ export default class HomeScreen extends React.Component {
   }
 
   async componentDidMount(){
-     
+    // MySorage._load('userid',(data) => {
+    //   let res = JSON.parse(data);
+    //   console.log(res,'asfafs')
+    // }
+    // )
   }
 
   
