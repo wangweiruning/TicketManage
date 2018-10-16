@@ -34,7 +34,7 @@ export default class ToastExample extends React.Component {
   }
 
   reset(routeName="",params={}){
-    window.jconfig.userinfo=""
+    window.jconfig.userinfo={}
     MySorage._remove('userinfo')
     this.props.navigation.dispatch(StackActions.reset({
         index: 0,
@@ -45,7 +45,7 @@ export default class ToastExample extends React.Component {
 }
 
   render() {
-    console.log(window.jconfig.userinfo)
+    console.log(window.jconfig.userinfo,'wewgfvwg')
     const {navigate} = this.props.navigation;
     return (<View style={{alignItems:'center'}}>
       <NavigationBar navigation={this.props.navigation} centertext={'我的'}/>
