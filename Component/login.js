@@ -45,7 +45,7 @@ async submitgo(data){
 
 
             console.log(result,'qqqqqqqqqq')
-            if(data.username!=result.form.user || data.password!=result.form.pass){
+            if(data.username != result.form.user || data.password != result.form.pass){
                 alert(result.form.targetresult)
             }
             else{
