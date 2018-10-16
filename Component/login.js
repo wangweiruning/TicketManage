@@ -4,15 +4,6 @@ import {InputItem} from 'antd-mobile-rn';
 import {login} from '../api/api';
 import MySorage from '../api/storage';
 import {StackActions, NavigationActions} from 'react-navigation';
-
-console.log("++++++++>",NavigationActions);
-
-// const resetAction=(routeName)=>NavigationActions.reset({
-//     index: 0,
-//     actions: [
-//       NavigationActions.navigate({ routeName})
-//     ]
-// });
 const resetAction = StackActions.reset({
     index: 0,
     actions: [NavigationActions.navigate({ routeName: 'Tab' })],
@@ -33,27 +24,23 @@ export default class Login extends React.Component{
 async submitgo(data){
          const datas ="?form.user="+data.username+"&form.pass="+data.password+"&code="+'50ACD07A6C49F3B9E082EF40461AC6D1'; 
          const result = await login(datas)
-
-         console.log(result)
-
-
-
-
-
-
-
-
-
-            console.log(result,'qqqqqqqqqq')
-            if(data.username != result.form.user || data.password != result.form.pass){
+         console.log(result.form,'qqqqqqqqqq')
+        //  if(data.username!=result.form.user || data.password!=result.form.pass){
+        if(result.form.status == 0){    
                 alert(result.form.targetresult)
-            }
+                return
+         }
             else{
-                alert(":LLLLL"+result.form.targetresult)
+                alert(result.form.targetresult)
                 this.props.navigation.dispatch(resetAction);
             }
             this.setState({
                 result:JSON.stringify(result),//序列化：转换为一个 (字符串)JSON字符串
+            });
+            MySorage._sava("isLogin", JSON.stringify({status: true}));
+            MySorage._load("isLogin", (data) => {
+                let res = JSON.parse(data);
+                console.log(res)
             });
      }
 
