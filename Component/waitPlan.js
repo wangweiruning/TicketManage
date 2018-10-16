@@ -21,18 +21,18 @@ export default class WaitPlan extends React.Component{
     //   }]
     };
   }
- async componentDidMount(){
-    this.submitgo()
-  
-    this.showpage()
-}
+    async componentDidMount(){
+        this.submitgo()
+        this.showpage()
+    }
     getDate(item){
         console.log("获取数据")
    
     }
     async submitgo(){
-        if(!jconfig.userinfo.user) return ToastAndroid.show('请登录',ToastAndroid.SHORT);
-        const datas = "?form.userId="+jconfig.userinfo.user;
+        if(!window.jconfig.userinfo.indo.user) return ToastAndroid.show('请登录',ToastAndroid.SHORT);
+        const datas = "?form.userId="+window.jconfig.userinfo.indo.user;
+        console.log(datas,'hhhhhhhhhhj')
         const result = await awaitdeteal(datas);
         console.log(result.form.dataList,"0000000000000000000000")
                if(result&&result.form.dataList.length>0){
@@ -49,7 +49,7 @@ export default class WaitPlan extends React.Component{
         if (itemdatas.length>0) {
      
             return  itemdatas.map((itemdata,i)=>{
-                return <View Key={itemdata.tickettemplateid}
+                return <View key={i}
                             onPress={()=>this.gotoItem(itemdata)}
                             style={{marginTop:5,paddingBottom:10,paddingTop:10,color:"#000000",width:"90%",marginLeft:20}}>
                         <Text style={{color:"#000000"}}>两票类型：{itemdata.tickettypename}</Text>
@@ -93,7 +93,7 @@ export default class WaitPlan extends React.Component{
                                                 _:Date.parse(new Date())})
     }
   render() {
-
+    console.log(window.jconfig.userinfo.indo.user,'jjjja')
     return (
       <View>
         <Title navigation={this.props.navigation} centerText={'待处理流程'} />

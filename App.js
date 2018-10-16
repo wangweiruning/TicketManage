@@ -166,7 +166,7 @@ export default class App extends Component {
       console.log("登录信息:",res);
       let info = JSON.parse(res);
       window.jconfig.userinfo=info;
-      console.log("sasaasasa",window.jconfig.userinfo)
+      console.log("sasaasasa",window.jconfig.userinfo.indo.user)
     })
   }
 
