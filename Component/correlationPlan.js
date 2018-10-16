@@ -36,7 +36,7 @@ export default class CorrelationPlan extends React.Component{
          showpage(){
             let itemdatas = this.state.result;
             const { navigate } = this.props.navigation;
-            console.log(itemdatas)
+            console.log(itemdatas,"1211")
             if (itemdatas.length>0) {
                 return  itemdatas.map((itemdata)=>{
                     return <View 
