@@ -1,5 +1,5 @@
 import React from 'react';
-import {View,TouchableOpacity,Text} from 'react-native';
+import {View,TouchableOpacity,Text,Alert,ToastAndroid} from 'react-native';
 import {InputItem} from 'antd-mobile-rn';
 import {login} from '../api/api';
 import MySorage from '../api/storage';
@@ -11,39 +11,39 @@ const resetAction = StackActions.reset({
 
 export default class Login extends React.Component{
      constructor(props){
-        MySorage._getStorage()
-         super(props)
+         super(props);
+         MySorage._getStorage();
          this.state={
-                    user:'',
-                    pass:'',
-                    result:{
-                    }
-            }
+            user:'',
+            pass:'',
+            result:{}
+        }
      }
+
+     componentDidMount () {
+        MySorage._getStorage()
+     } 
      
 async submitgo(data){
+        try{
          const datas ="?form.user="+data.username+"&form.pass="+data.password+"&code="+'50ACD07A6C49F3B9E082EF40461AC6D1'; 
          const result = await login(datas)
-         console.log(result.form.user,'qqqqqqqqqq')
-        //  if(data.username!=result.form.user || data.password!=result.form.pass){
+         if(result.form.status == 0){    
+             Alert.alert('',result.form.targetresult,[{text:'是',onPress:this.opntion2Selected}])
+          }
+             else{
+                MySorage._sava("userinfo", JSON.stringify({indo:result.form}));
+                 ToastAndroid.show(result.form.targetresult,ToastAndroid.SHORT)
+                 this.props.navigation.dispatch(resetAction);
+             }
+             this.setState({
+                 result:JSON.stringify(result),//序列化：转换为一个 (字符串)JSON字符串
+             });
+        }catch(e){
+            console.log("promisr:",e);
+        }
             
-            MySorage._sava("userid",result.form.user);
-        if(result.form.status == 0){    
-                alert(result.form.targetresult)
-                return
-         }
-            else{
-                alert(result.form.targetresult)
-                this.props.navigation.dispatch(resetAction);
-            }
-            this.setState({
-                result:JSON.stringify(result),//序列化：转换为一个 (字符串)JSON字符串
-            });
-            MySorage._sava("isLogin", JSON.stringify({status: true}));
-            MySorage._load("isLogin", (data) => {
-                let res = JSON.parse(data);
-                console.log(res)
-            });
+            
      }
 
      handleInput(k, v){
@@ -53,6 +53,7 @@ async submitgo(data){
     }
       
     render(){
+        
         let username = this.state.user;
         let password = this.state.pass;
         return(

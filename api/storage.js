@@ -11,7 +11,7 @@ let size = 100000000000000000000000;
 export default class MySorage extends Component {
 
     static _getStorage() {
-
+        console.log("store:");
         if (storage === undefined) {
             storage = new Storage({
                 // 最大容量，默认值1000条数据循环存储
@@ -32,6 +32,7 @@ export default class MySorage extends Component {
                 // 或是在任何时候，直接对storage.sync进行赋值修改
                 sync: SYNC  // 这个sync文件是要你自己写的
             });
+            console.log("store1:",storage);
         }
 
         return storage;

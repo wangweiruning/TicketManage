@@ -1,15 +1,32 @@
 import React from 'react';
 import Title from './Title';
-import {InputItem,DatePickerView,DatePicker,List,Radio} from 'antd-mobile-rn';
+import {InputItem,DatePicker,List,Radio} from 'antd-mobile-rn';
 import {View,Text,ScrollView,TouchableOpacity} from 'react-native';
 import ModalDropdown from 'react-native-modal-dropdown';
 import HttpUtils from '../api/Httpdata';
-const RadioItem = Radio.RadioItem;
+import DropdownCheckbox from './DropdownCheckbox';
 
 export default class Tdetail extends React.Component{
     constructor(props){
         super(props)
         this.state={
+            na:[
+                {
+                    name:'saffa'
+                },
+                {
+                    name:'saffa'
+                },
+                {
+                    name:'saffa'
+                },
+                {
+                    name:'saffa'
+                },
+            ],
+            checkBox1: true,
+      agreeItem1: true,
+      checkboxItem1: true,
             username:'',
             part1Value: 1,
             part2Value: 1,
@@ -58,15 +75,15 @@ export default class Tdetail extends React.Component{
             </View>
             <View style={{display:'flex',flexDirection:'row',alignItems:'center'}}>
                 <Text style={{left:5}}>工作负责人</Text>
-                <InputItem onChange={(v)=>this.handleInput('username',v)} style={{borderRadius:5,backgroundColor:'white',width:'85%'}}/>
+                <ModalDropdown defaultValue={'请选择'} options={['option 1', 'option 2']}/>
             </View>
             <View style={{display:'flex',flexDirection:'row',alignItems:'center'}}>
                 <Text style={{left:5}}>班组</Text>
                 <InputItem onChange={(v)=>this.handleInput('username',v)} style={{borderRadius:5,backgroundColor:'white',width:'85%'}}/>
             </View>
             <View style={{display:'flex',flexDirection:'row',alignItems:'center'}}>
-                <Text style={{left:5}}>工作组成员</Text>
-                <InputItem onChange={(v)=>this.handleInput('username',v)} style={{borderRadius:5,backgroundColor:'white',width:'85%'}}/>
+                <Text style={{left:5}}>工作班成员</Text>
+                <DropdownCheckbox datas={this.state.na}/>
             </View>
             <View style={{display:'flex',flexDirection:'row',alignItems:'center'}}>
                 <Text style={{left:5}}>工作发电厂名称</Text>

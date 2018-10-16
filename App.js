@@ -13,9 +13,10 @@ import Newticket from './Component/newticket';
 import Login from './Component/login';
 import Tdetail from './Component/TicketDetail';
 import Litile from './Component/litile';
-import WaitPlan from './Component/waitPlan'
-import CorrelationPlan from './Component/correlationPlan'
-import HistoryPlan from './Component/historyPlan'
+import WaitPlan from './Component/waitPlan';
+import CorrelationPlan from './Component/correlationPlan';
+import HistoryPlan from './Component/historyPlan';
+import MySorage from './api/storage';
 import {StackNavigator, TabBarBottom, TabNavigator} from "react-navigation";
 import {
   Platform,
@@ -24,7 +25,10 @@ import {
   View,
   Image
 } from 'react-native';
-
+MySorage._getStorage()
+window.jconfig={
+  userinfo:{}
+}
 console.disableYellowBox = true;
 const TabRouteConfigs = { // 表示各个页面路由配置,让导航器知道需要导航的路由对应的页�?
   Home: { // 路由名称
@@ -152,6 +156,20 @@ const Navigators = StackNavigator(StackRouteConfigs,StackNavigatorConfigs);
 
 
 export default class App extends Component {
+
+  async componentDidMount () {
+   await this.getUserInfo();
+  }
+
+  async getUserInfo () {
+    MySorage._load("userinfo",async (res) => {
+      console.log("登录信息:",res);
+      let info = JSON.parse(res);
+      window.jconfig.userinfo=info;
+      console.log("sasaasasa",window.jconfig.userinfo)
+    })
+  }
+
   render() {
     return (
       <Navigators configureScene={(route) => {
