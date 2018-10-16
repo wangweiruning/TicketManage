@@ -32,7 +32,7 @@ async submitgo(data){
              Alert.alert('',result.form.targetresult,[{text:'是',onPress:this.opntion2Selected}])
           }
              else{
-                MySorage._sava("userinfo", JSON.stringify({indo:result.form.status}));
+                MySorage._sava("userinfo", JSON.stringify({indo:result.form}));
                  ToastAndroid.show(result.form.targetresult,ToastAndroid.SHORT)
                  this.props.navigation.dispatch(resetAction);
              }
