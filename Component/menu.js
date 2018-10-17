@@ -50,8 +50,8 @@ export default class ToastExample extends React.Component {
         <View style={{width:'100%',height:40,backgroundColor:'lightgray',top:10,justifyContent:'center',alignItems:'center'}}>
           <Text style={{fontSize:20,color:'black'}}>权限等级：超级管理员</Text>
         </View>
-        <TouchableOpacity onPress={()=>window.jconfig.userinfo={}?this.outs():this.out()} style={{top:40,justifyContent:'center',alignItems:'center',width:'80%',backgroundColor:'#3e5ed2',borderRadius:5,height:40}}>
-          <Text style={{color:'white',fontSize:20}}>{window.jconfig.userinfo={}?'登录':'退出'}</Text>
+        <TouchableOpacity onPress={()=>window.jconfig.userinfo?this.out():this.outs()} style={{top:40,justifyContent:'center',alignItems:'center',width:'80%',backgroundColor:'#3e5ed2',borderRadius:5,height:40}}>
+          <Text style={{color:'white',fontSize:20}}>{window.jconfig.userinfo?'退出':'登录'}</Text>
         </TouchableOpacity>
       </View>);
   }
