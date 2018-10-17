@@ -32,3 +32,22 @@ export function correation(data) {
 		contentType: "application/x-www-form-urlencoded",
     });
 }
+
+//编辑模板详情权限
+export function editquanxian(data) {
+    return Httpdata.post({
+        url: url.editquanxian+data,
+        method: 'post',
+        dataType: "json",
+		contentType: "application/x-www-form-urlencoded",
+    })
+}
+//查看模板详情权限 不可编辑内容
+export function quanxian(data) {
+    return Httpdata.post({
+        url: url.findquanxian+data,
+        method: 'post',
+        dataType: "json",
+		contentType: "application/x-www-form-urlencoded",
+    })
+}
