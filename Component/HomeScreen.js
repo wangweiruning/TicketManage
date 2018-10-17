@@ -24,6 +24,7 @@ export default class HomeScreen extends React.Component {
   }
 
   async componentDidMount(){
+    
   //  let liu = '?form.flowroleid=22f83ccc70f746b3b1b49ce63987f618'
   //  let qwer = await Rank(liu)
   //     this.setState({
@@ -34,6 +35,7 @@ export default class HomeScreen extends React.Component {
   
 
   render() {
+    console.log(jconfig.userinfo,'qtrqt')
       const { navigate } = this.props.navigation;
       return (<View>
                <NavigationBar navigation={this.props.navigation} centertext={'管理'}/>

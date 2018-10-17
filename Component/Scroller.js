@@ -22,10 +22,10 @@ export default class Scroller extends Component {
  
   render() {
     const { dataSource, renderRow, isRefreshing } = this.props;
-    // console.log(this.props);
+    console.log(this.props);
  
     return (
-      <View style={styles.container}>
+      <View>
         {/*列表数据*/}
         <ListView
           // 数据源
@@ -37,7 +37,7 @@ export default class Scroller extends Component {
           // 当所有的数据都已经渲染过，并且列表被滚动到距离最底部不足onEndReachedThreshold个像素的距离时调用
           onEndReached={this._fetchMoreData.bind(this)}
           // 调用onEndReached之前的临界值，单位是像素。(预加载)
-          onEndReachedThreshold={20}
+          onEndReachedThreshold={50}
           // 隐藏右侧滚动条
           showsVerticalScrollIndicator={false}
           // finished warning : in next release ...
@@ -83,7 +83,7 @@ export default class Scroller extends Component {
      * this._hasMore() 验证还有更多数据
      * isLoadingTail true/false 加载动画(菊花图)
      */
-    if (!this._hasMore() || this.props.isLoadingTail) {
+    if (this.props.isLoadingTail || !this._hasMore()) {
       return
     }
     let page = this.props.cachedResults.nextPage;
@@ -101,9 +101,10 @@ export default class Scroller extends Component {
    * 底部加载动画 及 没有更多数据文本(ListView底部增加一栏,便于显示加载动画)
    */
   _renderFooter() {
+  
     if (!this._hasMore() && this.props.cachedResults.total !== 0) {
       return (
-        <View style={styles.loadingMore}>
+        <View style={{marginBottom:20,}}>
           <Text style={styles.loadingText}>没有更多了</Text>
         </View>
       )
@@ -111,7 +112,9 @@ export default class Scroller extends Component {
  
     if (!this.props.isLoadingTail) {
       return (
-        <View style={styles.loadingMore}></View>
+        <View style={{width:"100%", marginVertical: 50}}>
+          <Text style={{color:"#000",textAlign:'center'}}>加载跟多</Text>
+        </View>
       )
     }
  
@@ -131,7 +134,7 @@ const styles = StyleSheet.create({
   },
   // 菊花图
   loadingMore: {
-    marginVertical: 20
+    marginVertical: 20,
   },
   // 文案样式
   loadingText: {
