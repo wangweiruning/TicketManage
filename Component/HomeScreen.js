@@ -1,6 +1,7 @@
 import React from 'react';
 import NavigationBar from './NavigationBar';
 import MySorage from '../api/storage';
+// import {Rank} from './../api/api'
 import {Text,View,ScrollView,Image,TouchableOpacity,Alert,Modal} from 'react-native';
 
 
@@ -9,6 +10,7 @@ export default class HomeScreen extends React.Component {
   constructor(props){
     super(props)
     this.state={
+      result:{},
       modalVisible:false,
       content:[
         {
@@ -22,11 +24,11 @@ export default class HomeScreen extends React.Component {
   }
 
   async componentDidMount(){
-    // MySorage._load('userid',(data) => {
-    //   let res = JSON.parse(data);
-    //   console.log(res,'asfafs')
-    // }
-    // )
+  //  let liu = '?form.flowroleid=22f83ccc70f746b3b1b49ce63987f618'
+  //  let qwer = await Rank(liu)
+  //     this.setState({
+  //       result:qwer.from
+  //     })
   }
 
   
