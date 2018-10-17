@@ -44,7 +44,6 @@ export default class ToastExample extends React.Component {
 
   render() {
     if(this.state.user='2'){}
-    console.log(window.jconfig.userinfo,'gg')
     const {navigate} = this.props.navigation;
     return (<View style={{alignItems:'center'}}>
       <NavigationBar navigation={this.props.navigation} centertext={'我的'}/>

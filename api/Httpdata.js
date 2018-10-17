@@ -6,9 +6,11 @@ export default class HttpUtils{
                 .then(response=>response.json())//把数据解析成json格式,然后取出
                 .then(result=>{
                        resolve(result);//表示完成
+                       console.log(result,'kcuf')
                 })
                 .catch(error=>{
-                        reject(error);//表示失败
+                        reject(error);
+                        console.log(error,'fuck')//表示失败
                 })
             })
         )

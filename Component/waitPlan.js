@@ -32,7 +32,6 @@ export default class WaitPlan extends React.Component{
     async submitgo(){
         if(!jconfig.userinfo) return ToastAndroid.show('请登录',ToastAndroid.SHORT);
         const datas = "?form.userId="+jconfig.userinfo.user;
-        console.log(datas,'hhhhhhhhhhj')
         const result = await awaitdeteal(datas);
         console.log(result.form.dataList,"0000000000000000000000")
                if(result&&result.form.dataList.length>0){
