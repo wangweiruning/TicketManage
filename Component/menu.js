@@ -32,7 +32,7 @@ export default class ToastExample extends React.Component {
   }
 
   reset(routeName="",params={}){
-    window.jconfig.userinfo={}
+    window.jconfig.info={}
     MySorage._remove('userinfo')
     this.props.navigation.dispatch(StackActions.reset({
         index: 0,
@@ -44,14 +44,15 @@ export default class ToastExample extends React.Component {
 
   render() {
     if(this.state.user='2'){}
+    console.log(window.jconfig.userinfo,'gg')
     const {navigate} = this.props.navigation;
     return (<View style={{alignItems:'center'}}>
       <NavigationBar navigation={this.props.navigation} centertext={'我的'}/>
         <View style={{width:'100%',height:40,backgroundColor:'lightgray',top:10,justifyContent:'center',alignItems:'center'}}>
           <Text style={{fontSize:20,color:'black'}}>权限等级：超级管理员</Text>
         </View>
-        <TouchableOpacity onPress={()=>window.jconfig.userinfo?this.out():this.outs()} style={{top:40,justifyContent:'center',alignItems:'center',width:'80%',backgroundColor:'#3e5ed2',borderRadius:5,height:40}}>
-          <Text style={{color:'white',fontSize:20}}>{window.jconfig.userinfo?'退出':'登录'}</Text>
+        <TouchableOpacity onPress={()=> this.out()} style={{top:40,justifyContent:'center',alignItems:'center',width:'80%',backgroundColor:'#3e5ed2',borderRadius:5,height:40}}>
+          <Text style={{color:'white',fontSize:20}}>退出</Text>
         </TouchableOpacity>
       </View>);
   }
