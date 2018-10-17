@@ -12,8 +12,10 @@ import {
     ActivityIndicator,
     RefreshControl,
   } from 'react-native';
-import {quanxian} from './../api/api'
+
 import Scroller from './Scroller'
+import CreationItem from './CreationItem'
+import {quanxian} from './../api/api'
 let {width} = Dimensions.get("window");
 
 // 缓存列表中所有数据
@@ -60,7 +62,6 @@ export default class Litile extends React.Component{
        const datas = "?form.jqgrid_row_selected_id=cc55ac4474df44d18b55b5ec454749fb";
         // data 变化的新数据
        const data = await quanxian(datas);
-       console.log(data.form.templateContents)
         if (data.form.templateContents) {
             const dataPage = data.form.templateContents;
             // 保存原数据
@@ -76,55 +77,39 @@ export default class Litile extends React.Component{
 
             cachedResults.items = items; // 视频列表数据
             cachedResults.total = dataPage.length; // 总数
-
-            setTimeout(function () {
+           
             if (page !== 0) { // 加载更多操作
                 that.setState({
                 isLoadingTail: false,
                 dataSource: that.state.dataSource.cloneWithRows(cachedResults.items)
                 });
-            } else { // 刷次操作
+            } else { // 首次次操作
                 that.setState({
                 isRefreshing: false,
                 dataSource: that.state.dataSource.cloneWithRows(cachedResults.items)
                 });
             }
-            }, 1000);
         }
-        if (page !== 0) { // 上拉加载更多操作
-            this.setState({
-            isLoadingTail: false
-            });
-        } else {
-            this.setState({ // 刷新操作
-            isRefreshing: false
-            });
-        }
-      
     }
 
      // 列表 Item
   _renderRow(row) {
     const { navigation } = this.props;
-    console.log(navigation,"3333333333333333")
+    // console.log(navigation,"3333333333333333")
     return (
-      <Text
-        // navigation={navigation}
+      <CreationItem
+        navigation={navigation}
         key={row.FatherID} // 子组件唯一性
-        // row={row}
-      >{row.ParaName}</Text>
+        row={row}
+      />
     )
   }
 
     render(){
-        // const data= this.props.navigation.state.params.TicketSerialNum;
+        const data= this.props.navigation.state.params.TicketSerialNum;
         return(<View>
               <Title navigation={this.props.navigation} centerText={'信息管理系统'} />
-              <View style={styles.container}>
-                    {/*顶部标题栏*/}
-                    <View style={styles.header}>
-                    <Text style={styles.headerTitle}>列表页面</Text>
-                    </View>
+              <View>
                     {/*列表数据*/}
                     <Scroller
                         // 数据源
@@ -148,7 +133,8 @@ export default class Litile extends React.Component{
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: '#F5FCFF',
+      width:'100%',
+      backgroundColor: 'red',
     },
     // 头部样式
     header: {

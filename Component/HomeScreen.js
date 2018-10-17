@@ -24,17 +24,16 @@ export default class HomeScreen extends React.Component {
   }
 
   async componentDidMount(){
-   let liu = '22f83ccc70f746b3b1b49ce63987f618';
+ let liu = '22f83ccc70f746b3b1b49ce63987f618';
    let quan = '?form.flowroleid='+liu;
    let qwer = await editquanxian(quan)
       this.setState({
-        result:qwer.from
-      })
-  }
+        result:qwer.from  }
 
   
 
   render() {
+    console.log(jconfig.userinfo,'qtrqt')
       const { navigate } = this.props.navigation;
       return (<View>
                <NavigationBar navigation={this.props.navigation} centertext={'管理'}/>
