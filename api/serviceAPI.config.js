@@ -5,5 +5,7 @@ const URL ={
     correation:url+'ticketMng/ticketMng_searchOnline.action',//相关处理流程接口
     findquanxian:url+'baseInformation/templateMng_templateContentSearch.action',//查找时权限管理
     editquanxian:url+'ticketMng/ticketMng_searchEditPara.action',//编辑模板权限管理
+    userlist:url+'home/home_showUserDatas.action',//用户信息
+    TicketBasicInfo:url+'baseInformation/templateMng_templateContentSearch.action', //模板信息
 }
 export default URL

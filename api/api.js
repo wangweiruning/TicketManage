@@ -51,3 +51,21 @@ export function quanxian(data) {
 		contentType: "application/x-www-form-urlencoded",
     })
 }
+
+export function userlist(data) {
+    return Httpdata.post({
+        url: url.userlist+data,
+        method: 'post',
+        dataType: "json",
+		contentType: "application/x-www-form-urlencoded",
+    })
+}
+
+export function TicketBasicInfo(data) {
+    return Httpdata.post({
+        url: url.TicketBasicInfo+data,
+        method: 'post',
+        dataType: "json",
+		contentType: "application/x-www-form-urlencoded",
+    })
+}

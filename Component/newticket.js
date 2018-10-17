@@ -29,6 +29,10 @@ export default class Newticket extends React.Component{
         }
     }
 
+
+    
+
+     
     goticket(name){
         const {navigate} = this.props.navigation
         navigate('TicketDetail',{name})

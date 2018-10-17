@@ -1,7 +1,7 @@
 import React from 'react';
 import NavigationBar from './NavigationBar';
 import MySorage from '../api/storage';
-// import {Rank} from './../api/api'
+import {editquanxian} from './../api/api'
 import {Text,View,ScrollView,Image,TouchableOpacity,Alert,Modal} from 'react-native';
 
 
@@ -24,11 +24,12 @@ export default class HomeScreen extends React.Component {
   }
 
   async componentDidMount(){
-  //  let liu = '?form.flowroleid=22f83ccc70f746b3b1b49ce63987f618'
-  //  let qwer = await Rank(liu)
-  //     this.setState({
-  //       result:qwer.from
-  //     })
+   let liu = '22f83ccc70f746b3b1b49ce63987f618';
+   let quan = '?form.flowroleid='+liu;
+   let qwer = await editquanxian(quan)
+      this.setState({
+        result:qwer.from
+      })
   }
 
   

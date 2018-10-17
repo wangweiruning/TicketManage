@@ -183,19 +183,24 @@ export default class App extends Component {
   //  } catch (error) {
   //    console.log("rrrrrrrrrr:",error)
   //  }
-
+  try {
    return new Promise((s1, s2) => {
     MySorage._load("userinfo", (res) => {
               console.log("登录信息:",res);
       let info = JSON.parse(res);
       if(!info){
+        window.jconfig.info={}
+        MySorage._remove('userinfo')
         this.navigator.dispatch(resetAction);
         return
       }
       window.jconfig.userinfo=info;
       console.log("sasaasasa",info)
     });
-   });
+   });}
+   catch(e){
+         console.log(e,'ghhhggg')
+   }
 
   }
 

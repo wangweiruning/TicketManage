@@ -4,6 +4,7 @@ import {InputItem,DatePicker,List,Checkbox} from 'antd-mobile-rn';
 import {View,Text,ScrollView,TouchableOpacity} from 'react-native';
 import ModalDropdown from 'react-native-modal-dropdown';
 import HttpUtils from '../api/Httpdata';
+import {TicketBasicInfo} from './../api/api'
 import DropdownCheckbox from './DropdownCheckbox';
 
 export default class Tdetail extends React.Component{
@@ -33,6 +34,12 @@ export default class Tdetail extends React.Component{
             value: null,
         }
     }
+
+      async componentDidMount(){
+          let r = '?form.jqgrid_row_selected_id=cc55ac4474df44d18b55b5ec454749fb'
+          let x = await TicketBasicInfo(r)
+          console.log(x,'zed')
+      }
     
       sub(url,{}){
         HttpUtils.post({}).then({}).catch({})

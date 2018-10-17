@@ -56,8 +56,8 @@ async submitgo(data){
                 console.log(result.form)
                 window.jconfig.userinfo=result.form;
                 MySorage._sava("userinfo", JSON.stringify(result.form));
-                 ToastAndroid.show(result.form.targetresult,ToastAndroid.SHORT)
-                 this.props.navigation.dispatch(resetAction);
+                ToastAndroid.show(result.form.targetresult,ToastAndroid.SHORT)
+                this.props.navigation.dispatch(resetAction);
              }
              this.setState({
                  result:JSON.stringify(result),//序列化：转换为一个 (字符串)JSON字符串
