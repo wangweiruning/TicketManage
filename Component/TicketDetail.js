@@ -75,7 +75,7 @@ export default class Tdetail extends React.Component{
             </View>
             <View style={{display:'flex',flexDirection:'row',alignItems:'center'}}>
                 <Text style={{left:5}}>工作负责人</Text>
-                <ModalDropdown defaultValue={'请选择'} options={['option 1', 'option 2']}/>
+                <ModalDropdown dropdownStyle={{width:'50%'}} textStyle={{color:'black'}} style={{left:10,backgroundColor:'skyblue',borderRadius:5,width:'50%'}} defaultValue={'请选择'} options={['同意', '拒绝']}/>
             </View>
             <View style={{display:'flex',flexDirection:'row',alignItems:'center'}}>
                 <Text style={{left:5}}>班组</Text>
@@ -188,11 +188,11 @@ export default class Tdetail extends React.Component{
               </View>
             <View style={{display:'flex',flexDirection:'row',alignItems:'center'}}>
                 <Text style={{left:5}}>原工作负责人</Text>
-                <ModalDropdown defaultValue={'请选择'} options={['option 1', 'option 2']}/>
+                <ModalDropdown dropdownStyle={{width:'50%'}} textStyle={{color:'black'}} style={{left:10,backgroundColor:'skyblue',borderRadius:5,width:'50%'}} defaultValue={'请选择'} options={['同意', '拒绝']}/>
             </View>
             <View style={{display:'flex',flexDirection:'row',alignItems:'center'}}>
                 <Text style={{left:5}}>变更后工作负责人</Text>
-                <ModalDropdown defaultValue={'请选择'} options={['option 1', 'option 2']}/>
+                <ModalDropdown dropdownStyle={{width:'50%'}} textStyle={{color:'black'}} style={{left:10,backgroundColor:'skyblue',borderRadius:5,width:'50%'}} defaultValue={'请选择'} options={['同意', '拒绝']}/>
             </View>
             <View style={{display:'flex',flexDirection:'row',alignItems:'center'}}>
                 <Text style={{left:5}}>工作人员变动情况</Text>
@@ -305,7 +305,7 @@ export default class Tdetail extends React.Component{
               </View>
             <View style={{display:'flex',flexDirection:'row',alignItems:'center'}}>
                 <Text style={{left:5}}>制定专责监护人</Text>
-                <ModalDropdown defaultValue={'请选择'} options={['option 1', 'option 2']}/>
+                <ModalDropdown dropdownStyle={{width:'50%'}} textStyle={{color:'black'}} style={{left:10,backgroundColor:'skyblue',borderRadius:5,width:'50%'}} defaultValue={'请选择'} options={['同意', '拒绝']}/>
             </View>
             <View>
             <Text style={{left:5}}>地点及具体工作</Text>
