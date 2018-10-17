@@ -12,17 +12,15 @@ export default class CorrelationPlan extends React.Component{
         result:'',
         };
       }
-      componentDidMount(){
-        this.submitgo()
-        // this.showpage()
+    async  componentDidMount(){
+       await  this.submitgo()
     }
         getDate(item){
             console.log("获取数据")
-       
         }
-        submitgo(){
-        MySorage._load("userid",async (res) => {
-            const datas = "?form.userId="+res;
+    async  submitgo(){
+        if(!jconfig.userinfo.user) return ToastAndroid.show('请登录',ToastAndroid.SHORT);
+            const datas = "?form.userId="+jconfig.userinfo.user;
             const result = await correation(datas);
             console.log(result.form.dataList,"0000000000000000000000")
                    if(result&&result.form.dataList.length>0){
@@ -30,13 +28,12 @@ export default class CorrelationPlan extends React.Component{
                       result:result.form.dataList,//序列化：转换为一个 (字符串)JSON字符串
                   });
                  }  
-        });
     }
     
-         showpage(){
-            let itemdatas = this.state.result;
-            const { navigate } = this.props.navigation;
-            console.log(itemdatas,"1211")
+    showpage(){
+        let itemdatas = this.state.result;
+        const { navigate } = this.props.navigation;
+        console.log(itemdatas,"1211")
             if (itemdatas.length>0) {
                 return  itemdatas.map((itemdata)=>{
                     return <View 
