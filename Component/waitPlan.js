@@ -51,7 +51,7 @@ export default class WaitPlan extends React.Component{
             return  itemdatas.map((itemdata,i)=>{
                 return <View key={i}
                             onPress={()=>this.gotoItem(itemdata)}
-                            style={{marginTop:5,paddingBottom:10,paddingTop:10,color:"#000000",width:"90%",marginLeft:20}}>
+                            style={{marginTop:5,paddingBottom:10,paddingTop:10,width:"90%",marginLeft:20}}>
                         <Text style={{color:"#000000"}}>两票类型：{itemdata.tickettypename}</Text>
                         <Text style={{color:"#000000"}}>负责人：{itemdata.headuser}</Text>
                         <Text style={{color:"#000000"}}>编号：{itemdata.ticketserialnum}</Text>
@@ -70,7 +70,7 @@ export default class WaitPlan extends React.Component{
         } else {
             return <View 
             onPress={()=>this.gotoItem(itemdata)}
-            style={{marginTop:5,paddingBottom:10,paddingTop:10,color:"#000000",width:"90%",marginLeft:20}}>
+            style={{marginTop:5,paddingBottom:10,paddingTop:10,width:"90%",marginLeft:20}}>
         <Text style={{color:"#000000",textAlign:"center",marginTop:10,marginBottom:10}}>暂时没有数据~~</Text>
         <Button
             onPress={()=>this.submitgo()}

@@ -17,7 +17,7 @@ import WaitPlan from './Component/waitPlan';
 import CorrelationPlan from './Component/correlationPlan';
 import HistoryPlan from './Component/historyPlan';
 import MySorage from './api/storage';
-import {StackNavigator, TabBarBottom, TabNavigator} from "react-navigation";
+import {StackNavigator, TabBarBottom, TabNavigator,StackActions, NavigationActions} from "react-navigation";
 import {
   Platform,
   StyleSheet,
@@ -29,6 +29,10 @@ MySorage._getStorage()
 window.jconfig={
   userinfo:{}
 }
+const resetAction = StackActions.reset({
+  index: 0,
+  actions: [NavigationActions.navigate({ routeName: 'login' })],
+});
 console.disableYellowBox = true;
 const TabRouteConfigs = { // 表示各个页面路由配置,让导航器知道需要导航的路由对应的页�?
   Home: { // 路由名称
@@ -158,21 +162,48 @@ const Navigators = StackNavigator(StackRouteConfigs,StackNavigatorConfigs);
 export default class App extends Component {
 
   async componentDidMount () {
-   await this.getUserInfo();
+    let s = await this.getUserInfo();
+    console.log("------------>",s);
+   //  this.navigator.dispatch(resetAction);
+    
   }
 
   async getUserInfo () {
-    MySorage._load("userinfo",async (res) => {
-      console.log("登录信息:",res);
+  //  try {
+  //    console.log('_')
+  //   MySorage._load("userinfo",async (res) => {
+  //     console.log("登录信息:",res);
+  //     let info = JSON.parse(res);
+  //     // if(!info){
+  //     //   this.navigator.dispatch(resetAction);
+  //     // }
+  //     window.jconfig.userinfo=info;
+  //     console.log("sasaasasa",info)
+  //   })
+  //  } catch (error) {
+  //    console.log("rrrrrrrrrr:",error)
+  //  }
+
+   return new Promise((s1, s2) => {
+    MySorage._load("userinfo", (res) => {
+              console.log("登录信息:",res);
       let info = JSON.parse(res);
+      if(!info){
+        this.navigator.dispatch(resetAction);
+        return
+      }
       window.jconfig.userinfo=info;
       console.log("sasaasasa",info)
-    })
+    });
+   });
+
   }
 
   render() {
     return (
-      <Navigators configureScene={(route) => {
+      <Navigators ref={(nav)=>{
+        this.navigator = nav;
+      }} configureScene={(route) => {
         return Navigator.SceneConfigs.HorizontalSwipeJumpFromRight;
     }}
     renderScene={(route, navigator) => {

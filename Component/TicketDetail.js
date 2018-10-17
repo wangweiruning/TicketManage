@@ -1,6 +1,6 @@
 import React from 'react';
 import Title from './Title';
-import {InputItem,DatePicker,List,Radio} from 'antd-mobile-rn';
+import {InputItem,DatePicker,List,Checkbox} from 'antd-mobile-rn';
 import {View,Text,ScrollView,TouchableOpacity} from 'react-native';
 import ModalDropdown from 'react-native-modal-dropdown';
 import HttpUtils from '../api/Httpdata';
@@ -50,7 +50,7 @@ export default class Tdetail extends React.Component{
         alert(v)
     }
     render(){
-        return(<View style={{alignItems:'center'}}>
+        return(<View style={{justifyContent:'center'}}>
             <Title navigation={this.props.navigation} centerText={this.props.navigation.state.params.name}/>
         <ScrollView style={{display:'flex'}}>
             <View style={{backgroundColor:'white',marginTop:5}}>
@@ -134,17 +134,10 @@ export default class Tdetail extends React.Component{
             <View style={{}}>
                 <Text style={{left:5}}>安全措施（必要时可附页绘图说明）</Text>
                 <InputItem onChange={(v)=>this.handleInput('username',v)} style={{borderRadius:5,backgroundColor:'white',width:'85%'}}/>
-                <Radio
-            checked={this.state.part1Value === 1}
-            onChange={(event) => {
-              if (event.target.checked) {
-                this.setState({ part1Value: 1 });
-              }
-            }}
-            style={{ borderWidth: 1, borderColor: '#999', margin: 10 }}
-          >
-           是否已执行
-          </Radio>
+                <View style={{display:'flex',flexDirection:'row',margin:10}}>
+                 <Checkbox/>
+                 <Text style={{left:10}}>是否已执行</Text>
+                </View>
             </View>
             <View style={{}}>
                 <Text style={{left:5}}>工作地点保留带电部分或注意事项（由工作票签发人填写）</Text>
@@ -323,7 +316,7 @@ export default class Tdetail extends React.Component{
             <InputItem onChange={(v)=>this.handleInput('username',v)} style={{borderRadius:5,backgroundColor:'white',width:'85%'}}/>
             </View>
             </View>
-            <View style={{backgroundColor:'white',marginTop:5,marginBottom:43}}>
+            <View style={{backgroundColor:'white',marginTop:5,marginBottom:20}}>
               <View style={{
                   width:'100%',
                   height:30,
@@ -335,27 +328,25 @@ export default class Tdetail extends React.Component{
                   }}>
                   <Text style={{color:'#3e5ed2',left:5}}>提交</Text>
               </View>
-            <View>
-                <Text style={{left:5}}>是否同意</Text>
-                <ModalDropdown defaultValue={'请选择'} options={['同意', '拒绝']}/>
+            <View style={{display:'flex',flexDirection:'row',alignItems:'center',margin:5}}>
+                <Text>是否同意</Text>
+                <ModalDropdown dropdownStyle={{width:'50%'}} textStyle={{color:'black'}} style={{left:10,backgroundColor:'skyblue',borderRadius:5,width:'50%'}} defaultValue={'请选择'} options={['同意', '拒绝']}/>
             </View>
-            <View>
-                <Text style={{left:5}}>流转状态</Text>
-                <ModalDropdown defaultValue={'请选择'} options={['option 1', 'option 2']}/>
+            <View style={{display:'flex',flexDirection:'row',alignItems:'center',margin:5}}>
+                <Text>流转状态</Text>
+                <ModalDropdown dropdownStyle={{width:'50%'}} textStyle={{color:'black'}} style={{left:10,backgroundColor:'skyblue',borderRadius:5,width:'50%'}} defaultValue={'请选择'} options={['option 1', 'option 2']}/>
             </View>
-            <View>
-                <Text style={{left:5}}>流转目标</Text>
-                <ModalDropdown defaultValue={'请选择'} options={['option 1', 'option 2']}/>
+            <View style={{display:'flex',flexDirection:'row',alignItems:'center',margin:5}}>
+                <Text>流转目标</Text>
+                <ModalDropdown dropdownStyle={{width:'50%'}} textStyle={{color:'black'}} style={{left:10,backgroundColor:'skyblue',borderRadius:5,width:'50%'}} defaultValue={'请选择'} options={['option 1', 'option 2']}/>
             </View>
-            
             </View>
-            <View style={{marginBottom:60}}>
+            <View style={{marginBottom:50,width:'100%',display:'flex',justifyContent:'center',alignItems:'center'}}>
                 <TouchableOpacity 
                             style={{
                                 justifyContent:'center',
                                 alignItems:'center',
                                 width:'60%',
-                                marginLeft:'12.5%',
                                 backgroundColor:'#3e5ed2',
                                 borderRadius:5,height:40}}>
                         <Text style={{color:'white',fontSize:20}}>提交</Text>
