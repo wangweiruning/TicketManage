@@ -42,6 +42,7 @@ async submitgo(data){
                  result:JSON.stringify(result),//序列化：转换为一个 (字符串)JSON字符串
              });
         }catch(e){
+            alert("服务器开小差了~~，请联系管理员")
             console.log("promisr:",e);
         }
             
