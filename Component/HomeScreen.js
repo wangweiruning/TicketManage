@@ -28,8 +28,9 @@ export default class HomeScreen extends React.Component {
    let quan = '?form.flowroleid='+liu;
    let qwer = await editquanxian(quan)
       this.setState({
-        result:qwer.from  }
-
+        result:qwer.from  
+      })
+    }
   
 
   render() {

@@ -9,8 +9,10 @@ import {
   ListView,
   ActivityIndicator,
   RefreshControl,
+  Dimensions
 } from 'react-native';
- 
+const deviceH = Dimensions.get('window').height;
+const deviceW = Dimensions.get('window').width;
 export default class Scroller extends Component {
   // 构造函数
   constructor(props) {
@@ -33,13 +35,13 @@ export default class Scroller extends Component {
           // 从数据源(dataSource)中接受一条数据，以及它和它所在section的ID
           renderRow={renderRow}
           // 页头与页脚会在每次渲染过程中都重新渲染(允许在ListView底部增加一栏,便于显示加载动画)
-          renderFooter={this._renderFooter.bind(this)}
+          renderFooter={()=>this._renderFooter()}
           // 当所有的数据都已经渲染过，并且列表被滚动到距离最底部不足onEndReachedThreshold个像素的距离时调用
           onEndReached={this._fetchMoreData.bind(this)}
           // 调用onEndReached之前的临界值，单位是像素。(预加载)
-          onEndReachedThreshold={50}
+          onEndReachedThreshold={20}
           // 隐藏右侧滚动条
-          showsVerticalScrollIndicator={false}
+          // showsVerticalScrollIndicator={false}
           // finished warning : in next release ...
           enableEmptySections={true}
           // 自动调整迁移内容
@@ -103,6 +105,7 @@ export default class Scroller extends Component {
   _renderFooter() {
   
     if (!this._hasMore() && this.props.cachedResults.total !== 0) {
+      alert(22222)
       return (
         <View style={{marginBottom:20,}}>
           <Text style={styles.loadingText}>没有更多了</Text>
@@ -112,7 +115,7 @@ export default class Scroller extends Component {
  
     if (!this.props.isLoadingTail) {
       return (
-        <View style={{width:"100%", marginVertical: 50}}>
+        <View style={{width:"100%", marginBottom: 20,zIndex:9999}}>
           <Text style={{color:"#000",textAlign:'center'}}>加载跟多</Text>
         </View>
       )
