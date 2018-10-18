@@ -17,6 +17,7 @@ import WaitPlan from './Component/waitPlan';
 import CorrelationPlan from './Component/correlationPlan';
 import HistoryPlan from './Component/historyPlan';
 import MySorage from './api/storage';
+import TicketModel from './Component/TicketModel';
 import {StackNavigator, TabBarBottom, TabNavigator,StackActions, NavigationActions} from "react-navigation";
 import {
   Platform,
@@ -148,6 +149,15 @@ const StackRouteConfigs={
       header: null,
       gesturesEnabled: true
   }
+  },
+  TicketModel:{
+    screen:TicketModel,
+    path:'app/TicketModel',
+    header:null,
+    navigationOptions: {
+      header: null,
+      gesturesEnabled: true
+  }
   }
 };
 
@@ -189,8 +199,6 @@ export default class App extends Component {
               console.log("登录信息:",res);
       let info = JSON.parse(res);
       if(!info){
-        window.jconfig.info={}
-        MySorage._remove('userinfo')
         this.navigator.dispatch(resetAction);
         return
       }
@@ -201,7 +209,6 @@ export default class App extends Component {
    catch(e){
          console.log(e,'ghhhggg')
    }
-
   }
 
   render() {

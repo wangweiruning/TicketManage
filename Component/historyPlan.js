@@ -26,7 +26,7 @@ export default class HistoryPlan extends React.Component{
         <ScrollView style={{marginBottom:50}}>
         {/* <TouchableOpacity> */}
             <View style={{backgroundColor:"#ffffff",marginTop:10}}>
-                <View style={{marginTop:5,paddingBottom:10,paddingTop:10,color:"#000000",width:"90%",marginLeft:20}}>
+                <View style={{marginTop:5,paddingBottom:10,paddingTop:10,width:"90%",marginLeft:20}}>
                     <Text style={{color:"#000000"}}>两票类型：{itemdata.TicketTypeName}</Text>
                     <Text style={{color:"#000000"}}>负责人：{itemdata.HeadUser}</Text>
                     <Text style={{color:"#000000"}}>编号：{itemdata.TicketSerialNum}</Text>
@@ -41,7 +41,7 @@ export default class HistoryPlan extends React.Component{
                 </View>
             </View>
             <View style={{backgroundColor:"#ffffff",marginTop:10}}>
-                <View style={{marginTop:5,paddingBottom:10,paddingTop:10,color:"#000000",width:"90%",marginLeft:20}}>
+                <View style={{marginTop:5,paddingBottom:10,paddingTop:10,width:"90%",marginLeft:20}}>
                     <Text style={{color:"#000000"}}>两票类型：{itemdata.TicketTypeName}</Text>
                     <Text style={{color:"#000000"}}>负责人：{itemdata.HeadUser}</Text>
                     <Text style={{color:"#000000"}}>编号：{itemdata.TicketSerialNum}</Text>
@@ -55,7 +55,7 @@ export default class HistoryPlan extends React.Component{
                         />
                 </View>
             </View><View style={{backgroundColor:"#ffffff",marginTop:10}}>
-                <View style={{marginTop:5,paddingBottom:10,paddingTop:10,color:"#000000",width:"90%",marginLeft:20}}>
+                <View style={{marginTop:5,paddingBottom:10,paddingTop:10,width:"90%",marginLeft:20}}>
                     <Text style={{color:"#000000"}}>两票类型：{itemdata.TicketTypeName}</Text>
                     <Text style={{color:"#000000"}}>负责人：{itemdata.HeadUser}</Text>
                     <Text style={{color:"#000000"}}>编号：{itemdata.TicketSerialNum}</Text>
