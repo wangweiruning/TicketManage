@@ -60,7 +60,7 @@ export default class WaitPlan extends React.Component{
                         <Text style={{color:"#000000"}}>等待时间：{itemdata.manageTime}</Text>
                         <Text style={{color:"#000000"}}>流转时间：{itemdata.lastTime}</Text>
                         <Button
-                            onPress={()=>navigate('litile',{ticketserialnum:itemdata.ticketserialnum})}
+                            onPress={()=>this.gotoItem(itemdata)}
                             title="查看详情"
                             color="#406ea4"
                             />
@@ -83,8 +83,8 @@ export default class WaitPlan extends React.Component{
 
 
     gotoItem(params){
-        //跳转时传递参数 typeName：票名称 ticketNum:编号  templateID：工作票模板id（TicketTemplateID） isAlter 常量1   _： 当前时间戳
-        this.props.navigation.navigate('litile',{
+        //跳转时传递参数 typeName：票名称 ticketNum:编号  templateID：工作票模板id（tickettemplateid） isAlter 常量1   _： 当前时间戳
+        this.props.navigation.navigate('Result',{
                                                 typeName:params.tickettypename,
                                                 ticketNum:params.ticketserialnum,
                                                 templateID:params.tickettemplateid,

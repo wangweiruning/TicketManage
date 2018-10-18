@@ -18,6 +18,7 @@ import CorrelationPlan from './Component/correlationPlan';
 import HistoryPlan from './Component/historyPlan';
 import MySorage from './api/storage';
 import TicketModel from './Component/TicketModel';
+import Result from './Component/Result';
 import {StackNavigator, TabBarBottom, TabNavigator,StackActions, NavigationActions} from "react-navigation";
 import {
   Platform,
@@ -141,6 +142,15 @@ const StackRouteConfigs={
         gesturesEnabled: true
     }
   },
+  Result:{
+    screen:Result,
+    path:'app/Result',
+    header:null,
+    navigationOptions: {
+      header: null,
+      gesturesEnabled: true
+  }
+},
   login:{
     screen:Login,
     path:'app/login',
