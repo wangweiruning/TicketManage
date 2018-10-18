@@ -30,9 +30,9 @@ export default class Title extends React.Component{
                     <Text style={{color: '#007aff'}}>返回</Text>
             </TouchableOpacity>
             <View style={{flex:1,alignItems: 'center'}}>
-                <Text style={{color: 'black',fontSize:20}}>{this.props.centerText}</Text>
+                <Text style={{color: 'black',fontSize:15}}>{this.props.centerText}</Text>
             </View>
-            <View style={{width: 60,height:35}}>
+            <View style={{width:60,height:35}}>
 
             </View>
         </View>)

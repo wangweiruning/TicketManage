@@ -69,3 +69,12 @@ export function TicketBasicInfo(data) {
 		contentType: "application/x-www-form-urlencoded",
     })
 }
+
+export function moban(data) {
+    return Httpdata.get({
+        method:'GET',
+        url: url.moban+data
+        // dataType: "json",
+        // contentType: "application/x-www-form-urlencoded",
+    })
+}

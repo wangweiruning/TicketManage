@@ -7,5 +7,6 @@ const URL ={
     editquanxian:url+'ticketMng/ticketMng_searchEditPara.action',//编辑模板权限管理
     userlist:url+'home/home_showUserDatas.action',//用户信息
     TicketBasicInfo:url+'baseInformation/templateMng_templateContentSearch.action', //模板信息
+    moban:url+'baseInformation/templateMng_loadTree.action',
 }
 export default URL
