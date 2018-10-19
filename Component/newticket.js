@@ -35,7 +35,7 @@ export default class Newticket extends React.Component{
     async componentDidMount(){
         let op = '?form.tree_node_id=0&form.tree_node_operation=0'
         let e = await moban(op)
-        console.log(e,'jj')
+        console.log(e.form.tree_data[0].children[0],'jj')
         this.setState({
             jay:e.form
         })
@@ -50,7 +50,7 @@ export default class Newticket extends React.Component{
     }
 
     render(){
-        console.log(this.state.jay.tree_data,'jay')
+        console.log(this.state.jay.tree_data,'jay000')
         return(
             <View>
              <Title navigation={this.props.navigation} centerText={'选择模板'}/>
