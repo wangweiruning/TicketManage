@@ -1,10 +1,9 @@
 import React from 'react';
 import Title from './Title';
 import {InputItem,DatePicker,List,Checkbox} from 'antd-mobile-rn';
-import {View,Text,ScrollView,TouchableOpacity} from 'react-native';
+import {View,Text,ScrollView,TouchableOpacity,Picker} from 'react-native';
 import ModalDropdown from 'react-native-modal-dropdown';
-import HttpUtils from '../api/Httpdata';
-import {TicketBasicInfo} from './../api/api'
+import {newTiceketNum,searchTicketBasicInfo,TicketBasicInfo} from './../api/api'
 import DropdownCheckbox from './DropdownCheckbox';
 
 export default class Tdetail extends React.Component{
@@ -32,19 +31,28 @@ export default class Tdetail extends React.Component{
             part1Value: 1,
             part2Value: 1,
             value: null,
+            num:'',
+            jax:[]
         }
     }
 
       async componentDidMount(){
-          let r = '?form.jqgrid_row_selected_id=cc55ac4474df44d18b55b5ec454749fb'
-          let x = await TicketBasicInfo(r)
-          console.log(x,'zed')
+          let e = this.props.navigation.state.params.name
+          let r = `?form.templateId=${e}`
+          let x = await newTiceketNum(r)
+          console.log(x,'zed',x.form.newTicket)
+          let j = x.form.newTicket;
+          let a = `?form.ticketNum=${j}`
+          let g = await searchTicketBasicInfo(a)
+          let kjl = `?form.jqgrid_row_selected_id=${e}`
+          let bool = await TicketBasicInfo(kjl)
+          this.setState({
+               num:x.form.newTicket,
+               jax:bool.form.templateContents
+          })
+          console.log(g,'wwwweeeeewwwe',bool)
       }
     
-      sub(url,{}){
-        HttpUtils.post({}).then({}).catch({})
-      }
-
       onChange = (value) => {
         console.log(value);
         this.setState({ value });
@@ -58,21 +66,28 @@ export default class Tdetail extends React.Component{
     }
     render(){
         return(<View style={{justifyContent:'center'}}>
-            <Title navigation={this.props.navigation} centerText={this.props.navigation.state.params.name}/>
+            <Title navigation={this.props.navigation} centerText={'('+this.state.num+')'}/>
         <ScrollView style={{display:'flex'}}>
-            <View style={{backgroundColor:'white',marginTop:5}}>
+        {
+            this.state.jax.map((v,i)=>
+            <View  key={i} style={{backgroundColor:'white',marginTop:5}}>
               <View style={{
                   width:'100%',
                   height:30,
+                  flexDirection:'row',
                   backgroundColor:'white',
                   borderBottomWidth:1,
                   borderBottomColor:'black',
                   borderStyle:'solid',
-                  justifyContent:'center',
+                  alignItems:'center',
                   }}>
-                  <Text style={{color:'#3e5ed2',left:5}}>基本信息</Text>
+                  
+                  {
+                      v.ParaTypeID==3?<Picker style={{ height: 50, width: 100 }}><Picker.Item label="Java" value="java" />
+                      <Picker.Item label="JavaScript" value="js" /></Picker>:<Text style={{color:'#3e5ed2',left:5}}>{v.ParaName}</Text>
+                  }
               </View>
-            <View style={{display:'flex',flexDirection:'row',alignItems:'center'}}>
+            {/* <View style={{display:'flex',flexDirection:'row',alignItems:'center'}}>
                 <Text style={{left:5}}>单位</Text>
                 <InputItem onChange={(v)=>this.handleInput('username',v)} style={{borderRadius:5,backgroundColor:'white',width:'85%'}}/>
             </View>
@@ -99,8 +114,11 @@ export default class Tdetail extends React.Component{
             <View style={{display:'flex',flexDirection:'row',alignItems:'center'}}>
                 <Text style={{left:5}}>设备名称</Text>
                 <InputItem onChange={(v)=>this.handleInput('username',v)} style={{borderRadius:5,backgroundColor:'white',width:'85%'}}/>
+            </View> */}
             </View>
-            </View>
+            )
+        }
+            {/* 
             <View style={{backgroundColor:'white',marginTop:5}}>
               <View style={{
                   width:'100%',
@@ -322,7 +340,7 @@ export default class Tdetail extends React.Component{
             <Text style={{left:5}}>其他事项</Text>
             <InputItem onChange={(v)=>this.handleInput('username',v)} style={{borderRadius:5,backgroundColor:'white',width:'85%'}}/>
             </View>
-            </View>
+            </View>*/}
             <View style={{backgroundColor:'white',marginTop:5,marginBottom:20}}>
               <View style={{
                   width:'100%',
@@ -347,7 +365,7 @@ export default class Tdetail extends React.Component{
                 <Text>流转目标</Text>
                 <ModalDropdown dropdownStyle={{width:'50%'}} textStyle={{color:'black'}} style={{left:10,backgroundColor:'skyblue',borderRadius:5,width:'50%'}} defaultValue={'请选择'} options={['option 1', 'option 2']}/>
             </View>
-            </View>
+            </View> 
             <View style={{marginBottom:50,width:'100%',display:'flex',justifyContent:'center',alignItems:'center'}}>
                 <TouchableOpacity 
                             style={{

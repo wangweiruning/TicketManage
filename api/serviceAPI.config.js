@@ -9,7 +9,7 @@ const URL ={
     TicketBasicInfo:url+'baseInformation/templateMng_templateContentSearch.action', //模板信息
     searchTicketBasicInfo:url+'ticketMng/ticketMng_searchTicketBasicInfo.action',//查询当前两票的基本信息
     searchTicketFlow:url+'ticketMng/ticketMng_searchTicketFlow.action',// 查询当前两票流程
-    searchUserPower:url+'ticketMng/ticketMng_searchUserPower.action.action',// 验证当前类型流程的创建权限中是否包含该用户
+    searchUserPower:url+'ticketMng/ticketMng_searchUserPower.action',// 验证当前类型流程的创建权限中是否包含该用户
     searchUserForRole:url+'ticketMng/ticketMng_searchUserForRole.action',// 查询流转目标
     newTiceketNum:url+'ticketMng/ticketMng_newTiceketNum.action',// 新建两票时生成两票编号
     moban:url+'baseInformation/templateMng_loadTree.action',
