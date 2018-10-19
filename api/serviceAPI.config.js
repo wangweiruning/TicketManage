@@ -13,5 +13,6 @@ const URL ={
     searchUserForRole:url+'ticketMng/ticketMng_searchUserForRole.action',// 查询流转目标
     newTiceketNum:url+'ticketMng/ticketMng_newTiceketNum.action',// 新建两票时生成两票编号
     moban:url+'baseInformation/templateMng_loadTree.action',
+    ttmsTickets:url+'ticketMng/ticketMng_loadTemplate.action',
 }
 export default URL

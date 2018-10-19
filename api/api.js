@@ -128,3 +128,12 @@ export function newTiceketNum(data) {
 		contentType: "application/x-www-form-urlencoded",
     })
 }
+
+export function ttmsTickets(data) {
+    return Httpdata.post({
+        url: url.ttmsTickets+data,
+        method: 'post',
+        dataType: "json",
+		contentType: "application/x-www-form-urlencoded",
+    })
+}
