@@ -4,9 +4,9 @@ import {InputItem,DatePicker,List,Checkbox} from 'antd-mobile-rn';
 import {View,Text,ScrollView,TouchableOpacity} from 'react-native';
 import ModalDropdown from 'react-native-modal-dropdown';
 import HttpUtils from '../api/Httpdata';
-import {TicketBasicInfo,searchTicketBasicInfo,searchTicketFlow} from './../api/api'
+import {TicketBasicInfo,searchTicketBasicInfo,searchTicketFlow,searchFlowRecord,searchTicketRecord} from './../api/api'
 import DropdownCheckbox from './DropdownCheckbox';
-
+      
 export default class Tdetail extends React.Component{
     constructor(props){
         super(props)
@@ -32,7 +32,7 @@ export default class Tdetail extends React.Component{
             part1Value: 1,
             part2Value: 1,
             value: null,
-            templateContents:[],//禁用列表
+            templateContents:[],//获取模板列表
             dataList:[],//两票基本信息
             LcdataList:[],//当前类型两票流程
         }
@@ -42,12 +42,19 @@ export default class Tdetail extends React.Component{
         this.getCanNotdata()
       }
 
-    //获取禁用操作列表
+    //获取模板列表
     async getCanNotdata(){
+        var ticketFlowrole = [];//定义该流程所属类型的所有状态角色
+        var statusId = "";//定义该流程的状态id
+        var roleId = "";//定义登陆用户的角色id
+        var ticketFlowList = [];//定义当前流程所有状态
+        var index = "";//定义当前状态在所有状态的下标
+        var skipFlowId = "";	//获取当前流程能跳转的流程id，0为不能跳转
+        var isBack = "";	//获取当前流程是否能回转，1为能回转，0为不能回转
         const {templateID,ticketNum,typeName}= this.props.navigation.state.params; 
         let r = '?form.jqgrid_row_selected_id='+templateID;
-          let x = await TicketBasicInfo(r)
-          console.log(x,'zed')
+          let x = await TicketBasicInfo(r);//获取模板
+          console.log(x,'获取模板')
           if(x.form.templateContents.length>0){
                 this.setState({
                     templateContents: x.form.templateContents
@@ -57,20 +64,46 @@ export default class Tdetail extends React.Component{
         console.log(ticketNum)
         let aas = '?form.ticketNum='+ticketNum;
         let searchs =  await searchTicketBasicInfo(aas);
-        console.log(searchs,"00000000000000000000")
-        if(searchs.form.dataList.length>0){
+        console.log(searchs,"查询当前两票基本信息 ")
+        //设置流转状态及目标用户，展示流程记录
+
+        //当前类型两票流程
+        //根据类型名称查询流程状态角色并排序显示
+        let data = '?form.ticketTypeName='+typeName;
+        let liucheng = await searchTicketFlow(data);
+        console.log(liucheng,"当前类型两票流程 ")
+            if(liucheng.form.dataList.length>0){
+                this.setState({
+                    LcdataList:liucheng.form.dataList
+                })
+            }
+
+        ticketFlowrole = liucheng.form.dataList;//该流程所属类型的所有状态角色
+
+        if(searchs.form.dataList.length>0){//数据库中已有记录
+            statusId = searchs.form.dataList[0].TicketStatusID;//该流程的当前状态id
+            var basicInfoId = searchs.form.dataList[0].TicketBasicInfoID;//TicketBasicInfoID第一条数据的信息id 
+            
             this.setState({
                 dataList:searchs.form.dataList
             })
-        }
 
-        //当前类型两票流程
-        let data = '?form.ticketTypeName='+typeName;
-        let liucheng = await searchTicketFlow(data);
-        if(liucheng.form.dataList.length>0){
-            this.setState({
-                LcdataList:liucheng.form.dataList
-            })
+            // 这里需要获取已经经过的流程
+            const flewFrom = "?form.basicInfoId="+basicInfoId;
+            const FlowList = await searchFlowRecord(flewFrom)
+            console.log(FlowList,"这里需要获取已经经过的流程 ")
+            ticketFlowList = FlowList.form.dataList;//获取当前流程所有状态
+
+            //将已填写的参数值填入页面
+            const TicketRecord =await searchTicketRecord(flewFrom);
+            console.log(TicketRecord,"将已填写的参数值填入页面 ")
+            const list = TicketRecord.form.dataList;//获取到票数据内容，等待传入页面
+
+
+
+        }else { //新建两票，数据库中无记录
+					statusId = ticketFlowrole[0].ticketstatusid;
+					ticketFlowList.push(ticketFlowrole[0]);
         }
     }
       sub(url,{}){

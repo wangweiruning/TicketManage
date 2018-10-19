@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View,TouchableOpacity,ScrollView,Button } from 'react-native';
+import { StyleSheet, Text, View,TouchableOpacity,ScrollView,Button,ToastAndroid } from 'react-native';
 import Title from './Title'
 import {correation} from './../api/api'
 import MySorage from '../api/storage';
@@ -13,8 +13,8 @@ export default class CorrelationPlan extends React.Component{
         };
       }
     async  componentDidMount(){
-       await  this.submitgo()
-    }
+        await  this.submitgo()
+     }
         getDate(item){
             console.log("获取数据")
         }
@@ -22,7 +22,7 @@ export default class CorrelationPlan extends React.Component{
         if(!jconfig.userinfo.user) return ToastAndroid.show('请登录',ToastAndroid.SHORT);
             const datas = "?form.userId="+jconfig.userinfo.user;
             const result = await correation(datas);
-            console.log(result.form.dataList,"0000000000000000000000")
+            console.log(result.form.dataList,"获取相关流程")
                    if(result&&result.form.dataList.length>0){
                   this.setState({
                       result:result.form.dataList,//序列化：转换为一个 (字符串)JSON字符串
@@ -49,7 +49,7 @@ export default class CorrelationPlan extends React.Component{
                             <Text style={{color:"#000000"}}>等待时间：{itemdata.manageTime}</Text>
                             <Text style={{color:"#000000"}}>流转时间：{itemdata.lastTime}</Text>
                             <Button
-                                onPress={()=>navigate('litile',{ticketserialnum:itemdata.ticketserialnum})}
+                                onPress={()=>this.gotoItem(itemdata)}
                                 title="查看详情"
                                 color="#406ea4"
                                 />
@@ -73,12 +73,12 @@ export default class CorrelationPlan extends React.Component{
     
         gotoItem(params){
             //跳转时传递参数 typeName：票名称 ticketNum:编号  templateID：工作票模板id（TicketTemplateID） isAlter 常量1   _： 当前时间戳
-            this.props.navigation.navigate('litile',{
-                                                    typeName:params.tickettypename,
-                                                    ticketNum:params.ticketserialnum,
-                                                    templateID:params.tickettemplateid,
-                                                    isAlter:1,
-                                                    _:Date.parse(new Date())})
+            this.props.navigation.navigate('Result',{
+                typeName:params.tickettypename,
+                ticketNum:params.ticketserialnum,
+                templateID:params.tickettemplateid,
+                isAlter:1,
+                _:Date.parse(new Date())})
         }
 
   render() {

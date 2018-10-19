@@ -61,7 +61,7 @@ export function userlist(data) {
     })
 }
 
-//禁止操作
+//模板基础信息
 export function TicketBasicInfo(data) {
     return Httpdata.post({
         url: url.TicketBasicInfo+data,
@@ -132,6 +132,26 @@ export function newTiceketNum(data) {
 export function ttmsTickets(data) {
     return Httpdata.post({
         url: url.ttmsTickets+data,
+        method: 'post',
+        dataType: "json",
+		contentType: "application/x-www-form-urlencoded",
+    })
+}
+
+//根据id查询已经经过的流程
+export function searchFlowRecord(data) {
+    return Httpdata.post({
+        url: url.searchFlowRecord+data,
+        method: 'post',
+        dataType: "json",
+		contentType: "application/x-www-form-urlencoded",
+    })
+}
+
+//将数据值填入页面
+export function searchTicketRecord(data) {
+    return Httpdata.post({
+        url: url.searchTicketRecord+data,
         method: 'post',
         dataType: "json",
 		contentType: "application/x-www-form-urlencoded",
