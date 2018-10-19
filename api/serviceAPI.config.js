@@ -12,7 +12,9 @@ const URL ={
     searchUserPower:url+'ticketMng/ticketMng_searchUserPower.action.action',// 验证当前类型流程的创建权限中是否包含该用户
     searchUserForRole:url+'ticketMng/ticketMng_searchUserForRole.action',// 查询流转目标
     newTiceketNum:url+'ticketMng/ticketMng_newTiceketNum.action',// 新建两票时生成两票编号
-    moban:url+'baseInformation/templateMng_loadTree.action',
-    ttmsTickets:url+'ticketMng/ticketMng_loadTemplate.action',
+    moban:url+'baseInformation/templateMng_loadTree.action',//模板树
+    ttmsTickets:url+'ticketMng/ticketMng_loadTemplate.action',//选择模板票
+    searchFlowRecord:url+'ticketMng/ticketMng_searchFlowRecord.action',//根据id查询已经经过的流程
+    searchTicketRecord:url+'ticketMng/ticketMng_searchTicketRecord.action',//将数据值填入页面
 }
 export default URL
