@@ -37,6 +37,7 @@ export default class Tdetail extends React.Component{
     }
 
       async componentDidMount(){
+        if(!jconfig.userinfo) return ToastAndroid.show('请登录',ToastAndroid.SHORT);
           let e = this.props.navigation.state.params.name
           let r = `?form.templateId=${e}`
           let x = await newTiceketNum(r)

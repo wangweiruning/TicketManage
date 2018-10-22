@@ -44,6 +44,7 @@ export default class Tdetail extends React.Component{
 
     //获取模板列表
     async getCanNotdata(){
+        if(!jconfig.userinfo) return ToastAndroid.show('请登录',ToastAndroid.SHORT);
         var ticketFlowrole = [];//定义该流程所属类型的所有状态角色
         var statusId = "";//定义该流程的状态id
         var roleId = "";//定义登陆用户的角色id
