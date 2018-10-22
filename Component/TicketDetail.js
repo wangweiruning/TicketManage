@@ -3,7 +3,7 @@ import Title from './Title';
 import {InputItem,DatePicker,List,Checkbox,TextareaItem} from 'antd-mobile-rn';
 import {View,Text,ScrollView,TouchableOpacity,Picker} from 'react-native';
 import ModalDropdown from 'react-native-modal-dropdown';
-import {newTiceketNum,searchTicketBasicInfo,TicketBasicInfo} from './../api/api'
+import {newTiceketNum,searchTicketBasicInfo,TicketBasicInfo,searchTicketFlow,editquanxian} from './../api/api'
 import DropdownCheckbox from './DropdownCheckbox';
 
 export default class Tdetail extends React.Component{
@@ -32,30 +32,65 @@ export default class Tdetail extends React.Component{
             part2Value: 1,
             value: null,
             num:'',
-            jax:[]
+            jax:[],
+            zed:[],
+            ContentID:'',
+            rolecontentid:''
         }
     }
 
       async componentDidMount(){
-          let e = this.props.navigation.state.params.name
-          let r = `?form.templateId=${e}`
-          let x = await newTiceketNum(r)
-          console.log(x,'zed',x.form.newTicket)
+          let e = this.props.navigation.state.params.name;
+          let r = `?form.templateId=${e}`;
+          let x = await newTiceketNum(r);
           let j = x.form.newTicket;
-          let a = `?form.ticketNum=${j}`
-          let g = await searchTicketBasicInfo(a)
-          let kjl = `?form.jqgrid_row_selected_id=${e}`
+          let a = `?form.ticketNum=${j}`;
+          let g = await searchTicketBasicInfo(a);
+          let kjl = `?form.jqgrid_row_selected_id=${e}`;
           let bool = await TicketBasicInfo(kjl)
+          let i = this.props.navigation.state.params.v;
+          let ghr = `?form.ticketTypeName=${i}`;
+          let good = await searchTicketFlow(ghr);
+          let black = `?form.flowroleid=${good.form.dataList[0].FlowRoleID}`;
+          let feel = await editquanxian(black);
           this.setState({
                num:x.form.newTicket,
-               jax:bool.form.templateContents
+               jax:bool.form.templateContents,
+               zed:feel.form.dataList
           })
-          console.log(g,'wwwweeeeewwwe',bool)
+        //   console.log(g,'wwwweeeeewwwe',bool,good,this.state.zed)
+          this.xunahn(this.state.jax,this.state.zed)
       }
     
+      xunahn(sss,kkk){
+        let s = sss;
+        let g = kkk;
+        for(let i in s){
+            for(let c in g){
+                this.setState({
+                     ContentID:g[c].TemplateContentID,
+                     rolecontentid:s[i].TemplateContentID
+                })
+                if(this.state.ContentID===this.state.rolecontentid){
+                    console.log(this.state.ContentID,this.state.rolecontentid,'>>>>>><<<<<<<')
+                }
+            }
+        }
+        // let iii = g.findIndex((item)=>{
+        //     this.setState({
+        //         ContentID:item.TemplateContentID
+        //     })
+        // })
+        // let index = s.findIndex((item)=>{
+        //   console.log(`${item.TemplateContentID}===>${this.state.ContentID}`);
+        //     return (item.TemplateContentID === this.state.ContentID)
+        // });
+        // console.log("index ====>",index,iii,this.state.ContentID);
+    }
+
       onChange = (value) => {
         console.log(value);
-        this.setState({ value });
+        this.setState({ value }); 
       }
 
     handleInput(k, v){
@@ -66,7 +101,7 @@ export default class Tdetail extends React.Component{
     }
     render(){
         return(<View style={{justifyContent:'center'}}>
-            <Title navigation={this.props.navigation} centerText={'('+this.state.num+')'}/>
+            <Title navigation={this.props.navigation} centerText={this.props.navigation.state.params.v+'('+this.state.num+')'}/>
         <ScrollView style={{display:'flex'}}>
         {
             this.state.jax.map((v,i)=>
@@ -83,24 +118,26 @@ export default class Tdetail extends React.Component{
                   }}>
                   <Text style={{color:'#3e5ed2',left:5}}>{v.ParaName}</Text>
               </View>
-              <View>
-                  {
-                      v.ParaTypeID==3?<Picker style={{ height: 50, width: 100 }}><Picker.Item label="Java" value="java" />
-                      <Picker.Item label="JavaScript" value="js" />
-                      </Picker>:v.ParaTypeID==2?<InputItem onChange={(v)=>this.handleInput('username',v)} style={{borderRadius:5,backgroundColor:'white',width:'85%'}}/>:v.ParaTypeID==5?<View style={{left:5,width:290}}>
-                      <DatePicker
-                        value={this.state.value}
-                        mode="date"
-                        minDate={new Date(1999, 7, 6)}
-                        maxDate={new Date(2000, 11, 3)}
-                        onChange={this.onChange}
-                        format="YYYY-MM-DD"
-                      >
-                        <List.Item arrow="horizontal"></List.Item>
-                        </DatePicker></View>:v.ParaTypeID==6?
-                      <TextareaItem rows={4} placeholder="高度自适应" autoHeight style={{ paddingVertical: 5 }} />:<Text></Text>
-                  }
-              </View>
+               {
+                   v.ParaTypeID==3?<Picker style={{ height: 50, width: 100 }} mode='dropdown' enabled={this.state.rolecontentid==v.TemplateContentID?false:true}>
+                   <Picker.Item label="Java" value="java" />
+                   <Picker.Item label="JavaScript" value="js" />
+                   </Picker>:v.ParaTypeID==2?<InputItem editable={this.state.rolecontentid==v.TemplateContentID?true:false} onChange={(v)=>this.handleInput('username',v)} style={{borderRadius:5,backgroundColor:'white',width:'85%'}}/>:v.ParaTypeID==5?<View style={{left:5,width:290}}>
+                   <DatePicker
+                     value={this.state.value}
+                     mode="date"
+                     minDate={new Date(1999, 7, 6)}
+                     maxDate={new Date(2000, 11, 3)}
+                     onChange={this.onChange}
+                     format="YYYY-MM-DD"
+                     disabled={this.state.rolecontentid==v.TemplateContentID?true:false}
+                   >
+                    <List.Item arrow="horizontal"></List.Item>
+                    </DatePicker></View>:v.ParaTypeID==6?
+                  <View><TextareaItem editable={this.state.rolecontentid==v.TemplateContentID?true:false} rows={4} placeholder="高度自适应" autoHeight style={{ paddingVertical: 5 }} />
+                  {v.ParaName==='安全措施（必要时可附页绘图说明）'?<View style={{flexDirection:'row'}}><Checkbox /><Text>是否已执行</Text></View>:<Text></Text>}
+                  </View>:<Text></Text>
+               }
             </View>
             )
         }
