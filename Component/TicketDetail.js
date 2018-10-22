@@ -1,7 +1,7 @@
 import React from 'react';
 import Title from './Title';
 import {InputItem,DatePicker,List,Checkbox,TextareaItem} from 'antd-mobile-rn';
-import {View,Text,ScrollView,TouchableOpacity,Picker} from 'react-native';
+import {View,Text,ScrollView,TouchableOpacity,Picker,ToastAndroid} from 'react-native';
 import ModalDropdown from 'react-native-modal-dropdown';
 import {newTiceketNum,searchTicketBasicInfo,TicketBasicInfo,searchTicketFlow,editquanxian} from './../api/api'
 import DropdownCheckbox from './DropdownCheckbox';
@@ -40,9 +40,10 @@ export default class Tdetail extends React.Component{
     }
 
       async componentDidMount(){
-          let e = this.props.navigation.state.params.name;
-          let r = `?form.templateId=${e}`;
-          let x = await newTiceketNum(r);
+          if(!jconfig.userinfo) return ToastAndroid.show('请登录',ToastAndroid.SHORT);
+          let e = this.props.navigation.state.params.name
+          let r = `?form.templateId=${e}`
+          let x = await newTiceketNum(r)        
           let j = x.form.newTicket;
           let a = `?form.ticketNum=${j}`;
           let g = await searchTicketBasicInfo(a);
@@ -118,6 +119,7 @@ export default class Tdetail extends React.Component{
                   }}>
                   <Text style={{color:'#3e5ed2',left:5}}>{v.ParaName}</Text>
               </View>
+              
                {
                    v.ParaTypeID==3?<Picker style={{ height: 50, width: 100 }} mode='dropdown' enabled={this.state.rolecontentid==v.TemplateContentID?false:true}>
                    <Picker.Item label="Java" value="java" />
