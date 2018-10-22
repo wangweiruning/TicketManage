@@ -30,6 +30,7 @@ export default class Tdetail extends React.Component{
             nextFlowId:"",//下一个流转id
             nextFlow:"",//下一个流转流程
             aggree:1,//是否同意提交
+            havelist:[]
         }
     }
 
@@ -154,15 +155,16 @@ export default class Tdetail extends React.Component{
         const paramsItem = "?form.flowroleid="+ticketFlowList[ticketFlowList.length - 1].FlowRoleID;
         const saves = await editquanxian(paramsItem);//获取可编辑内容区域
         console.log(saves.form.dataList,"获取可编辑内容区域");
-            // this.setState({
-            //     havChangeList:saves.form.dataList
-            // })
+            this.setState({
+                havChangeList:saves.form.dataList
+            })
 
 
         }else { //新建两票，数据库中无记录
 					statusId = ticketFlowrole[0].ticketstatusid;
 					ticketFlowList.push(ticketFlowrole[0]);
         }
+        xunahn(this.state.templateContents,this.state.havChangeList)
     }
       sub(url,{}){
         HttpUtils.post({}).then({}).catch({})
@@ -178,6 +180,26 @@ export default class Tdetail extends React.Component{
             [k]: v
         });
         // alert(v)
+    }
+    xunahn(sss,kkk){
+        let s = sss;
+        let g = kkk;
+        let arrs=[];
+        for(let i in s){
+            for(let c in g){
+                this.setState({
+                     ContentID:g[c].TicketParaID,
+                     rolecontentid:s[i].TicketParaID
+                })
+                if(this.state.ContentID===this.state.rolecontentid){
+                    arrs.push(this.state.ContentID)
+                    console.log(this.state.ContentID,this.state.rolecontentid,'>>>>>><<<<<<<')
+                }
+            }
+        }
+    this.setState({
+        havelist: arrs
+    })
     }
     gotSubmit=()=>{
         console.log(this.state.searchRole,"--------------------")
@@ -236,6 +258,7 @@ export default class Tdetail extends React.Component{
     </View>
     }
     render(){
+        const havelist = this.state.havelist;
         // v.TicketParaID===h.TicketParaID 待用数据
         const statedate = this.props.navigation;
         console.log(this.state.templateContents,this.state.dataList,this.state.LcdataList)
@@ -261,19 +284,21 @@ export default class Tdetail extends React.Component{
                             <View>
                                 {
                                     v.ParaTypeID==4
-                                    ?<Picker style={{ height: 50, width: 100 }}><Picker.Item label="Java" value="java" />
+                                    ?<Picker style={{ height: 50, width: 100 }} editable={v.TicketParaID===havelist[i]?true:false}>
+                                    <Picker.Item label="Java" value="java" />
                                     <Picker.Item label="JavaScript" value="js" />
                                     </Picker>
                                     :v.ParaTypeID==3
-                                    ?<Picker style={{ height: 50, width: 100 }}><Picker.Item label="Java" value="java" />
-                                    <Picker.Item label="JavaScript" value="js" />
+                                    ?<Picker style={{ height: 50, width: 100 }} editable={v.TicketParaID===havelist[i]?true:false}>
+                                        <Picker.Item label="Java" value="java" />
+                                        <Picker.Item label="JavaScript" value="js" />
                                     </Picker>
                                     :v.ParaTypeID==2 
                                         ?<List>
                                             <InputItem 
                                                 TicketParaID={v.TicketParaID}
                                                 onChange={(v)=>this.handleInput('username',v)} 
-                                                editable={false}
+                                                editable={v.TicketParaID===havelist[i]?true:false}
                                                 value={v.TemplateContentID}
                                                 defaultValue={v.TemplateContentID}
                                                 style={{borderRadius:5,backgroundColor:'#fffeee',width:'85%'}}></InputItem></List>
@@ -281,6 +306,7 @@ export default class Tdetail extends React.Component{
                                     <DatePicker
                                         value={this.state.value}
                                         mode="date"
+                                        editable={v.TicketParaID===havelist[i]?true:false}
                                         minDate={new Date(2000, 1, 1)}
                                         maxDate={new Date(2050, 12, 31)}
                                         onChange={this.onChange}
@@ -291,11 +317,12 @@ export default class Tdetail extends React.Component{
                                         <View>
                                     <TextareaItem 
                                         rows={4} 
-                                        editable={false}
+                                        editable={v.TicketParaID===havelist[i]?true:false}
                                         defaultValue={v.TemplateContentID}
                                         placeholder="高度自适应" style={{ paddingVertical: 5,backgroundColor:"#fffeee" }} />
                                         {v.IsConfirm==1
                                                 ?  <Radio
+                                                    editable={v.TicketParaID===havelist[i]?true:false}
                                                     checked={this.state.part1Value}
                                                     onChange={(event) => {
                                                         if (event.target.checked) {
