@@ -119,12 +119,11 @@ export default class Tdetail extends React.Component{
                   }}>
                   <Text style={{color:'#3e5ed2',left:5}}>{v.ParaName}</Text>
               </View>
-              
                {
-                   v.ParaTypeID==3?<Picker style={{ height: 50, width: 100 }} mode='dropdown' enabled={this.state.rolecontentid==v.TemplateContentID?false:true}>
+                   v.ParaTypeID==3?<Picker style={{ height: 50, width: 100 }} mode='dropdown' enabled={this.state.ContentID==v.TemplateContentID?true:false}>
                    <Picker.Item label="Java" value="java" />
                    <Picker.Item label="JavaScript" value="js" />
-                   </Picker>:v.ParaTypeID==2?<InputItem editable={this.state.rolecontentid==v.TemplateContentID?true:false} onChange={(v)=>this.handleInput('username',v)} style={{borderRadius:5,backgroundColor:'white',width:'85%'}}/>:v.ParaTypeID==5?<View style={{left:5,width:290}}>
+                   </Picker>:v.ParaTypeID==2?<InputItem editable={this.state.ContentID==v.TemplateContentID?true:false} onChange={(v)=>this.handleInput('username',v)} style={{borderRadius:5,backgroundColor:'white',width:'85%'}}/>:v.ParaTypeID==5?<View style={{left:5,width:290}}>
                    <DatePicker
                      value={this.state.value}
                      mode="date"
@@ -132,11 +131,11 @@ export default class Tdetail extends React.Component{
                      maxDate={new Date(2000, 11, 3)}
                      onChange={this.onChange}
                      format="YYYY-MM-DD"
-                     disabled={this.state.rolecontentid==v.TemplateContentID?true:false}
+                     disabled={this.state.ContentID==v.TemplateContentID?false:true}
                    >
                     <List.Item arrow="horizontal"></List.Item>
                     </DatePicker></View>:v.ParaTypeID==6?
-                  <View><TextareaItem editable={this.state.rolecontentid==v.TemplateContentID?true:false} rows={4} placeholder="高度自适应" autoHeight style={{ paddingVertical: 5 }} />
+                  <View><TextareaItem editable={this.state.ContentID==v.TemplateContentID?true:false} placeholder="高度自适应" autoHeight style={{ paddingVertical: 5 }} />
                   {v.ParaName==='安全措施（必要时可附页绘图说明）'?<View style={{flexDirection:'row'}}><Checkbox /><Text>是否已执行</Text></View>:<Text></Text>}
                   </View>:<Text></Text>
                }
