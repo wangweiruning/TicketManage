@@ -1,6 +1,6 @@
 import React from 'react';
 import Title from './Title';
-import {InputItem,DatePicker,List,TextareaItem,Radio} from 'antd-mobile-rn';
+import {InputItem,DatePicker,List,Checkbox,TextareaItem} from 'antd-mobile-rn';
 import {View,Text,ScrollView,TouchableOpacity,Picker,} from 'react-native';
 import ModalDropdown from 'react-native-modal-dropdown';
 import HttpUtils from '../api/Httpdata';
@@ -30,7 +30,10 @@ export default class Tdetail extends React.Component{
             nextFlowId:"",//下一个流转id
             nextFlow:"",//下一个流转流程
             aggree:1,//是否同意提交
-            havelist:[]
+            havelist:[],
+            ContentID:"",
+            rolecontentid:""
+
         }
     }
 
@@ -159,19 +162,19 @@ export default class Tdetail extends React.Component{
                 havChangeList:saves.form.dataList
             })
 
-
+        this.xunahn(x.form.templateContents,saves.form.dataList)
         }else { //新建两票，数据库中无记录
 					statusId = ticketFlowrole[0].ticketstatusid;
 					ticketFlowList.push(ticketFlowrole[0]);
         }
-        xunahn(this.state.templateContents,this.state.havChangeList)
+        
     }
       sub(url,{}){
         HttpUtils.post({}).then({}).catch({})
       }
 
-      onChange = (value) => {
-        console.log(value);
+      onChange = (value,v) => {
+        console.log(value,v,"======");
         this.setState({ value });
       }
 
@@ -182,6 +185,7 @@ export default class Tdetail extends React.Component{
         // alert(v)
     }
     xunahn(sss,kkk){
+        console.log(sss,kkk,"============")
         let s = sss;
         let g = kkk;
         let arrs=[];
@@ -192,7 +196,7 @@ export default class Tdetail extends React.Component{
                      rolecontentid:s[i].TicketParaID
                 })
                 if(this.state.ContentID===this.state.rolecontentid){
-                    arrs.push(this.state.ContentID)
+                    // arrs.push(this.state.ContentID)
                     console.log(this.state.ContentID,this.state.rolecontentid,'>>>>>><<<<<<<')
                 }
             }
@@ -262,9 +266,19 @@ export default class Tdetail extends React.Component{
         // v.TicketParaID===h.TicketParaID 待用数据
         const statedate = this.props.navigation;
         console.log(this.state.templateContents,this.state.dataList,this.state.LcdataList)
+        const baise={
+            borderRadius:5,
+            backgroundColor:'white',
+            width:'85%'
+        } 
+        const huise={
+            borderRadius:5,
+            backgroundColor:'#eee333',
+            width:'85%'
+        }
         return(<View style={{justifyContent:'center'}}>
                     <Title navigation={this.props.navigation} 
-                        centerText={this.props.navigation.state.params.typeName+"  "+this.state.TiceketNum}/>
+                        centerText={this.props.navigation.state.params.typeName+""+this.state.TiceketNum}/>
                     <ScrollView style={{display:'flex'}}>
                         {
                             this.state.templateContents.map((v,i)=>{
@@ -282,59 +296,42 @@ export default class Tdetail extends React.Component{
                                 <Text style={{color:'#3e5ed2',left:5}}>{v.ParaName}</Text>
                             </View>
                             <View>
-                                {
-                                    v.ParaTypeID==4
-                                    ?<Picker style={{ height: 50, width: 100 }} editable={v.TicketParaID===havelist[i]?true:false}>
+                            {   v.ParaTypeID==4?
+                                <Picker style={{ height: 50, width: 100 }} 
+                                        mode='dropdown' 
+                                        enabled={this.state.ContentID===v.TicketParaID?true:false}>
                                     <Picker.Item label="Java" value="java" />
                                     <Picker.Item label="JavaScript" value="js" />
-                                    </Picker>
-                                    :v.ParaTypeID==3
-                                    ?<Picker style={{ height: 50, width: 100 }} editable={v.TicketParaID===havelist[i]?true:false}>
-                                        <Picker.Item label="Java" value="java" />
-                                        <Picker.Item label="JavaScript" value="js" />
-                                    </Picker>
-                                    :v.ParaTypeID==2 
-                                        ?<List>
-                                            <InputItem 
-                                                TicketParaID={v.TicketParaID}
-                                                onChange={(v)=>this.handleInput('username',v)} 
-                                                editable={v.TicketParaID===havelist[i]?true:false}
-                                                value={v.TemplateContentID}
-                                                defaultValue={v.TemplateContentID}
-                                                style={{borderRadius:5,backgroundColor:'#fffeee',width:'85%'}}></InputItem></List>
-                                        :v.ParaTypeID==5?<View style={{left:5,width:290}}>
-                                    <DatePicker
-                                        value={this.state.value}
-                                        mode="date"
-                                        editable={v.TicketParaID===havelist[i]?true:false}
-                                        minDate={new Date(2000, 1, 1)}
-                                        maxDate={new Date(2050, 12, 31)}
-                                        onChange={this.onChange}
-                                        format="YYYY-MM-DD"
-                                    >
-                                        <List.Item arrow="horizontal"></List.Item>
-                                        </DatePicker></View>:v.ParaTypeID==6?
-                                        <View>
-                                    <TextareaItem 
-                                        rows={4} 
-                                        editable={v.TicketParaID===havelist[i]?true:false}
-                                        defaultValue={v.TemplateContentID}
-                                        placeholder="高度自适应" style={{ paddingVertical: 5,backgroundColor:"#fffeee" }} />
-                                        {v.IsConfirm==1
-                                                ?  <Radio
-                                                    editable={v.TicketParaID===havelist[i]?true:false}
-                                                    checked={this.state.part1Value}
-                                                    onChange={(event) => {
-                                                        if (event.target.checked) {
-                                                        this.setState({ part1Value: !this.state.part1Value });
-                                                        }
-                                                    }}
-                                                    style={{ borderWidth: 1, borderColor: '#999', margin: 10 }}
-                                                    >
-                                                    是否已执行
-                                                    </Radio>
-                                                :<Text></Text>}</View>:<Text></Text>
-                                        }
+                                </Picker>
+                                :v.ParaTypeID==3?<Picker style={{ height: 50, width: 100 }} 
+                                mode='dropdown' 
+                                enabled={this.state.ContentID===v.TicketParaID?true:false}>
+                                <Picker.Item label="Java" value="java" />
+                                <Picker.Item label="JavaScript" value="js" />
+                                </Picker>
+                                :v.ParaTypeID==2?
+                                <InputItem  
+                                value="" 
+                                editable={this.state.ContentID==v.TicketParaID?true:false} 
+                                onChange={(v)=>this.handleInput('username'+i,v)} 
+                                style={this.state.ContentID==v.TicketParaID?baise:huise} />
+                                         :v.ParaTypeID==5?<View style={{left:5,width:290}}>
+                                <DatePicker
+                                    value={this.state.value}
+                                    mode="date"
+                                    minDate={new Date(1999, 7, 6)}
+                                    maxDate={new Date(2000, 11, 3)}
+                                    onChange={this.onChange}
+                                    format="YYYY-MM-DD"
+                                    disabled={this.state.ContentID==v.TicketParaID?false:true}
+                                >
+                                    <List.Item arrow="horizontal"></List.Item>
+                                    </DatePicker></View>
+                                         :v.ParaTypeID==6?
+                                <View><TextareaItem editable={this.state.ContentID==v.TicketParaID?true:false} placeholder="高度自适应" autoHeight style={{ paddingVertical: 5 }} />
+                                {v.ParaName==='安全措施（必要时可附页绘图说明）'?<View style={{flexDirection:'row'}}><Checkbox /><Text>是否已执行</Text></View>:<Text></Text>}
+                                </View>:<Text></Text>
+                            }
                                     </View>
                                     </View>
                         })}

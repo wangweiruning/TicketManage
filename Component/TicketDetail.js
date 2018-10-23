@@ -120,7 +120,11 @@ export default class Tdetail extends React.Component{
                   <Text style={{color:'#3e5ed2',left:5}}>{v.ParaName}</Text>
               </View>
                {
-                   v.ParaTypeID==3?<Picker style={{ height: 50, width: 100 }} mode='dropdown' enabled={this.state.ContentID==v.TicketParaID?true:false}>
+                   v.ParaTypeID==4?<Picker style={{ height: 50, width: 100 }} mode='dropdown' enabled={this.state.ContentID==v.TicketParaID?true:false}>
+                   <Picker.Item label="Java" value="java" />
+                   <Picker.Item label="JavaScript" value="js" />
+                   </Picker>
+                   :v.ParaTypeID==3?<Picker style={{ height: 50, width: 100 }} mode='dropdown' enabled={this.state.ContentID==v.TicketParaID?true:false}>
                    <Picker.Item label="Java" value="java" />
                    <Picker.Item label="JavaScript" value="js" />
                    </Picker>:v.ParaTypeID==2?<InputItem editable={this.state.ContentID==v.TicketParaID?true:false} onChange={(v)=>this.handleInput('username',v)} style={{borderRadius:5,backgroundColor:'white',width:'85%'}}/>:v.ParaTypeID==5?<View style={{left:5,width:290}}>
