@@ -16,17 +16,20 @@ export default class TicketModel extends React.Component{
          let k = this.props.navigation.state.params.name;
          let j = `?form.tree_node_id=${k}`
          let h = await ttmsTickets(j);
-         let n = await searchUserPower(j)
-         console.log(h,'hhhhhh',n)
+         
          this.setState({
              uzi:h.form.dataList,
          })
      }
 
-     goticket(name,v){
+    async goticket(name,v){
         const {navigate} = this.props.navigation
-        navigate('TicketDetail',{name,v})
-    } 
+        
+        let j = `?form.tree_node_id=${this.props.navigation.state.params.name}`;
+        let n = await searchUserPower(j)
+         console.log('hhhhhh',n)
+         navigate('TicketDetail',{name,v})
+        } 
 
     render(){
         return(
