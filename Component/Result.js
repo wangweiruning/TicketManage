@@ -22,6 +22,10 @@ export default class Tdetail extends React.Component{
             TiceketNum:"",
             username:'',
             value: null,
+            value1: null,
+            value2: null,
+            value3: null,
+            value4: null,
             templateContents:[],//获取模板列表
             dataList:[],//两票基本信息
             LcdataList:[],//当前类型两票流程
@@ -172,39 +176,52 @@ export default class Tdetail extends React.Component{
 
 
       onChange = (value,v) => {
-        console.log(value,v,"======");
-        this.setState({ value });
+        this.setState({ value:value });
+        console.log(this.state.value)
       }
-
+      onChange1 = (value1,v) => {
+        this.setState({ value1:value1 });
+      }
+      onChange2 = (value2,v) => {
+        this.setState({ value2:value2 });
+      }
+      onChange3 = (value3,v) => {
+        this.setState({value3:value3 });
+      }
+      onChange3 = (value4,v) => {
+        this.setState({ value4:value4 });
+      }
     handleInput(k, v){
         this.setState({
             [k]: v
         });
-        // alert(v)
     }
+
     xunahn(sss,kkk){
-        console.log(sss,kkk,"============")
         let s = sss;
         let g = kkk;
         let arrs=[];
         for(let i in s){
             for(let c in g){
-                this.setState({
-                     ContentID:g[c].TicketParaID,
-                     rolecontentid:s[i].TicketParaID
-                })
                 if(this.state.ContentID===this.state.rolecontentid){
-                    // arrs.push(this.state.ContentID)
-                    console.log(this.state.ContentID,this.state.rolecontentid,'>>>>>><<<<<<<')
+                    this.state.ContentID = g[c].TicketParaID,
+                    this.state.rolecontentid = s[i].TicketParaID
                 }
             }
         }
-    this.setState({
-        havelist: arrs
-    })
+        this.forceUpdate()
     }
+
+    ischacked=(asd)=>{
+        let sss = this.state.havChangeList;
+        let index = sss.findIndex((v)=>{
+            return v.TicketParaID == asd;
+        });
+        return index==-1;
+
+    }
+
     gotSubmit=()=>{
-        console.log(this.state.searchRole,"--------------------")
         const list = [];
         if (this.state.searchRole.length>0) {
             this.state.searchRole.map((item,ks)=>{
@@ -214,8 +231,8 @@ export default class Tdetail extends React.Component{
                         <Text>流转目标</Text>
                         <ModalDropdown 
                             dropdownStyle={{width:'50%'}} 
-                            textStyle={{color:'black'}} 
-                            style={{left:10,backgroundColor:'skyblue',borderRadius:5,width:'50%'}} 
+                            textStyle={{color:'black',alignItems:'center',textAlign:'center',marginTop:7}} 
+        style={{left:10,backgroundColor:'skyblue',borderRadius:5,height:30,width:'50%'}} 
                             defaultValue={list[0]} 
                             options={list}/>
                     </View>
@@ -231,8 +248,8 @@ export default class Tdetail extends React.Component{
             return  <View style={{display:'flex',flexDirection:'row',alignItems:'center',margin:5}}>
                         <Text>流转状态</Text>
                         <ModalDropdown  dropdownStyle={{width:'50%',height:45}} 
-                                        textStyle={{color:'black'}} 
-                                        style={{left:10,backgroundColor:'skyblue',borderRadius:5,width:'50%'}} 
+                                        textStyle={{color:'black',alignItems:'center',textAlign:'center',marginTop:7}} 
+                                        style={{left:10,backgroundColor:'skyblue',borderRadius:5,height:30,width:'50%'}}
                                         defaultValue={arr[0]} 
                                         options={arr}/>
                     </View>
@@ -249,12 +266,12 @@ export default class Tdetail extends React.Component{
         }else{
             arr.push("不同意")
         }
-        return <View style={{display:'flex',flexDirection:'row',alignItems:'center',margin:5}}>
+        return <View style={{display:'flex',flexDirection:'row',alignItems:'center',margin:5,height:50}}>
         <Text>是否同意</Text>
         <ModalDropdown 
         dropdownStyle={{width:'50%',height:45}} 
-        textStyle={{color:'black'}} 
-        style={{left:10,backgroundColor:'skyblue',borderRadius:5,width:'50%'}} 
+        textStyle={{color:'black',alignItems:'center',textAlign:'center',marginTop:7}} 
+        style={{left:10,backgroundColor:'skyblue',borderRadius:5,height:30,width:'50%'}} 
         defaultValue={arr[0]} 
         options={arr}/>
     </View>
@@ -267,6 +284,8 @@ export default class Tdetail extends React.Component{
         const baise={
             borderRadius:5,
             backgroundColor:'white',
+            borderBottomWidth:2,
+            borderBottomColor:'#007aff',
             width:'85%'
         } 
         const huise={
@@ -280,6 +299,7 @@ export default class Tdetail extends React.Component{
                     <ScrollView style={{display:'flex'}}>
                         {
                             this.state.templateContents.map((v,i)=>{
+                                let dis = this.ischacked(v.TicketParaID);
                             return <View  key={i} style={{backgroundColor:'white',marginTop:5}}>
                             <View style={{
                                 width:'100%',
@@ -297,37 +317,89 @@ export default class Tdetail extends React.Component{
                             {   v.ParaTypeID==4?
                                 <Picker style={{ height: 50, width: 100 }} 
                                         mode='dropdown' 
-                                        enabled={this.state.ContentID===v.TicketParaID?true:false}>
+                                        enabled={!dis}>
                                     <Picker.Item label="Java" value="java" />
                                     <Picker.Item label="JavaScript" value="js" />
                                 </Picker>
                                 :v.ParaTypeID==3?<Picker style={{ height: 50, width: 100 }} 
                                 mode='dropdown' 
-                                enabled={this.state.ContentID===v.TicketParaID?true:false}>
+                                enabled={!dis}>
                                 <Picker.Item label="Java" value="java" />
                                 <Picker.Item label="JavaScript" value="js" />
                                 </Picker>
                                 :v.ParaTypeID==2?
                                 <InputItem  
                                 value="" 
-                                editable={this.state.ContentID==v.TicketParaID?true:false} 
+                                editable={dis} 
                                 onChange={(v)=>this.handleInput('username'+i,v)} 
-                                style={this.state.ContentID==v.TicketParaID?baise:huise} />
-                                         :v.ParaTypeID==5?<View style={{left:5,width:290}}>
-                                <DatePicker
+                                style={dis?baise:huise} />
+                                :v.ParaTypeID==5
+                                ?<View style={{left:0,width:250}}>
+                                {v.ParaName=="许可开始工作时间：" && <DatePicker
+                                    style={{left:0}}
                                     value={this.state.value}
                                     mode="date"
-                                    minDate={new Date(1999, 7, 6)}
-                                    maxDate={new Date(2000, 11, 3)}
+                                    minDate={new Date(2000, 1, 1)}
+                                    maxDate={new Date(2040, 12, 31)}
                                     onChange={this.onChange}
                                     format="YYYY-MM-DD"
-                                    disabled={this.state.ContentID==v.TicketParaID?false:true}
-                                >
-                                    <List.Item arrow="horizontal"></List.Item>
-                                    </DatePicker></View>
+                                    disabled={dis}>
+                                    <List.Item arrow="horizontal">选择时间：</List.Item>
+                                </DatePicker>}
+                                {v.ParaName=="有效期延长到" && <DatePicker
+                                    style={{left:0}}
+                                    value={this.state.value1}
+                                    mode="date"
+                                    minDate={new Date(2000, 1, 1)}
+                                    maxDate={new Date(2040, 12, 31)}
+                                    onChange={this.onChange1}
+                                    format="YYYY-MM-DD"
+                                    disabled={dis}>
+                                    <List.Item arrow="horizontal">选择时间：</List.Item>
+                                </DatePicker>}
+                                {v.ParaName=="开工时间" && <DatePicker
+                                    style={{left:0}}
+                                    value={this.state.value2}
+                                    mode="date"
+                                    minDate={new Date(2000, 1, 1)}
+                                    maxDate={new Date(2040, 12, 31)}
+                                    onChange={this.onChange2}
+                                    format="YYYY-MM-DD"
+                                    disabled={dis}>
+                                    <List.Item arrow="horizontal">选择时间：</List.Item>
+                                </DatePicker>}
+                                {v.ParaName=="收工时间" && <DatePicker
+                                    style={{left:0}}
+                                    value={this.state.value3}
+                                    mode="date"
+                                    minDate={new Date(2000, 1, 1)}
+                                    maxDate={new Date(2040, 12, 31)}
+                                    onChange={this.onChange3}
+                                    format="YYYY-MM-DD"
+                                    disabled={dis}>
+                                    <List.Item arrow="horizontal">选择时间：</List.Item>
+                                </DatePicker>}
+                                {v.ParaName=="工作结束时间" && <DatePicker
+                                    style={{left:0}}
+                                    value={this.state.value4}
+                                    mode="date"
+                                    minDate={new Date(2000, 1, 1)}
+                                    maxDate={new Date(2040, 12, 31)}
+                                    onChange={this.onChange4}
+                                    format="YYYY-MM-DD"
+                                    disabled={dis}>
+                                    <List.Item arrow="horizontal">选择时间：</List.Item>
+                                </DatePicker>}
+                                    </View>
                                          :v.ParaTypeID==6?
-                                <View><TextareaItem editable={this.state.ContentID==v.TicketParaID?true:false} placeholder="高度自适应" autoHeight style={{ paddingVertical: 5 }} />
-                                {v.ParaName==='安全措施（必要时可附页绘图说明）'?<View style={{flexDirection:'row'}}><Checkbox /><Text>是否已执行</Text></View>:<Text></Text>}
+                                <View>
+                                    <TextareaItem editable={!dis} 
+                                                  placeholder="高度自适应" 
+                                                  autoHeight 
+                                                  style={{ paddingVertical: 5,
+                                                    borderBottomWidth:2,
+                                                    borderBottomColor:'#007aff' }} />
+                                {v.IsConfirm==1?<View style={{flexDirection:'row'}}><Checkbox checked={!dis}><Text>是否已执行</Text></Checkbox></View>:<Text></Text>}
                                 </View>:<Text></Text>
                             }
                                     </View>

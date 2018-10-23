@@ -38,7 +38,6 @@ export default class CorrelationPlan extends React.Component{
                 return  itemdatas.map((itemdata,i)=>{
                     return <View 
                                 key={i}
-                                onPress={()=>this.gotoItem(itemdata)}
                                 style={{marginTop:5,paddingBottom:10,paddingTop:10,width:"90%",marginLeft:20}}>
                             <Text style={{color:"#000000"}}>两票类型：{itemdata.tickettypename}</Text>
                             <Text style={{color:"#000000"}}>负责人：{itemdata.headuser}</Text>

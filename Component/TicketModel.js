@@ -22,23 +22,23 @@ export default class TicketModel extends React.Component{
          })
      }
 
-    async goticket(name,v){
+    async goticket(userId,name,v){
         const {navigate} = this.props.navigation
-        
-        let j = `?form.tree_node_id=${this.props.navigation.state.params.name}`;
-        let n = await searchUserPower(j)
-         console.log('hhhhhh',n)
+        console.log(userId,"---------")
+        // let j = `?form.tree_node_id=${this.props.navigation.state.params.name}`;
+        // let n = await searchUserPower(j)
          navigate('TicketDetail',{name,v})
         } 
 
     render(){
+        console.log(window.jconfig,"--------------")
         return(
             <View>
-            <Title navigation={this.props.navigation} centerText={this.props.navigation.state.params.v+'模板'}/>
+            <Title navigation={this.props.navigation} rightText="查看流程" centerText={this.props.navigation.state.params.v+'模板'}/>
                {
                    this.state.uzi.map((v,i)=>
                    <TouchableOpacity key={i} 
-                   onPress={()=>this.goticket(v.TicketTemplateID,this.props.navigation.state.params.v)} 
+                   onPress={()=>this.goticket(v.userId,v.TicketTemplateID,this.props.navigation.state.params.v)} 
                    style={{display:'flex',flexDirection:'row',width:'100%',backgroundColor:'#beebff',height:50,display:'flex',alignItems:'center',marginTop:10}}>
                            <Image source={require('../images/company_tree.png')} style={{width:15,left:5,resizeMode:Image.resizeMode.contain}}/>
                            <Text style={{fontSize:18,color:'black',left:10,flex:1}}>{v.TicketTemplateName}</Text>

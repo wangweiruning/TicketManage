@@ -12,7 +12,12 @@ export default class Title extends React.Component{
     _toBack() {
         this.props.navigation.goBack();
     }
-
+    HaveSee(){
+        const {navigate} = this.props.navigation
+        // alert("11")
+        console.log(this.props.navigation)
+        navigate('TicketFlew',{centerText:this.props.navigation.state.params.v})
+    }
 
     render(){
         return(<View style={{
@@ -32,8 +37,13 @@ export default class Title extends React.Component{
             <View style={{flex:1,alignItems: 'center'}}>
                 <Text style={{color: 'black',fontSize:15,fontWeight:'500'}}>{this.props.centerText}</Text>
             </View>
-            <View style={{width:60,height:35}}>
-
+            <View style={{marginRight:10,alignItems: 'center',width:60,height:35}}>
+                   <Text 
+                        onPress={()=>this.HaveSee()}
+                        style={{color: '#007aff',
+                                fontSize:15,
+                                fontWeight:'300',
+                                marginTop:5}}>{this.props.rightText}</Text>        
             </View>
         </View>)
     }
