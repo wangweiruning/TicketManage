@@ -166,9 +166,7 @@ export default class Tdetail extends React.Component{
         }
         xunahn(this.state.templateContents,this.state.havChangeList)
     }
-      sub(url,{}){
-        HttpUtils.post({}).then({}).catch({})
-      }
+
 
       onChange = (value) => {
         console.log(value);
