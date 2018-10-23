@@ -10,26 +10,6 @@ export default class Tdetail extends React.Component{
     constructor(props){
         super(props)
         this.state={
-            na:[
-                {
-                    name:'saffa'
-                },
-                {
-                    name:'saffa'
-                },
-                {
-                    name:'saffa'
-                },
-                {
-                    name:'saffa'
-                },
-            ],
-            checkBox1: true,
-      agreeItem1: true,
-      checkboxItem1: true,
-            username:'',
-            part1Value: 1,
-            part2Value: 1,
             value: null,
             num:'',
             jax:[],
@@ -40,6 +20,7 @@ export default class Tdetail extends React.Component{
             user:[],
             status:'',
             find:[],
+            language:''
         }
     }
 
@@ -107,7 +88,6 @@ export default class Tdetail extends React.Component{
 
 
       xunahn(sss,kkk){
-        console.log('etfqwrqw')
         let s = sss;
         let g = kkk;
         for(let i in s){
@@ -115,13 +95,9 @@ export default class Tdetail extends React.Component{
                 if(this.state.ContentID===this.state.rolecontentid){
                 this.state.ContentID = g[c].TicketParaID,
                 this.state.rolecontentid = s[i].TicketParaID
-                    console.log(this.state.ContentID,this.state.rolecontentid,'>>>>>>><<<<<<<')
                 }
             }
-        
         }
-       console.log(g,'sssssssssssssssssssssssss')
-       console.log(s,'sssssssssssssssssssssssss')
         this.forceUpdate();
     }
 
@@ -139,7 +115,6 @@ export default class Tdetail extends React.Component{
 
 
 
-
     chackSSSS=(asd)=>{
         let sss = this.state.zed;
         let index = sss.findIndex((v)=>{
@@ -148,6 +123,7 @@ export default class Tdetail extends React.Component{
         return index==-1;
 
     }
+
     render(){
         return(<View style={{justifyContent:'center'}}>
             <Title navigation={this.props.navigation} centerText={this.props.navigation.state.params.v+'('+this.state.num+')'}/>
@@ -168,13 +144,14 @@ export default class Tdetail extends React.Component{
                   alignItems:'center',
                   }}>
                   <Text style={{color:'#3e5ed2',left:5}}>{v.ParaName}</Text>
-                  
               </View>
                {      
-                   v.ParaTypeID==3?<Picker style={{ height: 50, width: 100 }} enabled={!dis} mode='dropdown'>
+                   v.ParaTypeID==4? <DropdownCheckbox SelectData={this.state.user}/>:
+                   v.ParaTypeID==3?<Picker style={{ height: 50, width:'100%'}} enabled={!dis} mode='dropdown' selectedValue={this.state.language}
+                   onValueChange={(itemValue, itemIndex) => this.setState({language: itemValue})}>
                    <Picker.Item label="Java" value="java" />
                    <Picker.Item label="JavaScript" value="js" />
-                   </Picker>:v.ParaTypeID==2?<InputItem editable={dis} onChange={(v)=>this.handleInput('username',v)} style={{borderRadius:5,backgroundColor:'white',width:'85%'}}/>:v.ParaTypeID==5?<View style={{left:5,width:290}}>
+                   </Picker>:v.ParaTypeID==2?<InputItem editable={dis} onChange={(v)=>this.handleInput('username',v)} style={{borderRadius:5,backgroundColor:'white',width:'85%',backgroundColor:"#fffeee"}}/>:v.ParaTypeID==5?<View style={{left:5,width:290}}>
                    <DatePicker
                      value={this.state.value}
                      mode="date"
@@ -186,8 +163,8 @@ export default class Tdetail extends React.Component{
                    >
                     <List.Item arrow="horizontal"></List.Item>
                     </DatePicker></View>:v.ParaTypeID==6?
-                  <View><TextareaItem editable={!dis} placeholder="高度自适应" autoHeight style={{ paddingVertical: 5 }} />
-                  {v.ParaName==='安全措施（必要时可附页绘图说明）'?<View style={{flexDirection:'row'}}><Checkbox /><Text>是否已执行</Text></View>:<Text></Text>}
+                  <View><TextareaItem editable={!dis} placeholder="高度自适应" autoHeight style={{ paddingVertical: 5 ,backgroundColor:"#fffeee"}} />
+                  {v.ParaName==='安全措施（必要时可附页绘图说明）'?<View style={{flexDirection:'row'}}><Checkbox disabled={dis}/><Text>是否已执行</Text></View>:<Text></Text>}
                   </View>:<Text></Text>
                }
             </View>
@@ -222,7 +199,8 @@ export default class Tdetail extends React.Component{
                 <Text>流转目标</Text>
                 <ModalDropdown dropdownStyle={{width:'50%'}} textStyle={{color:'black'}}
                   style={{left:10,backgroundColor:'skyblue',borderRadius:5,width:'50%'}} 
-                  defaultValue={'请选择'} options={this.state.user}/>
+                  defaultValue={'请选择'} options={this.state.user}>
+                </ModalDropdown>
             </View>
             </View> 
             <View style={{marginBottom:50,width:'100%',display:'flex',justifyContent:'center',alignItems:'center'}}>
