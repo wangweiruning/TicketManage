@@ -169,9 +169,7 @@ export default class Tdetail extends React.Component{
         }
         
     }
-      sub(url,{}){
-        HttpUtils.post({}).then({}).catch({})
-      }
+
 
       onChange = (value,v) => {
         console.log(value,v,"======");
