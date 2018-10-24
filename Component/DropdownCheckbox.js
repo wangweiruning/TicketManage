@@ -44,11 +44,10 @@ export default class DropdownCheckbox extends React.Component{
     }
 
     render(){
-        
         return(
             <View style={{backgroundColor:"white"}}>
                   <TouchableOpacity activeOpacity={0.5} onPress={()=>{
-                            this.setState({show:!this.state.show});
+                            !this.props.canClick && this.setState({show:!this.state.show});
                         }}>
                       <View style={{flexDirection:'row',alignItems:'center'}}>
                         <Text style={{padding:5,flex:1}} >{
@@ -58,7 +57,7 @@ export default class DropdownCheckbox extends React.Component{
                     </View>
                   </TouchableOpacity>
                   {
-                    <View style={{display:this.state.show?"flex":"none"}}>
+                    <View style={{display:this.state.show?"flex":"none",backgroundColor:this.props.color?this.props.color:"white"}}>
                           { 
                             this.state.SelectData.map((v,i)=>
                                 <View key={i} style={{flexDirection:'row',padding:5}}>
@@ -66,7 +65,7 @@ export default class DropdownCheckbox extends React.Component{
                                          let s = e.target.checked;
                                             this.state.activeItem[i] = s?v:"";
                                             this.forceUpdate();
-                                    }} /><Text>{v}</Text>
+                                    }}><Text>{v}</Text></Checkbox>
                                 </View>
                                 )
                           }

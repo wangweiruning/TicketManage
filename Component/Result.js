@@ -1,9 +1,9 @@
 import React from 'react';
 import Title from './Title';
 import {InputItem,DatePicker,List,Checkbox,TextareaItem} from 'antd-mobile-rn';
-import {View,Text,ScrollView,TouchableOpacity,Picker,} from 'react-native';
+import {View,Text,ScrollView,TouchableOpacity,Picker} from 'react-native';
 import ModalDropdown from 'react-native-modal-dropdown';
-import HttpUtils from '../api/Httpdata';
+import DropdownCheckbox from '../Component/DropdownCheckbox';
 import {TicketBasicInfo,
         searchTicketBasicInfo,
         searchTicketFlow,
@@ -21,11 +21,6 @@ export default class Tdetail extends React.Component{
             part1Value:false,
             TiceketNum:"",
             username:'',
-            value: null,
-            value1: null,
-            value2: null,
-            value3: null,
-            value4: null,
             templateContents:[],//获取模板列表
             dataList:[],//两票基本信息
             LcdataList:[],//当前类型两票流程
@@ -36,17 +31,28 @@ export default class Tdetail extends React.Component{
             aggree:1,//是否同意提交
             havelist:[],
             ContentID:"",
-            rolecontentid:""
+            rolecontentid:"",
+            userAll:[],
+            showPage:{
+                selected1:null,
+                selected2:null,
+                selected3:null,
+                selected4:null,
+                value: null,
+                value1: null,
+                value2: null,
+                value3: null,
+                value4: null,
+                isagree:0,//是否同意流转 0 同意 1 不同意
+                isflew:"",//下一个流转状态
+                isfleUser:"超级管理员"
+            }
 
         }
     }
 
-      async componentWillMount(){
+      async componentDidMount(){
         this.getCanNotdata()
-      }
-
-      componentDidMount(){
-          
       }
 
     //获取模板列表
@@ -138,13 +144,21 @@ export default class Tdetail extends React.Component{
                 nextFlowId:nextFlowId,
                 nextFlow:nextFlow
             })
-            // $("#nextFlow").append('<option value="' + nextFlowId + '" selected>' + nextFlow + '</option>');
             var nextRoleId = ticketFlowrole[index + 1].ticketroleid;
             const dui="?form.roleId="+nextRoleId;
             const searchRole = await searchUserForRole(dui);//获取提交对象
             console.log(searchRole,"获取提交对象")
             this.setState({
                 searchRole:searchRole.form.dataList
+            })
+            let aa = [];
+            let kobe = searchRole.form.dataList;
+            for(let j in kobe){
+                  let bryent = kobe[j].realname;
+                  aa.push(bryent);
+              }
+              this.setState({
+                userAll:aa
             })
         }
 
@@ -175,22 +189,26 @@ export default class Tdetail extends React.Component{
     }
 
 
-      onChange = (value,v) => {
-        this.setState({ value:value });
-        console.log(this.state.value)
+      onChange(flag,value){
+          if (flag==0) {
+            this.state.showPage.value=value;
+            // this.setState({ value:value });
+          } else if(flag==1){
+            this.state.showPage.value1=value;
+            // this.setState({ value1:value });
+          } else if(flag==2){
+            this.state.showPage.value2=value;
+            // this.setState({ value2:value });
+          }else if(flag==3){
+            this.state.showPage.value3=value;
+            // this.setState({ value3:value });
+          }else if(flag==4){
+            this.state.showPage.value4=value;
+            // this.setState({ value4:value });
+          }
+          this.forceUpdate()
       }
-      onChange1 = (value1,v) => {
-        this.setState({ value1:value1 });
-      }
-      onChange2 = (value2,v) => {
-        this.setState({ value2:value2 });
-      }
-      onChange3 = (value3,v) => {
-        this.setState({value3:value3 });
-      }
-      onChange3 = (value4,v) => {
-        this.setState({ value4:value4 });
-      }
+
     handleInput(k, v){
         this.setState({
             [k]: v
@@ -227,15 +245,10 @@ export default class Tdetail extends React.Component{
             this.state.searchRole.map((item,ks)=>{
                 list.push(item.realname)
             })
-            return <View style={{display:'flex',flexDirection:'row',alignItems:'center',margin:5}}>
+        return  <View style={{margin:5}}>
                         <Text>流转目标</Text>
-                        <ModalDropdown 
-                            dropdownStyle={{width:'50%'}} 
-                            textStyle={{color:'black',alignItems:'center',textAlign:'center',marginTop:7}} 
-        style={{left:10,backgroundColor:'skyblue',borderRadius:5,height:30,width:'50%'}} 
-                            defaultValue={list[0]} 
-                            options={list}/>
-                    </View>
+                        <DropdownCheckbox SelectData={list} color="skyblue"/>
+                </View>
         } else {
             console.log("没有提交对象")
         }
@@ -245,19 +258,27 @@ export default class Tdetail extends React.Component{
         let arr=[];
         if (this.state.nextFlow!="") {
             arr.push(this.state.nextFlow)
-            return  <View style={{display:'flex',flexDirection:'row',alignItems:'center',margin:5}}>
-                        <Text>流转状态</Text>
-                        <ModalDropdown  dropdownStyle={{width:'50%',height:45}} 
+            return  <View style={{}}>
+                        <Text style={{left:5}}>流转状态</Text>
+                        <ModalDropdown  dropdownStyle={{width:'100%',height:45}} 
                                         textStyle={{color:'black',alignItems:'center',textAlign:'center',marginTop:7}} 
-                                        style={{left:10,backgroundColor:'skyblue',borderRadius:5,height:30,width:'50%'}}
+                                        style={{backgroundColor:'skyblue',borderRadius:5,height:30,width:'100%'}}
                                         defaultValue={arr[0]} 
+                                        onValueChange={(value)=>this.changeAgree(2,value)}
                                         options={arr}/>
                     </View>
             } else {
               console.log("没有流转状态")          
         }
     }
-
+    changeAgree(flag,value){
+        if (flag==0) {
+            this.state.showPage.isagree = value;
+        } else {
+            this.state.showPage.isflew = value;
+        }
+        this.forceUpdate();
+    }
     aggreeall=()=>{
         let arr=[];
         const aggress =this.state.aggree;
@@ -266,26 +287,45 @@ export default class Tdetail extends React.Component{
         }else{
             arr.push("不同意")
         }
-        return <View style={{display:'flex',flexDirection:'row',alignItems:'center',margin:5,height:50}}>
-        <Text>是否同意</Text>
+        return <View style={{height:50}}>
+        <Text style={{left:5}}>是否同意</Text>
         <ModalDropdown 
-        dropdownStyle={{width:'50%',height:45}} 
+        dropdownStyle={{width:'100%',height:45}} 
         textStyle={{color:'black',alignItems:'center',textAlign:'center',marginTop:7}} 
-        style={{left:10,backgroundColor:'skyblue',borderRadius:5,height:30,width:'50%'}} 
+        style={{backgroundColor:'skyblue',borderRadius:5,height:30,width:'100%'}} 
         defaultValue={arr[0]} 
+        selectedValue={this.state.showPage.isagree}
+        onValueChange={(value)=>this.changeAgree(1,value)}
         options={arr}/>
     </View>
     }
+
+    onValueChange = (flag,value) => {
+        if(flag ==1){
+            this.state.showPage.selected1=value;
+            // this.setState({selected1:value});
+            }else if(flag==2){
+                this.state.showPage.selected2=value;
+            //   this.setState({selected2:value});
+            }else if(flag==3){
+                this.state.showPage.selected3=value;
+                // this.setState({selected3:value});
+            }else if(flag==4){
+                this.state.showPage.selected4=value;
+                // this.setState({selected4:value});
+            }
+            this.forceUpdate()
+      };
+
+    submitResult(){
+        const {showPage}= {...this.state};
+        console.log(showPage)
+    }
     render(){
-        const havelist = this.state.havelist;
-        // v.TicketParaID===h.TicketParaID 待用数据
-        const statedate = this.props.navigation;
-        console.log(this.state.templateContents,this.state.dataList,this.state.LcdataList)
         const baise={
             borderRadius:5,
             backgroundColor:'white',
-            borderBottomWidth:2,
-            borderBottomColor:'#007aff',
+            borderBottomWidth:2,backgroundColor:"#fffeee",
             width:'85%'
         } 
         const huise={
@@ -315,18 +355,58 @@ export default class Tdetail extends React.Component{
                             </View>
                             <View>
                             {   v.ParaTypeID==4?
-                                <Picker style={{ height: 50, width: 100 }} 
-                                        mode='dropdown' 
-                                        enabled={!dis}>
-                                    <Picker.Item label="Java" value="java" />
-                                    <Picker.Item label="JavaScript" value="js" />
-                                </Picker>
-                                :v.ParaTypeID==3?<Picker style={{ height: 50, width: 100 }} 
+                                <DropdownCheckbox SelectData={this.state.userAll} canClick={dis}/>
+                                :v.ParaTypeID==3?
+                                <View>
+                                { v.ParaName=="工作负责人" && <Picker 
+                                selectedValue={this.state.showPage.selected1}
+                                onValueChange={(value)=>this.onValueChange(1,value)}
+                                style={{ height: 50, width: "100%" }} 
+                                mode='dropdown' 
+                                enabled={dis}>
+                                 {           
+                                    this.state.searchRole.map((item,index)=>{
+                                        return <Picker.Item label={item.realname} value={item.realname} key={index}/>
+                                    })
+                                }
+                                </Picker>}
+                                { v.ParaName=="原工作负责人" && <Picker 
+                                selectedValue={this.state.showPage.selected2}
+                                onValueChange={(value)=>this.onValueChange(2,value)}
+                                style={{ height: 50, width: "100%" }} 
+                                mode='dropdown' 
+                                enabled={dis}>
+                                 {           
+                                    this.state.searchRole.map((item,index)=>{
+                                        return <Picker.Item label={item.realname} value={item.realname} key={index}/>
+                                    })
+                                }
+                                </Picker>}
+                                { v.ParaName=="变更后工作负责人" && <Picker 
+                                selectedValue={this.state.showPage.selected3}
+                                onValueChange={(value)=>this.onValueChange(3,value)}
+                                style={{ height: 50, width: "100%" }} 
                                 mode='dropdown' 
                                 enabled={!dis}>
-                                <Picker.Item label="Java" value="java" />
-                                <Picker.Item label="JavaScript" value="js" />
-                                </Picker>
+                                 {           
+                                    this.state.searchRole.map((item,index)=>{
+                                        return <Picker.Item label={item.realname} value={item.realname} key={index}/>
+                                    })
+                                }
+                                </Picker>}
+                                { v.ParaName=="制定专责监护人" && <Picker 
+                                selectedValue={this.state.showPage.selected4}
+                                onValueChange={(value)=>this.onValueChange(4,value)}
+                                style={{ height: 50, width: "100%" }} 
+                                mode='dropdown' 
+                                enabled={!dis}>
+                                 {           
+                                    this.state.searchRole.map((item,index)=>{
+                                        return <Picker.Item label={item.realname} value={item.realname} key={index}/>
+                                    })
+                                }
+                                </Picker>}
+                                </View>
                                 :v.ParaTypeID==2?
                                 <InputItem  
                                 value="" 
@@ -341,51 +421,51 @@ export default class Tdetail extends React.Component{
                                     mode="date"
                                     minDate={new Date(2000, 1, 1)}
                                     maxDate={new Date(2040, 12, 31)}
-                                    onChange={this.onChange}
+                                    onChange={(value)=>this.onChange(0,value)}
                                     format="YYYY-MM-DD"
                                     disabled={dis}>
                                     <List.Item arrow="horizontal">选择时间：</List.Item>
                                 </DatePicker>}
                                 {v.ParaName=="有效期延长到" && <DatePicker
                                     style={{left:0}}
-                                    value={this.state.value1}
+                                    value={this.state.showPage.value1}
                                     mode="date"
                                     minDate={new Date(2000, 1, 1)}
                                     maxDate={new Date(2040, 12, 31)}
-                                    onChange={this.onChange1}
+                                    onChange={(value)=>this.onChange(1,value)}
                                     format="YYYY-MM-DD"
                                     disabled={dis}>
                                     <List.Item arrow="horizontal">选择时间：</List.Item>
                                 </DatePicker>}
                                 {v.ParaName=="开工时间" && <DatePicker
                                     style={{left:0}}
-                                    value={this.state.value2}
+                                    value={this.state.showPage.value2}
                                     mode="date"
                                     minDate={new Date(2000, 1, 1)}
                                     maxDate={new Date(2040, 12, 31)}
-                                    onChange={this.onChange2}
+                                    onChange={(value)=>this.onChange(2,value)}
                                     format="YYYY-MM-DD"
                                     disabled={dis}>
                                     <List.Item arrow="horizontal">选择时间：</List.Item>
                                 </DatePicker>}
                                 {v.ParaName=="收工时间" && <DatePicker
                                     style={{left:0}}
-                                    value={this.state.value3}
+                                    value={this.state.showPage.value3}
                                     mode="date"
                                     minDate={new Date(2000, 1, 1)}
                                     maxDate={new Date(2040, 12, 31)}
-                                    onChange={this.onChange3}
+                                    onChange={(value)=>this.onChange(3,value)}
                                     format="YYYY-MM-DD"
                                     disabled={dis}>
                                     <List.Item arrow="horizontal">选择时间：</List.Item>
                                 </DatePicker>}
                                 {v.ParaName=="工作结束时间" && <DatePicker
                                     style={{left:0}}
-                                    value={this.state.value4}
+                                    value={this.state.showPage.value4}
                                     mode="date"
                                     minDate={new Date(2000, 1, 1)}
                                     maxDate={new Date(2040, 12, 31)}
-                                    onChange={this.onChange4}
+                                    onChange={(value)=>this.onChange(4,value)}
                                     format="YYYY-MM-DD"
                                     disabled={dis}>
                                     <List.Item arrow="horizontal">选择时间：</List.Item>
@@ -398,8 +478,8 @@ export default class Tdetail extends React.Component{
                                                   autoHeight 
                                                   style={{ paddingVertical: 5,
                                                     borderBottomWidth:2,
-                                                    borderBottomColor:'#007aff' }} />
-                                {v.IsConfirm==1?<View style={{flexDirection:'row'}}><Checkbox checked={!dis}><Text>是否已执行</Text></Checkbox></View>:<Text></Text>}
+                                                    backgroundColor:"#fffeee" }} />
+                                {v.IsConfirm==1?<View style={{flexDirection:'row',margin:5}}><Checkbox checked={!dis}><Text>是否已执行</Text></Checkbox></View>:<Text></Text>}
                                 </View>:<Text></Text>
                             }
                                     </View>
@@ -424,6 +504,7 @@ export default class Tdetail extends React.Component{
                             </View> 
                             <View style={{marginBottom:50,width:'100%',display:'flex',justifyContent:'center',alignItems:'center'}}>
                                 <TouchableOpacity 
+                                            onPress={()=>this.submitResult()}
                                             style={{
                                                 justifyContent:'center',
                                                 alignItems:'center',

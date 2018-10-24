@@ -1,6 +1,6 @@
 import React from 'react';
 import Title from './Title';
-import {ttmsTickets,searchUserPower} from './../api/api'
+import {ttmsTickets,searchUserPower,userlist} from './../api/api'
 import {View,Text,ScrollView,TouchableOpacity,Image} from 'react-native';
 
 export default class TicketModel extends React.Component{
@@ -22,13 +22,38 @@ export default class TicketModel extends React.Component{
          })
      }
 
-    async goticket(userId,name,v){
-        const {navigate} = this.props.navigation
-        console.log(userId,"---------")
-        // let j = `?form.tree_node_id=${this.props.navigation.state.params.name}`;
-        // let n = await searchUserPower(j)
-         navigate('TicketDetail',{name,v})
+    async goticket(name,v){
+
+        let id = jconfig.userinfo.user;
+        let jack = '?form.paramAllList.userid='+id
+        let list = await userlist(jack);
+        console.log("======>",list);
+        this.xunahn(name,v,list.form.paramAllList) 
         } 
+    //权限判断
+    async xunahn(name,v,sss){
+        let s = sss;
+        for (let index = 0; index < s.length; index++) {
+            const element = s[index];
+            if (jconfig.userinfo.user!=element.userid) {
+            } else {
+                const {navigate} = this.props.navigation;
+                let j = `?form.tree_node_id=${this.props.navigation.state.params.name}`;
+                let n = await searchUserPower(j);
+                var flag = false;
+                for(var i = 0; i < n.form.dataList.length; i++){
+                    if(n.form.dataList[i].userId == element.userid){
+                        flag = true;
+                    }
+                }
+                if (flag) {
+                    navigate('TicketDetail',{name,v})
+                } else {
+                    alert("你没有权限创建此模板")
+                }
+            }
+        }
+    }
 
     render(){
         console.log(window.jconfig,"--------------")
@@ -38,7 +63,7 @@ export default class TicketModel extends React.Component{
                {
                    this.state.uzi.map((v,i)=>
                    <TouchableOpacity key={i} 
-                   onPress={()=>this.goticket(v.userId,v.TicketTemplateID,this.props.navigation.state.params.v)} 
+                   onPress={()=>this.goticket(v.TicketTemplateID,this.props.navigation.state.params.v)} 
                    style={{display:'flex',flexDirection:'row',width:'100%',backgroundColor:'#beebff',height:50,display:'flex',alignItems:'center',marginTop:10}}>
                            <Image source={require('../images/company_tree.png')} style={{width:15,left:5,resizeMode:Image.resizeMode.contain}}/>
                            <Text style={{fontSize:18,color:'black',left:10,flex:1}}>{v.TicketTemplateName}</Text>

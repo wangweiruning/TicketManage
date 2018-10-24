@@ -33,11 +33,12 @@ export default class HttpUtils{
                 })
                 .catch(error=> {
                     reject(error);
+                    alert("出错了~~")
                 })
             })
         )
     }
-}//数据转换成字符串 JSON.stringify(params)      //将数据JSON化 JSON.parse(responseJSON)
+}
 
 function initUrl(url,data){
     url = url.split('?');
