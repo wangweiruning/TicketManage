@@ -1,6 +1,6 @@
 import React from 'react';
-import {Checkbox} from 'antd-mobile-rn'
-import {View,Text,Image,TouchableOpacity} from 'react-native';
+import {Checkbox,Button} from 'antd-mobile-rn'
+import {View,Text,Image,TouchableOpacity,ScrollView,Modal} from 'react-native';
 
 
 
@@ -11,12 +11,12 @@ export default class DropdownCheckbox extends React.Component{
             SelectData:this.props.SelectData,
             selected: '',
             show:false,
-            activeItem:new Array(this.props.SelectData.length).fill("")
+            activeItem:new Array(this.props.SelectData.length).fill(""),
         }
     }
     onSelect = (value) => {
         this.setState({
-          // visible: false,
+          visible: false,
           selected: value,
         });
     }
@@ -44,33 +44,38 @@ export default class DropdownCheckbox extends React.Component{
     }
 
     render(){
+        if(!this.props){console.log('没有传值')}
+        let {color,fontSize} = {...this.props.TextColor}
         return(
-            <View style={{backgroundColor:"white"}}>
-                  <TouchableOpacity activeOpacity={0.5} onPress={()=>{
-                            !this.props.canClick && this.setState({show:!this.state.show});
-                        }}>
-                      <View style={{flexDirection:'row',alignItems:'center'}}>
-                        <Text style={{padding:5,flex:1}} >{
+            <View style={{...this.props.style}}>
+             <TouchableOpacity onPress={()=>this.setState({visible:true})}>
+             <View style={{flexDirection:'row',alignItems:'center'}}>
+                        <Text style={{padding:5,flex:1,flexDirection:'row',color:color?color:'gray',fontSize:fontSize?fontSize:18}}>{
                             this.open()
                         }</Text>
-                        <Image source={this.state.show?require('../images/jian1.png'):require('../images/jian.png')} style={{width:15,height:15,right:5}} />
                     </View>
-                  </TouchableOpacity>
-                  {
-                    <View style={{display:this.state.show?"flex":"none",backgroundColor:this.props.color?this.props.color:"white"}}>
-                          { 
-                            this.state.SelectData.map((v,i)=>
-                                <View key={i} style={{flexDirection:'row',padding:5}}>
-                                    <Checkbox onChange={(e)=>{
-                                         let s = e.target.checked;
+            </TouchableOpacity>
+            {
+              this.state.visible && 
+              <Modal animationType={'slide'} transparent={true} onRequestClose={()=>console.log('弹框打开')}>
+                <ScrollView style={{
+                width:"100%",
+                height:100,
+                backgroundColor:'white'}}>
+                {
+                    this.state.SelectData.map((v,i)=>
+                    <View key={i} style={{flexDirection:'row',padding:5,backgroundColor:'skyblue'}}>
+                                    <Checkbox checked={!!this.state.activeItem[i]} onChange={(e)=>{
+                                            let s = e.target.checked;
                                             this.state.activeItem[i] = s?v:"";
                                             this.forceUpdate();
-                                    }}><Text>{v}</Text></Checkbox>
-                                </View>
-                                )
-                          }
-                       </View>
-                  }
+                                    }} /><Text style={{color:color?color:'gray',fontSize:fontSize?fontSize:18}}>{v}</Text> 
+                    </View>) 
+                }
+                </ScrollView>
+                <Button onClick={()=>this.setState({visible:false})}>关闭</Button>
+              </Modal>
+            }
             </View>
         )
     }

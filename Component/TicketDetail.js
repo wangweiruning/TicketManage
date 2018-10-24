@@ -1,10 +1,11 @@
 import React from 'react';
 import Title from './Title';
-import {InputItem,DatePicker,List,Checkbox,TextareaItem} from 'antd-mobile-rn';
-import {View,Text,ScrollView,TouchableOpacity,Picker,ToastAndroid} from 'react-native';
+import {InputItem,DatePicker,List,Checkbox,TextareaItem, Button} from 'antd-mobile-rn';
+import {View,Text,ScrollView,TouchableOpacity,Picker,ToastAndroid,Modal} from 'react-native';
 import ModalDropdown from 'react-native-modal-dropdown';
 import {newTiceketNum,searchTicketBasicInfo,TicketBasicInfo,searchTicketFlow,editquanxian,searchUserForRole} from './../api/api'
 import DropdownCheckbox from './DropdownCheckbox';
+import MyActionSelect from './MyActionSelect';
 
 export default class Tdetail extends React.Component{
     constructor(props){
@@ -20,7 +21,8 @@ export default class Tdetail extends React.Component{
             user:[],
             status:'',
             find:[],
-            language:''
+            language:'',
+            visible:false
         }
     }
 
@@ -146,8 +148,7 @@ export default class Tdetail extends React.Component{
                   <Text style={{color:'#3e5ed2',left:5}}>{v.ParaName}</Text>
               </View>
                {      
-                   v.ParaTypeID==4? <DropdownCheckbox SelectData={this.state.user} canClick={dis}/>:
-                   v.ParaTypeID==3?<Picker style={{ height: 50, width:'100%'}} enabled={!dis} mode='dropdown' selectedValue={this.state.language}
+                  v.ParaTypeID==4? <DropdownCheckbox style={{backgroundColor:'white'}} TextColor={{color:'black',fontSize:13}} SelectData={this.state.user}/>:                   v.ParaTypeID==3?<Picker style={{ height: 50, width:'100%'}} enabled={!dis} mode='dropdown' selectedValue={this.state.language}
                    onValueChange={(itemValue, itemIndex) => this.setState({language: itemValue})}>
                    <Picker.Item label="Java" value="java" />
                    <Picker.Item label="JavaScript" value="js" />
@@ -183,24 +184,27 @@ export default class Tdetail extends React.Component{
                   }}>
                   <Text style={{color:'#3e5ed2',left:5}}>提交</Text>
               </View>
-            <View style={{display:'flex',flexDirection:'row',alignItems:'center',margin:5}}>
+            <View style={{display:'flex',justifyContent:'center',margin:5}}>
                 <Text>是否同意</Text>
-                <ModalDropdown dropdownStyle={{width:'50%'}} textStyle={{color:'black'}} style={{left:10,backgroundColor:'skyblue',borderRadius:5,width:'50%'}} defaultValue={'请选择'} options={['同意', '拒绝']}/>
+                
+                <ModalDropdown 
+                dropdownStyle={{width:'100%'}} textStyle={{color:'black',fontSize:13,left:5}} 
+                style={{backgroundColor:'skyblue',width:'100%',height:29.3,justifyContent:'center'}} defaultValue={'请选择'} options={['同意', '拒绝']}/>
             </View>
-            <View style={{display:'flex',flexDirection:'row',alignItems:'center',margin:5}}>
+            <View style={{display:'flex',justifyContent:'center',margin:5}}>
                 <Text>流转状态</Text>
                 {
                   this.state.status!="" &&
                   <ModalDropdown 
-                  dropdownStyle={{width:'50%'}} textStyle={{color:'black'}} 
-                  style={{left:10,backgroundColor:'skyblue',borderRadius:5,width:'50%'}} defaultValue={'请选择'} options={this.state.status}/>
-                }</View>
-            <View style={{display:'flex',flexDirection:'row',alignItems:'center',margin:5}}>
+                  
+                  dropdownStyle={{width:'100%'}} textStyle={{color:'black',fontSize:13,left:5}} 
+                  style={{backgroundColor:'skyblue',width:'100%',height:29.3,justifyContent:'center'}} defaultValue={'请选择'} options={this.state.status}/>
+                }
+                </View>
+            <View style={{display:'flex',justifyContent:'center',margin:5}}>
                 <Text>流转目标</Text>
-                <ModalDropdown dropdownStyle={{width:'50%'}} textStyle={{color:'black'}}
-                  style={{left:10,backgroundColor:'skyblue',borderRadius:5,width:'50%'}} 
-                  defaultValue={'请选择'} options={this.state.user}>
-                </ModalDropdown>
+                
+                <DropdownCheckbox style={{backgroundColor:'skyblue'}} TextColor={{color:'black',fontSize:13}} SelectData={this.state.user}/>
             </View>
             </View> 
             <View style={{marginBottom:50,width:'100%',display:'flex',justifyContent:'center',alignItems:'center'}}>
