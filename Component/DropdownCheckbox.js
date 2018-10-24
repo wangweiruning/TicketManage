@@ -1,6 +1,6 @@
 import React from 'react';
 import {Checkbox,Button} from 'antd-mobile-rn'
-import {View,Text,Image,TouchableOpacity,ScrollView,Modal} from 'react-native';
+import {View,Text,Image,TouchableOpacity,ScrollView,Modal,TextInput,FlatList} from 'react-native';
 
 
 
@@ -11,7 +11,9 @@ export default class DropdownCheckbox extends React.Component{
             SelectData:this.props.SelectData,
             selected: '',
             show:false,
+            text:'',
             activeItem:new Array(this.props.SelectData.length).fill(""),
+            defaultChecked:false
         }
     }
     onSelect = (value) => {
@@ -29,26 +31,71 @@ export default class DropdownCheckbox extends React.Component{
     open(){
         let activeItem = this.state.activeItem;
         let display = [];
-
+    
         for(let i in activeItem){
             if(activeItem[i]){
                 display.push(activeItem[i]);
             }
         };
-
         if(display.length>0){
             return display.join(",");
         }else{
             return "请选择"
         }
+        
+    }
+
+    handleInput(k, v){
+        this.setState({
+            [k]: v
+        });
+    }
+
+
+    onChanegeTextKeyword(text){
+        this.timeA(text);
+    }
+   //利用防抖方式防止数据过大造成卡顿现象
+    timeA(text){
+     
+      if(this.time){
+        clearTimeout(this.time)
+      }
+      
+      this.time = setTimeout(()=>{
+        if (text==='') {
+              this.setState({
+                SelectData:this.props.SelectData,
+                });
+            return;
+        }else{
+            for (var i = 0; i < this.props.SelectData.length; i++) {
+               if (this.props.SelectData[i].realname===text) {
+                    this.setState({
+                        SelectData:[this.props.SelectData[i]],
+                    });
+                return;
+        }else{
+             this.setState({
+                SelectData:[]
+              });
+        }
+   }
+ }
+},500);
+}
+    
+    all(){
+
     }
 
     render(){
+        console.log('das',this.state.defaultChecked)
         if(!this.props){console.log('没有传值')}
         let {color,fontSize} = {...this.props.TextColor}
         return(
             <View style={{...this.props.style}}>
-             <TouchableOpacity onPress={()=>this.setState({visible:true})}>
+             <TouchableOpacity onPress={()=>this.setState({visible:true,})}>
              <View style={{flexDirection:'row',alignItems:'center'}}>
                         <Text style={{padding:5,flex:1,flexDirection:'row',color:color?color:'gray',fontSize:fontSize?fontSize:18}}>{
                             this.open()
@@ -58,22 +105,46 @@ export default class DropdownCheckbox extends React.Component{
             {
               this.state.visible && 
               <Modal animationType={'slide'} transparent={true} onRequestClose={()=>console.log('弹框打开')}>
-                <ScrollView style={{
+                {/* <ScrollView style={{
                 width:"100%",
                 height:100,
                 backgroundColor:'white'}}>
+               
                 {
                     this.state.SelectData.map((v,i)=>
-                    <View key={i} style={{flexDirection:'row',padding:5,backgroundColor:'skyblue'}}>
-                                    <Checkbox checked={!!this.state.activeItem[i]} onChange={(e)=>{
-                                            let s = e.target.checked;
-                                            this.state.activeItem[i] = s?v:"";
-                                            this.forceUpdate();
-                                    }} /><Text style={{color:color?color:'gray',fontSize:fontSize?fontSize:18}}>{v}</Text> 
-                    </View>) 
+                    ) 
                 }
-                </ScrollView>
-                <Button onClick={()=>this.setState({visible:false})}>关闭</Button>
+                </ScrollView> */}
+               <View style={{backgroundColor:'white'}}>
+               <View style={{flexDirection:'row',alignItems:'center'}}>
+               <Image style={{left:5,width:16, height:16}}  source={require('../images/serch.png')}/>
+               <TextInput 
+                  maxLength={20}
+                  multiline={false}
+                  autoFocus={false}
+                  onChangeText={this.onChanegeTextKeyword.bind(this)}
+                  style={{fontSize:13, color: '#999',overflow:'hidden',width:'95%',left:5}}
+                  placeholder={"请输入"}
+               />
+               </View>
+               <Button type='primary' onClick={()=>this.setState({defaultChecked:true})}>全选</Button>
+               </View>
+                <FlatList style={{width:"100%",height:100,backgroundColor:'white'}}
+                   data = {this.state.SelectData}
+                   keyExtractor={(item, index) => index.toString()}
+                   renderItem={({item,index}) =>
+                   <View key={index} style={{flexDirection:'row',padding:5,borderBottomWidth:1,borderBottomColor:'black',borderStyle:'solid'}}>
+                   <Checkbox 
+                   checked={this.state.activeItem[item.userId]} 
+                   onChange={(e)=>{
+                           let s = e.target.checked;
+                           this.state.activeItem[item.userId] = s?item.realname:"";
+                           this.forceUpdate();
+                   }} />
+                   <Text style={{left:5,color:color?color:'gray',fontSize:fontSize?fontSize:18}}>{item.realname}</Text> 
+                   </View>}
+                  />
+                <Button type='primary' onClick={()=>this.setState({visible:false,SelectData:this.props.SelectData})}>确定</Button>
               </Modal>
             }
             </View>
