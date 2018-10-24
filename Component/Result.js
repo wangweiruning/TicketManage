@@ -38,15 +38,23 @@ export default class Tdetail extends React.Component{
                 selected2:null,
                 selected3:null,
                 selected4:null,
-                value: null,
+                value0: null,
                 value1: null,
                 value2: null,
                 value3: null,
                 value4: null,
-                isagree:0,//是否同意流转 0 同意 1 不同意
+                isagree:null,//是否同意流转 0 同意 1 不同意
                 isflew:"",//下一个流转状态
-                isfleUser:"超级管理员"
-            }
+                isfleUser:"",
+                danweiname:"",
+                bianhao:"",
+                classname:"",
+                gongchang:"",
+                poername:"",
+                theway:"",
+                shebei:''
+            },
+            userPower:''
 
         }
     }
@@ -187,24 +195,44 @@ export default class Tdetail extends React.Component{
         }
         
     }
-
+     format(time, format){
+        var t = new Date(time);
+        var tf = function(i){return (i < 10 ? '0' : '') + i};
+        return format.replace(/yyyy|MM|dd|HH|mm|ss/g, function(a){
+            switch(a){
+                case 'yyyy':
+                return tf(t.getFullYear());
+                break;
+                case 'MM':
+                return tf(t.getMonth() + 1);
+                break;
+                case 'mm':
+                return tf(t.getMinutes());
+                break;
+                case 'dd':
+                return tf(t.getDate());
+                break;
+                case 'HH':
+                return tf(t.getHours());
+                break;
+                case 'ss':
+                return tf(t.getSeconds());
+                break;
+            }
+        })
+}
 
       onChange(flag,value){
           if (flag==0) {
-            this.state.showPage.value=value;
-            // this.setState({ value:value });
+            this.state.showPage.value0=value;
           } else if(flag==1){
             this.state.showPage.value1=value;
-            // this.setState({ value1:value });
           } else if(flag==2){
             this.state.showPage.value2=value;
-            // this.setState({ value2:value });
           }else if(flag==3){
-            this.state.showPage.value3=value;
-            // this.setState({ value3:value });
+            this.state.showPage.value3=value;;
           }else if(flag==4){
             this.state.showPage.value4=value;
-            // this.setState({ value4:value });
           }
           this.forceUpdate()
       }
@@ -258,20 +286,22 @@ export default class Tdetail extends React.Component{
         let arr=[];
         if (this.state.nextFlow!="") {
             arr.push(this.state.nextFlow)
+            this.state.showPage.isflew=arr[0];
             return  <View style={{}}>
                         <Text style={{left:5}}>流转状态</Text>
                         <ModalDropdown  dropdownStyle={{width:'100%',height:45}} 
                                         textStyle={{color:'black',alignItems:'center',textAlign:'center',marginTop:7}} 
                                         style={{backgroundColor:'skyblue',borderRadius:5,height:30,width:'100%'}}
                                         defaultValue={arr[0]} 
-                                        onValueChange={(value)=>this.changeAgree(2,value)}
+                                        onSelect={(index,value)=>this.changeAgree(1,value)}
                                         options={arr}/>
                     </View>
             } else {
               console.log("没有流转状态")          
         }
     }
-    changeAgree(flag,value){
+    changeAgree=(flag,value)=>{
+        console.log(flag,value)
         if (flag==0) {
             this.state.showPage.isagree = value;
         } else {
@@ -287,6 +317,7 @@ export default class Tdetail extends React.Component{
         }else{
             arr.push("不同意")
         }
+        this.state.showPage.isagree=arr[0];
         return <View style={{height:50}}>
         <Text style={{left:5}}>是否同意</Text>
         <ModalDropdown 
@@ -294,8 +325,7 @@ export default class Tdetail extends React.Component{
         textStyle={{color:'black',alignItems:'center',textAlign:'center',marginTop:7}} 
         style={{backgroundColor:'skyblue',borderRadius:5,height:30,width:'100%'}} 
         defaultValue={arr[0]} 
-        selectedValue={this.state.showPage.isagree}
-        onValueChange={(value)=>this.changeAgree(1,value)}
+        onSelect={(index,value)=>this.changeAgree(0,value)}
         options={arr}/>
     </View>
     }
@@ -303,23 +333,23 @@ export default class Tdetail extends React.Component{
     onValueChange = (flag,value) => {
         if(flag ==1){
             this.state.showPage.selected1=value;
-            // this.setState({selected1:value});
             }else if(flag==2){
                 this.state.showPage.selected2=value;
-            //   this.setState({selected2:value});
             }else if(flag==3){
                 this.state.showPage.selected3=value;
-                // this.setState({selected3:value});
             }else if(flag==4){
                 this.state.showPage.selected4=value;
-                // this.setState({selected4:value});
             }
             this.forceUpdate()
       };
 
     submitResult(){
         const {showPage}= {...this.state};
-        console.log(showPage)
+        const {value0}={...showPage};
+
+        // 转化时间格式
+        console.log(this.format(value0,"yyyy-MM-dd"));
+        console.log(this.state)
     }
     render(){
         const baise={
@@ -363,7 +393,7 @@ export default class Tdetail extends React.Component{
                                 onValueChange={(value)=>this.onValueChange(1,value)}
                                 style={{ height: 50, width: "100%" }} 
                                 mode='dropdown' 
-                                enabled={dis}>
+                                enabled={!dis}>
                                  {           
                                     this.state.searchRole.map((item,index)=>{
                                         return <Picker.Item label={item.realname} value={item.realname} key={index}/>
@@ -375,7 +405,7 @@ export default class Tdetail extends React.Component{
                                 onValueChange={(value)=>this.onValueChange(2,value)}
                                 style={{ height: 50, width: "100%" }} 
                                 mode='dropdown' 
-                                enabled={dis}>
+                                enabled={!dis}>
                                  {           
                                     this.state.searchRole.map((item,index)=>{
                                         return <Picker.Item label={item.realname} value={item.realname} key={index}/>
@@ -408,16 +438,48 @@ export default class Tdetail extends React.Component{
                                 </Picker>}
                                 </View>
                                 :v.ParaTypeID==2?
-                                <InputItem  
-                                value="" 
+                                <View>
+                                    {v.ParaName=="单位" &&<InputItem  
+                                value={v.ParaName}
                                 editable={dis} 
-                                onChange={(v)=>this.handleInput('username'+i,v)} 
-                                style={dis?baise:huise} />
+                                onChange={(v)=>this.handleInput('danweiname',v)} 
+                                style={dis?baise:huise} />}
+                                    {v.ParaName=="编号" &&<InputItem  
+                                    value={v.ParaName}
+                                    editable={dis} 
+                                    onChange={(v)=>this.handleInput('bianhao',v)} 
+                                    style={dis?baise:huise} />}
+                                    {v.ParaName=="班组" &&<InputItem  
+                                value={v.ParaName}
+                                editable={dis} 
+                                onChange={(v)=>this.handleInput('classname',v)} 
+                                style={dis?baise:huise} />}
+                                    {v.ParaName=="工作发电厂名称" &&<InputItem  
+                                    value={v.ParaName}
+                                    editable={dis} 
+                                    onChange={(v)=>this.handleInput('gongchang',v)} 
+                                    style={dis?baise:huise} />}
+                                    {v.ParaName=="设备名称" &&<InputItem  
+                                value={v.ParaName}
+                                editable={dis} 
+                                onChange={(v)=>this.handleInput('poername',v)} 
+                                style={dis?baise:huise} />}
+                                    {v.ParaName=="工作地点" &&<InputItem  
+                                    value={v.ParaName}
+                                    editable={dis} 
+                                    onChange={(v)=>this.handleInput('theway',v)} 
+                                    style={dis?baise:huise} />}
+                                    {v.ParaName=="工作设备" &&<InputItem  
+                                value={v.ParaName}
+                                editable={dis} 
+                                onChange={(v)=>this.handleInput('shebei',v)} 
+                                style={dis?baise:huise} />}
+                                </View>
                                 :v.ParaTypeID==5
                                 ?<View style={{left:0,width:250}}>
                                 {v.ParaName=="许可开始工作时间：" && <DatePicker
                                     style={{left:0}}
-                                    value={this.state.value}
+                                    value={this.state.showPage.value0}
                                     mode="date"
                                     minDate={new Date(2000, 1, 1)}
                                     maxDate={new Date(2040, 12, 31)}

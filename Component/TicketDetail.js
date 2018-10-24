@@ -5,7 +5,6 @@ import {View,Text,ScrollView,TouchableOpacity,Picker,ToastAndroid,Modal} from 'r
 import ModalDropdown from 'react-native-modal-dropdown';
 import {newTiceketNum,searchTicketBasicInfo,TicketBasicInfo,searchTicketFlow,editquanxian,searchUserForRole} from './../api/api'
 import DropdownCheckbox from './DropdownCheckbox';
-import MyActionSelect from './MyActionSelect';
 
 export default class Tdetail extends React.Component{
     constructor(props){
