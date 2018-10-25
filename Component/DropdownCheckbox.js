@@ -55,7 +55,7 @@ export default class DropdownCheckbox extends React.Component{
     onChanegeTextKeyword(text){
         this.timeA(text);
     }
-   //利用防抖方式防止数据过大造成卡顿现象
+
     timeA(text){
      
       if(this.time){
@@ -85,12 +85,9 @@ export default class DropdownCheckbox extends React.Component{
 },500);
 }
     
-    all(){
-
-    }
 
     render(){
-        if(!this.props){console.log('没有传值')}
+        if(!this.props){console.log('dsfgdfsֵ')}
         let {color,fontSize} = {...this.props.TextColor}
         return(
             <View>
@@ -103,7 +100,7 @@ export default class DropdownCheckbox extends React.Component{
             </TouchableOpacity>
             {
               this.state.visible && 
-              <Modal animationType={'slide'} transparent={true} onRequestClose={()=>console.log('弹框打开')}>
+              <Modal animationType={'slide'} transparent={true} onRequestClose={()=>console.log('关闭')}>
                <View style={{backgroundColor:'white'}}>
                <View style={{flexDirection:'row',alignItems:'center'}}>
                <Image style={{left:5,width:16, height:16}}  source={require('../images/serch.png')}/>
