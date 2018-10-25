@@ -1,7 +1,7 @@
 import React from 'react';
 import Title from './Title';
 import {moban} from './../api/api'
-import {View,Text,TouchableOpacity,Image} from 'react-native';
+import {View,Text,TouchableOpacity,Image,Alert} from 'react-native';
 
 export default class Newticket extends React.Component{
     constructor(props){
@@ -24,6 +24,14 @@ export default class Newticket extends React.Component{
      
    goticket(name,v){
         const {navigate} = this.props.navigation
+        if(!jconfig.userinfo.status) return Alert.alert(
+            "登录验证",
+            "你还没有登录哦，请先登录再来吧",
+            [
+              {text: '返回', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+              {text: '去登陆', onPress: () => navigate('login')},
+            ],
+          );
         navigate('TicketModel',{name,v})
     } 
 

@@ -30,7 +30,15 @@ export default class WaitPlan extends React.Component{
    
     }
     async submitgo(){
-        if(!jconfig.userinfo) return ToastAndroid.show('请登录',ToastAndroid.SHORT);
+        const {navigate} = this.props.navigation
+        if(!jconfig.userinfo.status) return Alert.alert(
+            "登录验证",
+            "你还没有登录哦，请先登录再来吧",
+            [
+              {text: '返回', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+              {text: '去登陆', onPress: () => navigate('login')},
+            ],
+          );
         const datas = "?form.userId="+jconfig.userinfo.user;
         const result = await awaitdeteal(datas);
         console.log(result.form.dataList,"0000000000000000000000")
@@ -68,14 +76,8 @@ export default class WaitPlan extends React.Component{
             })
         } else {
             return <View 
-            onPress={()=>this.gotoItem(itemdata)}
             style={{marginTop:5,paddingBottom:10,paddingTop:10,width:"90%",marginLeft:20}}>
         <Text style={{color:"#000000",textAlign:"center",marginTop:10,marginBottom:10}}>暂时没有数据~~</Text>
-        <Button
-            onPress={()=>this.submitgo()}
-            title="获取数据"
-            color="#406ea4"
-            />
     </View>
         }
         

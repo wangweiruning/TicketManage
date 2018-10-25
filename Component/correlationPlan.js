@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View,TouchableOpacity,ScrollView,Button,ToastAndroid } from 'react-native';
+import { StyleSheet, Text, View,TouchableOpacity,ScrollView,Button,ToastAndroid,Alert} from 'react-native';
 import Title from './Title'
 import {correation} from './../api/api'
 import MySorage from '../api/storage';
@@ -19,7 +19,15 @@ export default class CorrelationPlan extends React.Component{
             console.log("获取数据")
         }
     async  submitgo(){
-        if(!jconfig.userinfo.user) return ToastAndroid.show('请登录',ToastAndroid.SHORT);
+        const {navigate} = this.props.navigation
+        if(!jconfig.userinfo.status) return Alert.alert(
+            "登录验证",
+            "你还没有登录哦，请先登录再来吧",
+            [
+              {text: '返回', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+              {text: '去登陆', onPress: () => navigate('login')},
+            ],
+          );
             const datas = "?form.userId="+jconfig.userinfo.user;
             const result = await correation(datas);
             console.log(result.form.dataList,"获取相关流程")
@@ -59,11 +67,6 @@ export default class CorrelationPlan extends React.Component{
                 onPress={()=>this.gotoItem(itemdata)}
                 style={{marginTop:5,paddingBottom:10,paddingTop:10,width:"90%",marginLeft:20}}>
             <Text style={{color:"#000000",textAlign:"center",marginTop:10,marginBottom:10}}>暂时没有数据~~</Text>
-            <Button
-                onPress={()=>this.submitgo()}
-                title="获取数据"
-                color="#406ea4"
-                />
         </View>
             }
             

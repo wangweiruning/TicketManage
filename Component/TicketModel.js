@@ -1,7 +1,7 @@
 import React from 'react';
 import Title from './Title';
 import {ttmsTickets,searchUserPower,userlist} from './../api/api'
-import {View,Text,ScrollView,TouchableOpacity,Image} from 'react-native';
+import {View,Text,ScrollView,TouchableOpacity,Image,Alert} from 'react-native';
 
 export default class TicketModel extends React.Component{
      constructor(props){
@@ -33,10 +33,13 @@ export default class TicketModel extends React.Component{
     //权限判断
     async xunahn(name,v,sss){
         let s = sss;
+        let p =false;
         for (let index = 0; index < s.length; index++) {
             const element = s[index];
             if (jconfig.userinfo.user!=element.userid) {
+                p=false;
             } else {
+                p=true;
                 const {navigate} = this.props.navigation;
                 let j = `?form.tree_node_id=${this.props.navigation.state.params.name}`;
                 let n = await searchUserPower(j);
@@ -49,9 +52,12 @@ export default class TicketModel extends React.Component{
                 if (flag) {
                     navigate('TicketDetail',{name,v})
                 } else {
-                    alert("你没有权限创建此模板")
+                    Alert.alert("提示","你没有权限创建此模板")
                 }
             }
+        }
+        if(!p){
+            Alert.alert("提示","你没有权限创建此模板")
         }
     }
 
