@@ -13,7 +13,11 @@ import {TicketBasicInfo,
         searchUserForRole,
         editquanxian
     } from './../api/api'
-      
+import {StackActions, NavigationActions} from 'react-navigation';
+const resetAction = StackActions.reset({
+    index: 0,
+    actions: [NavigationActions.navigate({ routeName: 'Tab' })],
+    });
 export default class Tdetail extends React.Component{
     constructor(props){
         super(props)
@@ -45,16 +49,25 @@ export default class Tdetail extends React.Component{
                 value4: null,
                 isagree:null,//是否同意流转 0 同意 1 不同意
                 isflew:"",//下一个流转状态
-                isfleUser:"",
-                danweiname:"",
-                bianhao:"",
-                classname:"",
-                gongchang:"",
-                poername:"",
-                theway:"",
-                shebei:''
+                isfleUser:"",//流转对象
+                danweiname:"",//单位名称
+                bianhao:"",//编号
+                classname:"",//班组
+                gongchang:"",//工作发电厂名称
+                poername:"",//设备名称
+                theway:"",//工作地点
+                shebei:'',//工作设备
+                workcontent:"",//工作内容
+                worksecurity:"",//安全措施
+                workattention:"",//注意事项
+                workmeasures:"",//补充内容
+                workchange:"",//工作人员变动情况
+                workjuti:"",//地点及具体工作
+                workother:"",//其他事项
             },
-            userPower:''
+            userPower:'',
+            listdatas:[],
+            subdatas:{}
 
         }
     }
@@ -330,7 +343,11 @@ export default class Tdetail extends React.Component{
     </View>
     }
 
-    onValueChange = (flag,value) => {
+    onValueChange = (flag,value,r) => {
+        let subdatas={[r]:value};
+         this.setState({
+            subdatas:subdatas
+         })
         if(flag ==1){
             this.state.showPage.selected1=value;
             }else if(flag==2){
@@ -350,8 +367,17 @@ export default class Tdetail extends React.Component{
         // 转化时间格式
         console.log(this.format(value0,"yyyy-MM-dd"));
         console.log(this.state)
+        alert("修改成功")
+        this.props.navigation.dispatch(resetAction);
     }
     render(){
+        let datas = [];
+        this.state.templateContents.map((v,i)=>{
+            datas.push(v.TemplateContentID);
+           
+        })
+        this.state.listdatas=datas;
+         console.log(datas,"00000000000000000000")
         const baise={
             borderRadius:5,
             backgroundColor:'white',
@@ -365,7 +391,7 @@ export default class Tdetail extends React.Component{
         }
         return(<View style={{justifyContent:'center'}}>
                     <Title navigation={this.props.navigation} 
-                        centerText={this.props.navigation.state.params.typeName+""+this.state.TiceketNum}/>
+                        centerText={this.props.navigation.state.params.typeName+""+this.props.navigation.state.params.ticketNum}/>
                     <ScrollView style={{display:'flex'}}>
                         {
                             this.state.templateContents.map((v,i)=>{
@@ -390,10 +416,10 @@ export default class Tdetail extends React.Component{
                                 <View>
                                 { v.ParaName=="工作负责人" && <Picker 
                                 selectedValue={this.state.showPage.selected1}
-                                onValueChange={(value)=>this.onValueChange(1,value)}
+                                onValueChange={(value)=>this.onValueChange(1,value,datas[i])}
                                 style={{ height: 50, width: "100%" }} 
                                 mode='dropdown' 
-                                enabled={!dis}>
+                                enabled={dis}>
                                  {           
                                     this.state.searchRole.map((item,index)=>{
                                         return <Picker.Item label={item.realname} value={item.realname} key={index}/>
@@ -535,12 +561,69 @@ export default class Tdetail extends React.Component{
                                     </View>
                                          :v.ParaTypeID==6?
                                 <View>
-                                    <TextareaItem editable={!dis} 
+                                    {v.ParaName=="工作内容" && <TextareaItem editable={!dis} 
                                                   placeholder="高度自适应" 
+                                                  defaultValue={v.ParaName}
+                                                  value={v.ParaName}
+                                                  onChangeText={(v)=>this.state.showPage.workcontent=v}
                                                   autoHeight 
                                                   style={{ paddingVertical: 5,
                                                     borderBottomWidth:2,
-                                                    backgroundColor:"#fffeee" }} />
+                                                    backgroundColor:"#fffeee" }} />}
+                                    {v.ParaName=="安全措施（必要时可附页绘图说明）" && <TextareaItem editable={!dis} 
+                                                  placeholder="高度自适应" 
+                                                  defaultValue={v.ParaName}
+                                                  value={v.ParaName}
+                                                  onChangeText={(v)=>this.state.showPage.worksecurity=v}
+                                                  autoHeight 
+                                                  style={{ paddingVertical: 5,
+                                                    borderBottomWidth:2,
+                                                    backgroundColor:"#fffeee" }} />}
+                                    {v.ParaName=="工作地点保留带电部分或注意事项 （由工作票签发人填写）" && <TextareaItem editable={!dis} 
+                                                  placeholder="高度自适应" 
+                                                  defaultValue={v.ParaName}
+                                                  value={v.ParaName}
+                                                  onChangeText={(v)=>this.state.showPage.workattention=v}
+                                                  autoHeight 
+                                                  style={{ paddingVertical: 5,
+                                                    borderBottomWidth:2,
+                                                    backgroundColor:"#fffeee" }} />} 
+                                    {v.ParaName=="补充工作地点保留带电部分或安全措施 （由工作许可人填写）" && <TextareaItem editable={!dis} 
+                                                  placeholder="高度自适应" 
+                                                  defaultValue={v.ParaName}
+                                                  value={v.ParaName}
+                                                  onChangeText={(v)=>this.state.showPage.workmeasures=v}
+                                                  autoHeight 
+                                                  style={{ paddingVertical: 5,
+                                                    borderBottomWidth:2,
+                                                    backgroundColor:"#fffeee" }} />}
+                                    {v.ParaName=="工作人员变动情况（变动人员姓名、日期及时间）" && <TextareaItem editable={!dis} 
+                                                  placeholder="高度自适应" 
+                                                  defaultValue={v.ParaName}
+                                                  value={v.ParaName}
+                                                  onChangeText={(v)=>this.state.showPage.workchange=v}
+                                                  autoHeight 
+                                                  style={{ paddingVertical: 5,
+                                                    borderBottomWidth:2,
+                                                    backgroundColor:"#fffeee" }} />}
+                                    {v.ParaName=="地点及具体工作" && <TextareaItem editable={!dis} 
+                                                  placeholder="高度自适应" 
+                                                  defaultValue={v.ParaName}
+                                                  value={v.ParaName}
+                                                  onChangeText={(v)=>this.state.showPage.workjuti=v}
+                                                  autoHeight 
+                                                  style={{ paddingVertical: 5,
+                                                    borderBottomWidth:2,
+                                                    backgroundColor:"#fffeee" }} />} 
+                                    {v.ParaName=="其他事项" && <TextareaItem editable={!dis} 
+                                                  placeholder="高度自适应" 
+                                                  defaultValue={v.ParaName}
+                                                  value={v.ParaName}
+                                                  onChangeText={(v)=>this.state.showPage.workother=v}
+                                                  autoHeight 
+                                                  style={{ paddingVertical: 5,
+                                                    borderBottomWidth:2,
+                                                  backgroundColor:"#fffeee" }} />}               
                                 {v.IsConfirm==1?<View style={{flexDirection:'row',margin:5}}><Checkbox checked={!dis}><Text>是否已执行</Text></Checkbox></View>:<Text></Text>}
                                 </View>:<Text></Text>
                             }
