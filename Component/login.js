@@ -1,5 +1,5 @@
 import React from 'react';
-import {View,TouchableOpacity,Text,Alert,ToastAndroid,Platform,BackHandler,DeviceEventEmitter} from 'react-native';
+import {View,TouchableOpacity,Text,Alert,ToastAndroid,Platform,BackHandler,DeviceEventEmitter,Image} from 'react-native';
 import {InputItem} from 'antd-mobile-rn';
 import {login} from '../api/api';
 import MySorage from '../api/storage';
@@ -81,11 +81,18 @@ async submitgo(data){
         let username = this.state.user;
         let password = this.state.pass;
         return(
-        <View style={{alignItems:'center'}}>
-           <InputItem placeholder="账号" defaultValue={this.state.user} onChange={(v)=>this.handleInput('user',v)} style={{borderRadius:5,backgroundColor:'white',width:'85%',top:10}}/>
-           <InputItem type="password" defaultValue={this.state.pass} placeholder="密码" onChange={(v)=>this.handleInput('pass',v)} style={{borderRadius:5,backgroundColor:'white',width:'85%',top:20}}/>
+        <View style={{justifyContent:'center',alignItems:'center',width:'100%',height:'50%',backgroundColor:'rgba(0,0,0,.3)'}}>
+          <Text style={{fontWeight:'500',color:'white',fontSize:20,top:-15}}>瑞智一体化两票管理系统</Text>
+           <View style={{flexDirection:'row',alignItems:'center',backgroundColor:'white',borderRadius:5}}>
+               <Image source={require('../images/login-username.png')} style={{width:20,left:8}} resizeMode = 'contain'/>
+               <InputItem placeholder="账号" defaultValue={this.state.user} onChange={(v)=>this.handleInput('user',v)} style={{width:'85%'}}/>
+           </View>
+           <View style={{flexDirection:'row',alignItems:'center',backgroundColor:'white',borderRadius:5,top:20}}>
+               <Image source={require('../images/login-password.png')} style={{width:20,left:8}} resizeMode = 'contain'/>
+               <InputItem type="password" defaultValue={this.state.pass} placeholder="密码" onChange={(v)=>this.handleInput('pass',v)} style={{width:'85%'}}/>
+           </View>
            <TouchableOpacity onPress={()=>this.submitgo({username,password,code:'50ACD07A6C49F3B9E082EF40461AC6D1'})} 
-               style={{top:40,justifyContent:'center',alignItems:'center',width:'80%',backgroundColor:'#3e5ed2',borderRadius:5,height:40}}>
+               style={{top:40,justifyContent:'center',alignItems:'center',width:'80%',backgroundColor:'#00a6e7',borderRadius:5,height:40}}>
           <Text style={{color:'white',fontSize:20}}>登录</Text>
         </TouchableOpacity>
         </View>

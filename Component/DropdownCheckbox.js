@@ -55,7 +55,7 @@ export default class DropdownCheckbox extends React.Component{
     onChanegeTextKeyword(text){
         this.timeA(text);
     }
-   //
+
     timeA(text){
      
       if(this.time){
@@ -85,18 +85,14 @@ export default class DropdownCheckbox extends React.Component{
 },500);
 }
     
-    all(){
-
-    }
 
     render(){
-        console.log('das',this.state.defaultChecked)
         if(!this.props){console.log('dsfgdfsֵ')}
         let {color,fontSize} = {...this.props.TextColor}
         return(
-            <View style={{...this.props.style}}>
-             <TouchableOpacity onPress={()=>this.setState({visible:true,})}>
-             <View style={{flexDirection:'row',alignItems:'center'}}>
+            <View>
+             <TouchableOpacity onPress={()=>this.setState({visible:true})}>
+             <View style={{flexDirection:'row',alignItems:'center',...this.props.style}}>
                         <Text style={{padding:5,flex:1,flexDirection:'row',color:color?color:'gray',fontSize:fontSize?fontSize:18}}>{
                             this.open()
                         }</Text>
@@ -105,16 +101,6 @@ export default class DropdownCheckbox extends React.Component{
             {
               this.state.visible && 
               <Modal animationType={'slide'} transparent={true} onRequestClose={()=>console.log('关闭')}>
-                {/* <ScrollView style={{
-                width:"100%",
-                height:100,
-                backgroundColor:'white'}}>
-               
-                {
-                    this.state.SelectData.map((v,i)=>
-                    ) 
-                }
-                </ScrollView> */}
                <View style={{backgroundColor:'white'}}>
                <View style={{flexDirection:'row',alignItems:'center'}}>
                <Image style={{left:5,width:16, height:16}}  source={require('../images/serch.png')}/>
@@ -127,7 +113,6 @@ export default class DropdownCheckbox extends React.Component{
                   placeholder={"请输入"}
                />
                </View>
-               <Button type='primary' onClick={()=>this.setState({defaultChecked:true})}>全选</Button>
                </View>
                 <FlatList style={{width:"100%",height:100,backgroundColor:'white'}}
                    data = {this.state.SelectData}
@@ -144,7 +129,10 @@ export default class DropdownCheckbox extends React.Component{
                    <Text style={{left:5,color:color?color:'gray',fontSize:fontSize?fontSize:18}}>{item.realname}</Text> 
                    </View>}
                   />
-                <Button type='primary' onClick={()=>this.setState({visible:false,SelectData:this.props.SelectData})}>确定</Button>
+                <TouchableOpacity style={{justifyContent:'center',alignItems:'center',backgroundColor:'skyblue',height:50}} 
+                     onPress={()=>this.setState({visible:false,SelectData:this.props.SelectData})}>
+                      <Text style={{fontSize:18,color:'white'}}>确定</Text>
+                </TouchableOpacity>
               </Modal>
             }
             </View>

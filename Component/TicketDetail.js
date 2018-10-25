@@ -147,7 +147,7 @@ export default class Tdetail extends React.Component{
                   <Text style={{color:'#3e5ed2',left:5}}>{v.ParaName}</Text>
               </View>
                {      
-                  v.ParaTypeID==4? <DropdownCheckbox style={{backgroundColor:'white'}} TextColor={{color:'black',fontSize:13}} SelectData={this.state.user}/>:                   v.ParaTypeID==3?<Picker style={{ height: 50, width:'100%'}} enabled={!dis} mode='dropdown' selectedValue={this.state.language}
+                  v.ParaTypeID==4? <DropdownCheckbox style={{backgroundColor:'white',height:50}} TextColor={{color:'black',fontSize:13}} SelectData={this.state.user}/>:                   v.ParaTypeID==3?<Picker style={{ height: 50, width:'100%'}} enabled={!dis} mode='dropdown' selectedValue={this.state.language}
                    onValueChange={(itemValue, itemIndex) => this.setState({language: itemValue})}>
                    <Picker.Item label="Java" value="java" />
                    <Picker.Item label="JavaScript" value="js" />
