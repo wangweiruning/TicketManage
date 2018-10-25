@@ -1,7 +1,7 @@
 import React from 'react';
 import Title from './Title';
 import {InputItem,DatePicker,List,Checkbox,TextareaItem, Button} from 'antd-mobile-rn';
-import {View,Text,ScrollView,TouchableOpacity,Picker,ToastAndroid,Modal} from 'react-native';
+import {View,Text,ScrollView,TouchableOpacity,Picker,ToastAndroid,Modal,DatePickerAndroid} from 'react-native';
 import ModalDropdown from 'react-native-modal-dropdown';
 import {newTiceketNum,searchTicketBasicInfo,TicketBasicInfo,searchTicketFlow,editquanxian,searchUserForRole} from './../api/api'
 import DropdownCheckbox from './DropdownCheckbox';
@@ -10,7 +10,7 @@ export default class Tdetail extends React.Component{
     constructor(props){
         super(props)
         this.state={
-            value:'Tue Aug 01 2000 00:00:00 GMT+0800',
+
             num:'',
             jax:[],
             zed:[],
@@ -161,6 +161,7 @@ export default class Tdetail extends React.Component{
         this.forceUpdate();
     }
 
+
     onChange(tt,value){
         console.log(typeof value,'sadf')
         var d = new Date(value);  
@@ -181,6 +182,7 @@ export default class Tdetail extends React.Component{
         this.setState({
             pagedata: data
         });
+        alert(v)
     }
 
     format(time, format){
@@ -260,26 +262,29 @@ export default class Tdetail extends React.Component{
                   <Text style={{color:'#3e5ed2',left:5}}>{v.ParaName}</Text>
               </View>
                {      
-                  v.ParaTypeID==4? 
+                   v.ParaTypeID==4? 
                   <DropdownCheckbox style={{backgroundColor:'white',height:50}} TextColor={{color:'black',fontSize:13}} SelectData={this.state.user}/>: 
                   v.ParaTypeID==3?<ModalDropdown 
                   dropdownStyle={{width:'100%'}} textStyle={{color:'black',fontSize:13,left:5}} 
                   style={{backgroundColor:'skyblue',width:'100%',height:29.3,justifyContent:'center'}}  defaultValue={'请选择'} options={this.state.status}/>:v.ParaTypeID==2?
                    <InputItem editable={dis} 
                     defaultValue={disss[i]}
-                    onChange={(v)=>this.handleInput('datalist'+i,v)} style={{borderRadius:5,backgroundColor:'white',width:'85%',backgroundColor:"#fffeee"}}/>:v.ParaTypeID==5?<View style={{left:5,width:290}}>
-                   <DatePicker
+                    onChange={(v)=>this.handleInput('datalist'+i,v)} style={{borderRadius:5,backgroundColor:'white',width:'85%',backgroundColor:"#fffeee"}}/>:v.ParaTypeID==5?<View style={{left:5,width:290}}>       
+                   <DatePicker 
+                
                     defaultValue={new Date(disss[i])}
                     value={new Date(this.state.Timer  && this.state.Timer.datalist17)}
                      mode="date"
-                     minDate={new Date(1999, 7, 6)}
-                     maxDate={new Date(2000, 11, 3)}
+
+                     minDate={new Date(2015,1,1)}
                      onChange={(e)=>this.onChange('datalist'+i ,e)}
                      format="YYYY-MM-DD"
+                
                     //  disabled={dis}
                    >
                     <List.Item arrow="horizontal"></List.Item>
                     </DatePicker></View>:v.ParaTypeID==6?
+                
                   <View><TextareaItem editable={!dis} defaultValue={disss[i]} autoHeight style={{ paddingVertical: 5 ,backgroundColor:"#fffeee"}} />
                   {v.ParaName==='安全措施（必要时可附页绘图说明）'?<View style={{flexDirection:'row'}}><Checkbox disabled={dis}/><Text>是否已执行</Text></View>:<Text></Text>}
                   </View>:<Text></Text>
@@ -301,24 +306,26 @@ export default class Tdetail extends React.Component{
                   <Text style={{color:'#3e5ed2',left:5}}>提交</Text>
               </View>
             <View style={{display:'flex',justifyContent:'center',margin:5}}>
-                <Text>是否同意</Text>
-                
+     
+                <Text style={{color:'black'}}>是否同意</Text>
                 <ModalDropdown 
                 dropdownStyle={{width:'100%'}} textStyle={{color:'black',fontSize:13,left:5}} 
                 style={{backgroundColor:'skyblue',width:'100%',height:29.3,justifyContent:'center'}} defaultValue={'请选择'} options={['同意', '拒绝']}/>
             </View>
             <View style={{display:'flex',justifyContent:'center',margin:5}}>
-                <Text>流转状态</Text>
+  
+                <Text style={{color:'black'}}>流转状态</Text>
                 {
                   this.state.status!="" &&
                   <ModalDropdown 
-                  
+                 
                   dropdownStyle={{width:'100%'}} textStyle={{color:'black',fontSize:13,left:5}} 
                   style={{backgroundColor:'skyblue',width:'100%',height:29.3,justifyContent:'center'}} defaultValue={'请选择'} options={this.state.status}/>
                 }
                 </View>
             <View style={{display:'flex',justifyContent:'center',margin:5}}>
-                <Text>流转目标</Text>
+            
+                <Text style={{color:'black'}}>流转目标</Text>
                 
                 <DropdownCheckbox style={{backgroundColor:'skyblue'}} TextColor={{color:'black',fontSize:13}} SelectData={this.state.user}/>
             </View>
