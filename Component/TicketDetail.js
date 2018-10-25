@@ -200,7 +200,6 @@ export default class Tdetail extends React.Component{
                 </View>
             <View style={{display:'flex',justifyContent:'center',margin:5}}>
                 <Text style={{color:'black'}}>流转目标</Text>
-                
                 <DropdownCheckbox style={{backgroundColor:'skyblue'}} TextColor={{color:'black',fontSize:13}} SelectData={this.state.user}/>
             </View>
             </View> 
