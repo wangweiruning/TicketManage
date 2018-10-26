@@ -129,7 +129,7 @@ export default class DropdownCheckbox extends React.Component{
                    <Text style={{left:5,color:color?color:'gray',fontSize:fontSize?fontSize:18}}>{item.realname}</Text> 
                    </View>}
                   />
-                <TouchableOpacity style={{justifyContent:'center',alignItems:'center',backgroundColor:'skyblue',height:50}} 
+                <TouchableOpacity activeOpacity={.8} style={{justifyContent:'center',alignItems:'center',backgroundColor:'skyblue',height:50}} 
                      onPress={()=>this.setState({visible:false,SelectData:this.props.SelectData})}>
                       <Text style={{fontSize:18,color:'white'}}>确定</Text>
                 </TouchableOpacity>
