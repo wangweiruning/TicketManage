@@ -1,7 +1,7 @@
 import React from 'react';
 import Title from './Title';
 import {InputItem,DatePicker,List,Checkbox,TextareaItem} from 'antd-mobile-rn';
-import {View,Text,ScrollView,TouchableOpacity,Picker} from 'react-native';
+import {View,Text,ScrollView,TouchableOpacity,Picker,TextInput} from 'react-native';
 import ModalDropdown from 'react-native-modal-dropdown';
 import DropdownCheckbox from '../Component/DropdownCheckbox';
 import {TicketBasicInfo,
@@ -22,6 +22,7 @@ export default class Tdetail extends React.Component{
     constructor(props){
         super(props)
         this.state={
+            vvval:"",
             part1Value:false,
             TiceketNum:"",
             username:'',
@@ -269,6 +270,20 @@ export default class Tdetail extends React.Component{
        
 
     }
+
+    open(val){
+        let display = [];
+    
+        for(let i in val){
+            if(val[i]){
+                display.push(val[i]);
+            }
+        };
+        this.setState({
+            vvval:display.join(",")
+        })
+    }
+
     isChange=(ss)=>{
         let sss = this.state.pagedata;
 
@@ -280,7 +295,7 @@ export default class Tdetail extends React.Component{
         if (this.state.userAll.length>0) {
         return  <View style={{margin:5}}>
                         <Text>流转目标</Text>
-                        <DropdownCheckbox SelectData={this.state.userAll} color="skyblue"/>
+                        <DropdownCheckbox open={this.open.bind(this)} style={{backgroundColor:'skyblue'}} TextColor={{color:'black',fontSize:13}} SelectData={this.state.userAll} color="skyblue"/>
                 </View>
         } else {
             console.log("没有提交对象")
@@ -384,18 +399,7 @@ export default class Tdetail extends React.Component{
         console.log(pagedata,"333333333333")
     }
     render(){
-      
-        const baise={
-            borderRadius:5,
-            backgroundColor:'white',
-            borderBottomWidth:2,backgroundColor:"#fffeee",
-            width:'85%'
-        } 
-        const huise={
-            borderRadius:5,
-            backgroundColor:'#eee333',
-            width:'85%'
-        }
+        console.log(this.state.vvval,'qwr')
         return(<View style={{justifyContent:'center'}}>
                     <Title navigation={this.props.navigation} 
                         centerText={this.props.navigation.state.params.typeName+""+this.props.navigation.state.params.ticketNum}/>
@@ -419,7 +423,7 @@ export default class Tdetail extends React.Component{
                                 <Text style={{color:'#3e5ed2',left:5}}>{v.ParaName}</Text>
                             </View>
                             {   v.ParaTypeID==4?
-                                <DropdownCheckbox SelectData={this.state.userAll} canClick={dis}/>
+                                <DropdownCheckbox isshow={!dis} style={{backgroundColor:'skyblue'}} TextColor={{color:'black',fontSize:13}} SelectData={this.state.userAll} canClick={dis}/>
                                 :v.ParaTypeID==3?
                                  <ModalDropdown 
                                     disabled={!dis}
@@ -430,16 +434,17 @@ export default class Tdetail extends React.Component{
                                     defaultValue={'请选择'} 
                                     options={[111,222,333]}/>
                                 :v.ParaTypeID==2?
-                                    <List>
-                                   <InputItem  
+                                   <TextInput  
                                     value={itemMsg[i-1]}
-                                    editable={false} 
-                                    onChange={(v)=>this.handleInput('datalist'+i,v)} 
-                                    style={dis?baise:huise} /></List>
+                                    editable={dis} 
+                                    onChangeText={(v)=>this.handleInput('datalist'+i,v)} 
+                                    style={{borderRadius:5,
+                                        left:10,backgroundColor:"#fffeee",
+                                        width:'85%'}} />
                                 :v.ParaTypeID==5
                                 ?
                                  <DatePicker
-                                    value={new Date(itemMsg[i-1])}
+                                    value={itemMsg[i-1]}
                                     mode="date"
                                     onOk={()=>this.setState({
                                         value:itemMsg[i-1] 
@@ -447,7 +452,8 @@ export default class Tdetail extends React.Component{
                                     minDate={new Date(2000, 1, 1)}
                                     onChange={(value)=>this.onChange('datalist'+i,value)}
                                     format="YYYY-MM-DD"
-                                    disabled={!dis}>
+                                    disabled={!dis}
+                                    >
                                     <List.Item arrow="horizontal">选择时间：</List.Item>
                                 </DatePicker>:v.ParaTypeID==6?
                                 <View>
@@ -460,7 +466,7 @@ export default class Tdetail extends React.Component{
                                                     borderBottomWidth:2,
                                                   backgroundColor:"#fffeee" }} />
                                                               
-                                {v.IsConfirm==1?<View style={{flexDirection:'row',margin:5}}><Checkbox checked={!dis}><Text>是否已执行</Text></Checkbox></View>:<Text></Text>}
+                                {v.IsConfirm==1?<View style={{flexDirection:'row',margin:5}}><Checkbox checked={dis}><Text>是否已执行</Text></Checkbox></View>:<Text></Text>}
                                 </View>:<Text></Text>
                             }
                                     </View>
