@@ -184,14 +184,14 @@ export default class Tdetail extends React.Component{
             this.setState({
                 searchRole:searchRole.form.dataList
             })
-            let aa = [];
-            let kobe = searchRole.form.dataList;
-            for(let j in kobe){
-                  let bryent = kobe[j].realname;
-                  aa.push(bryent);
-              }
+            // let aa = [];
+            // let kobe = searchRole.form.dataList;
+            // for(let j in kobe){
+            //       let bryent = kobe[j].realname;
+            //       aa.push(bryent);
+            //   }
               this.setState({
-                userAll:aa
+                userAll:searchRole.form.dataList
             })
         }
 
@@ -257,6 +257,7 @@ export default class Tdetail extends React.Component{
         let index = sss.findIndex((v)=>{
             return v.TicketParaID == asd;
         });
+        console.log(index,"2222222222222222222222")
         return index==-1;
 
     }
@@ -268,14 +269,10 @@ export default class Tdetail extends React.Component{
              return aa;
     }
     gotSubmit=()=>{
-        const list = [];
-        if (this.state.searchRole.length>0) {
-            this.state.searchRole.map((item,ks)=>{
-                list.push(item.realname)
-            })
+        if (this.state.userAll.length>0) {
         return  <View style={{margin:5}}>
                         <Text>流转目标</Text>
-                        <DropdownCheckbox SelectData={list} color="skyblue"/>
+                        <DropdownCheckbox SelectData={this.state.userAll} color="skyblue"/>
                 </View>
         } else {
             console.log("没有提交对象")
@@ -426,7 +423,7 @@ export default class Tdetail extends React.Component{
                                 :v.ParaTypeID==2?
                                    <InputItem  
                                     value={itemMsg[i-1]}
-                                    editable={!dis} 
+                                    editable={dis} 
                                     onChange={(v)=>this.handleInput('datalist'+i,v)} 
                                     style={dis?baise:huise} />
                                 :v.ParaTypeID==5

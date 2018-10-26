@@ -120,7 +120,7 @@ export default class Tdetail extends React.Component{
 
        this.xunahn(this.state.jax,this.state.zed)
        this.getlls(bool.form.templateContents);
-       this.getdefault(bool.form.templateContents)
+    //    this.getdefault(bool.form.templateContents)
       }
       
       getlls(data){
@@ -262,6 +262,7 @@ export default class Tdetail extends React.Component{
                   <DropdownCheckbox style={{backgroundColor:'white',height:50}} TextColor={{color:'black',fontSize:13}} SelectData={this.state.user}/>: 
                   v.ParaTypeID==3?
                   <ModalDropdown 
+                  disabled={dis}
                   dropdownStyle={{width:'100%'}} 
                   textStyle={{color:'black',fontSize:13,left:5}} 
                   style={{backgroundColor:'skyblue',width:'100%',
@@ -281,7 +282,7 @@ export default class Tdetail extends React.Component{
                      onChange={(e)=>this.onChange('datalist'+i ,e)}
                      format="YYYY-MM-DD"
                 
-                    //  disabled={dis}
+                     disabled={dis}
                    >
                     <List.Item arrow="horizontal"></List.Item>
                     </DatePicker></View>:v.ParaTypeID==6?
