@@ -214,7 +214,7 @@ export default class Tdetail extends React.Component{
             })
 
         this.xunahn(x.form.templateContents,saves.form.dataList)
-        this.getdefault(x.form.templateContents)
+        this.getdefault(list)
         }   
     }
 
@@ -254,11 +254,19 @@ export default class Tdetail extends React.Component{
 
     ischacked=(asd)=>{
         let sss = this.state.havChangeList;
-        let index = sss.findIndex((v)=>{
+        let index=0;
+        if (sss.length>0) {
+             index = sss.findIndex((v)=>{
             return v.TicketParaID == asd;
+           
         });
-        console.log(index,"2222222222222222222222")
-        return index==-1;
+             console.log(index,"2222222222222222222222")
+             return index==-1;
+        } else {
+            return false;
+        }
+       
+       
 
     }
     isChange=(ss)=>{
@@ -396,7 +404,7 @@ export default class Tdetail extends React.Component{
                             this.state.templateContents.map((v,i)=>{
                                 let dis = this.ischacked(v.TicketParaID);
                                 let itemMsg = this.isChange(i);
-                                console.log(itemMsg,"33333333333444")
+                                console.log(dis,"gggggggggggggggg")
                             return <View  key={i} style={{backgroundColor:'white',marginTop:5}}>
                             <View style={{
                                 width:'100%',
@@ -414,6 +422,7 @@ export default class Tdetail extends React.Component{
                                 <DropdownCheckbox SelectData={this.state.userAll} canClick={dis}/>
                                 :v.ParaTypeID==3?
                                  <ModalDropdown 
+                                    disabled={!dis}
                                     dropdownStyle={{width:'100%'}} 
                                     textStyle={{color:'black',fontSize:13,left:5}} 
                                     style={{backgroundColor:'skyblue',width:'100%',
@@ -421,11 +430,12 @@ export default class Tdetail extends React.Component{
                                     defaultValue={'请选择'} 
                                     options={[111,222,333]}/>
                                 :v.ParaTypeID==2?
+                                    <List>
                                    <InputItem  
                                     value={itemMsg[i-1]}
-                                    editable={dis} 
+                                    editable={false} 
                                     onChange={(v)=>this.handleInput('datalist'+i,v)} 
-                                    style={dis?baise:huise} />
+                                    style={dis?baise:huise} /></List>
                                 :v.ParaTypeID==5
                                 ?
                                  <DatePicker
@@ -437,11 +447,11 @@ export default class Tdetail extends React.Component{
                                     minDate={new Date(2000, 1, 1)}
                                     onChange={(value)=>this.onChange('datalist'+i,value)}
                                     format="YYYY-MM-DD"
-                                    disabled={dis}>
+                                    disabled={!dis}>
                                     <List.Item arrow="horizontal">选择时间：</List.Item>
                                 </DatePicker>:v.ParaTypeID==6?
                                 <View>
-                                  <TextareaItem editable={!dis} 
+                                  <TextareaItem editable={dis} 
                                                   placeholder="高度自适应" 
                                                   defaultValue={itemMsg[i-1]}
                                                   onChangeText={(v)=>this.handleInput('datalist'+i,v)}
