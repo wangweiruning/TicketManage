@@ -292,15 +292,10 @@ export default class Tdetail extends React.Component{
              return aa;
     }
     gotSubmit=()=>{
-        if (this.state.userAll.length>0) {
         return  <View style={{margin:5}}>
                         <Text>流转目标</Text>
                         <DropdownCheckbox open={this.open.bind(this)} style={{backgroundColor:'skyblue'}} TextColor={{color:'black',fontSize:13}} SelectData={this.state.userAll} color="skyblue"/>
                 </View>
-        } else {
-            console.log("没有提交对象")
-        }
-       
     }
     getliuzhuan=()=>{
         let arr=[];
@@ -396,7 +391,7 @@ export default class Tdetail extends React.Component{
 
     submitResult(){
         const {pagedata} = {...this.state};
-        console.log(pagedata,"333333333333")
+        console.log(this.state,"333333333333")
     }
     render(){
         console.log(this.state.vvval,'qwr')
