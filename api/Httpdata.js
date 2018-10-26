@@ -33,7 +33,6 @@ export default class HttpUtils{
                 })
                 .catch(error=> {
                     reject(error);
-                    alert("出错了~~")
                 })
             })
         )
