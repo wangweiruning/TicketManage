@@ -10,7 +10,7 @@ export default class Tdetail extends React.Component{
     constructor(props){
         super(props)
         this.state={
-
+            value:null,
             num:'',
             jax:[],
             zed:[],
@@ -23,12 +23,41 @@ export default class Tdetail extends React.Component{
             language:'',
             visible:false,
             listdata:[],
-            pagedata:{},//输入框
-            pagePicker:{},//Picker单选
-            AllPicker:{},//多选
-            AreaItem:{},//多行文本
-            Timer:{datalist17:'Tue Aug 01 2000 00:00:00 GMT+0800'}//时间
-
+            pagedata:{
+                datalist1:null,
+                datalist2:null,
+                datalist3:null,
+                datalist4:null,
+                datalist5:null,
+                datalist6:null,
+                datalist7:null,
+                datalist8:null,
+                datalist9:null,
+                datalist10:null,
+                datalist11:null,
+                datalist12:null,
+                datalist13:null,
+                datalist14:null,
+                datalist15:null,
+                datalist16:null,
+                datalist17:null,
+                datalist18:null,
+                datalist19:null,
+                datalist20:null,
+                datalist21:null,
+                datalist22:null,
+                datalist23:null,
+                datalist24:null,
+                datalist25:null,
+                datalist26:null,
+                datalist27:null,
+                datalist28:null,
+                datalist29:null,
+                datalist30:null,
+                datalist31:null,
+                datalist32:null,
+                datalist33:null,
+            },//输入框
         }
     }
 
@@ -116,32 +145,32 @@ export default class Tdetail extends React.Component{
                             pagedata: data
                         });
                 } else if (v.ParaTypeID=="3"){
-                    var datalist ="Picker"+i;
+                    var datalist ="datalist"+i;
                     s ={[datalist]:v.ParaName};
-                        data = Object.assign(this.state.pagePicker,s);
+                        data = Object.assign(this.state.pagedata,s);
                     this.setState({
-                        pagePicker: data
+                        pagedata: data
                     });
             } else if (v.ParaTypeID=="4"){
-                var datalist ="AllPicker"+i;
+                var datalist ="datalist"+i;
                 s ={[datalist]:v.ParaName};
-                    data = Object.assign(this.state.AllPicker,s);
+                    data = Object.assign(this.state.pagedata,s);
                 this.setState({
-                    AllPicker: data
+                    pagedata: data
                 });
         }  else if (v.ParaTypeID=="5"){
-            var datalist ="Timer"+i;
+            var datalist ="datalist"+i;
             s ={[datalist]:v.ParaName};
-                data = Object.assign(this.state.Timer,s);
+                data = Object.assign(this.state.pagedata,s);
             this.setState({
-                Timer: data
+                pagedata: data
             });
     } else if (v.ParaTypeID=="6"){
-        var datalist ="AreaItem"+i;
+        var datalist ="datalist"+i;
         s ={[datalist]:v.ParaName};
-            data = Object.assign(this.state.AreaItem,s);
+            data = Object.assign(this.state.pagedata,s);
         this.setState({
-            AreaItem: data
+            pagedata: data
         });
 }        
         })
@@ -163,17 +192,14 @@ export default class Tdetail extends React.Component{
 
 
     onChange(tt,value){
-        console.log(typeof value,'sadf')
-        var d = new Date(value);  
-        // this.format(d,"YYYY-MM-DD")
-        let s ={[tt]:d};
-        let data = Object.assign(this.state.Timer,s)
+        let dd= new Date(value)
+        let s ={[tt]:dd};
+        let data = Object.assign(this.state.pagedata,s)
         this.setState({
-            Timer:data
+            pagedata:data
         });
+        console.log(dd,'sasf');
         
-        console.log(data,'sasf');
-        // this.setState({ value }); 
       }
 
     handleInput(k, v){
@@ -184,43 +210,14 @@ export default class Tdetail extends React.Component{
         });
         alert(v)
     }
+    isChacked=(ss)=>{
+        let sss = this.state.pagedata;
 
-    format(time, format){
-        var t = new Date(time);
-        var tf = function(i){return (i < 10 ? '0' : '') + i};
-        return format.replace(/YYYY|MM|DD|HH|mm|ss/g, function(a){
-            switch(a){
-                case 'YYYY':
-                return tf(t.getFullYear());
-                break;
-                case 'MM':
-                return tf(t.getMonth() + 1);
-                break;
-                case 'mm':
-                return tf(t.getMinutes());
-                break;
-                case 'DD':
-                return tf(t.getDate());
-                break;
-                case 'HH':
-                return tf(t.getHours());
-                break;
-                case 'ss':
-                return tf(t.getSeconds());
-                break;
-            }
-        })
-}
-
-    chacked=(tt)=>{
-        let sss = this.state.jax;
-        let index = sss.map((v)=>{
-           if(v.TicketParaID == tt) {
-               return v.ParaName
-           }
-        });
-        return index;
+        let aa = Object.values(sss);
+            console.log(aa[1],"================")
+             return aa;
     }
+   
     chackSSSS=(asd)=>{
         let sss = this.state.zed;
         let index = sss.findIndex((v)=>{
@@ -231,14 +228,12 @@ export default class Tdetail extends React.Component{
     }
  
     submitAll=()=>{
-        const {pagedata,pagePicker,AllPicker,Timer,AreaItem} = {...this.state};
-        const ttt = Object.assign({},pagedata,pagePicker,AllPicker,Timer,AreaItem)
-        console.log(ttt,"333333333333")
+        const {pagedata} = {...this.state};
+        console.log(pagedata,"333333333333")
     }
 
 
     render(){
-        const datalist = this.state.listdata;
         return(<View style={{justifyContent:'center'}}>
             <Title navigation={this.props.navigation} centerText={this.props.navigation.state.params.v+'('+this.state.num+')'}/>
         <ScrollView style={{display:'flex'}}>
@@ -246,8 +241,9 @@ export default class Tdetail extends React.Component{
             this.state.jax.map((v,i)=>
             {
            let dis = this.chackSSSS(v.TicketParaID);
-           let disss = this.chacked(v.TicketParaID);
-           console.log(disss[i],"33333333333444")
+          
+           let itemMsg = this.isChacked(i);
+           console.log(itemMsg,"33333333333444")
            return <View  key={i} style={{backgroundColor:'white',marginTop:5}}>
               <View style={{
                   width:'100%',
@@ -264,18 +260,23 @@ export default class Tdetail extends React.Component{
                {      
                    v.ParaTypeID==4? 
                   <DropdownCheckbox style={{backgroundColor:'white',height:50}} TextColor={{color:'black',fontSize:13}} SelectData={this.state.user}/>: 
-                  v.ParaTypeID==3?<ModalDropdown 
-                  dropdownStyle={{width:'100%'}} textStyle={{color:'black',fontSize:13,left:5}} 
-                  style={{backgroundColor:'skyblue',width:'100%',height:29.3,justifyContent:'center'}}  defaultValue={'请选择'} options={this.state.status}/>:v.ParaTypeID==2?
+                  v.ParaTypeID==3?
+                  <ModalDropdown 
+                  dropdownStyle={{width:'100%'}} 
+                  textStyle={{color:'black',fontSize:13,left:5}} 
+                  style={{backgroundColor:'skyblue',width:'100%',
+                  height:29.3,justifyContent:'center'}}  
+                  defaultValue={'请选择'} 
+                  options={this.state.status}/>:v.ParaTypeID==2?
                    <InputItem editable={dis} 
-                    defaultValue={disss[i]}
+                    value={itemMsg[i-1]}
                     onChange={(v)=>this.handleInput('datalist'+i,v)} style={{borderRadius:5,backgroundColor:'white',width:'85%',backgroundColor:"#fffeee"}}/>:v.ParaTypeID==5?<View style={{left:5,width:290}}>       
                    <DatePicker 
-                
-                    defaultValue={new Date(disss[i])}
-                    value={new Date(this.state.Timer  && this.state.Timer.datalist17)}
+                    value={new Date(itemMsg[i-1])}
                      mode="date"
-
+                     onOk={()=>this.setState({
+                         value:itemMsg[i-1] 
+                     })}
                      minDate={new Date(2015,1,1)}
                      onChange={(e)=>this.onChange('datalist'+i ,e)}
                      format="YYYY-MM-DD"
@@ -285,7 +286,10 @@ export default class Tdetail extends React.Component{
                     <List.Item arrow="horizontal"></List.Item>
                     </DatePicker></View>:v.ParaTypeID==6?
                 
-                  <View><TextareaItem editable={!dis} defaultValue={disss[i]} autoHeight style={{ paddingVertical: 5 ,backgroundColor:"#fffeee"}} />
+                  <View><TextareaItem editable={!dis}  
+                  onChangeText={(v)=>this.handleInput('datalist'+i,v)}
+                  defaultValue={itemMsg[i-1]} autoHeight 
+                  style={{ paddingVertical: 5 ,backgroundColor:"#fffeee"}} />
                   {v.ParaName==='安全措施（必要时可附页绘图说明）'?<View style={{flexDirection:'row'}}><Checkbox disabled={dis}/><Text>是否已执行</Text></View>:<Text></Text>}
                   </View>:<Text></Text>
                }

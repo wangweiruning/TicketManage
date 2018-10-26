@@ -38,33 +38,45 @@ export default class Tdetail extends React.Component{
             rolecontentid:"",
             userAll:[],
             showPage:{
-                selected1:null,
-                selected2:null,
-                selected3:null,
-                selected4:null,
-                value0: null,
-                value1: null,
-                value2: null,
-                value3: null,
-                value4: null,
                 isagree:null,//是否同意流转 0 同意 1 不同意
                 isflew:"",//下一个流转状态
                 isfleUser:"",//流转对象
-                danweiname:"",//单位名称
-                bianhao:"",//编号
-                classname:"",//班组
-                gongchang:"",//工作发电厂名称
-                poername:"",//设备名称
-                theway:"",//工作地点
-                shebei:'',//工作设备
-                workcontent:"",//工作内容
-                worksecurity:"",//安全措施
-                workattention:"",//注意事项
-                workmeasures:"",//补充内容
-                workchange:"",//工作人员变动情况
-                workjuti:"",//地点及具体工作
-                workother:"",//其他事项
             },
+            pagedata:{
+                datalist1:null,
+                datalist2:null,
+                datalist3:null,
+                datalist4:null,
+                datalist5:null,
+                datalist6:null,
+                datalist7:null,
+                datalist8:null,
+                datalist9:null,
+                datalist10:null,
+                datalist11:null,
+                datalist12:null,
+                datalist13:null,
+                datalist14:null,
+                datalist15:null,
+                datalist16:null,
+                datalist17:null,
+                datalist18:null,
+                datalist19:null,
+                datalist20:null,
+                datalist21:null,
+                datalist22:null,
+                datalist23:null,
+                datalist24:null,
+                datalist25:null,
+                datalist26:null,
+                datalist27:null,
+                datalist28:null,
+                datalist29:null,
+                datalist30:null,
+                datalist31:null,
+                datalist32:null,
+                datalist33:null,
+            },//输入框
             userPower:'',
             listdatas:[],
             subdatas:{}
@@ -202,57 +214,26 @@ export default class Tdetail extends React.Component{
             })
 
         this.xunahn(x.form.templateContents,saves.form.dataList)
-        }else { //新建两票，数据库中无记录
-					statusId = ticketFlowrole[0].ticketstatusid;
-					ticketFlowList.push(ticketFlowrole[0]);
-        }
-        
+        this.getdefault(x.form.templateContents)
+        }   
     }
-     format(time, format){
-        var t = new Date(time);
-        var tf = function(i){return (i < 10 ? '0' : '') + i};
-        return format.replace(/yyyy|MM|dd|HH|mm|ss/g, function(a){
-            switch(a){
-                case 'yyyy':
-                return tf(t.getFullYear());
-                break;
-                case 'MM':
-                return tf(t.getMonth() + 1);
-                break;
-                case 'mm':
-                return tf(t.getMinutes());
-                break;
-                case 'dd':
-                return tf(t.getDate());
-                break;
-                case 'HH':
-                return tf(t.getHours());
-                break;
-                case 'ss':
-                return tf(t.getSeconds());
-                break;
-            }
-        })
-}
 
-      onChange(flag,value){
-          if (flag==0) {
-            this.state.showPage.value0=value;
-          } else if(flag==1){
-            this.state.showPage.value1=value;
-          } else if(flag==2){
-            this.state.showPage.value2=value;
-          }else if(flag==3){
-            this.state.showPage.value3=value;;
-          }else if(flag==4){
-            this.state.showPage.value4=value;
-          }
-          this.forceUpdate()
+    onChange(tt,value){
+        let dd= new Date(value)
+        let s ={[tt]:dd};
+        let data = Object.assign(this.state.pagedata,s)
+        this.setState({
+            pagedata:data
+        });
+        console.log(dd,'sasf');
+        
       }
 
     handleInput(k, v){
+        let s ={[k]:v};
+        let data = Object.assign(this.state.pagedata,s)
         this.setState({
-            [k]: v
+            pagedata: data
         });
     }
 
@@ -279,7 +260,13 @@ export default class Tdetail extends React.Component{
         return index==-1;
 
     }
+    isChange=(ss)=>{
+        let sss = this.state.pagedata;
 
+        let aa = Object.values(sss);
+            console.log(aa[1],"================")
+             return aa;
+    }
     gotSubmit=()=>{
         const list = [];
         if (this.state.searchRole.length>0) {
@@ -343,41 +330,56 @@ export default class Tdetail extends React.Component{
     </View>
     }
 
-    onValueChange = (flag,value,r) => {
-        let subdatas={[r]:value};
-         this.setState({
-            subdatas:subdatas
-         })
-        if(flag ==1){
-            this.state.showPage.selected1=value;
-            }else if(flag==2){
-                this.state.showPage.selected2=value;
-            }else if(flag==3){
-                this.state.showPage.selected3=value;
-            }else if(flag==4){
-                this.state.showPage.selected4=value;
-            }
-            this.forceUpdate()
-      };
+    getdefault(datas){
+        let s={};
+        var data={};
+            datas.map((v,i)=>{
+                if (v.ParaTypeID=="2"){
+                        var datalist ="datalist"+i;
+                        s ={[datalist]:v.ParaName};
+                            data = Object.assign(this.state.pagedata,s);
+                        this.setState({
+                            pagedata: data
+                        });
+                } else if (v.ParaTypeID=="3"){
+                    var datalist ="datalist"+i;
+                    s ={[datalist]:v.ParaName};
+                        data = Object.assign(this.state.pagedata,s);
+                    this.setState({
+                        pagedata: data
+                    });
+                } else if (v.ParaTypeID=="4"){
+                        var datalist ="datalist"+i;
+                        s ={[datalist]:v.ParaName};
+                            data = Object.assign(this.state.pagedata,s);
+                        this.setState({
+                            pagedata: data
+                        });
+                } else if (v.ParaTypeID=="5"){
+                    var datalist ="datalist"+i;
+                    s ={[datalist]:v.ParaName};
+                        data = Object.assign(this.state.pagedata,s);
+                    this.setState({
+                        pagedata: data
+                    });
+                } else if (v.ParaTypeID=="6"){
+                var datalist ="datalist"+i;
+                s ={[datalist]:v.ParaName};
+                    data = Object.assign(this.state.pagedata,s);
+                this.setState({
+                    pagedata: data
+                });
+        }        
+        })
+       
+      }
 
     submitResult(){
-        const {showPage}= {...this.state};
-        const {value0}={...showPage};
-
-        // 转化时间格式
-        console.log(this.format(value0,"yyyy-MM-dd"));
-        console.log(this.state)
-        alert("修改成功")
-        this.props.navigation.dispatch(resetAction);
+        const {pagedata} = {...this.state};
+        console.log(pagedata,"333333333333")
     }
     render(){
-        let datas = [];
-        this.state.templateContents.map((v,i)=>{
-            datas.push(v.TemplateContentID);
-           
-        })
-        this.state.listdatas=datas;
-         console.log(datas,"00000000000000000000")
+      
         const baise={
             borderRadius:5,
             backgroundColor:'white',
@@ -396,6 +398,8 @@ export default class Tdetail extends React.Component{
                         {
                             this.state.templateContents.map((v,i)=>{
                                 let dis = this.ischacked(v.TicketParaID);
+                                let itemMsg = this.isChange(i);
+                                console.log(itemMsg,"33333333333444")
                             return <View  key={i} style={{backgroundColor:'white',marginTop:5}}>
                             <View style={{
                                 width:'100%',
@@ -409,225 +413,49 @@ export default class Tdetail extends React.Component{
                                 }}>
                                 <Text style={{color:'#3e5ed2',left:5}}>{v.ParaName}</Text>
                             </View>
-                            <View>
                             {   v.ParaTypeID==4?
                                 <DropdownCheckbox SelectData={this.state.userAll} canClick={dis}/>
                                 :v.ParaTypeID==3?
-                                <View>
-                                { v.ParaName=="工作负责人" && <Picker 
-                                selectedValue={this.state.showPage.selected1}
-                                onValueChange={(value)=>this.onValueChange(1,value,datas[i])}
-                                style={{ height: 50, width: "100%" }} 
-                                mode='dropdown' 
-                                enabled={dis}>
-                                 {           
-                                    this.state.searchRole.map((item,index)=>{
-                                        return <Picker.Item label={item.realname} value={item.realname} key={index}/>
-                                    })
-                                }
-                                </Picker>}
-                                { v.ParaName=="原工作负责人" && <Picker 
-                                selectedValue={this.state.showPage.selected2}
-                                onValueChange={(value)=>this.onValueChange(2,value)}
-                                style={{ height: 50, width: "100%" }} 
-                                mode='dropdown' 
-                                enabled={!dis}>
-                                 {           
-                                    this.state.searchRole.map((item,index)=>{
-                                        return <Picker.Item label={item.realname} value={item.realname} key={index}/>
-                                    })
-                                }
-                                </Picker>}
-                                { v.ParaName=="变更后工作负责人" && <Picker 
-                                selectedValue={this.state.showPage.selected3}
-                                onValueChange={(value)=>this.onValueChange(3,value)}
-                                style={{ height: 50, width: "100%" }} 
-                                mode='dropdown' 
-                                enabled={!dis}>
-                                 {           
-                                    this.state.searchRole.map((item,index)=>{
-                                        return <Picker.Item label={item.realname} value={item.realname} key={index}/>
-                                    })
-                                }
-                                </Picker>}
-                                { v.ParaName=="制定专责监护人" && <Picker 
-                                selectedValue={this.state.showPage.selected4}
-                                onValueChange={(value)=>this.onValueChange(4,value)}
-                                style={{ height: 50, width: "100%" }} 
-                                mode='dropdown' 
-                                enabled={!dis}>
-                                 {           
-                                    this.state.searchRole.map((item,index)=>{
-                                        return <Picker.Item label={item.realname} value={item.realname} key={index}/>
-                                    })
-                                }
-                                </Picker>}
-                                </View>
+                                 <ModalDropdown 
+                                    dropdownStyle={{width:'100%'}} 
+                                    textStyle={{color:'black',fontSize:13,left:5}} 
+                                    style={{backgroundColor:'skyblue',width:'100%',
+                                    height:29.3,justifyContent:'center'}}  
+                                    defaultValue={'请选择'} 
+                                    options={[111,222,333]}/>
                                 :v.ParaTypeID==2?
-                                <View>
-                                    {v.ParaName=="单位" &&<InputItem  
-                                value={v.ParaName}
-                                editable={dis} 
-                                onChange={(v)=>this.handleInput('danweiname',v)} 
-                                style={dis?baise:huise} />}
-                                    {v.ParaName=="编号" &&<InputItem  
-                                    value={v.ParaName}
-                                    editable={dis} 
-                                    onChange={(v)=>this.handleInput('bianhao',v)} 
-                                    style={dis?baise:huise} />}
-                                    {v.ParaName=="班组" &&<InputItem  
-                                value={v.ParaName}
-                                editable={dis} 
-                                onChange={(v)=>this.handleInput('classname',v)} 
-                                style={dis?baise:huise} />}
-                                    {v.ParaName=="工作发电厂名称" &&<InputItem  
-                                    value={v.ParaName}
-                                    editable={dis} 
-                                    onChange={(v)=>this.handleInput('gongchang',v)} 
-                                    style={dis?baise:huise} />}
-                                    {v.ParaName=="设备名称" &&<InputItem  
-                                value={v.ParaName}
-                                editable={dis} 
-                                onChange={(v)=>this.handleInput('poername',v)} 
-                                style={dis?baise:huise} />}
-                                    {v.ParaName=="工作地点" &&<InputItem  
-                                    value={v.ParaName}
-                                    editable={dis} 
-                                    onChange={(v)=>this.handleInput('theway',v)} 
-                                    style={dis?baise:huise} />}
-                                    {v.ParaName=="工作设备" &&<InputItem  
-                                value={v.ParaName}
-                                editable={dis} 
-                                onChange={(v)=>this.handleInput('shebei',v)} 
-                                style={dis?baise:huise} />}
-                                </View>
+                                   <InputItem  
+                                    value={itemMsg[i-1]}
+                                    editable={!dis} 
+                                    onChange={(v)=>this.handleInput('datalist'+i,v)} 
+                                    style={dis?baise:huise} />
                                 :v.ParaTypeID==5
-                                ?<View style={{left:0,width:250}}>
-                                {v.ParaName=="许可开始工作时间：" && <DatePicker
-                                    style={{left:0}}
-                                    value={this.state.showPage.value0}
+                                ?
+                                 <DatePicker
+                                    value={new Date(itemMsg[i-1])}
                                     mode="date"
+                                    onOk={()=>this.setState({
+                                        value:itemMsg[i-1] 
+                                    })}
                                     minDate={new Date(2000, 1, 1)}
-                                    maxDate={new Date(2040, 12, 31)}
-                                    onChange={(value)=>this.onChange(0,value)}
+                                    onChange={(value)=>this.onChange('datalist'+i,value)}
                                     format="YYYY-MM-DD"
                                     disabled={dis}>
                                     <List.Item arrow="horizontal">选择时间：</List.Item>
-                                </DatePicker>}
-                                {v.ParaName=="有效期延长到" && <DatePicker
-                                    style={{left:0}}
-                                    value={this.state.showPage.value1}
-                                    mode="date"
-                                    minDate={new Date(2000, 1, 1)}
-                                    maxDate={new Date(2040, 12, 31)}
-                                    onChange={(value)=>this.onChange(1,value)}
-                                    format="YYYY-MM-DD"
-                                    disabled={dis}>
-                                    <List.Item arrow="horizontal">选择时间：</List.Item>
-                                </DatePicker>}
-                                {v.ParaName=="开工时间" && <DatePicker
-                                    style={{left:0}}
-                                    value={this.state.showPage.value2}
-                                    mode="date"
-                                    minDate={new Date(2000, 1, 1)}
-                                    maxDate={new Date(2040, 12, 31)}
-                                    onChange={(value)=>this.onChange(2,value)}
-                                    format="YYYY-MM-DD"
-                                    disabled={dis}>
-                                    <List.Item arrow="horizontal">选择时间：</List.Item>
-                                </DatePicker>}
-                                {v.ParaName=="收工时间" && <DatePicker
-                                    style={{left:0}}
-                                    value={this.state.showPage.value3}
-                                    mode="date"
-                                    minDate={new Date(2000, 1, 1)}
-                                    maxDate={new Date(2040, 12, 31)}
-                                    onChange={(value)=>this.onChange(3,value)}
-                                    format="YYYY-MM-DD"
-                                    disabled={dis}>
-                                    <List.Item arrow="horizontal">选择时间：</List.Item>
-                                </DatePicker>}
-                                {v.ParaName=="工作结束时间" && <DatePicker
-                                    style={{left:0}}
-                                    value={this.state.showPage.value4}
-                                    mode="date"
-                                    minDate={new Date(2000, 1, 1)}
-                                    maxDate={new Date(2040, 12, 31)}
-                                    onChange={(value)=>this.onChange(4,value)}
-                                    format="YYYY-MM-DD"
-                                    disabled={dis}>
-                                    <List.Item arrow="horizontal">选择时间：</List.Item>
-                                </DatePicker>}
-                                    </View>
-                                         :v.ParaTypeID==6?
+                                </DatePicker>:v.ParaTypeID==6?
                                 <View>
-                                    {v.ParaName=="工作内容" && <TextareaItem editable={!dis} 
+                                  <TextareaItem editable={!dis} 
                                                   placeholder="高度自适应" 
-                                                  defaultValue={v.ParaName}
-                                                  value={v.ParaName}
-                                                  onChangeText={(v)=>this.state.showPage.workcontent=v}
+                                                  defaultValue={itemMsg[i-1]}
+                                                  onChangeText={(v)=>this.handleInput('datalist'+i,v)}
                                                   autoHeight 
                                                   style={{ paddingVertical: 5,
                                                     borderBottomWidth:2,
-                                                    backgroundColor:"#fffeee" }} />}
-                                    {v.ParaName=="安全措施（必要时可附页绘图说明）" && <TextareaItem editable={!dis} 
-                                                  placeholder="高度自适应" 
-                                                  defaultValue={v.ParaName}
-                                                  value={v.ParaName}
-                                                  onChangeText={(v)=>this.state.showPage.worksecurity=v}
-                                                  autoHeight 
-                                                  style={{ paddingVertical: 5,
-                                                    borderBottomWidth:2,
-                                                    backgroundColor:"#fffeee" }} />}
-                                    {v.ParaName=="工作地点保留带电部分或注意事项 （由工作票签发人填写）" && <TextareaItem editable={!dis} 
-                                                  placeholder="高度自适应" 
-                                                  defaultValue={v.ParaName}
-                                                  value={v.ParaName}
-                                                  onChangeText={(v)=>this.state.showPage.workattention=v}
-                                                  autoHeight 
-                                                  style={{ paddingVertical: 5,
-                                                    borderBottomWidth:2,
-                                                    backgroundColor:"#fffeee" }} />} 
-                                    {v.ParaName=="补充工作地点保留带电部分或安全措施 （由工作许可人填写）" && <TextareaItem editable={!dis} 
-                                                  placeholder="高度自适应" 
-                                                  defaultValue={v.ParaName}
-                                                  value={v.ParaName}
-                                                  onChangeText={(v)=>this.state.showPage.workmeasures=v}
-                                                  autoHeight 
-                                                  style={{ paddingVertical: 5,
-                                                    borderBottomWidth:2,
-                                                    backgroundColor:"#fffeee" }} />}
-                                    {v.ParaName=="工作人员变动情况（变动人员姓名、日期及时间）" && <TextareaItem editable={!dis} 
-                                                  placeholder="高度自适应" 
-                                                  defaultValue={v.ParaName}
-                                                  value={v.ParaName}
-                                                  onChangeText={(v)=>this.state.showPage.workchange=v}
-                                                  autoHeight 
-                                                  style={{ paddingVertical: 5,
-                                                    borderBottomWidth:2,
-                                                    backgroundColor:"#fffeee" }} />}
-                                    {v.ParaName=="地点及具体工作" && <TextareaItem editable={!dis} 
-                                                  placeholder="高度自适应" 
-                                                  defaultValue={v.ParaName}
-                                                  value={v.ParaName}
-                                                  onChangeText={(v)=>this.state.showPage.workjuti=v}
-                                                  autoHeight 
-                                                  style={{ paddingVertical: 5,
-                                                    borderBottomWidth:2,
-                                                    backgroundColor:"#fffeee" }} />} 
-                                    {v.ParaName=="其他事项" && <TextareaItem editable={!dis} 
-                                                  placeholder="高度自适应" 
-                                                  defaultValue={v.ParaName}
-                                                  value={v.ParaName}
-                                                  onChangeText={(v)=>this.state.showPage.workother=v}
-                                                  autoHeight 
-                                                  style={{ paddingVertical: 5,
-                                                    borderBottomWidth:2,
-                                                  backgroundColor:"#fffeee" }} />}               
+                                                  backgroundColor:"#fffeee" }} />
+                                                              
                                 {v.IsConfirm==1?<View style={{flexDirection:'row',margin:5}}><Checkbox checked={!dis}><Text>是否已执行</Text></Checkbox></View>:<Text></Text>}
                                 </View>:<Text></Text>
                             }
-                                    </View>
                                     </View>
                         })}
                             <View style={{backgroundColor:'white',marginTop:5,marginBottom:20}}>
