@@ -271,7 +271,7 @@ export default class Tdetail extends React.Component{
                     value={itemMsg[i-1]}
                     onChange={(v)=>this.handleInput('datalist'+i,v)} style={{borderRadius:5,backgroundColor:'white',width:'85%',backgroundColor:"#fffeee"}}/>:v.ParaTypeID==5?<View style={{left:5,width:290}}>       
                    <DatePicker 
-                    value={new Date(itemMsg[i-1])}
+                     value={itemMsg[i-1]}
                      mode="date"
                      onOk={()=>this.setState({
                          value:itemMsg[i-1] 
