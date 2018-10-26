@@ -1,7 +1,7 @@
 import React from 'react';
 import {View,Text,TouchableOpacity,Image} from 'react-native';
 
-export default class Title extends React.Component{
+export default class TicketTitle extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
@@ -12,12 +12,7 @@ export default class Title extends React.Component{
     _toBack() {
         this.props.navigation.goBack();
     }
-    HaveSee(){
-        const {navigate} = this.props.navigation
-        // alert("11")
-        console.log(this.props.navigation)
-        navigate('TicketFlew',{centerText:this.props.navigation.state.params.v})
-    }
+
 
     render(){
         return(<View style={{
@@ -36,11 +31,6 @@ export default class Title extends React.Component{
             </TouchableOpacity>
             <View style={{flex:1,alignItems: 'center'}}>
                 <Text style={{color: 'black',fontSize:15,fontWeight:'500'}}>{this.props.centerText}</Text>
-            </View>
-            <View style={{marginRight:5,justifyContent: 'center',width:65,height:35}}>
-                   <Text 
-                        onPress={()=>this.HaveSee()}
-                        style={{color: '#007aff',}}>{this.props.rightText}</Text>        
             </View>
         </View>)
     }

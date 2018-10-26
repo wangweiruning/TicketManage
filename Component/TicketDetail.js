@@ -1,5 +1,5 @@
 import React from 'react';
-import Title from './Title';
+import TicketTitle from './TicketTitle';
 import {InputItem,DatePicker,List,Checkbox,TextareaItem, Button} from 'antd-mobile-rn';
 import {View,Text,ScrollView,TouchableOpacity,Picker,ToastAndroid,Modal,DatePickerAndroid} from 'react-native';
 import ModalDropdown from 'react-native-modal-dropdown';
@@ -10,6 +10,7 @@ export default class Tdetail extends React.Component{
     constructor(props){
         super(props)
         this.state={
+            vvval:"",
             value:null,
             num:'',
             jax:[],
@@ -192,6 +193,18 @@ export default class Tdetail extends React.Component{
         this.forceUpdate();
     }
 
+    open(val){
+        let display = [];
+    
+        for(let i in val){
+            if(val[i]){
+                display.push(val[i]);
+            }
+        };
+        this.setState({
+            vvval:display.join(",")
+        })
+    }
 
     onChange(tt,value){
         let dd= new Date(value)
@@ -234,7 +247,7 @@ export default class Tdetail extends React.Component{
 
     render(){
         return(<View style={{justifyContent:'center'}}>
-            <Title navigation={this.props.navigation} centerText={this.props.navigation.state.params.v+'('+this.state.num+')'}/>
+            <TicketTitle navigation={this.props.navigation} centerText={this.props.navigation.state.params.v+'('+this.state.num+')'}/>
         <ScrollView style={{display:'flex'}}>
         {
             this.state.jax.map((v,i)=>
@@ -245,7 +258,7 @@ export default class Tdetail extends React.Component{
            return <View  key={i} style={{backgroundColor:'white',marginTop:5}}>
               <View style={{
                   width:'100%',
-                  height:30,
+                  height:40,
                   flexDirection:'row',
                   backgroundColor:'white',
                   borderBottomWidth:1,
@@ -257,7 +270,7 @@ export default class Tdetail extends React.Component{
               </View>
                {      
                    v.ParaTypeID==4? 
-                  <DropdownCheckbox style={{backgroundColor:'white',height:50}} TextColor={{color:'black',fontSize:13}} SelectData={this.state.user}/>: 
+                  <DropdownCheckbox open={this.open.bind(this)} style={{backgroundColor:'white',height:50}} TextColor={{color:'black',fontSize:13}} SelectData={this.state.user}/>: 
                   v.ParaTypeID==3?
                   <ModalDropdown 
                   disabled={dis}
@@ -290,7 +303,7 @@ export default class Tdetail extends React.Component{
                   defaultValue={itemMsg[i-1]} autoHeight 
                   style={{ paddingVertical: 5 ,backgroundColor:"#fffeee"}} />
                   {v.IsConfirm==1?<View style={{flexDirection:'row'}}><Checkbox disabled={dis}/><Text>是否已执行</Text></View>:<Text></Text>}
-                  </View>:<Text></Text>
+                  </View>:null
                }
             </View>
             }
@@ -329,7 +342,7 @@ export default class Tdetail extends React.Component{
             <View style={{display:'flex',justifyContent:'center',margin:5}}>
             
                 <Text style={{color:'black'}}>流转目标</Text>
-                <DropdownCheckbox style={{backgroundColor:'skyblue'}} TextColor={{color:'black',fontSize:13}} SelectData={this.state.user}/>
+                <DropdownCheckbox open={this.open.bind(this)} style={{backgroundColor:'skyblue'}} TextColor={{color:'black',fontSize:13}} SelectData={this.state.user}/>
             </View>
             </View> 
             <View style={{marginBottom:50,width:'100%',display:'flex',justifyContent:'center',alignItems:'center'}}>
