@@ -13,7 +13,8 @@ export default class DropdownCheckbox extends React.Component{
             show:false,
             text:'',
             activeItem:new Array(this.props.SelectData.length).fill(""),
-            defaultChecked:false
+            defaultChecked:false,
+            datas:''
         }
     }
     onSelect = (value) => {
@@ -37,12 +38,13 @@ export default class DropdownCheckbox extends React.Component{
                 display.push(activeItem[i]);
             }
         };
+
+        console.log(display,'display')
         if(display.length>0){
             return display.join(",");
         }else{
             return "请选择"
         }
-        
     }
 
     handleInput(k, v){
@@ -91,7 +93,7 @@ export default class DropdownCheckbox extends React.Component{
         let {color,fontSize} = {...this.props.TextColor}
         return(
             <View>
-             <TouchableOpacity onPress={()=>this.setState({visible:true})}>
+             <TouchableOpacity disabled={this.props.isshow} onPress={()=>this.setState({visible:true})}>
              <View style={{flexDirection:'row',alignItems:'center',...this.props.style}}>
                         <Text style={{padding:5,flex:1,flexDirection:'row',color:color?color:'gray',fontSize:fontSize?fontSize:18}}>{
                             this.open()
@@ -119,18 +121,22 @@ export default class DropdownCheckbox extends React.Component{
                    keyExtractor={(item, index) => index.toString()}
                    renderItem={({item,index}) =>
                    <View key={index} style={{flexDirection:'row',padding:5,borderBottomWidth:1,borderBottomColor:'black',borderStyle:'solid'}}>
-                   <Checkbox 
+                   <Checkbox
                    checked={this.state.activeItem[item.userId]} 
                    onChange={(e)=>{
                            let s = e.target.checked;
                            this.state.activeItem[item.userId] = s?item.realname:"";
                            this.forceUpdate();
-                   }} />
-                   <Text style={{left:5,color:color?color:'gray',fontSize:fontSize?fontSize:18}}>{item.realname}</Text> 
+                   }} >
+                   <Text style={{width:'100%',left:5,color:color?color:'gray',fontSize:fontSize?fontSize:18}}>{item.realname}</Text></Checkbox>
                    </View>}
                   />
                 <TouchableOpacity activeOpacity={.8} style={{justifyContent:'center',alignItems:'center',backgroundColor:'skyblue',height:50}} 
-                     onPress={()=>this.setState({visible:false,SelectData:this.props.SelectData})}>
+                     onPress={()=>{
+                           this.setState({visible:false,SelectData:this.props.SelectData})
+                           this.props.open(this.state.activeItem)   
+                        }
+                           }>
                       <Text style={{fontSize:18,color:'white'}}>确定</Text>
                 </TouchableOpacity>
               </Modal>

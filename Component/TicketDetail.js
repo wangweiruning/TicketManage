@@ -291,7 +291,7 @@ export default class Tdetail extends React.Component{
                   onChangeText={(v)=>this.handleInput('datalist'+i,v)}
                   defaultValue={itemMsg[i-1]} autoHeight 
                   style={{ paddingVertical: 5 ,backgroundColor:"#fffeee"}} />
-                  {v.ParaName==='安全措施（必要时可附页绘图说明）'?<View style={{flexDirection:'row'}}><Checkbox disabled={dis}/><Text>是否已执行</Text></View>:<Text></Text>}
+                  {v.IsConfirm==1?<View style={{flexDirection:'row'}}><Checkbox disabled={dis}/><Text>是否已执行</Text></View>:<Text></Text>}
                   </View>:<Text></Text>
                }
             </View>
