@@ -133,6 +133,7 @@ export default class Tdetail extends React.Component{
             listdata:datas
         })
       }
+
       getdefault(datas){
         let s={};
         var data={};
@@ -176,6 +177,7 @@ export default class Tdetail extends React.Component{
         })
        
       }
+
       xunahn(sss,kkk){
         let s = sss;
         let g = kkk;
@@ -198,8 +200,7 @@ export default class Tdetail extends React.Component{
         this.setState({
             pagedata:data
         });
-        console.log(dd,'sasf');
-        
+
       }
 
     handleInput(k, v){
@@ -214,7 +215,6 @@ export default class Tdetail extends React.Component{
         let sss = this.state.pagedata;
 
         let aa = Object.values(sss);
-            console.log(aa[1],"================")
              return aa;
     }
    
@@ -229,7 +229,6 @@ export default class Tdetail extends React.Component{
  
     submitAll=()=>{
         const {pagedata} = {...this.state};
-        console.log(pagedata,"333333333333")
     }
 
 
@@ -243,7 +242,6 @@ export default class Tdetail extends React.Component{
            let dis = this.chackSSSS(v.TicketParaID);
           
            let itemMsg = this.isChacked(i);
-           console.log(itemMsg,"33333333333444")
            return <View  key={i} style={{backgroundColor:'white',marginTop:5}}>
               <View style={{
                   width:'100%',
