@@ -242,6 +242,7 @@ export default class Tdetail extends React.Component{
  
     submitAll=()=>{
         const {pagedata} = {...this.state};
+        console.log(this.state)
     }
 
 
