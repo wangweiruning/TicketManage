@@ -180,7 +180,6 @@ export default class Tdetail extends React.Component{
             })
 
         this.xunahn(x.form.templateContents,saves.form.dataList)
-        this.getdefault(list)
         }   
     }
 
