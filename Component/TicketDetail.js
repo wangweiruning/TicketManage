@@ -10,7 +10,7 @@ export default class Tdetail extends React.Component{
     constructor(props){
         super(props)
         this.state={
-            vvval:"",
+            vvval:['超级管理员','111'],
             value:null,
             num:'',
             jax:[],
@@ -343,7 +343,7 @@ export default class Tdetail extends React.Component{
             <View style={{display:'flex',justifyContent:'center',margin:5}}>
             
                 <Text style={{color:'black'}}>流转目标</Text>
-                <DropdownCheckbox open={this.open.bind(this)} style={{backgroundColor:'skyblue'}} TextColor={{color:'black',fontSize:13}} SelectData={this.state.user}/>
+                <DropdownCheckbox defaultValue={this.state.vvval} open={this.open.bind(this)} style={{backgroundColor:'skyblue'}} TextColor={{color:'black',fontSize:13}} SelectData={this.state.user}/>
             </View>
             </View> 
             <View style={{marginBottom:50,width:'100%',display:'flex',justifyContent:'center',alignItems:'center'}}>

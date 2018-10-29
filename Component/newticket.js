@@ -1,7 +1,7 @@
 import React from 'react';
 import Title from './Title';
 import {moban} from './../api/api'
-import {View,Text,TouchableOpacity,Image,Alert} from 'react-native';
+import {View,Text,TouchableOpacity,Image,Alert,ScrollView} from 'react-native';
 
 export default class Newticket extends React.Component{
     constructor(props){
@@ -39,16 +39,18 @@ export default class Newticket extends React.Component{
         return(
             <View>
              <Title navigation={this.props.navigation} centerText={'选择模板'}/>
+             <ScrollView style={{paddingBottom:10}}>
              {
                 this.state.jay.map((v,i)=>
                     <TouchableOpacity key={i} 
                     onPress={()=>this.goticket(v.attr.tree_id.substring(2),v.data.title)} 
-                    style={{display:'flex',flexDirection:'row',width:'100%',backgroundColor:'#beebff',height:50,display:'flex',alignItems:'center',marginTop:10}}>
-                            <Image source={require('../images/company_tree.png')} style={{width:15,left:5,resizeMode:Image.resizeMode.contain}}/>
+                    style={{display:'flex',flexDirection:'row',backgroundColor:'#beebff',display:'flex',alignItems:'center',marginTop:10}}>
+                            <Image source={require('../images/company_tree.png')} style={{width:20,left:5,resizeMode:Image.resizeMode.contain}}/>
                             <Text style={{fontSize:18,color:'black',left:10,flex:1}}>{v.data.title}</Text>
                         <Image source={require('../images/go.png')} style={{right:5,width:15,resizeMode:Image.resizeMode.contain}}/>
                     </TouchableOpacity>)
              }
+             </ScrollView>
         </View>)
     }
 }

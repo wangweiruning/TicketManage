@@ -66,17 +66,19 @@ export default class TicketModel extends React.Component{
         return(
             <View>
             <Title navigation={this.props.navigation} rightText="查看流程" centerText={this.props.navigation.state.params.v+'模板'}/>
+            <ScrollView style={{paddingBottom:10}}>
                {
                    this.state.uzi.map((v,i)=>
                    <TouchableOpacity key={i} 
                    onPress={()=>this.goticket(v.TicketTemplateID,this.props.navigation.state.params.v)} 
                    style={{display:'flex',flexDirection:'row',width:'100%',backgroundColor:'#beebff',height:50,display:'flex',alignItems:'center',marginTop:10}}>
-                           <Image source={require('../images/company_tree.png')} style={{width:15,left:5,resizeMode:Image.resizeMode.contain}}/>
+                           <Image source={require('../images/company_tree.png')} style={{width:20,left:5,resizeMode:Image.resizeMode.contain}}/>
                            <Text style={{fontSize:18,color:'black',left:10,flex:1}}>{v.TicketTemplateName}</Text>
                        <Image source={require('../images/go.png')} style={{right:5,width:15,resizeMode:Image.resizeMode.contain}}/>
                    </TouchableOpacity>
                   )
                }
+            </ScrollView>
             </View>
         )
     }
