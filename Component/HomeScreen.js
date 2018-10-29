@@ -24,27 +24,21 @@ export default class HomeScreen extends React.Component {
   }
 
   async componentDidMount(){
- let liu = '22f83ccc70f746b3b1b49ce63987f618';
-   let quan = '?form.flowroleid='+liu;
-   let qwer = await editquanxian(quan)
-      this.setState({
- result:qwer.from})
 
-      }
+  }
 
   render() {
-    console.log(jconfig.userinfo,'qtrqt')
       const { navigate } = this.props.navigation;
-      return (<View>
+      return (<View style={{alignItems:'center'}}>
                <NavigationBar navigation={this.props.navigation} centertext={'管理'}/>
           {
             this.state.content.map((v,i)=><View key={i}>
             <TouchableOpacity 
                   onPress={()=>navigate('waitPlan')}
-                  style={{height:50,backgroundColor:'#3e5ed2',top:10,display:'flex',alignItems:'center',flexDirection:'row'}} 
+                  style={{height:110,width:'95%',borderRadius:10,backgroundColor:'#3e5ed2',top:10,display:'flex',alignItems:'center',flexDirection:'row'}} 
                   activeOpacity={.8}>
             <View style={{flex:1,display:'flex',alignItems:'center',flexDirection:'row'}}>
-                  <Image source={require('../images/unhandle_ticket.png')} style={{width:15,resizeMode:Image.resizeMode.contain,left:15,marginTop:2}}/>
+                  <Image source={require('../images/unhandle_ticket.png')} style={{width:20,resizeMode:Image.resizeMode.contain,left:15,marginTop:2}}/>
                   <Text style={{
                     left:40,
                     color:'white',
@@ -54,10 +48,10 @@ export default class HomeScreen extends React.Component {
           </TouchableOpacity>
           <TouchableOpacity 
                    onPress={()=>navigate('correlationPlan')}
-                   style={{height:50,backgroundColor:'#3e5ed2',top:20,display:'flex',alignItems:'center',flexDirection:'row'}} 
+                   style={{height:110,width:'95%',borderRadius:10,backgroundColor:'#3e5ed2',top:20,display:'flex',alignItems:'center',flexDirection:'row'}} 
                    activeOpacity={.8}>
              <View style={{flex:1,display:'flex',alignItems:'center',flexDirection:'row'}}>
-                  <Image source={require('../images/online_ticket.png')} style={{width:15,resizeMode:Image.resizeMode.contain,left:15,marginTop:2}}/>
+                  <Image source={require('../images/online_ticket.png')} style={{width:20,resizeMode:Image.resizeMode.contain,left:15,marginTop:2}}/>
                   <Text style={{
                     left:40,
                     color:'white',
@@ -67,10 +61,10 @@ export default class HomeScreen extends React.Component {
           </TouchableOpacity>
           <TouchableOpacity 
                     onPress={()=>navigate('historyPlan')}
-                    style={{height:50,backgroundColor:'#3e5ed2',top:30,display:'flex',alignItems:'center',flexDirection:'row'}} 
+                    style={{height:110,width:'95%',borderRadius:10,backgroundColor:'#3e5ed2',top:30,display:'flex',alignItems:'center',flexDirection:'row'}} 
                     activeOpacity={.8}>
           <View style={{flex:1,display:'flex',alignItems:'center',flexDirection:'row'}}>
-                  <Image source={require('../images/search_ticket.png')} style={{width:15,resizeMode:Image.resizeMode.contain,left:15,marginTop:2}}/>
+                  <Image source={require('../images/search_ticket.png')} style={{width:20,resizeMode:Image.resizeMode.contain,left:15,marginTop:2}}/>
                   <Text style={{
                     left:40,
                     color:'white',

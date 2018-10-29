@@ -75,9 +75,9 @@ export default class ToastExample extends React.Component {
     const {navigate} = this.props.navigation;
     return (<View style={{alignItems:'center'}}>
       <NavigationBar navigation={this.props.navigation} centertext={'我的'}/>
-        <View style={{width:'100%',height:40,backgroundColor:'lightgray',top:10,justifyContent:'center',alignItems:'center'}}>
+        <View style={{width:'95%',borderRadius:10,height:80,backgroundColor:'lightgray',top:10,justifyContent:'center',alignItems:'center'}}>
           <Text onPress={()=>this.xunahn()} style={{fontSize:20,color:'black'}}>
-            id：{jconfig.userinfo.user}
+            用户id：{jconfig.userinfo.user?jconfig.userinfo.user:'暂无'}
           </Text>
         </View>
         <TouchableOpacity onPress={()=> this.out()} style={{top:40,justifyContent:'center',alignItems:'center',width:'80%',backgroundColor:'#00a6e7',borderRadius:5,height:40}}>

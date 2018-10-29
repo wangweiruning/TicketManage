@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text,View,ScrollView,Image,TouchableOpacity} from 'react-native';
+import {Text,View,TouchableOpacity} from 'react-native';
 
 export default class NavigationBar extends React.Component{
     constructor(props){

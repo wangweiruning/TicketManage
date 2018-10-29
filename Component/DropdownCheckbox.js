@@ -25,7 +25,32 @@ export default class DropdownCheckbox extends React.Component{
     }
 
 
+
+    fff(){
+        let l = this.state.SelectData;
+        let je = [];
+        for(let x in this.props.defaultValue){
+            let v = this.props.defaultValue[x];
+            je.push(v)
+            console.log(je,'vvvvvvvvv',x)
+            let g = l.findIndex((i)=>{
+            if(i.realname!==je[x]){
+                console.log('不相等')
+            }
+            else{
+                console.log(`${i.realname}===>${je[x]}`,'gooooooooooo')
+            }
+            return (i.realname===je[x])
+        })
+        }
+        return je
+    }
+
+    
+    
+
     componentWillReceiveProps(nextProps){
+
         this.setState({SelectData:this.props.SelectData});
     }
 
@@ -89,6 +114,7 @@ export default class DropdownCheckbox extends React.Component{
     
 
     render(){
+        this.fff()
         if(!this.props){console.log('dsfgdfsֵ')}
         let {color,fontSize} = {...this.props.TextColor}
         return(
