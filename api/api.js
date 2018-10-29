@@ -157,3 +157,23 @@ export function searchTicketRecord(data) {
 		contentType: "application/x-www-form-urlencoded",
     })
 }
+
+//组成员
+export function findgroup(data) {
+    return Httpdata.post({
+        url: url.findgroup+data,
+        method: 'post',
+        dataType: "json",
+		contentType: "application/x-www-form-urlencoded",
+    })
+}
+
+//部门
+export function findbumen(data) {
+    return Httpdata.post({
+        url: url.findbumen+data,
+        method: 'post',
+        dataType: "json",
+		contentType: "application/x-www-form-urlencoded",
+    })
+}

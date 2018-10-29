@@ -11,7 +11,9 @@ import {TicketBasicInfo,
         searchTicketRecord,
         newTiceketNum,
         searchUserForRole,
-        editquanxian
+        editquanxian,
+        findbumen,
+        findgroup
     } from './../api/api'
 import {StackActions, NavigationActions} from 'react-navigation';
 const resetAction = StackActions.reset({
@@ -42,14 +44,19 @@ export default class Tdetail extends React.Component{
                 isflew:"",//下一个流转状态
                 isfleUser:"",//流转对象
             },
-            pagedata:{},//所有输入内容
+            pagedata:{datalist1:null,datalist2:null,datalist3:null,datalist4:null,datalist5:null,datalist6:null,datalist7:null,datalist8:null,datalist9:null,datalist10:null,
+                     datalist11:null,datalist12:null,datalist13:null,datalist14:null,datalist15:null,datalist16:null,datalist17:null,datalist18:null,datalist19:null,datalist20:null,
+                     datalist21:null,datalist22:null,datalist23:null,datalist24:null,datalist25:null,datalist26:null,datalist27:null,datalist28:null,datalist29:null,datalist30:null,
+                     datalist31:null,datalist32:null,datalist33:null},//所有输入内容
             userPower:'',
             listdatas:[],
             subdatas:{},
             isagree:null,//是否同意流转 0 同意 1 不同意
             isflew:"",//下一个流转状态
             iscofrom:{},
-            showChecked:{}
+            showChecked:{},
+            groupName:[],
+            chengyuanName:[]
 
         }
     }
@@ -134,6 +141,26 @@ export default class Tdetail extends React.Component{
             console.log(TicketRecord,"将已填写的参数值填入页面 ")
             const list = TicketRecord.form.dataList;//获取到票数据内容，等待传入页面
             this.getdefault(list)
+
+
+            //获取组名称
+            const group = "?form.tree_node_id="+'e6f41a5a1ede45fd9f4d013cc16e1732&form.tree_node_operation=2';
+            const bumen = await findbumen(group);
+            console.log(bumen.form.page.dataRows,"获取部门")
+            this.setState({
+                groupName:bumen.form.page.dataRows
+            })
+
+            //获取部门成员
+            const chengyuan = "?form.tree_node_id="+'e6f41a5a1ede45fd9f4d013cc16e1732&form.tree_node_operation=0';
+            const groupnumber = await findgroup(chengyuan)
+            console.log(groupnumber.form.page.dataRows,"获取成员")
+
+            this.setState({
+                chengyuanName:groupnumber.form.page.dataRows
+            })
+
+
              //设置提交目标
              for (var i = 0; i < ticketFlowrole.length; i++) {
                 if (ticketFlowrole[i].ticketstatusid == statusId) {
@@ -428,7 +455,7 @@ export default class Tdetail extends React.Component{
                                 <DropdownCheckbox open={this.openothers.bind(this)} isshow={dis} 
                                 leixin={"datalist"+i}
                                 defaultValue={itemMsg[i-1]?itemMsg[i-1]:"请选择"} style={{backgroundColor:'skyblue'}} TextColor={{color:'black',fontSize:13}} 
-                                SelectData={v.ParaName=="班组"?this.state.searchRole:this.state.searchRole} canClick={dis}/>
+                                SelectData={v.ParaName=="班组"?this.state.groupName:this.state.searchRole} canClick={dis}/>
                                 :v.ParaTypeID==3?
                                  <ModalDropdown 
                                     disabled={!dis}

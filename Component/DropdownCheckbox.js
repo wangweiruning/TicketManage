@@ -98,7 +98,7 @@ export default class DropdownCheckbox extends React.Component{
             return;
         }else{
             for (var i = 0; i < this.props.SelectData.length; i++) {
-               if (this.props.SelectData[i].realname===text) {
+               if (this.props.SelectData[i].realname===text ||this.props.SelectData[i].departmentName ===text) {
                     this.setState({
                         SelectData:[this.props.SelectData[i]],
                     });
@@ -150,13 +150,13 @@ export default class DropdownCheckbox extends React.Component{
                    renderItem={({item,index}) =>
                    <View key={index} style={{flexDirection:'row',padding:5,borderBottomWidth:1,borderBottomColor:'black',borderStyle:'solid'}}>
                    <Checkbox
-                   checked={this.state.activeItem[item.userId]} 
+                   checked={this.state.activeItem[item.userId] || this.state.activeItem[item.id]} 
                    onChange={(e)=>{
                            let s = e.target.checked;
-                           this.state.activeItem[item.userId] = s?item.realname:"";
+                           this.state.activeItem[item.userId || item.id] = s?(item.realname||item.departmentName):"";
                            this.forceUpdate();
                    }} >
-                   <Text style={{width:'100%',left:5,color:color?color:'gray',fontSize:fontSize?fontSize:18}}>{item.realname}</Text></Checkbox>
+                   <Text style={{width:'100%',left:5,color:color?color:'gray',fontSize:fontSize?fontSize:18}}>{item.realname || item.departmentName}</Text></Checkbox>
                    </View>}
                   />
                 <TouchableOpacity activeOpacity={.8} style={{justifyContent:'center',alignItems:'center',backgroundColor:'skyblue',height:50}} 

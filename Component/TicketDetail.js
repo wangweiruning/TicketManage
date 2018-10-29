@@ -281,9 +281,18 @@ export default class Tdetail extends React.Component{
                   height:29.3,justifyContent:'center'}}  
                   defaultValue={'请选择'} 
                   options={this.state.status}/>:v.ParaTypeID==2?
+                  <View>
                    <InputItem editable={dis} 
                     value={itemMsg[i-1]}
-                    onChange={(v)=>this.handleInput('datalist'+i,v)} style={{borderRadius:5,backgroundColor:'white',width:'85%',backgroundColor:"#fffeee"}}/>:v.ParaTypeID==5?<View style={{left:5,width:290}}>       
+                    onChange={(v)=>this.handleInput('datalist'+i,v)} style={{borderRadius:5,backgroundColor:'white',width:'85%',backgroundColor:"#fffeee"}}/>
+                    {v.IsConfirm==1?<View style={{flexDirection:'row',margin:5}}>
+                    <Checkbox
+                        onChange={(e)=>this.onChangecoform('Checkbox'+i,e.target.checked)}
+                        disabled={!dis}
+                    ><Text>是否已执行</Text></Checkbox></View>:null}
+                    </View>
+                    :v.ParaTypeID==5?<View style={{left:5,width:290}}>       
+                    
                    <DatePicker 
                      value={itemMsg[i-1]}
                      mode="date"

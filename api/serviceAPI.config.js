@@ -16,5 +16,7 @@ const URL ={
     ttmsTickets:url+'ticketMng/ticketMng_loadTemplate.action',//选择模板票
     searchFlowRecord:url+'ticketMng/ticketMng_searchFlowRecord.action',//根据id查询已经经过的流程
     searchTicketRecord:url+'ticketMng/ticketMng_searchTicketRecord.action',//将数据值填入页面
+    findgroup:url+'systemMng/userMng_loadGrid.action',//获取组的成员+
+    findbumen:url+'departmentMng/departmentMng_loadGrid.action',//获取部门：部门id 部门名称
 }
 export default URL

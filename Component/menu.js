@@ -1,7 +1,6 @@
 import React from 'react';
 import NavigationBar from './NavigationBar';
 import {View,Text,TouchableOpacity,Alert} from 'react-native';
-import {userlist} from './../api/api'
 import MySorage from '../api/storage';
 import {StackActions, NavigationActions} from 'react-navigation';
 
@@ -13,36 +12,7 @@ export default class ToastExample extends React.Component {
       list:{},
     }
   }
-  async componentDidMount() {
-    let id = jconfig.userinfo.user;
-    let jack = '?form.paramAllList.userid='+id
-    let list = await userlist(jack);
-    this.xunahn(list.form.paramAllList)
-  }
 
-  xunahn(sss){
-    let s = sss;
-    let itemsss= [];
-    
-    let index = s.findIndex((item)=>{
-      console.log(`${item.realname}===>${jconfig.userinfo.user}`);
-        return (item.userid == jconfig.userinfo.id) || (item.realname == jconfig.userinfo.user);
-    });
-
-
-     
-
-    for (let index = 0; index < s.length; index++) {
-        const element = s[index];
-        if (jconfig.userinfo.user!=element.userid) {
-        } else {
-            itemsss.push(element);
-        }
-    }
-    this.setState({
-         list:itemsss[0]
-    })
-  }
   
   out(){
     Alert.alert(
