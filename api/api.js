@@ -52,9 +52,9 @@ export function quanxian(data) {
     })
 }
 
-export function userlist(data) {
+export function userlist(){
     return Httpdata.post({
-        url: url.userlist+data,
+        url: url.userlist,
         method: 'post',
         dataType: "json",
 		contentType: "application/x-www-form-urlencoded",

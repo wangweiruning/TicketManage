@@ -10,7 +10,7 @@ export default class Tdetail extends React.Component{
     constructor(props){
         super(props)
         this.state={
-            vvval:['超级管理员','111'],
+            vvval:'超级管理员,111',
             value:null,
             num:'',
             jax:[],
@@ -307,8 +307,7 @@ export default class Tdetail extends React.Component{
                    >
                     <List.Item arrow="horizontal"></List.Item>
                     </DatePicker></View>:v.ParaTypeID==6?
-                
-                  <View><TextareaItem editable={!dis}  
+                  <View><TextareaItem editable={!dis} placeholder={'请输入'}
                   onChangeText={(v)=>this.handleInput('datalist'+i,v)}
                   defaultValue={itemMsg[i-1]} autoHeight 
                   style={{ paddingVertical: 5 ,backgroundColor:"#fffeee"}} />

@@ -12,7 +12,7 @@ export default class ToastExample extends React.Component {
       list:{},
     }
   }
-
+ 
   
   out(){
     Alert.alert(
