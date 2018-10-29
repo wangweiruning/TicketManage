@@ -69,8 +69,7 @@ export default class DropdownCheckbox extends React.Component{
         if(display.length>0){
             return display.join(",");
         }else{
- 
-            return defaultValue
+            return defaultValue?defaultValue:'请选择'
         }
     }
 

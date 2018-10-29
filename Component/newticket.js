@@ -45,7 +45,7 @@ export default class Newticket extends React.Component{
                     <TouchableOpacity key={i} 
                     onPress={()=>this.goticket(v.attr.tree_id.substring(2),v.data.title)} 
                     style={{display:'flex',flexDirection:'row',backgroundColor:'#beebff',display:'flex',alignItems:'center',marginTop:10}}>
-                            <Image source={require('../images/company_tree.png')} style={{width:15,left:5,resizeMode:Image.resizeMode.contain}}/>
+                            <Image source={require('../images/company_tree.png')} style={{width:20,left:5,resizeMode:Image.resizeMode.contain}}/>
                             <Text style={{fontSize:18,color:'black',left:10,flex:1}}>{v.data.title}</Text>
                         <Image source={require('../images/go.png')} style={{right:5,width:15,resizeMode:Image.resizeMode.contain}}/>
                     </TouchableOpacity>)
