@@ -14,10 +14,11 @@ export default class ToastExample extends React.Component {
     }
   }
   async componentDidMount() {
-    let id = jconfig.userinfo.user;
-    let jack = '?form.paramAllList.userid='+id
-    let list = await userlist(jack);
+    // let id = jconfig.userinfo.user;
+    // let jack = '?form.paramAllList.userid='+id
+    let list = await userlist();
     this.xunahn(list.form.paramAllList)
+    console.log(list,'......................')
   }
 
   xunahn(sss){
