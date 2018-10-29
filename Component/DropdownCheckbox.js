@@ -24,7 +24,7 @@ export default class DropdownCheckbox extends React.Component{
         });
     }
 
-
+                     
 
     fff(){
         let l = this.state.SelectData;
@@ -54,7 +54,8 @@ export default class DropdownCheckbox extends React.Component{
         this.setState({SelectData:this.props.SelectData});
     }
 
-    open(){
+
+    open(defaultValue){
         let activeItem = this.state.activeItem;
         let display = [];
     
@@ -64,11 +65,12 @@ export default class DropdownCheckbox extends React.Component{
             }
         };
 
-        console.log(display,'display')
+        console.log(display,'display',defaultValue)
         if(display.length>0){
             return display.join(",");
         }else{
-            return "请选择"
+ 
+            return defaultValue
         }
     }
 
@@ -122,7 +124,8 @@ export default class DropdownCheckbox extends React.Component{
              <TouchableOpacity disabled={this.props.isshow} onPress={()=>this.setState({visible:true})}>
              <View style={{flexDirection:'row',alignItems:'center',...this.props.style}}>
                         <Text style={{padding:5,flex:1,flexDirection:'row',color:color?color:'gray',fontSize:fontSize?fontSize:18}}>{
-                            this.open()
+                     
+                            this.open(this.props.defaultValue)
                         }</Text>
                     </View>
             </TouchableOpacity>
@@ -160,7 +163,8 @@ export default class DropdownCheckbox extends React.Component{
                 <TouchableOpacity activeOpacity={.8} style={{justifyContent:'center',alignItems:'center',backgroundColor:'skyblue',height:50}} 
                      onPress={()=>{
                            this.setState({visible:false,SelectData:this.props.SelectData})
-                           this.props.open(this.state.activeItem)
+                    
+                           this.props.open(this.state.activeItem,this.props.leixin)
                         }
                     }>
                       <Text style={{fontSize:18,color:'white'}}>确定</Text>

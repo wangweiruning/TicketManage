@@ -22,7 +22,7 @@ export default class Tdetail extends React.Component{
     constructor(props){
         super(props)
         this.state={
-            vvval:"",
+            vvval:"超级管理员,111,版本",//获取流转对象
             part1Value:false,
             TiceketNum:"",
             username:'',
@@ -37,54 +37,23 @@ export default class Tdetail extends React.Component{
             havelist:[],
             ContentID:"",
             rolecontentid:"",
-            userAll:[],
             showPage:{
                 isagree:null,//是否同意流转 0 同意 1 不同意
                 isflew:"",//下一个流转状态
                 isfleUser:"",//流转对象
             },
-            pagedata:{
-                datalist1:null,
-                datalist2:null,
-                datalist3:null,
-                datalist4:null,
-                datalist5:null,
-                datalist6:null,
-                datalist7:null,
-                datalist8:null,
-                datalist9:null,
-                datalist10:null,
-                datalist11:null,
-                datalist12:null,
-                datalist13:null,
-                datalist14:null,
-                datalist15:null,
-                datalist16:null,
-                datalist17:null,
-                datalist18:null,
-                datalist19:null,
-                datalist20:null,
-                datalist21:null,
-                datalist22:null,
-                datalist23:null,
-                datalist24:null,
-                datalist25:null,
-                datalist26:null,
-                datalist27:null,
-                datalist28:null,
-                datalist29:null,
-                datalist30:null,
-                datalist31:null,
-                datalist32:null,
-                datalist33:null,
-            },//输入框
+            pagedata:{},//所有输入内容
             userPower:'',
             listdatas:[],
-            subdatas:{}
+            subdatas:{},
+            isagree:null,//是否同意流转 0 同意 1 不同意
+            isflew:"",//下一个流转状态
+            iscofrom:{},
+            showChecked:{}
 
         }
     }
-
+    Checkbox
       async componentDidMount(){
         this.getCanNotdata()
       }
@@ -112,7 +81,8 @@ export default class Tdetail extends React.Component{
         this.setState({
             TiceketNum:TiceketNum.form.newTicket
         })
-
+        
+           
 
         let r = '?form.jqgrid_row_selected_id='+templateID;
           let x = await TicketBasicInfo(r);//获取模板
@@ -122,6 +92,9 @@ export default class Tdetail extends React.Component{
                     templateContents: x.form.templateContents
                 })
           }
+          x.form.templateContents.map((item,index)=>{
+            if(item.IsConfirm==1) this.isconfoms('iscofrom'+index)
+        })
         //查询当前两票基本信息  
         console.log(ticketNum)
         let aas = '?form.ticketNum='+ticketNum;
@@ -160,6 +133,7 @@ export default class Tdetail extends React.Component{
             const TicketRecord =await searchTicketRecord(flewFrom);
             console.log(TicketRecord,"将已填写的参数值填入页面 ")
             const list = TicketRecord.form.dataList;//获取到票数据内容，等待传入页面
+            this.getdefault(list)
              //设置提交目标
              for (var i = 0; i < ticketFlowrole.length; i++) {
                 if (ticketFlowrole[i].ticketstatusid == statusId) {
@@ -184,15 +158,6 @@ export default class Tdetail extends React.Component{
             console.log(searchRole,"获取提交对象")
             this.setState({
                 searchRole:searchRole.form.dataList
-            })
-            // let aa = [];
-            // let kobe = searchRole.form.dataList;
-            // for(let j in kobe){
-            //       let bryent = kobe[j].realname;
-            //       aa.push(bryent);
-            //   }
-              this.setState({
-                userAll:searchRole.form.dataList
             })
         }
 
@@ -229,7 +194,14 @@ export default class Tdetail extends React.Component{
         console.log(dd,'sasf');
         
       }
-
+      onChangecoform(value,dis){
+          const listitem ={[value]:dis}
+          const sss=Object.assign(this.state.showChecked,listitem)
+        this.setState({
+            showChecked:sss
+        });
+        
+      }
     handleInput(k, v){
         let s ={[k]:v};
         let data = Object.assign(this.state.pagedata,s)
@@ -253,10 +225,21 @@ export default class Tdetail extends React.Component{
         this.forceUpdate()
     }
 
-    ischacked=(asd)=>{
+    ischacked=(asd,iscofrom)=>{
+        console.log(iscofrom,"111111111111111")
         let sss = this.state.havChangeList;
         let index=0;
         if (sss.length>0) {
+            sss.map(item=>{
+                console.log(item,".................")
+                if(item.IsConfirm==1){
+                    console.log(22222222222)
+                    this.setState({
+                        [iscofrom]:true
+                    })
+                }
+            })
+
              index = sss.findIndex((v)=>{
             return v.TicketParaID == asd;
            
@@ -265,12 +248,20 @@ export default class Tdetail extends React.Component{
              return index==-1;
         } else {
             return false;
-        }
-       
-       
-
+        }  
     }
 
+    isconfoms=(iscofrom)=>{
+        const isco = {[iscofrom]:true}
+        const dd = Object.assign(this.state.iscofrom,isco)
+                    this.setState({
+                        iscofrom:dd
+                    })
+
+    }
+/**
+ * 获取提交对象
+ * **/
     open(val){
         let display = [];
     
@@ -279,11 +270,26 @@ export default class Tdetail extends React.Component{
                 display.push(val[i]);
             }
         };
+        this.state.showPage.isfleUser=display.join(",");
         this.setState({
             vvval:display.join(",")
         })
+        this.forceUpdate()
     }
-
+    openothers(val,leixing){
+        let display = [];
+    
+        for(let i in val){
+            if(val[i]){
+                display.push(val[i]);
+            }
+        };
+        let s ={[leixing]:display.join(",")};
+        let data = Object.assign(this.state.pagedata,s)
+        this.setState({
+            pagedata: data
+        });
+    }
     isChange=(ss)=>{
         let sss = this.state.pagedata;
 
@@ -294,7 +300,7 @@ export default class Tdetail extends React.Component{
     gotSubmit=()=>{
         return  <View style={{margin:5}}>
                         <Text>流转目标</Text>
-                        <DropdownCheckbox open={this.open.bind(this)} style={{backgroundColor:'skyblue'}} TextColor={{color:'black',fontSize:13}} SelectData={this.state.userAll} color="skyblue"/>
+                        <DropdownCheckbox open={this.open.bind(this)} style={{backgroundColor:'skyblue'}} TextColor={{color:'black',fontSize:13}} SelectData={this.state.searchRole} color="skyblue"/>
                 </View>
     }
     getliuzhuan=()=>{
@@ -390,11 +396,13 @@ export default class Tdetail extends React.Component{
       }
 
     submitResult(){
-        const {pagedata} = {...this.state};
+       const usrid= window.jconfig.userinfo;
+       console.log(usrid,"用户id")
+        const {pagedata,showPage} = {...this.state};
+        
         console.log(this.state,"333333333333")
     }
     render(){
-        console.log(this.state.vvval,'qwr')
         return(<View style={{justifyContent:'center'}}>
                     <Title navigation={this.props.navigation} 
                         centerText={this.props.navigation.state.params.typeName+""+this.props.navigation.state.params.ticketNum}/>
@@ -417,8 +425,11 @@ export default class Tdetail extends React.Component{
                                 }}>
                                 <Text style={{color:'#3e5ed2',left:5}}>{v.ParaName}</Text>
                             </View>
-                            {   v.ParaTypeID==4?
-                                <DropdownCheckbox isshow={!dis} style={{backgroundColor:'skyblue'}} TextColor={{color:'black',fontSize:13}} SelectData={this.state.userAll} canClick={dis}/>
+                            {   v.ParaTypeID==4? 
+                                <DropdownCheckbox open={this.openothers.bind(this)} isshow={dis} 
+                                leixin={"datalist"+i}
+                                defaultValue={itemMsg[i-1]?itemMsg[i-1]:"请选择"} style={{backgroundColor:'skyblue'}} TextColor={{color:'black',fontSize:13}} 
+                                SelectData={v.ParaName=="班组"?this.state.searchRole:this.state.searchRole} canClick={dis}/>
                                 :v.ParaTypeID==3?
                                  <ModalDropdown 
                                     disabled={!dis}
@@ -426,9 +437,10 @@ export default class Tdetail extends React.Component{
                                     textStyle={{color:'black',fontSize:13,left:5}} 
                                     style={{backgroundColor:'skyblue',width:'100%',
                                     height:29.3,justifyContent:'center'}}  
-                                    defaultValue={'请选择'} 
+                                    defaultValue={itemMsg[i-1]?itemMsg[i-1]:"请选择"} 
                                     options={[111,222,333]}/>
                                 :v.ParaTypeID==2?
+                                <View>
                                    <TextInput  
                                     value={itemMsg[i-1]}
                                     editable={dis} 
@@ -436,7 +448,12 @@ export default class Tdetail extends React.Component{
                                     style={{borderRadius:5,
                                         left:10,backgroundColor:"#fffeee",
                                         width:'85%'}} />
-                                :v.ParaTypeID==5
+                                        {v.IsConfirm==1?<View style={{flexDirection:'row',margin:5}}>
+                                        <Checkbox
+                                            onChange={(e)=>this.onChangecoform('Checkbox'+i,e.target.checked)}
+                                            disabled={!dis}
+                                        ><Text>是否已执行</Text></Checkbox></View>:<Text></Text>}
+                                </View>:v.ParaTypeID==5
                                 ?
                                  <DatePicker
                                     value={itemMsg[i-1]}
@@ -461,7 +478,8 @@ export default class Tdetail extends React.Component{
                                                     borderBottomWidth:2,
                                                   backgroundColor:"#fffeee" }} />
                                                               
-                                {v.IsConfirm==1?<View style={{flexDirection:'row',margin:5}}><Checkbox checked={dis}><Text>是否已执行</Text></Checkbox></View>:<Text></Text>}
+                                {v.IsConfirm==1?<View style={{flexDirection:'row',margin:5}}><Checkbox  onChange={(e)=>this.onChangecoform('Checkbox'+i,e.target.checked)}
+                                            disabled={!dis}><Text>是否已执行</Text></Checkbox></View>:<Text></Text>}
                                 </View>:<Text></Text>
                             }
                                     </View>
