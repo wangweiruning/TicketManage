@@ -4,6 +4,7 @@ import {InputItem,DatePicker,List,Checkbox,TextareaItem} from 'antd-mobile-rn';
 import {View,Text,ScrollView,TouchableOpacity,Picker,TextInput} from 'react-native';
 import ModalDropdown from 'react-native-modal-dropdown';
 import DropdownCheckbox from '../Component/DropdownCheckbox';
+import TicketTitle from './TicketTitle';
 import {TicketBasicInfo,
         searchTicketBasicInfo,
         searchTicketFlow,
@@ -24,7 +25,7 @@ export default class Tdetail extends React.Component{
     constructor(props){
         super(props)
         this.state={
-            nnnmmm:'',
+            nnnmmm:false,
             vvval:"超级管理员,111,版本",//获取流转对象
             part1Value:false,
             TiceketNum:"",
@@ -64,9 +65,8 @@ export default class Tdetail extends React.Component{
 
         }
     }
-    Checkbox
       async componentDidMount(){
-        this.getCanNotdata()
+        this.getCanNotdata();
       }
 
     //获取模板列表
@@ -207,11 +207,13 @@ export default class Tdetail extends React.Component{
         const saves = await editquanxian(paramsItem);//获取可编辑内容区域
         console.log(saves.form.dataList,"获取可编辑内容区域");
             this.setState({
-                havChangeList:saves.form.dataList,
-                nnnmmm:'123'
+                havChangeList:saves.form.dataList
             })
-
+            
         this.xunahn(x.form.templateContents,saves.form.dataList)
+        this.setState({
+            nnnmmm:true
+        })
         } 
     }
     getSelect(value,datalist){
@@ -269,7 +271,6 @@ export default class Tdetail extends React.Component{
     }
 
     ischacked=(asd,iscofrom)=>{
-        console.log(iscofrom,"111111111111111")
         let sss = this.state.havChangeList;
         let index=0;
         if (sss.length>0) {
@@ -284,10 +285,8 @@ export default class Tdetail extends React.Component{
             })
 
              index = sss.findIndex((v)=>{
-            return v.TicketParaID == asd;
-           
-        });
-             console.log(index,"2222222222222222222222")
+                 return v.TicketParaID == asd;
+           });
              return index==-1;
         } else {
             return false;
@@ -428,10 +427,9 @@ export default class Tdetail extends React.Component{
             console.log(pageUseName,"获取所有成员")
 
         return(<View style={{justifyContent:'center'}}>
-                    <Title navigation={this.props.navigation} 
-                    
-                    num={this.state.nnnmmm}
+                    <TicketTitle navigation={this.props.navigation} num={this.state.nnnmmm}
                         centerText={this.props.navigation.state.params.typeName+""+this.props.navigation.state.params.ticketNum}/>
+                   
                     <ScrollView style={{display:'flex'}}>
                         {
                             this.state.templateContents.map((v,i)=>{
