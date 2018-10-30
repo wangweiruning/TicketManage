@@ -1,7 +1,6 @@
 import React from 'react';
 import TicketTitle from './TicketTitle';
 import {DatePicker,List,Checkbox,TextareaItem} from 'antd-mobile-rn';
-
 import {View,Text,ScrollView,TouchableOpacity,TextInput,ToastAndroid} from 'react-native';
 import ModalDropdown from 'react-native-modal-dropdown';
 import {newTiceketNum,searchTicketBasicInfo,TicketBasicInfo,searchTicketFlow,editquanxian,searchUserForRole} from './../api/api'
@@ -11,7 +10,8 @@ export default class Tdetail extends React.Component{
     constructor(props){
         super(props)
         this.state={
-vvval:"111,哈哈，超级管理员",            value:null,
+            vvval:"111,哈哈，超级管理员",
+            value:null,
             num:'',
             jax:[],
             zed:[],
@@ -64,13 +64,16 @@ vvval:"111,哈哈，超级管理员",            value:null,
 
       async componentDidMount(){
           this.getData();
-          this.loding()
+          
       }
     
      loding(){
-        if(this.state.num.length<0)
-        this.time = setTimeout(()=>ToastAndroid.show("数据加载缓慢，请耐心等待", ToastAndroid.SHORT),3000)
-        else clearTimeout(this.time)
+        if(this.state.user.length==0){
+             setTimeout(()=>ToastAndroid.show("数据加载缓慢，请耐心等待", ToastAndroid.SHORT),3000)
+        }
+        else{
+             setTimeout(()=>ToastAndroid.show("加载完毕", ToastAndroid.SHORT),1000)
+        } 
      }
 
 
@@ -123,7 +126,6 @@ vvval:"111,哈哈，超级管理员",            value:null,
             jax:bool.form.templateContents,
             zed:feel.form.dataList
        })
-
        this.xunahn(this.state.jax,this.state.zed)
        this.getlls(bool.form.templateContents);
     //    this.getdefault(bool.form.templateContents)
@@ -253,6 +255,7 @@ vvval:"111,哈哈，超级管理员",            value:null,
 
 
     render(){
+        this.loding() 
         return(<View style={{justifyContent:'center'}}>
             
             <TicketTitle navigation={this.props.navigation} num={this.state.num} centerText={this.props.navigation.state.params.v+'('+this.state.num+')'}/>
