@@ -1,8 +1,8 @@
 import React from 'react';
 import NavigationBar from './NavigationBar';
 import MySorage from '../api/storage';
-import {userlist,editquanxian} from './../api/api'
-import {Text,View,ScrollView,Image,TouchableOpacity,Alert,Modal} from 'react-native';
+import {userlist} from './../api/api';
+import {Text,View,Image,TouchableOpacity} from 'react-native';
 
 
 export default class HomeScreen extends React.Component {
@@ -24,9 +24,7 @@ export default class HomeScreen extends React.Component {
   }
 
   async componentDidMount() {
-    let id = jconfig.userinfo.user;
-    let jack = '?form.paramAllList.userid='+id
-    let list = await userlist(jack);
+    let list = await userlist();
     console.log(list.form.paramAllList,'llllliiiiisttt')
     this.xunahn(list.form.paramAllList)
   }
@@ -39,17 +37,6 @@ export default class HomeScreen extends React.Component {
       console.log(`${item.realname}===>${jconfig.userinfo.user}`);
         return (item.userid == jconfig.userinfo.id) || (item.realname == jconfig.userinfo.user);
     });
-     
-  //   for (let index = 0; index < s.length; index++) {
-  //       const element = s[index];
-  //       if (jconfig.userinfo.user!=element.userid) {
-  //       } else {
-  //           itemsss.push(element);
-  //       }
-  //   }
-  //   this.setState({
-  //        list:itemsss[0]
-  //   })
   }
   render() {
       const { navigate } = this.props.navigation;

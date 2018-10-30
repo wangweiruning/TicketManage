@@ -1,7 +1,7 @@
 import React from 'react';
 import TicketTitle from './TicketTitle';
 import {DatePicker,List,Checkbox,TextareaItem} from 'antd-mobile-rn';
-import {View,Text,ScrollView,TouchableOpacity,TextInput} from 'react-native';
+import {View,Text,ScrollView,TouchableOpacity,TextInput,ToastAndroid} from 'react-native';
 import ModalDropdown from 'react-native-modal-dropdown';
 import {newTiceketNum,searchTicketBasicInfo,TicketBasicInfo,searchTicketFlow,editquanxian,searchUserForRole} from './../api/api'
 import DropdownCheckbox from './DropdownCheckbox';
@@ -10,7 +10,7 @@ export default class Tdetail extends React.Component{
     constructor(props){
         super(props)
         this.state={
-            vvval:{userId:'techlab',realname:'超级管理员'},
+            vvval:'超级管理员,111,哈哈',
             value:null,
             num:'',
             jax:[],
@@ -63,9 +63,16 @@ export default class Tdetail extends React.Component{
     }
 
       async componentDidMount(){
-          this.getData()
+          this.getData();
+          this.loding()
       }
     
+     loding(){
+        if(this.state.num.length<0)
+        this.time = setTimeout(()=>ToastAndroid.show("数据加载缓慢，请耐心等待", ToastAndroid.SHORT),3000)
+        else clearTimeout(this.time)
+     }
+
 
      async getData(){
         let e = this.props.navigation.state.params.name;
@@ -172,9 +179,8 @@ export default class Tdetail extends React.Component{
         this.setState({
             pagedata: data
         });
-}        
+        }        
         })
-       
       }
 
       xunahn(sss,kkk){
@@ -246,7 +252,7 @@ export default class Tdetail extends React.Component{
 
     render(){
         return(<View style={{justifyContent:'center'}}>
-            <TicketTitle navigation={this.props.navigation} centerText={this.props.navigation.state.params.v+'('+this.state.num+')'}/>
+            <TicketTitle navigation={this.props.navigation} num={this.state.num} centerText={this.props.navigation.state.params.v+'('+this.state.num+')'}/>
         <ScrollView style={{display:'flex'}}>
         {
             this.state.jax.map((v,i)=>
@@ -257,7 +263,7 @@ export default class Tdetail extends React.Component{
            return <View  key={i} style={{backgroundColor:'white',marginTop:5}}>
               <View style={{
                   width:'100%',
-                  height:40,
+                  height:30,
                   flexDirection:'row',
                   backgroundColor:'white',
                   borderBottomWidth:1,
@@ -282,7 +288,7 @@ export default class Tdetail extends React.Component{
                   <View>
                    <TextInput editable={!dis} 
                     value={itemMsg[i-1]}
-                    onChange={(v)=>this.handleInput('datalist'+i,v)} style={{borderRadius:5,backgroundColor:'white',width:'85%',backgroundColor:"#fffeee"}}/>
+                    onChange={(v)=>this.handleInput('datalist'+i,v)} style={{borderRadius:5,backgroundColor:'white',width:'100%',backgroundColor:"#fffeee"}}/>
                     {v.IsConfirm==1?<View style={{flexDirection:'row',margin:5}}>
                     <Checkbox
                         onChange={(e)=>this.onChangecoform('Checkbox'+i,e.target.checked)}

@@ -1,4 +1,5 @@
 import React from 'react';
+import {ActivityIndicator} from 'antd-mobile-rn';
 import {View,Text,TouchableOpacity,Image} from 'react-native';
 
 export default class TicketTitle extends React.Component{
@@ -32,6 +33,7 @@ export default class TicketTitle extends React.Component{
             <View style={{flex:1,alignItems: 'center'}}>
                 <Text style={{color: 'black',fontSize:15,fontWeight:'500'}}>{this.props.centerText}</Text>
             </View>
+            <View style={{width:30}}><ActivityIndicator animating={this.props.num?false:true} color="#00adb5"/></View>
         </View>)
     }
 }

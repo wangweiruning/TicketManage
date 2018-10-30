@@ -17,7 +17,6 @@ export default class DropdownCheckbox extends React.Component{
             defaultChecked:false,
             datas:''
         }
-        console.log("666666666666666_new:",this.state);
     }
      
     setDefaultVal=()=>{
@@ -31,8 +30,6 @@ export default class DropdownCheckbox extends React.Component{
                 activeItem[index] = defaultVal[i];
             }
         }
-        console.log("\n");
-        console.log('ddddeeeeeee',activeItem)
         this.setState({activeItem});
     }
 
@@ -54,7 +51,6 @@ export default class DropdownCheckbox extends React.Component{
     componentWillReceiveProps(nextProps){
         this.setState({SelectData:nextProps.SelectData,default:nextProps.defaultValue});
         this.setDefaultVal();
-        console.log("666666666666666_new:",this.state,nextProps);
     }
 
 
@@ -66,8 +62,6 @@ export default class DropdownCheckbox extends React.Component{
                 display.push(activeItem[i]);
             }
         };
-
-        console.log(display,'display')
         if(display.length>0){
             return display.join(",");
         }else{
@@ -152,7 +146,7 @@ export default class DropdownCheckbox extends React.Component{
                 renderItem={({item,index}) =>
               
                 <View key={index} style={{flexDirection:'row',padding:5,borderBottomWidth:1,borderBottomColor:'black',borderStyle:'solid'}}>
-                <Checkbox checked={this.state.activeItem[item.userId || item.id]}
+                <Checkbox checked={this.state.activeItem[item.userId ||item.id]}
                 onChange={(e)=>{
                         let s = e.target.checked;
                         this.state.activeItem[item.userId||item.id] = s?item.realname||item.departmentName:"";
