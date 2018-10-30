@@ -24,6 +24,7 @@ export default class Tdetail extends React.Component{
     constructor(props){
         super(props)
         this.state={
+            nnnmmm:'',
             vvval:"超级管理员,111,版本",//获取流转对象
             part1Value:false,
             TiceketNum:"",
@@ -206,11 +207,12 @@ export default class Tdetail extends React.Component{
         const saves = await editquanxian(paramsItem);//获取可编辑内容区域
         console.log(saves.form.dataList,"获取可编辑内容区域");
             this.setState({
-                havChangeList:saves.form.dataList
+                havChangeList:saves.form.dataList,
+                nnnmmm:'123'
             })
 
         this.xunahn(x.form.templateContents,saves.form.dataList)
-        }   
+        } 
     }
     getSelect(value,datalist){
         let s ={[datalist]:value};
@@ -427,6 +429,8 @@ export default class Tdetail extends React.Component{
 
         return(<View style={{justifyContent:'center'}}>
                     <Title navigation={this.props.navigation} 
+                    
+                    num={this.state.nnnmmm}
                         centerText={this.props.navigation.state.params.typeName+""+this.props.navigation.state.params.ticketNum}/>
                     <ScrollView style={{display:'flex'}}>
                         {

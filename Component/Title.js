@@ -1,4 +1,5 @@
 import React from 'react';
+import {ActivityIndicator} from 'antd-mobile-rn';
 import {View,Text,TouchableOpacity,Image} from 'react-native';
 
 export default class Title extends React.Component{
@@ -37,10 +38,10 @@ export default class Title extends React.Component{
             <View style={{flex:1,alignItems: 'center'}}>
                 <Text style={{color: 'black',fontSize:15,fontWeight:'500'}}>{this.props.centerText}</Text>
             </View>
-            <View style={{marginRight:5,justifyContent: 'center',width:65,height:35}}>
-                   <Text 
-                        onPress={()=>this.HaveSee()}
-                        style={{color: '#007aff',}}>{this.props.rightText}</Text>        
+            <View style={{marginRight:5,justifyContent: 'center',width:65,height:35}}><Text 
+                       onPress={()=>this.HaveSee()}
+                       style={{color: '#007aff',}}>{this.props.rightText}
+                  </Text> 
             </View>
         </View>)
     }
