@@ -12,12 +12,37 @@ export default class DropdownCheckbox extends React.Component{
             selected: '',
             show:false,
             text:'',
+            default:this.props.defaultValue,
             activeItem:new Array(this.props.SelectData.length).fill(""),
             defaultChecked:false,
             datas:''
         }
+        console.log("666666666666666_new:",this.state);
+    }
+     
+    setDefaultVal=()=>{
+        let defaultVal = this.state.default || "";
+        let SelectData = this.state.SelectData;
+        let activeItem = this.state.activeItem;
+        // defaultVal = defaultVal.split(",");
+        for(let i in defaultVal){
+            let index = SelectData.findIndex((e)=>e.realname==defaultVal[i]);
+            if(index!=-1){
+                activeItem[index] = defaultVal[i];
+            }
+        }
+        console.log("\n");
+        console.log('ddddeeeeeee',activeItem)
+        this.setState({activeItem});
     }
 
+    componentDidMount(){
+           
+        this.setDefaultVal();
+
+        
+    }
+    
 
     onSelect = (value) => {
         this.setState({
@@ -27,7 +52,9 @@ export default class DropdownCheckbox extends React.Component{
     } 
     
     componentWillReceiveProps(nextProps){
-        this.setState({SelectData:this.props.SelectData});
+        this.setState({SelectData:nextProps.SelectData,default:nextProps.defaultValue});
+        this.setDefaultVal();
+        console.log("666666666666666_new:",this.state,nextProps);
     }
 
 
@@ -120,9 +147,10 @@ export default class DropdownCheckbox extends React.Component{
             </View>
             </View>
                 <FlatList style={{width:"100%",height:100,backgroundColor:'white'}}
-data = {this.state.SelectData}
+                data = {this.state.SelectData}
                 keyExtractor={(item, index) => index.toString()}
                 renderItem={({item,index}) =>
+              
                 <View key={index} style={{flexDirection:'row',padding:5,borderBottomWidth:1,borderBottomColor:'black',borderStyle:'solid'}}>
                 <Checkbox checked={this.state.activeItem[item.userId || item.id]}
                 onChange={(e)=>{
@@ -135,10 +163,9 @@ data = {this.state.SelectData}
                 />
                 <TouchableOpacity style={{justifyContent:'center',alignItems:'center',backgroundColor:'skyblue',height:50}} 
                     onPress={()=>{
-                        this.setState({visible:false,SelectData:this.props.SelectData})
-                        this.props.open(this.state.activeItem,this.props.leixin)                        }
+                        this.setState({visible:false,SelectData:this.props.SelectData})                     }
+                        this.props.open(this.state.activeItem,this.props.leixin)}
                     }>
-                   
                     <Text style={{fontSize:18,color:'white'}}>确定</Text>
                 </TouchableOpacity>
             

@@ -1,7 +1,7 @@
 import React from 'react';
 import TicketTitle from './TicketTitle';
-import {InputItem,DatePicker,List,Checkbox,TextareaItem, Button} from 'antd-mobile-rn';
-import {View,Text,ScrollView,TouchableOpacity,Picker,ToastAndroid,Modal,DatePickerAndroid} from 'react-native';
+import {DatePicker,List,Checkbox,TextareaItem} from 'antd-mobile-rn';
+import {View,Text,ScrollView,TouchableOpacity,TextInput} from 'react-native';
 import ModalDropdown from 'react-native-modal-dropdown';
 import {newTiceketNum,searchTicketBasicInfo,TicketBasicInfo,searchTicketFlow,editquanxian,searchUserForRole} from './../api/api'
 import DropdownCheckbox from './DropdownCheckbox';
@@ -10,7 +10,7 @@ export default class Tdetail extends React.Component{
     constructor(props){
         super(props)
         this.state={
-            vvval:'超级管理员,111',
+            vvval:{userId:'techlab',realname:'超级管理员'},
             value:null,
             num:'',
             jax:[],
@@ -63,9 +63,7 @@ export default class Tdetail extends React.Component{
     }
 
       async componentDidMount(){
-          if(!jconfig.userinfo) return ToastAndroid.show('请登录',ToastAndroid.SHORT);
           this.getData()
-         
       }
     
 
@@ -279,10 +277,10 @@ export default class Tdetail extends React.Component{
                   textStyle={{color:'black',fontSize:13,left:5}} 
                   style={{backgroundColor:'skyblue',width:'100%',
                   height:29.3,justifyContent:'center'}}  
-                  defaultValue={'请选择'} 
+                  defaultValue={'请选择'}
                   options={this.state.status}/>:v.ParaTypeID==2?
                   <View>
-                   <InputItem editable={dis} 
+                   <TextInput editable={!dis} 
                     value={itemMsg[i-1]}
                     onChange={(v)=>this.handleInput('datalist'+i,v)} style={{borderRadius:5,backgroundColor:'white',width:'85%',backgroundColor:"#fffeee"}}/>
                     {v.IsConfirm==1?<View style={{flexDirection:'row',margin:5}}>
