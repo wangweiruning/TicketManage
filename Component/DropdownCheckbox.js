@@ -60,7 +60,7 @@ if(nextProps.SelectData.length>0 && nextProps.defaultValue!=undefined){
                 console.log(this.state.activeItem,"ffffffffffff")
                 this.forceUpdate()
                 }
-               
+
             })
         }    }
 

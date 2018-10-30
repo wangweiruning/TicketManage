@@ -361,7 +361,7 @@ vvval:"111,哈哈，超级管理员",            value:null,
             <View style={{display:'flex',justifyContent:'center',margin:5}}>
             
                 <Text style={{color:'black'}}>流转目标</Text>
-                <DropdownCheckbox defaultValue={this.state.vvval} open={this.open.bind(this)} style={{backgroundColor:'skyblue'}} TextColor={{color:'black',fontSize:13}} SelectData={this.state.user}/>
+                <DropdownCheckbox  open={this.open.bind(this)} style={{backgroundColor:'skyblue'}} TextColor={{color:'black',fontSize:13}} SelectData={this.state.user}/>
             </View>
             </View> 
             <View style={{marginBottom:50,width:'100%',display:'flex',justifyContent:'center',alignItems:'center'}}>
