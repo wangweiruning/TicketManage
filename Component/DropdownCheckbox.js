@@ -24,28 +24,8 @@ export default class DropdownCheckbox extends React.Component{
           visible: false,
           selected: value,
         });
-    }
-
-                     
-
-    // fff(){
-    //     let l = this.state.SelectData;
-
-    //     let g = l.findIndex((i)=>{
-    //     if(i.realname!==){
-    //         console.log('不相等')
-    //     }
-    //     else{
-    //         console.log(`${i.realname}===>${je[x]}`,'gooooooooooo')
-    //     }
-    //         return (i.realname===je[x])
-    //     })
-    //     return je
-    // }
-
+    } 
     
-    
-
     componentWillReceiveProps(nextProps){
         this.setState({SelectData:this.props.SelectData});
     }
@@ -112,7 +92,6 @@ export default class DropdownCheckbox extends React.Component{
     
 
     render(){
-        // this.fff()
         if(!this.props){console.log('dsfgdfsֵ')}
         let {color,fontSize} = {...this.props.TextColor}
         return(
@@ -145,13 +124,13 @@ data = {this.state.SelectData}
                 keyExtractor={(item, index) => index.toString()}
                 renderItem={({item,index}) =>
                 <View key={index} style={{flexDirection:'row',padding:5,borderBottomWidth:1,borderBottomColor:'black',borderStyle:'solid'}}>
-                <Checkbox checked={this.state.activeItem[item.userId]}
+                <Checkbox checked={this.state.activeItem[item.userId || item.id]}
                 onChange={(e)=>{
                         let s = e.target.checked;
-                        this.state.activeItem[item.userId] = s?item.realname:"";
+                        this.state.activeItem[item.userId||item.id] = s?item.realname||item.departmentName:"";
                         this.forceUpdate();
                 }}>
-                <Text style={{width:'100%',left:5,color:color?color:'gray',fontSize:fontSize?fontSize:18}}>{item.realname}</Text></Checkbox>
+                <Text style={{width:'100%',left:5,color:color?color:'gray',fontSize:fontSize?fontSize:18}}>{item.realname ||item.departmentName}</Text></Checkbox>
                 </View>}
                 />
                 <TouchableOpacity style={{justifyContent:'center',alignItems:'center',backgroundColor:'skyblue',height:50}} 

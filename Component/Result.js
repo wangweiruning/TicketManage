@@ -28,6 +28,7 @@ export default class Tdetail extends React.Component{
             part1Value:false,
             TiceketNum:"",
             username:'',
+            userId:"",
             templateContents:[],//获取模板列表
             dataList:[],//两票基本信息
             LcdataList:[],//当前类型两票流程
@@ -47,7 +48,8 @@ export default class Tdetail extends React.Component{
             pagedata:{datalist1:null,datalist2:null,datalist3:null,datalist4:null,datalist5:null,datalist6:null,datalist7:null,datalist8:null,datalist9:null,datalist10:null,
                      datalist11:null,datalist12:null,datalist13:null,datalist14:null,datalist15:null,datalist16:null,datalist17:null,datalist18:null,datalist19:null,datalist20:null,
                      datalist21:null,datalist22:null,datalist23:null,datalist24:null,datalist25:null,datalist26:null,datalist27:null,datalist28:null,datalist29:null,datalist30:null,
-                     datalist31:null,datalist32:null,datalist33:null},//所有输入内容
+                     datalist31:null,datalist32:null,datalist33:null,datalist34:null,datalist35:null,datalist36:null,datalist37:null,datalist38:null,datalist39:null,datalist40:null,
+                     datalist41:null,datalist42:null,datalist43:null,datalist44:null,datalist45:null,datalist46:null,datalist47:null,datalist48:null,datalist49:null,datalist50:null},
             userPower:'',
             listdatas:[],
             subdatas:{},
@@ -56,7 +58,8 @@ export default class Tdetail extends React.Component{
             iscofrom:{},
             showChecked:{},
             groupName:[],
-            chengyuanName:[]
+            chengyuanName:[],
+            newpagedata:{}
 
         }
     }
@@ -75,7 +78,7 @@ export default class Tdetail extends React.Component{
         var index = "";//定义当前状态在所有状态的下标
         var skipFlowId = "";	//获取当前流程能跳转的流程id，0为不能跳转
         var isBack = "";	//获取当前流程是否能回转，1为能回转，0为不能回转
-        const {templateID,ticketNum,typeName}= this.props.navigation.state.params; 
+        const {templateID,ticketNum,typeName,departmentid,userId}= this.props.navigation.state.params; 
 
         
         /**
@@ -86,7 +89,8 @@ export default class Tdetail extends React.Component{
         const TiceketNum = await newTiceketNum(ids);
         console.log(TiceketNum,"获取两票模板票id")
         this.setState({
-            TiceketNum:TiceketNum.form.newTicket
+            TiceketNum:TiceketNum.form.newTicket,
+            userId:userId
         })
         
            
@@ -144,7 +148,7 @@ export default class Tdetail extends React.Component{
 
 
             //获取组名称
-            const group = "?form.tree_node_id="+'e6f41a5a1ede45fd9f4d013cc16e1732&form.tree_node_operation=2';
+            const group = "?form.tree_node_id="+departmentid+'&form.tree_node_operation=2';
             const bumen = await findbumen(group);
             console.log(bumen.form.page.dataRows,"获取部门")
             this.setState({
@@ -152,15 +156,14 @@ export default class Tdetail extends React.Component{
             })
 
             //获取部门成员
-            const chengyuan = "?form.tree_node_id="+'e6f41a5a1ede45fd9f4d013cc16e1732&form.tree_node_operation=0';
+            const chengyuan = "?form.tree_node_id="+departmentid+'&form.tree_node_operation=0';
             const groupnumber = await findgroup(chengyuan)
             console.log(groupnumber.form.page.dataRows,"获取成员")
 
             this.setState({
                 chengyuanName:groupnumber.form.page.dataRows
             })
-
-
+            
              //设置提交目标
              for (var i = 0; i < ticketFlowrole.length; i++) {
                 if (ticketFlowrole[i].ticketstatusid == statusId) {
@@ -209,13 +212,23 @@ export default class Tdetail extends React.Component{
         this.xunahn(x.form.templateContents,saves.form.dataList)
         }   
     }
-
+    getSelect(value,datalist){
+        let s ={[datalist]:value};
+        let data = Object.assign(this.state.pagedata,s)
+        let data1 = Object.assign(this.state.newpagedata,s)
+        this.setState({
+            pagedata:data,
+            newpagedata:data1
+        });
+    }
     onChange(tt,value){
         let dd= new Date(value)
         let s ={[tt]:dd};
         let data = Object.assign(this.state.pagedata,s)
+        let data1 = Object.assign(this.state.newpagedata,s)
         this.setState({
-            pagedata:data
+            pagedata:data,
+            newpagedata:data1
         });
         console.log(dd,'sasf');
         
@@ -231,8 +244,10 @@ export default class Tdetail extends React.Component{
     handleInput(k, v){
         let s ={[k]:v};
         let data = Object.assign(this.state.pagedata,s)
+        let data1 = Object.assign(this.state.newpagedata,s)
         this.setState({
-            pagedata: data
+            pagedata: data,
+            newpagedata:data1
         });
     }
 
@@ -312,8 +327,10 @@ export default class Tdetail extends React.Component{
         };
         let s ={[leixing]:display.join(",")};
         let data = Object.assign(this.state.pagedata,s)
+        let data1 = Object.assign(this.state.newpagedata,s)
         this.setState({
-            pagedata: data
+            pagedata: data,
+            newpagedata:data1
         });
     }
     isChange=(ss)=>{
@@ -381,54 +398,33 @@ export default class Tdetail extends React.Component{
         let s={};
         var data={};
             datas.map((v,i)=>{
-                if (v.ParaTypeID=="2"){
                         var datalist ="datalist"+i;
                         s ={[datalist]:v.ParaName};
                             data = Object.assign(this.state.pagedata,s);
                         this.setState({
                             pagedata: data
-                        });
-                } else if (v.ParaTypeID=="3"){
-                    var datalist ="datalist"+i;
-                    s ={[datalist]:v.ParaName};
-                        data = Object.assign(this.state.pagedata,s);
-                    this.setState({
-                        pagedata: data
-                    });
-                } else if (v.ParaTypeID=="4"){
-                        var datalist ="datalist"+i;
-                        s ={[datalist]:v.ParaName};
-                            data = Object.assign(this.state.pagedata,s);
-                        this.setState({
-                            pagedata: data
-                        });
-                } else if (v.ParaTypeID=="5"){
-                    var datalist ="datalist"+i;
-                    s ={[datalist]:v.ParaName};
-                        data = Object.assign(this.state.pagedata,s);
-                    this.setState({
-                        pagedata: data
-                    });
-                } else if (v.ParaTypeID=="6"){
-                var datalist ="datalist"+i;
-                s ={[datalist]:v.ParaName};
-                    data = Object.assign(this.state.pagedata,s);
-                this.setState({
-                    pagedata: data
-                });
-        }        
+                        });   
         })
-       
       }
 
     submitResult(){
        const usrid= window.jconfig.userinfo;
        console.log(usrid,"用户id")
-        const {pagedata,showPage} = {...this.state};
-        
-        console.log(this.state,"333333333333")
+        const {newpagedata,showPage,showChecked} = {...this.state};
+        const commpage={
+            TiceketNum:this.state.TiceketNum,
+            userId:this.state.userId
+        }
+        const datas=Object.assign(newpagedata,showPage,showChecked,commpage)
+        console.log(datas,"333333333333")
     }
     render(){
+        let pageUseName=[];
+            this.state.chengyuanName.map(pagename=>{
+                pageUseName.push(pagename.loginname);//loginname登录名  realname权限名
+            })
+            console.log(pageUseName,"获取所有成员")
+
         return(<View style={{justifyContent:'center'}}>
                     <Title navigation={this.props.navigation} 
                         centerText={this.props.navigation.state.params.typeName+""+this.props.navigation.state.params.ticketNum}/>
@@ -452,10 +448,10 @@ export default class Tdetail extends React.Component{
                                 <Text style={{color:'#3e5ed2',left:5}}>{v.ParaName}</Text>
                             </View>
                             {   v.ParaTypeID==4? 
-                                <DropdownCheckbox open={this.openothers.bind(this)} isshow={dis} 
+                                <DropdownCheckbox open={this.openothers.bind(this)} isshow={!dis} 
                                 leixin={"datalist"+i}
                                 defaultValue={itemMsg[i-1]?itemMsg[i-1]:"请选择"} style={{backgroundColor:'skyblue'}} TextColor={{color:'black',fontSize:13}} 
-                                SelectData={v.ParaName=="班组"?this.state.groupName:this.state.searchRole} canClick={dis}/>
+                                SelectData={v.ParaName==" 班组："?this.state.groupName:this.state.searchRole} canClick={dis}/>
                                 :v.ParaTypeID==3?
                                  <ModalDropdown 
                                     disabled={!dis}
@@ -464,7 +460,8 @@ export default class Tdetail extends React.Component{
                                     style={{backgroundColor:'skyblue',width:'100%',
                                     height:29.3,justifyContent:'center'}}  
                                     defaultValue={itemMsg[i-1]?itemMsg[i-1]:"请选择"} 
-                                    options={[111,222,333]}/>
+                                    onSelect={(e,value)=>this.getSelect(value,'datalist'+i)}
+                                    options={pageUseName}/>
                                 :v.ParaTypeID==2?
                                 <View>
                                    <TextInput  

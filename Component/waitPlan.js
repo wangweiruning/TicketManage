@@ -10,6 +10,7 @@ export default class WaitPlan extends React.Component{
     this.state = {
       animating: false,
       result:'',
+      userId:""
     //   result:[{
     //     tickettypename:'水力自控工作票',
     //     headuser:'央研究院11',
@@ -45,6 +46,7 @@ export default class WaitPlan extends React.Component{
                if(result&&result.form.dataList.length>0){
               this.setState({
                   result:result.form.dataList,//序列化：转换为一个 (字符串)JSON字符串
+                  userId:result.form.userId
               });
              }
 }
@@ -85,12 +87,14 @@ export default class WaitPlan extends React.Component{
 
 
     gotoItem(params){
-        //跳转时传递参数 typeName：票名称 ticketNum:编号  templateID：工作票模板id（tickettemplateid） isAlter 常量1   _： 当前时间戳
+        //跳转时传递参数 typeName：票名称 ticketNum:编号  templateID：工作票模板id（tickettemplateid） isAlter 常量1   _： 当前时间戳  departmentid部门id
         this.props.navigation.navigate('Result',{
                                                 typeName:params.tickettypename,
                                                 ticketNum:params.ticketserialnum,
                                                 templateID:params.tickettemplateid,
                                                 isAlter:1,
+                                                departmentid:params.departmentid,
+                                                userId:this.state.userId,
                                                 _:Date.parse(new Date())})
     }
   render() {
