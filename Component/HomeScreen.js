@@ -28,21 +28,18 @@ export default class HomeScreen extends React.Component {
     let jack = '?form.paramAllList.userid='+id
     let list = await userlist(jack);
     console.log(list.form.paramAllList,'llllliiiiisttt')
-    // this.xunahn(list.form.paramAllList)
+    this.xunahn(list.form.paramAllList)
   }
 
-  // xunahn(sss){
-  //   let s = sss;
-  //   let itemsss= [];
+  xunahn(sss){
+    let s = sss;
+    let itemsss= [];
     
-  //   let index = s.findIndex((item)=>{
-  //     console.log(`${item.realname}===>${jconfig.userinfo.user}`);
-  //       return (item.userid == jconfig.userinfo.id) || (item.realname == jconfig.userinfo.user);
-  //   });
-
-
+    let index = s.findIndex((item)=>{
+      console.log(`${item.realname}===>${jconfig.userinfo.user}`);
+        return (item.userid == jconfig.userinfo.id) || (item.realname == jconfig.userinfo.user);
+    });
      
-
   //   for (let index = 0; index < s.length; index++) {
   //       const element = s[index];
   //       if (jconfig.userinfo.user!=element.userid) {
@@ -53,7 +50,7 @@ export default class HomeScreen extends React.Component {
   //   this.setState({
   //        list:itemsss[0]
   //   })
-  // }
+  }
   render() {
       const { navigate } = this.props.navigation;
       return (<View style={{alignItems:'center'}}>
@@ -62,7 +59,7 @@ export default class HomeScreen extends React.Component {
             this.state.content.map((v,i)=><View key={i}>
             <TouchableOpacity 
                   onPress={()=>navigate('waitPlan')}
-                  style={{height:110,width:'95%',borderRadius:10,backgroundColor:'#3e5ed2',top:10,display:'flex',alignItems:'center',flexDirection:'row'}} 
+                  style={{height:105,width:'95%',borderRadius:10,backgroundColor:'#3e5ed2',top:10,display:'flex',alignItems:'center',flexDirection:'row'}} 
                   activeOpacity={.8}>
             <View style={{flex:1,display:'flex',alignItems:'center',flexDirection:'row'}}>
                   <Image source={require('../images/unhandle_ticket.png')} style={{width:20,resizeMode:Image.resizeMode.contain,left:15,marginTop:2}}/>
@@ -75,7 +72,7 @@ export default class HomeScreen extends React.Component {
           </TouchableOpacity>
           <TouchableOpacity 
                    onPress={()=>navigate('correlationPlan')}
-                   style={{height:110,width:'95%',borderRadius:10,backgroundColor:'#3e5ed2',top:20,display:'flex',alignItems:'center',flexDirection:'row'}} 
+                   style={{height:105,width:'95%',borderRadius:10,backgroundColor:'#3e5ed2',top:20,display:'flex',alignItems:'center',flexDirection:'row'}} 
                    activeOpacity={.8}>
              <View style={{flex:1,display:'flex',alignItems:'center',flexDirection:'row'}}>
                   <Image source={require('../images/online_ticket.png')} style={{width:20,resizeMode:Image.resizeMode.contain,left:15,marginTop:2}}/>
@@ -88,7 +85,7 @@ export default class HomeScreen extends React.Component {
           </TouchableOpacity>
           <TouchableOpacity 
                     onPress={()=>navigate('historyPlan')}
-                    style={{height:110,width:'95%',borderRadius:10,backgroundColor:'#3e5ed2',top:30,display:'flex',alignItems:'center',flexDirection:'row'}} 
+                    style={{height:105,width:'95%',borderRadius:10,backgroundColor:'#3e5ed2',top:30,display:'flex',alignItems:'center',flexDirection:'row'}} 
                     activeOpacity={.8}>
           <View style={{flex:1,display:'flex',alignItems:'center',flexDirection:'row'}}>
                   <Image source={require('../images/search_ticket.png')} style={{width:20,resizeMode:Image.resizeMode.contain,left:15,marginTop:2}}/>
