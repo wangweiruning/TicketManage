@@ -80,6 +80,8 @@ export default class CorrelationPlan extends React.Component{
                 ticketNum:params.ticketserialnum,
                 templateID:params.tickettemplateid,
                 isAlter:1,
+                departmentid:params.departmentid,
+                userId:this.state.userId,
                 _:Date.parse(new Date())})
         }
 

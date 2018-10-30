@@ -17,7 +17,6 @@ export default class DropdownCheckbox extends React.Component{
             defaultChecked:false,
             datas:''
         }
-        console.log("666666666666666_new:",this.state);
     }
      
     setDefaultVal=()=>{
@@ -53,13 +52,27 @@ export default class DropdownCheckbox extends React.Component{
     
     componentWillReceiveProps(nextProps){
         this.setState({SelectData:nextProps.SelectData,default:nextProps.defaultValue});
-        this.setDefaultVal();
-        console.log("666666666666666_new:",this.state,nextProps);
+        
+        if(nextProps.SelectData.length>0 && nextProps.defaultValue!=undefined){
+            nextProps.SelectData.map(item=>{
+                let listOne = item.realname;
+                let alls = nextProps.defaultValue;
+                console.log("666666666666666_new:",alls);
+                if (alls.indexOf(listOne)!=-1) {
+                     this.state.activeItem[item.userId||item.id] = (item.realname||item.departmentName);
+                console.log(this.state.activeItem,"ffffffffffff")
+                this.forceUpdate()
+                }
+               
+            })
+        }
+       
     }
 
 
     open(){
         let activeItem = this.state.activeItem;
+        console.log(activeItem,"activeid")
         let display = [];
         for(let i in activeItem){
             if(activeItem[i]){
@@ -156,6 +169,7 @@ export default class DropdownCheckbox extends React.Component{
                 onChange={(e)=>{
                         let s = e.target.checked;
                         this.state.activeItem[item.userId||item.id] = s?item.realname||item.departmentName:"";
+                        console.log(this.state.activeItem,"ffffffffffff")
                         this.forceUpdate();
                 }}>
                 <Text style={{width:'100%',left:5,color:color?color:'gray',fontSize:fontSize?fontSize:18}}>{item.realname ||item.departmentName}</Text></Checkbox>

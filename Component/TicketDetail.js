@@ -10,7 +10,7 @@ export default class Tdetail extends React.Component{
     constructor(props){
         super(props)
         this.state={
-            vvval:{userId:'techlab',realname:'超级管理员'},
+            vvval:"111,哈哈，超级管理员",
             value:null,
             num:'',
             jax:[],
@@ -269,7 +269,7 @@ export default class Tdetail extends React.Component{
               </View>
                {      
                    v.ParaTypeID==4? 
-                  <DropdownCheckbox open={this.open.bind(this)} style={{backgroundColor:'white',height:50}} TextColor={{color:'black',fontSize:13}} SelectData={this.state.user}/>: 
+                  <DropdownCheckbox  defaultValue={this.state.vvval?this.state.vvval:"请选择"} open={this.open.bind(this)} style={{backgroundColor:'white',height:50}} TextColor={{color:'black',fontSize:13}} SelectData={this.state.user}/>: 
                   v.ParaTypeID==3?
                   <ModalDropdown 
                   disabled={dis}
