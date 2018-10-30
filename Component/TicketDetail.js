@@ -1,6 +1,7 @@
 import React from 'react';
 import TicketTitle from './TicketTitle';
 import {DatePicker,List,Checkbox,TextareaItem} from 'antd-mobile-rn';
+
 import {View,Text,ScrollView,TouchableOpacity,TextInput,ToastAndroid} from 'react-native';
 import ModalDropdown from 'react-native-modal-dropdown';
 import {newTiceketNum,searchTicketBasicInfo,TicketBasicInfo,searchTicketFlow,editquanxian,searchUserForRole} from './../api/api'
@@ -10,8 +11,7 @@ export default class Tdetail extends React.Component{
     constructor(props){
         super(props)
         this.state={
-            vvval:'超级管理员,111,哈哈',
-            value:null,
+vvval:"111,哈哈，超级管理员",            value:null,
             num:'',
             jax:[],
             zed:[],
@@ -179,8 +179,10 @@ export default class Tdetail extends React.Component{
         this.setState({
             pagedata: data
         });
+
         }        
         })
+
       }
 
       xunahn(sss,kkk){
@@ -252,6 +254,7 @@ export default class Tdetail extends React.Component{
 
     render(){
         return(<View style={{justifyContent:'center'}}>
+            
             <TicketTitle navigation={this.props.navigation} num={this.state.num} centerText={this.props.navigation.state.params.v+'('+this.state.num+')'}/>
         <ScrollView style={{display:'flex'}}>
         {
@@ -263,6 +266,7 @@ export default class Tdetail extends React.Component{
            return <View  key={i} style={{backgroundColor:'white',marginTop:5}}>
               <View style={{
                   width:'100%',
+                
                   height:30,
                   flexDirection:'row',
                   backgroundColor:'white',
@@ -275,7 +279,8 @@ export default class Tdetail extends React.Component{
               </View>
                {      
                    v.ParaTypeID==4? 
-                  <DropdownCheckbox open={this.open.bind(this)} style={{backgroundColor:'white',height:50}} TextColor={{color:'black',fontSize:13}} SelectData={this.state.user}/>: 
+                  
+                  <DropdownCheckbox  defaultValue={this.state.vvval?this.state.vvval:"请选择"} open={this.open.bind(this)} style={{backgroundColor:'white',height:50}} TextColor={{color:'black',fontSize:13}} SelectData={this.state.user}/>: 
                   v.ParaTypeID==3?
                   <ModalDropdown 
                   disabled={dis}
@@ -288,6 +293,7 @@ export default class Tdetail extends React.Component{
                   <View>
                    <TextInput editable={!dis} 
                     value={itemMsg[i-1]}
+                   
                     onChange={(v)=>this.handleInput('datalist'+i,v)} style={{borderRadius:5,backgroundColor:'white',width:'100%',backgroundColor:"#fffeee"}}/>
                     {v.IsConfirm==1?<View style={{flexDirection:'row',margin:5}}>
                     <Checkbox
