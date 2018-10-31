@@ -7,7 +7,7 @@ import {
   Dimensions
 } from 'react-native';
 
-import {PullView} from 'react-native-pull';
+// import {PullView} from 'react-native-pull';
 
 export default class Litile extends React.Component {
 
@@ -56,7 +56,7 @@ export default class Litile extends React.Component {
   render() {
     return (
       <View style={[styles.container]}>
-        <PullView style={{width: Dimensions.get('window').width}} 
+        {/* <PullView style={{width: Dimensions.get('window').width}} 
                   onPullRelease={this.onPullRelease} 
                   topIndicatorRender={this.topIndicatorRender} 
                   topIndicatorHeight={60}>
@@ -69,7 +69,7 @@ export default class Litile extends React.Component {
                 <Text>6</Text>
                 <Text>7</Text>
             </View>
-        </PullView>
+        </PullView> */}
       </View>
     );
   }

@@ -1,5 +1,4 @@
 import React from 'react';
-import Title from './Title';
 import {InputItem,DatePicker,List,Checkbox,TextareaItem} from 'antd-mobile-rn';
 import {View,Text,ScrollView,TouchableOpacity,Picker,TextInput} from 'react-native';
 import ModalDropdown from 'react-native-modal-dropdown';
@@ -407,12 +406,15 @@ export default class Tdetail extends React.Component{
         const datas=Object.assign(newpagedata,showPage,showChecked,commpage)
         console.log(datas,"333333333333")
     }
-    render(){
+    BackpageUseName(){
         let pageUseName=[];
-            this.state.chengyuanName.map(pagename=>{
-                pageUseName.push(pagename.loginname);//loginname登录名  realname权限名
-            })
-            console.log(this.state.pagedata,"获取所有数据啊")
+        this.state.chengyuanName.map(pagename=>{
+            pageUseName.push(pagename.loginname);//loginname登录名  realname权限名
+        })
+        return pageUseName
+    }
+    render(){
+       
 
         return(<View style={{justifyContent:'center'}}>
                     <TicketTitle navigation={this.props.navigation} num={this.state.nnnmmm}
@@ -451,7 +453,7 @@ export default class Tdetail extends React.Component{
                                     height:29.3,justifyContent:'center'}}  
                                     defaultValue={itemMsg[i-1]?itemMsg[i-1]:"请选择"} 
                                     onSelect={(e,value)=>this.getSelect(value,'datalist'+i)}
-                                    options={pageUseName}/>
+                                    options={this.BackpageUseName()}/>  
                                 :v.ParaTypeID==2?
                                 <View>
                                    <TextInput  
