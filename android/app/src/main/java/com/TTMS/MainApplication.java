@@ -1,4 +1,4 @@
-package com.tss;
+package com.ttms;
 
 import android.app.Application;
 

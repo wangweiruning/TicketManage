@@ -50,7 +50,7 @@ export default class DropdownCheckbox extends React.Component{
     
     componentWillReceiveProps(nextProps){
         this.setState({SelectData:nextProps.SelectData,default:nextProps.defaultValue});
-if(nextProps.SelectData.length>0 && nextProps.defaultValue!=undefined){
+           if(nextProps.SelectData.length>0 && nextProps.defaultValue!=undefined){
             nextProps.SelectData.map(item=>{
                 let listOne = item.realname;
                 let alls = nextProps.defaultValue;
@@ -60,9 +60,9 @@ if(nextProps.SelectData.length>0 && nextProps.defaultValue!=undefined){
                 console.log(this.state.activeItem,"ffffffffffff")
                 this.forceUpdate()
                 }
-
             })
-        }    }
+        }
+    }
 
 
     open(){
@@ -140,7 +140,7 @@ if(nextProps.SelectData.length>0 && nextProps.defaultValue!=undefined){
             {
             this.state.visible && 
             <Modal animationType={'slide'} transparent={true} onRequestClose={()=>console.log('关闭')}>
-            <View style={{backgroundColor:'white'}}>
+            <View style={{backgroundColor:'#ecf0f1'}}>
             <View style={{flexDirection:'row',alignItems:'center'}}>
             <Image style={{left:5,width:16, height:16}}  source={require('../images/serch.png')}/>
             <TextInput 
@@ -153,13 +153,11 @@ if(nextProps.SelectData.length>0 && nextProps.defaultValue!=undefined){
             />
             </View>
             </View>
-                <FlatList style={{width:"100%",height:100,backgroundColor:'white'}}
+                <FlatList style={{height:100,backgroundColor:'#ecf0f1'}}
                 data = {this.state.SelectData}
                 keyExtractor={(item, index) => index.toString()}
                 renderItem={({item,index}) =>
-              
-                <View key={index} style={{flexDirection:'row',padding:5,borderBottomWidth:1,borderBottomColor:'black',borderStyle:'solid'}}>
-                
+                <View key={index} style={{marginLeft:10,marginTop:10,flexDirection:'row',padding:5,width:'95%',height:40,backgroundColor:'white',borderRadius:5}}>
                 <Checkbox checked={this.state.activeItem[item.userId ||item.id]}
                 onChange={(e)=>{
                         let s = e.target.checked;
@@ -170,14 +168,13 @@ if(nextProps.SelectData.length>0 && nextProps.defaultValue!=undefined){
                 <Text style={{width:'100%',left:5,color:color?color:'gray',fontSize:fontSize?fontSize:18}}>{item.realname ||item.departmentName}</Text></Checkbox>
                 </View>}
                 />
-                <TouchableOpacity style={{justifyContent:'center',alignItems:'center',backgroundColor:'skyblue',height:50}} 
+                <TouchableOpacity style={{justifyContent:'center',alignItems:'center',backgroundColor:'#00a6e7',height:50}} 
                     onPress={()=>{
                         this.setState({visible:false,SelectData:this.props.SelectData})
                         this.props.open(this.state.activeItem,this.props.leixin)}
                     }>
                     <Text style={{fontSize:18,color:'white'}}>确定</Text>
                 </TouchableOpacity>
-            
             </Modal>
             }
             </View>
