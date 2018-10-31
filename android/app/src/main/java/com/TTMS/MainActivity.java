@@ -1,4 +1,4 @@
-package com.tss;
+package com.TTMS;
 
 import com.facebook.react.ReactActivity;
 

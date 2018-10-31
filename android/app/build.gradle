@@ -98,7 +98,7 @@ android {
     buildToolsVersion "23.0.1"
 
     defaultConfig {
-        applicationId "com.tss"
+        applicationId "com.TTMS"
         minSdkVersion 16
         targetSdkVersion 22
         versionCode 1

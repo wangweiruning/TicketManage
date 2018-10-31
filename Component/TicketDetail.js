@@ -10,7 +10,7 @@ export default class Tdetail extends React.Component{
     constructor(props){
         super(props)
         this.state={
-            vvval:"111,哈哈，超级管理员",
+            vvval:"111,哈哈,超级管理员",
             value:null,
             num:'',
             jax:[],
@@ -255,9 +255,7 @@ export default class Tdetail extends React.Component{
 
 
     render(){
-        this.loding() 
         return(<View style={{justifyContent:'center'}}>
-            
             <TicketTitle navigation={this.props.navigation} num={this.state.num} centerText={this.props.navigation.state.params.v+'('+this.state.num+')'}/>
         <ScrollView style={{display:'flex'}}>
         {
@@ -282,8 +280,8 @@ export default class Tdetail extends React.Component{
               </View>
                {      
                    v.ParaTypeID==4? 
-                  
-                  <DropdownCheckbox  defaultValue={this.state.vvval?this.state.vvval:"请选择"} open={this.open.bind(this)} style={{backgroundColor:'white',height:50}} TextColor={{color:'black',fontSize:13}} SelectData={this.state.user}/>: 
+                  <DropdownCheckbox defaultValue={this.state.vvval?this.state.vvval:"请选择"} open={this.open.bind(this)} style={{backgroundColor:'white',height:50}} 
+                  TextColor={{color:'black',fontSize:13}} SelectData={this.state.user}/>: 
                   v.ParaTypeID==3?
                   <ModalDropdown 
                   disabled={dis}
@@ -296,7 +294,6 @@ export default class Tdetail extends React.Component{
                   <View>
                    <TextInput editable={!dis} 
                     value={itemMsg[i-1]}
-                   
                     onChange={(v)=>this.handleInput('datalist'+i,v)} style={{borderRadius:5,backgroundColor:'white',width:'100%',backgroundColor:"#fffeee"}}/>
                     {v.IsConfirm==1?<View style={{flexDirection:'row',margin:5}}>
                     <Checkbox
@@ -304,8 +301,7 @@ export default class Tdetail extends React.Component{
                         disabled={!dis}
                     ><Text>是否已执行</Text></Checkbox></View>:null}
                     </View>
-                    :v.ParaTypeID==5?<View style={{left:5,width:290}}>       
-                    
+                    :v.ParaTypeID==5?<View style={{left:5,width:290}}>
                    <DatePicker 
                      value={itemMsg[i-1]}
                      mode="date"
@@ -344,20 +340,15 @@ export default class Tdetail extends React.Component{
                   <Text style={{color:'#3e5ed2',left:5}}>提交</Text>
               </View>
             <View style={{display:'flex',justifyContent:'center',margin:5}}>
-     
                 <Text style={{color:'black'}}>是否同意</Text>
-                <ModalDropdown 
-                dropdownStyle={{width:'100%'}} textStyle={{color:'black',fontSize:13,left:5}} 
+                <ModalDropdown dropdownStyle={{width:'100%'}} textStyle={{color:'black',fontSize:13,left:5}} 
                 style={{backgroundColor:'skyblue',width:'100%',height:29.3,justifyContent:'center'}} defaultValue={'请选择'} options={['同意', '拒绝']}/>
             </View>
             <View style={{display:'flex',justifyContent:'center',margin:5}}>
-  
                 <Text style={{color:'black'}}>流转状态</Text>
                 {
                   this.state.status!="" &&
-                  <ModalDropdown 
-                 
-                  dropdownStyle={{width:'100%'}} textStyle={{color:'black',fontSize:13,left:5}} 
+                  <ModalDropdown dropdownStyle={{width:'100%'}} textStyle={{color:'black',fontSize:13,left:5}} 
                   style={{backgroundColor:'skyblue',width:'100%',height:29.3,justifyContent:'center'}} defaultValue={'请选择'} options={this.state.status}/>
                 }
                 </View>
