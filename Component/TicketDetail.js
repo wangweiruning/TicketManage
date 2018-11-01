@@ -35,11 +35,12 @@ export default class Tdetail extends React.Component{
       }
     
      loding(){
+         console.log('asfasfafassafasffsa')
         if(this.state.num==''){
-             setTimeout(()=>ToastAndroid.show("数据加载缓慢，请耐心等待", ToastAndroid.SHORT),3000)
+             setTimeout(()=>ToastAndroid.show("数据加载缓慢，请耐心等待", ToastAndroid.SHORT))
         }
         else{
-             setTimeout(()=>ToastAndroid.show("加载完毕", ToastAndroid.SHORT),1000)
+             setTimeout(()=>ToastAndroid.show("加载完毕", ToastAndroid.SHORT))
         } 
      }
 
@@ -257,8 +258,8 @@ export default class Tdetail extends React.Component{
                   <Text style={{color:'#3e5ed2',left:5}}>{v.ParaName}</Text>
               </View>
                {      
-                   v.ParaTypeID==4? 
-                  <DropdownCheckbox defaultValue={this.state.vvval?this.state.vvval:"请选择"} open={this.open.bind(this)} style={{backgroundColor:'white',height:50}} 
+                  v.ParaTypeID==4? 
+                  <DropdownCheckbox  open={this.open.bind(this)} style={{backgroundColor:'white',height:50}} 
                   TextColor={{color:'black',fontSize:13}} SelectData={this.state.user}/>: 
                   v.ParaTypeID==3?
                   <ModalDropdown 
@@ -289,7 +290,6 @@ export default class Tdetail extends React.Component{
                      minDate={new Date(2015,1,1)}
                      onChange={(e)=>this.onChange('datalist'+i ,e)}
                      format="YYYY-MM-DD"
-                
                      disabled={dis}
                    >
                     <List.Item arrow="horizontal"></List.Item>

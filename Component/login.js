@@ -44,6 +44,12 @@ export default class Login extends React.Component{
      onBackClicked = () => {
         return true;
     }
+
+    componentWillUnmount(){
+        this.setState = (state,callback)=>{
+        return;
+      };
+      }
      
 async submitgo(data){
         try{

@@ -28,7 +28,7 @@ export default class TicketTitle extends React.Component{
                                   style={{width: 60,marginLeft:5,height:35,display:'flex',alignItems:'center',flexDirection:'row'}}>   
                     <Image source={require('../images/back.png')}
                         style={{resizeMode: Image.resizeMode.contain, height: 20, width: 20}}/>
-                    <Text style={{color: '#007aff',top:1}}>返回</Text>
+                    <Text style={{color: '#007aff'}}>返回</Text>
             </TouchableOpacity>
             <View style={{flex:1,alignItems: 'center'}}>
                 <Text style={{color: 'black',fontSize:15,fontWeight:'500'}}>{this.props.centerText}</Text>
