@@ -1,5 +1,6 @@
 import React from 'react';
-import {Checkbox} from 'antd-mobile-rn'
+import {Checkbox} from 'antd-mobile-rn';
+import * as Animatable from 'react-native-animatable';
 import {View,Text,Image,TouchableOpacity,Modal,TextInput,FlatList} from 'react-native';
 
 
@@ -139,7 +140,7 @@ export default class DropdownCheckbox extends React.Component{
                 data = {this.state.SelectData}
                 keyExtractor={(item, index) => index.toString()}
                 renderItem={({item,index}) =>
-                <View key={index} style={{marginLeft:10,marginTop:10,flexDirection:'row',padding:5,width:'95%',height:40,backgroundColor:'white',borderRadius:5}}>
+                <Animatable.View useNativeDriver animation="fadeInRight" easing="ease-out-quart"><View key={index} style={{marginLeft:10,marginTop:10,flexDirection:'row',padding:5,width:'95%',height:40,backgroundColor:'white',borderRadius:5}}>
                 <Checkbox checked={this.state.activeItem[item.userId ||item.id]}
                 onChange={(e)=>{
                         let s = e.target.checked;
@@ -148,7 +149,7 @@ export default class DropdownCheckbox extends React.Component{
                         this.forceUpdate();
                 }}>
                 <Text style={{width:'100%',left:5,color:color?color:'gray',fontSize:fontSize?fontSize:18}}>{item.realname ||item.departmentName}</Text></Checkbox>
-                </View>}
+                </View></Animatable.View>}
                 />
                 <TouchableOpacity style={{justifyContent:'center',alignItems:'center',backgroundColor:'#00a6e7',height:50}} 
                     onPress={()=>{

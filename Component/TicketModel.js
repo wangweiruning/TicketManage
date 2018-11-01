@@ -1,5 +1,7 @@
 import React from 'react';
 import Title from './Title';
+import {Checkbox} from 'antd-mobile-rn';
+import * as Animatable from 'react-native-animatable';
 import {ttmsTickets,searchUserPower,userlist} from './../api/api'
 import {View,Text,ScrollView,TouchableOpacity,Image,Alert} from 'react-native';
 
@@ -69,13 +71,15 @@ export default class TicketModel extends React.Component{
             <ScrollView style={{paddingBottom:10}}>
                {
                    this.state.uzi.map((v,i)=>
-                   <TouchableOpacity key={i} 
+                   <Animatable.View key={i} useNativeDriver animation="fadeInRight" easing="ease-out-quart">
+                   <TouchableOpacity  
                    onPress={()=>this.goticket(v.TicketTemplateID,this.props.navigation.state.params.v)} 
-                   style={{display:'flex',flexDirection:'row',width:'100%',backgroundColor:'#beebff',height:50,display:'flex',alignItems:'center',marginTop:10}}>
-                           <Image source={require('../images/company_tree.png')} style={{width:20,left:5,resizeMode:Image.resizeMode.contain}}/>
+                   style={{display:'flex',flexDirection:'row',width:'100%',backgroundColor:'#beebff',height:50,alignItems:'center',marginTop:10}}>
+                          <Image source={require('../images/company_tree.png')} style={{width:20,left:5,resizeMode:Image.resizeMode.contain}}/>
                            <Text style={{fontSize:18,color:'black',left:10,flex:1}}>{v.TicketTemplateName}</Text>
-                       <Image source={require('../images/go.png')} style={{right:5,width:15,resizeMode:Image.resizeMode.contain}}/>
+                          <Image source={require('../images/go.png')} style={{right:5,width:15,resizeMode:Image.resizeMode.contain}}/>
                    </TouchableOpacity>
+                   </Animatable.View> 
                   )
                }
             </ScrollView>
