@@ -147,9 +147,10 @@ export default class Tdetail extends React.Component{
           x.form.templateContents.map((v,index)=>{
             if(v.IsConfirm==1) this.isconfoms('iscofrom'+index);
             if(index>0){
-                this.getdefault(list,v,'datalist'+index)
+               
                 let  listPageData={['datalist'+index]:null};
-                dataPage=Object.assign(this.state.pagedata,listPageData)
+                dataPage=Object.assign(this.state.pagedata,listPageData);
+                 this.getdefault(list,v,'datalist'+index);//获取默认值
             }   
         })
         this.setState({
@@ -451,7 +452,7 @@ export default class Tdetail extends React.Component{
                                 <DropdownCheckbox open={this.openothers.bind(this)} isshow={!dis} 
                                 leixin={"datalist"+i}
                                 defaultValue={itemMsg[i-1]?itemMsg[i-1]:"请选择"} style={{backgroundColor:'white',height:50}}  TextColor={{color:'black',fontSize:13}} 
-                                SelectData={v.ParaName==" 班组 "?this.state.groupName:this.state.searchRole} canClick={dis}/>
+                                SelectData={v.ParaName=="班组"?this.state.groupName:this.state.searchRole} canClick={dis}/>
                                 :v.ParaTypeID==3?
                                  <ModalDropdown 
                                     disabled={!dis}
@@ -477,7 +478,7 @@ export default class Tdetail extends React.Component{
                                 </View>:v.ParaTypeID==5
                                 ?
                                  <DatePicker
-                                    value={itemMsg[i-1]}
+                                    value={itemMsg[i-1]?new Date(itemMsg[i-1]):null}
                                     mode="datetime"
                                     onOk={()=>this.setState({
                                         value:itemMsg[i-1] 
