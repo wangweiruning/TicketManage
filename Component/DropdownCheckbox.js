@@ -18,27 +18,6 @@ export default class DropdownCheckbox extends React.Component{
             datas:''
         }
     }
-     
-    setDefaultVal=()=>{
-        let defaultVal = this.state.default || "";
-        let SelectData = this.state.SelectData;
-        let activeItem = this.state.activeItem;
-        // defaultVal = defaultVal.split(",");
-        for(let i in defaultVal){
-            let index = SelectData.findIndex((e)=>e.realname==defaultVal[i]);
-            if(index!=-1){
-                activeItem[index] = defaultVal[i];
-            }
-        }
-        this.setState({activeItem});
-    }
-
-    componentDidMount(){
-           
-        this.setDefaultVal();
-
-        
-    }
     
 
     onSelect = (value) => {
@@ -49,7 +28,10 @@ export default class DropdownCheckbox extends React.Component{
     } 
     
     componentWillReceiveProps(nextProps){
-        this.setState({SelectData:nextProps.SelectData,default:nextProps.defaultValue});
+        if(this.state.default){
+            this.setState({default:nextProps.defaultValue})
+        }
+        else{this.setState({SelectData:nextProps.SelectData})}
            if(nextProps.SelectData.length>0 && nextProps.defaultValue!=undefined){
             nextProps.SelectData.map(item=>{
                 let listOne = item.realname;
@@ -121,7 +103,7 @@ export default class DropdownCheckbox extends React.Component{
 
         }
         }
-        },500);
+        });
         }
     
 
@@ -140,12 +122,12 @@ export default class DropdownCheckbox extends React.Component{
             {
             this.state.visible && 
             <Modal animationType={'slide'} transparent={true} onRequestClose={()=>console.log('关闭')}>
-            <View style={{backgroundColor:'#ecf0f1'}}>
-            <View style={{flexDirection:'row',alignItems:'center'}}>
+            <View style={{backgroundColor:'#ecf0f1',}}>
+            <View style={{flexDirection:'row',alignItems:'center',borderBottomColor:'lightgray',borderStyle:'solid',borderBottomWidth:1}}>
             <Image style={{left:5,width:16, height:16}}  source={require('../images/serch.png')}/>
             <TextInput 
                 maxLength={20}
-                multiline={false}
+                multiline={true}
                 autoFocus={false}
                 onChangeText={this.onChanegeTextKeyword.bind(this)}
                 style={{fontSize:13, color: '#999',overflow:'hidden',width:'95%',left:5}}
