@@ -1,5 +1,4 @@
 import React from 'react';
-import Title from './Title';
 import {InputItem,DatePicker,List,Checkbox,TextareaItem} from 'antd-mobile-rn';
 import {View,Text,ScrollView,TouchableOpacity,Picker,TextInput} from 'react-native';
 import ModalDropdown from 'react-native-modal-dropdown';
@@ -47,11 +46,7 @@ export default class Tdetail extends React.Component{
                 isflew:"",//下一个流转状态
                 isfleUser:"",//流转对象
             },
-            pagedata:{datalist1:null,datalist2:null,datalist3:null,datalist4:null,datalist5:null,datalist6:null,datalist7:null,datalist8:null,datalist9:null,datalist10:null,
-                     datalist11:null,datalist12:null,datalist13:null,datalist14:null,datalist15:null,datalist16:null,datalist17:null,datalist18:null,datalist19:null,datalist20:null,
-                     datalist21:null,datalist22:null,datalist23:null,datalist24:null,datalist25:null,datalist26:null,datalist27:null,datalist28:null,datalist29:null,datalist30:null,
-                     datalist31:null,datalist32:null,datalist33:null,datalist34:null,datalist35:null,datalist36:null,datalist37:null,datalist38:null,datalist39:null,datalist40:null,
-                     datalist41:null,datalist42:null,datalist43:null,datalist44:null,datalist45:null,datalist46:null,datalist47:null,datalist48:null,datalist49:null,datalist50:null},
+            pagedata:{},
             userPower:'',
             listdatas:[],
             subdatas:{},
@@ -104,8 +99,16 @@ export default class Tdetail extends React.Component{
                     templateContents: x.form.templateContents
                 })
           }
+          let dataPage = {};
           x.form.templateContents.map((item,index)=>{
-            if(item.IsConfirm==1) this.isconfoms('iscofrom'+index)
+            if(item.IsConfirm==1) this.isconfoms('iscofrom'+index);
+            if(index>0){
+                let  listPageData={['datalist'+index]:null};
+                dataPage=Object.assign(this.state.pagedata,listPageData)
+            }   
+        })
+        this.setState({
+            pagedata:dataPage
         })
         //查询当前两票基本信息  
         console.log(ticketNum)
@@ -126,7 +129,7 @@ export default class Tdetail extends React.Component{
             }
 
         ticketFlowrole = liucheng.form.dataList;//该流程所属类型的所有状态角色
-            console.log(ticketFlowrole,"6666666666666666666666")
+            console.log(ticketFlowrole,"该流程所属类型的所有状态角色")
         if(searchs.form.dataList.length>0){//数据库中已有记录
             console.log("数据库中已有记录")
             statusId = searchs.form.dataList[0].TicketStatusID;//该流程的当前状态id
@@ -210,7 +213,6 @@ export default class Tdetail extends React.Component{
                 havChangeList:saves.form.dataList
             })
             
-        this.xunahn(x.form.templateContents,saves.form.dataList)
         this.setState({
             nnnmmm:true
         })
@@ -253,21 +255,6 @@ export default class Tdetail extends React.Component{
             pagedata: data,
             newpagedata:data1
         });
-    }
-
-    xunahn(sss,kkk){
-        let s = sss;
-        let g = kkk;
-        let arrs=[];
-        for(let i in s){
-            for(let c in g){
-                if(this.state.ContentID===this.state.rolecontentid){
-                    this.state.ContentID = g[c].TicketParaID,
-                    this.state.rolecontentid = s[i].TicketParaID
-                }
-            }
-        }
-        this.forceUpdate()
     }
 
     ischacked=(asd,iscofrom)=>{
@@ -419,12 +406,15 @@ export default class Tdetail extends React.Component{
         const datas=Object.assign(newpagedata,showPage,showChecked,commpage)
         console.log(datas,"333333333333")
     }
-    render(){
+    BackpageUseName(){
         let pageUseName=[];
-            this.state.chengyuanName.map(pagename=>{
-                pageUseName.push(pagename.loginname);//loginname登录名  realname权限名
-            })
-            console.log(pageUseName,"获取所有成员")
+        this.state.chengyuanName.map(pagename=>{
+            pageUseName.push(pagename.loginname);//loginname登录名  realname权限名
+        })
+        return pageUseName
+    }
+    render(){
+       
 
         return(<View style={{justifyContent:'center'}}>
                     <TicketTitle navigation={this.props.navigation} num={this.state.nnnmmm}
@@ -463,7 +453,7 @@ export default class Tdetail extends React.Component{
                                     height:29.3,justifyContent:'center'}}  
                                     defaultValue={itemMsg[i-1]?itemMsg[i-1]:"请选择"} 
                                     onSelect={(e,value)=>this.getSelect(value,'datalist'+i)}
-                                    options={pageUseName}/>
+                                    options={this.BackpageUseName()}/>  
                                 :v.ParaTypeID==2?
                                 <View>
                                    <TextInput  
@@ -482,13 +472,13 @@ export default class Tdetail extends React.Component{
                                 ?
                                  <DatePicker
                                     value={itemMsg[i-1]}
-                                    mode="date"
+                                    mode="datetime"
                                     onOk={()=>this.setState({
                                         value:itemMsg[i-1] 
                                     })}
                                     minDate={new Date(2000, 1, 1)}
                                     onChange={(value)=>this.onChange('datalist'+i,value)}
-                                    format="YYYY-MM-DD"
+                                    format="YYYY-MM-DD HH:mm"
                                     disabled={!dis}
                                     >
                                     <List.Item arrow="horizontal">选择时间：</List.Item>

@@ -1,161 +1,96 @@
-import React from 'react';
-import Title from './Title';
+import React, { Component } from 'react';
 import {
-    StyleSheet,
-    Text,
-    View,
-    ImageBackground,
-    ListView,
-    TouchableHighlight,
-    Alert,
-    Dimensions,
-    ActivityIndicator,
-    RefreshControl,
-  } from 'react-native';
+  StyleSheet,
+  Text,
+  View,
+  ActivityIndicator,
+  Dimensions
+} from 'react-native';
 
-import Scroller from './Scroller'
-import CreationItem from './CreationItem'
-import {quanxian} from './../api/api'
-let {width} = Dimensions.get("window");
+// import {PullView} from 'react-native-pull';
 
-// 缓存列表中所有数据
-let cachedResults = {
-    nextPage: 1, // 下一页
-    items: [], // listview 数据(视频列表)
-    total: 0 // 总数
-  };
+export default class Litile extends React.Component {
 
-export default class Litile extends React.Component{
-    constructor(props){
+	constructor(props) {
         super(props);
-        let ds = new ListView.DataSource({
-            // 比较两条数据是否是一样的,来判断数据是否发生改变
-            rowHasChanged: (r1, r2) => r1 !== r2
-          });
-          this.state = {
-            dataSource: ds.cloneWithRows([]),
-            isLoadingTail: false, // loading?
-            isRefreshing: false // refresh?
-          }
-        }
-    // 生命周期-组件挂载完毕 请求数据
-  componentDidMount() {
-    this._fetchData(1);
-  }
- 
-  // 请求数据
- async _fetchData(page) {
-    if(!jconfig.userinfo) return ToastAndroid.show('请登录',ToastAndroid.SHORT);
-    let that = this;
- 
-    if (page !== 0) { // 加载更多操作
-      this.setState({
-        isLoadingTail: true
-      });
-    } else { // 刷新操作
-      this.setState({
-        isRefreshing: true
-      });
-      // 初始哈 nextPage
-      cachedResults.nextPage = 1;
-    }
-       const datas = "?form.jqgrid_row_selected_id=cc55ac4474df44d18b55b5ec454749fb";
-        // data 变化的新数据
-       const data = await quanxian(datas);
-        if (data.form.templateContents) {
-            const dataPage = data.form.templateContents;
-            // 保存原数据
-            let items = cachedResults.items.slice();
-            if (page !== 0) { // 加载更多操作
-            // 数组拼接
-            items = items.concat(dataPage);
-            cachedResults.nextPage += 1;
-            } else { // 刷新操作
-            // 数据不变
-            items = dataPage;
-            }
-
-            cachedResults.items = items; // 视频列表数据
-            cachedResults.total = dataPage.length; // 总数
-           
-            if (page !== 0) { // 加载更多操作
-                that.setState({
-                isLoadingTail: false,
-                dataSource: that.state.dataSource.cloneWithRows(cachedResults.items)
-                });
-            } else { // 首次次操作
-                that.setState({
-                isRefreshing: false,
-                dataSource: that.state.dataSource.cloneWithRows(cachedResults.items)
-                });
-            }
-        }
+        this.state = {refreshing: false};
+        this.onPullRelease = this.onPullRelease.bind(this);
+        this.topIndicatorRender = this.topIndicatorRender.bind(this);
     }
 
-     // 列表 Item
-  _renderRow(row) {
-    const { navigation } = this.props;
-    // console.log(navigation,"3333333333333333")
+    onPullRelease(resolve) {
+		//do something
+		setTimeout(() => {
+            resolve();
+        }, 3000);
+    }
+
+	topIndicatorRender(pulling, pullok, pullrelease) {
+        const hide = {position: 'absolute', left: 10000};
+        const show = {position: 'relative', left: 0};
+        setTimeout(() => {
+            if (pulling) {
+                this.txtPulling && this.txtPulling.setNativeProps({style: show});
+                this.txtPullok && this.txtPullok.setNativeProps({style: hide});
+                this.txtPullrelease && this.txtPullrelease.setNativeProps({style: hide});
+            } else if (pullok) {
+                this.txtPulling && this.txtPulling.setNativeProps({style: hide});
+                this.txtPullok && this.txtPullok.setNativeProps({style: show});
+                this.txtPullrelease && this.txtPullrelease.setNativeProps({style: hide});
+            } else if (pullrelease) {
+                this.txtPulling && this.txtPulling.setNativeProps({style: hide});
+                this.txtPullok && this.txtPullok.setNativeProps({style: hide});
+                this.txtPullrelease && this.txtPullrelease.setNativeProps({style: show});
+            }
+        }, 1);
+		return (
+            <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center', height: 60}}>
+                <ActivityIndicator size="small" color="gray" />
+                <Text ref={(c) => {this.txtPulling = c;}}>下拉刷新pulling...</Text>
+                <Text ref={(c) => {this.txtPullok = c;}}>松开刷新pullok......</Text>
+                <Text ref={(c) => {this.txtPullrelease = c;}}>玩命刷新中pullrelease......</Text>
+    		</View>
+        );
+	}
+
+  render() {
     return (
-      <CreationItem
-        navigation={navigation}
-        key={row.FatherID} // 子组件唯一性
-        row={row}
-      />
-    )
+      <View style={[styles.container]}>
+        {/* <PullView style={{width: Dimensions.get('window').width}} 
+                  onPullRelease={this.onPullRelease} 
+                  topIndicatorRender={this.topIndicatorRender} 
+                  topIndicatorHeight={60}>
+			<View style={{backgroundColor: '#eeeeee'}}>
+                <Text>1</Text>
+                <Text>2</Text>
+                <Text>3</Text>
+                <Text>4</Text>
+                <Text>5</Text>
+                <Text>6</Text>
+                <Text>7</Text>
+            </View>
+        </PullView> */}
+      </View>
+    );
   }
 
-    render(){
-        const data= this.props.navigation.state.params.TicketSerialNum;
-        return(<View>
-              <Title navigation={this.props.navigation} centerText={'信息管理系统'} />
-              <View>
-                    {/*列表数据*/}
-                    <Scroller
-                        // 数据源
-                        dataSource={this.state.dataSource}
-                        // 渲染item(子组件)
-                        renderRow={this._renderRow.bind(this)}
-                        // 是否可以刷新
-                        isRefreshing={this.state.isRefreshing}
-                        // 是否可以加载更多
-                        isLoadingTail={this.state.isLoadingTail}
-                        // 请求数据
-                        fetchData={this._fetchData.bind(this)}
-                        // 缓存列表数据
-                        cachedResults={cachedResults}
-                    />
-                </View>
-            </View>)
-    }
 }
-// 样式
+
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      width:'100%',
-      backgroundColor: 'red',
-    },
-    // 头部样式
-    header: {
-      paddingTop: 25,
-      paddingBottom: 12,
-      backgroundColor: '#ee735c',
-    },
-    // 头部title样式
-    headerTitle: {
-      color: '#fff',
-      fontSize: 16,
-      textAlign: 'center',
-      fontWeight: '600'
-    },
-    // 菊花图
-    loadingMore: {
-      marginVertical: 20
-    },
-    // 文案样式
-    loadingText: {
-      color: '#777',
-      textAlign: 'center'
-    }
-  });
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#F5FCFF',
+  },
+  welcome: {
+    fontSize: 20,
+    textAlign: 'center',
+    margin: 10,
+  },
+  instructions: {
+    textAlign: 'center',
+    color: '#333333',
+    marginBottom: 5,
+  },
+});
