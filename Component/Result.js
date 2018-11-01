@@ -95,21 +95,12 @@ export default class Tdetail extends React.Component{
           let x = await TicketBasicInfo(r);//获取模板
           console.log(x,'获取模板')
           if(x.form.templateContents.length>0){
+              
                 this.setState({
                     templateContents: x.form.templateContents
                 })
           }
-          let dataPage = {};
-          x.form.templateContents.map((item,index)=>{
-            if(item.IsConfirm==1) this.isconfoms('iscofrom'+index);
-            if(index>0){
-                let  listPageData={['datalist'+index]:null};
-                dataPage=Object.assign(this.state.pagedata,listPageData)
-            }   
-        })
-        this.setState({
-            pagedata:dataPage
-        })
+          
         //查询当前两票基本信息  
         console.log(ticketNum)
         let aas = '?form.ticketNum='+ticketNum;
@@ -148,8 +139,24 @@ export default class Tdetail extends React.Component{
             const TicketRecord =await searchTicketRecord(flewFrom);
             console.log(TicketRecord,"将已填写的参数值填入页面 ")
             const list = TicketRecord.form.dataList;//获取到票数据内容，等待传入页面
-            this.getdefault(list)
+            
+            this.setState({
+                listdatas:list
+            })
+            let dataPage = {};
+          x.form.templateContents.map((v,index)=>{
+            if(v.IsConfirm==1) this.isconfoms('iscofrom'+index);
+            if(index>0){
+                this.getdefault(list,v,'datalist'+index)
+                let  listPageData={['datalist'+index]:null};
+                dataPage=Object.assign(this.state.pagedata,listPageData)
+            }   
+        })
+        this.setState({
+            pagedata:dataPage
+        })
 
+            
 
             //获取组名称
             const group = "?form.tree_node_id="+departmentid+'&form.tree_node_operation=2';
@@ -261,10 +268,8 @@ export default class Tdetail extends React.Component{
         let sss = this.state.havChangeList;
         let index=0;
         if (sss.length>0) {
-            sss.map(item=>{
-                console.log(item,".................")
+            sss.forEach(item=>{
                 if(item.IsConfirm==1){
-                    console.log(22222222222)
                     this.setState({
                         [iscofrom]:true
                     })
@@ -274,7 +279,7 @@ export default class Tdetail extends React.Component{
              index = sss.findIndex((v)=>{
                  return v.TicketParaID == asd;
            });
-             return index==-1;
+             return index!=-1;
         } else {
             return false;
         }  
@@ -382,16 +387,19 @@ export default class Tdetail extends React.Component{
     </View>
     }
 
-    getdefault(datas){
+    getdefault(datas,v,datalist){
         let s={};
         var data={};
-            datas.map((v,i)=>{
-                        var datalist ="datalist"+i;
-                        s ={[datalist]:v.ParaName};
+            datas.map((item,i)=>{
+                if(item.TicketParaID==v.TicketParaID){
+                    s ={[datalist]:item.TicketParaValue};
+                    console.log(s,"555555555")
                             data = Object.assign(this.state.pagedata,s);
                         this.setState({
                             pagedata: data
-                        });   
+                        }); 
+                }
+                          
         })
       }
 
@@ -414,7 +422,7 @@ export default class Tdetail extends React.Component{
         return pageUseName
     }
     render(){
-       
+       console.log(this.state)
 
         return(<View style={{justifyContent:'center'}}>
                     <TicketTitle navigation={this.props.navigation} num={this.state.nnnmmm}
