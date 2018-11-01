@@ -40,7 +40,7 @@ export default class Title extends React.Component{
             </View>
             <View style={{marginRight:5,justifyContent: 'center',width:65,height:35}}><Text 
                        onPress={()=>this.HaveSee()}
-                       style={{color: '#007aff',}}>{this.props.rightText}
+                       style={{color: '#007aff',fontWeight:'500'}}>{this.props.rightText}
                   </Text> 
             </View>
         </View>)

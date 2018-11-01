@@ -28,7 +28,7 @@ export default class NavigationBar extends React.Component{
             <View style={{width:80,justifyContent:'center',alignItems:'center'}}>
                 {
                     this.props.centertext==='管理'?
-                    <TouchableOpacity onPress={()=>this.show()}><Text style={{color:'#26baee'}}>新建两票</Text></TouchableOpacity>:<Text></Text>
+                    <TouchableOpacity  onPress={()=>this.show()}><Text style={{color:'#26baee',fontWeight:'500'}}>新建两票</Text></TouchableOpacity>:null
                 }
             </View>    
         </View>)

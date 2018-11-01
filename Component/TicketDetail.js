@@ -21,6 +21,7 @@ export default class Tdetail extends React.Component{
             user:[],
             status:'',
             find:[],
+            showChecked:{},
             language:'',
             visible:false,
             listdata:[],
@@ -68,7 +69,7 @@ export default class Tdetail extends React.Component{
       }
     
      loding(){
-        if(this.state.user.length==0){
+        if(this.state.num==''){
              setTimeout(()=>ToastAndroid.show("数据加载缓慢，请耐心等待", ToastAndroid.SHORT),3000)
         }
         else{
@@ -126,7 +127,8 @@ export default class Tdetail extends React.Component{
             jax:bool.form.templateContents,
             zed:feel.form.dataList
        })
-       this.xunahn(this.state.jax,this.state.zed)
+       this.loding();
+       this.xunahn(this.state.jax,this.state.zed);
        this.getlls(bool.form.templateContents);
     //    this.getdefault(bool.form.templateContents)
       }
@@ -224,6 +226,16 @@ export default class Tdetail extends React.Component{
 
       }
 
+
+    onChangecoform(value,dis){
+        const listitem ={[value]:dis}
+        const sss=Object.assign(this.state.showChecked,listitem)
+      this.setState({
+          showChecked:sss
+      });
+      
+    }
+
     handleInput(k, v){
         let s ={[k]:v};
         let data = Object.assign(this.state.pagedata,s)
@@ -320,7 +332,7 @@ export default class Tdetail extends React.Component{
                   onChangeText={(v)=>this.handleInput('datalist'+i,v)}
                   defaultValue={itemMsg[i-1]} autoHeight 
                   style={{ paddingVertical: 5 ,backgroundColor:"#fffeee"}} />
-                  {v.IsConfirm==1?<View style={{flexDirection:'row'}}><Checkbox disabled={dis}/><Text>是否已执行</Text></View>:<Text></Text>}
+                  {v.IsConfirm==1?<View style={{flexDirection:'row'}}><Checkbox onChange={(e)=>this.onChangecoform('Checkbox'+i,e.target.checked)} disabled={dis}/><Text>是否已执行</Text></View>:<Text></Text>}
                   </View>:null
                }
             </View>
