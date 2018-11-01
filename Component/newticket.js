@@ -43,7 +43,7 @@ export default class Newticket extends React.Component{
              <ScrollView style={{paddingBottom:10}}>
              {
                 this.state.jay.map((v,i)=>
-                <Animatable.View key={i} useNativeDriver animation="fadeInRight" easing="ease-out-quart">
+                <Animatable.View key={i} useNativeDriver animation="fadeInRight" easing="ease-out-circ">
                     <TouchableOpacity key={i} 
                     onPress={()=>this.goticket(v.attr.tree_id.substring(2),v.data.title)} 
                     style={{display:'flex',flexDirection:'row',backgroundColor:'#beebff',alignItems:'center',marginTop:10}}>
