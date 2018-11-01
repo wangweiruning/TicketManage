@@ -442,8 +442,8 @@ export default class Tdetail extends React.Component{
                             {   v.ParaTypeID==4? 
                                 <DropdownCheckbox open={this.openothers.bind(this)} isshow={!dis} 
                                 leixin={"datalist"+i}
-                                defaultValue={itemMsg[i-1]?itemMsg[i-1]:"请选择"} style={{backgroundColor:'skyblue'}} TextColor={{color:'black',fontSize:13}} 
-                                SelectData={v.ParaName==" 班组："?this.state.groupName:this.state.searchRole} canClick={dis}/>
+                                defaultValue={itemMsg[i-1]?itemMsg[i-1]:"请选择"} style={{backgroundColor:'white',height:50}}  TextColor={{color:'black',fontSize:13}} 
+                                SelectData={v.ParaName==" 班组 "?this.state.groupName:this.state.searchRole} canClick={dis}/>
                                 :v.ParaTypeID==3?
                                  <ModalDropdown 
                                     disabled={!dis}
@@ -460,9 +460,7 @@ export default class Tdetail extends React.Component{
                                     value={itemMsg[i-1]}
                                     editable={dis} 
                                     onChangeText={(v)=>this.handleInput('datalist'+i,v)} 
-                                    style={{borderRadius:5,
-                                        left:10,backgroundColor:"#fffeee",
-                                        width:'85%'}} />
+                                    style={{borderRadius:5,backgroundColor:'white',width:'100%',backgroundColor:"#fffeee"}} />
                                         {v.IsConfirm==1?<View style={{flexDirection:'row',margin:5}}>
                                         <Checkbox
                                             onChange={(e)=>this.onChangecoform('Checkbox'+i,e.target.checked)}
