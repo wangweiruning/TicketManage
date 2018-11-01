@@ -71,7 +71,7 @@ export default class TicketModel extends React.Component{
             <ScrollView style={{paddingBottom:10}}>
                {
                    this.state.uzi.map((v,i)=>
-                   <Animatable.View key={i} useNativeDriver animation="fadeInRight" easing="ease-out-quart">
+                   <Animatable.View key={i} useNativeDriver animation="fadeInRight" easing="ease-out-circ">
                    <TouchableOpacity  
                    onPress={()=>this.goticket(v.TicketTemplateID,this.props.navigation.state.params.v)} 
                    style={{display:'flex',flexDirection:'row',width:'100%',backgroundColor:'#beebff',height:50,alignItems:'center',marginTop:10}}>

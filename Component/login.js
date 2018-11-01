@@ -87,13 +87,13 @@ async submitgo(data){
         let username = this.state.user;
         let password = this.state.pass;
         return(
-        <View style={{justifyContent:'center',alignItems:'center',width:'100%',height:'50%',backgroundColor:'rgba(0,0,0,.3)'}}>
+        <View style={{justifyContent:'center',alignItems:'center',width:'100%',height:'50%',backgroundColor:'rgba(0,0,0,.4)',borderColor:'#4a4a4a',borderStyle:'solid',borderWidth:1}}>
           <Text style={{fontWeight:'500',color:'white',fontSize:20,top:-15}}>瑞智一体化两票管理系统</Text>
-           <View style={{flexDirection:'row',alignItems:'center',backgroundColor:'white',borderRadius:5}}>
+           <View style={{flexDirection:'row',alignItems:'center',backgroundColor:'white'}}>
                <Image source={require('../images/login-username.png')} style={{width:20,left:8}} resizeMode = 'contain'/>
                <InputItem placeholder="账号" defaultValue={this.state.user} onChange={(v)=>this.handleInput('user',v)} style={{width:'85%'}}/>
            </View>
-           <View style={{flexDirection:'row',alignItems:'center',backgroundColor:'white',borderRadius:5,top:20}}>
+           <View style={{flexDirection:'row',alignItems:'center',backgroundColor:'white',top:20}}>
                <Image source={require('../images/login-password.png')} style={{width:20,left:8}} resizeMode = 'contain'/>
                <InputItem type="password" defaultValue={this.state.pass} placeholder="密码" onChange={(v)=>this.handleInput('pass',v)} style={{width:'85%'}}/>
            </View>

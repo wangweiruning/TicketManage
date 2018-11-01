@@ -25,6 +25,7 @@ export default class Tdetail extends React.Component{
             language:'',
             visible:false,
             listdata:[],
+            newpagedata:{},
             pagedata:{},//输入框
         }
     }
@@ -35,7 +36,6 @@ export default class Tdetail extends React.Component{
       }
     
      loding(){
-         console.log('asfasfafassafasffsa')
         if(this.state.num==''){
              setTimeout(()=>ToastAndroid.show("数据加载缓慢，请耐心等待", ToastAndroid.SHORT))
         }
@@ -79,7 +79,12 @@ export default class Tdetail extends React.Component{
               let bryent = kobe[j].realname;
               aa.push(bryent);
           }
-
+          let aaa=[];
+          bool.form.templateContents.map((item,i)=>{
+            let dd={["datalist"+i]:null};
+             aaa=Object.assign(this.state.pagedata,dd)
+          })
+          this.setState({pagedata:aaa})
 
         
         let kl = [];
@@ -97,7 +102,6 @@ export default class Tdetail extends React.Component{
        this.loding();
        this.xunahn(this.state.jax,this.state.zed);
        this.getlls(bool.form.templateContents);
-    //    this.getdefault(bool.form.templateContents)
       }
       
       getlls(data){
@@ -111,50 +115,6 @@ export default class Tdetail extends React.Component{
         })
       }
 
-      getdefault(datas){
-        let s={};
-        var data={};
-            datas.map((v,i)=>{
-                if (v.ParaTypeID=="2"){
-                        var datalist ="datalist"+i;
-                        s ={[datalist]:v.ParaName};
-                            data = Object.assign(this.state.pagedata,s);
-                        this.setState({
-                            pagedata: data
-                        });
-                } else if (v.ParaTypeID=="3"){
-                    var datalist ="datalist"+i;
-                    s ={[datalist]:v.ParaName};
-                        data = Object.assign(this.state.pagedata,s);
-                    this.setState({
-                        pagedata: data
-                    });
-            } else if (v.ParaTypeID=="4"){
-                var datalist ="datalist"+i;
-                s ={[datalist]:v.ParaName};
-                    data = Object.assign(this.state.pagedata,s);
-                this.setState({
-                    pagedata: data
-                });
-        }  else if (v.ParaTypeID=="5"){
-            var datalist ="datalist"+i;
-            s ={[datalist]:v.ParaName};
-                data = Object.assign(this.state.pagedata,s);
-            this.setState({
-                pagedata: data
-            });
-    } else if (v.ParaTypeID=="6"){
-        var datalist ="datalist"+i;
-        s ={[datalist]:v.ParaName};
-            data = Object.assign(this.state.pagedata,s);
-        this.setState({
-            pagedata: data
-        });
-
-        }        
-        })
-
-      }
 
       xunahn(sss,kkk){
         let s = sss;
@@ -213,7 +173,7 @@ export default class Tdetail extends React.Component{
     }
     isChacked=(ss)=>{
         let sss = this.state.pagedata;
-
+        
         let aa = Object.values(sss);
              return aa;
     }
@@ -229,7 +189,7 @@ export default class Tdetail extends React.Component{
  
     submitAll=()=>{
         const {pagedata} = {...this.state};
-        console.log(this.state)
+        console.log(this.state,'ffff')
     }
 
 
@@ -246,7 +206,6 @@ export default class Tdetail extends React.Component{
            return <View  key={i} style={{backgroundColor:'white',marginTop:5}}>
               <View style={{
                   width:'100%',
-                
                   height:30,
                   flexDirection:'row',
                   backgroundColor:'white',
@@ -271,22 +230,17 @@ export default class Tdetail extends React.Component{
                   defaultValue={'请选择'}
                   options={this.state.status}/>:v.ParaTypeID==2?
                   <View>
-                   <TextInput editable={!dis} 
-                    value={itemMsg[i-1]}
-                    onChange={(v)=>this.handleInput('datalist'+i,v)} style={{borderRadius:5,backgroundColor:'white',width:'100%',backgroundColor:"#fffeee"}}/>
+                   <TextInput editable={!dis}
+                    onChangeText={(v)=>this.handleInput('datalist'+i,v)} style={{borderRadius:5,backgroundColor:'white',width:'100%',backgroundColor:"#fffeee"}}/>
                     {v.IsConfirm==1?<View style={{flexDirection:'row',margin:5}}>
-                    <Checkbox
-                        onChange={(e)=>this.onChangecoform('Checkbox'+i,e.target.checked)}
+                    <Checkbox onChange={(e)=>this.onChangecoform('Checkbox'+i,e.target.checked)}
                         disabled={!dis}
                     ><Text>是否已执行</Text></Checkbox></View>:null}
                     </View>
                     :v.ParaTypeID==5?<View style={{left:5,width:290}}>
                    <DatePicker 
-                     value={itemMsg[i-1]}
+                     value={itemMsg[i]}
                      mode="datetime"
-                     onOk={()=>this.setState({
-                         value:itemMsg[i-1] 
-                     })}
                      minDate={new Date(2015,1,1)}
                      onChange={(e)=>this.onChange('datalist'+i ,e)}
                      format="YYYY-MM-DD HH:mm"
@@ -295,8 +249,9 @@ export default class Tdetail extends React.Component{
                     <List.Item arrow="horizontal"></List.Item>
                     </DatePicker></View>:v.ParaTypeID==6?
                   <View><TextareaItem editable={!dis} placeholder={'请输入'}
-                  onChangeText={(v)=>this.handleInput('datalist'+i,v)}
-                  defaultValue={itemMsg[i-1]} autoHeight 
+                  onChange={(v)=>this.handleInput('datalist'+i,v)}
+                //   value={itemMsg[i-1]} 
+                  autoHeight 
                   style={{ paddingVertical: 5 ,backgroundColor:"#fffeee"}} />
                   {v.IsConfirm==1?<View style={{flexDirection:'row'}}><Checkbox onChange={(e)=>this.onChangecoform('Checkbox'+i,e.target.checked)} disabled={dis}/><Text>是否已执行</Text></View>:<Text></Text>}
                   </View>:null
