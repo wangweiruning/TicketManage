@@ -10,6 +10,7 @@ export default class Tdetail extends React.Component{
     constructor(props){
         super(props)
         this.state={
+            isgzfzr:'',
             vvval:"111,哈哈,超级管理员",
             value:null,
             num:'',
@@ -192,6 +193,14 @@ export default class Tdetail extends React.Component{
         console.log(this.state,'ffff')
     }
 
+    getSelect(value,datalist){
+        console.log(value,datalist)
+        let s ={[datalist]:value};
+        let data = Object.assign(this.state.pagedata,s)
+        this.state.pagedata=data;
+        this.state.isgzfzr=value;
+        this.forceUpdate()
+    }
 
     render(){
         return(<View style={{justifyContent:'center'}}>
@@ -227,7 +236,8 @@ export default class Tdetail extends React.Component{
                   textStyle={{color:'black',fontSize:13,left:5}} 
                   style={{backgroundColor:'skyblue',width:'100%',
                   height:29.3,justifyContent:'center'}}  
-                  defaultValue={'请选择'}
+                  defaultValue={v.ParaName=="工作负责人"?this.state.isgzfzr?this.state.isgzfzr:'请选择':"请选择"}
+                  onSelect={(e,value)=>this.getSelect(value,'datalist'+i)}
                   options={this.state.status}/>:v.ParaTypeID==2?
                   <View>
                    <TextInput editable={!dis}
