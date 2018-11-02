@@ -240,10 +240,10 @@ export default class Tdetail extends React.Component{
                     :v.ParaTypeID==5?<View style={{left:5,width:290}}>
                    <DatePicker 
                      value={itemMsg[i]}
-                     mode="date"
+                     mode="datetime"
                      minDate={new Date(2015,1,1)}
                      onChange={(e)=>this.onChange('datalist'+i ,e)}
-                     format="YYYY-MM-DD"
+                     format="YYYY-MM-DD HH:mm"
                      disabled={dis}
                    >
                     <List.Item arrow="horizontal"></List.Item>

@@ -35,9 +35,9 @@ export default class DropdownCheckbox extends React.Component{
         else{this.setState({SelectData:nextProps.SelectData})}
            if(nextProps.SelectData.length>0 && nextProps.defaultValue!=undefined){
             nextProps.SelectData.map(item=>{
-                let listOne = item.realname;
+                let listOne = item.userId;
                 let alls = nextProps.defaultValue;
-                console.log("666666666666666_new:",alls);
+                console.log("666666666666666_new:",alls,listOne);
                 if (alls.indexOf(listOne)!=-1) {
                      this.state.activeItem[item.userId||item.id] = (item.realname||item.departmentName);
                 console.log(this.state.activeItem,"ffffffffffff")
