@@ -1,5 +1,5 @@
 import React from 'react';
-import {View,TouchableOpacity,Text,Alert,ToastAndroid,Platform,BackHandler,DeviceEventEmitter,Image} from 'react-native';
+import {View,TouchableOpacity,Text,Alert,ToastAndroid,Platform,BackHandler,DeviceEventEmitter,Image,ImageBackground} from 'react-native';
 import {InputItem} from 'antd-mobile-rn';
 import {login} from '../api/api';
 import MySorage from '../api/storage';
@@ -85,8 +85,8 @@ async submitgo(data){
         
         let username = this.state.user;
         let password = this.state.pass;
-        return(
-        <View style={{justifyContent:'center',alignItems:'center',width:'100%',height:'50%',backgroundColor:'rgba(0,0,0,.4)',borderColor:'#4a4a4a',borderStyle:'solid',borderWidth:1}}>
+        return(<ImageBackground resizeMode="cover" style={{width: '100%', height: '100%'}} source={require('../images/cc.jpg')}>
+        <View style={{justifyContent:'center',alignItems:'center',width:'100%',height:'50%'}}>
           <Text style={{fontWeight:'500',color:'white',fontSize:20,top:-15}}>瑞智一体化两票管理系统</Text>
            <View style={{flexDirection:'row',alignItems:'center',backgroundColor:'white'}}>
                <Image source={require('../images/login-username.png')} style={{width:20,left:8}} resizeMode = 'contain'/>
@@ -101,6 +101,6 @@ async submitgo(data){
           <Text style={{color:'white',fontSize:20}}>登录</Text>
         </TouchableOpacity>
         </View>
-        )
+       </ImageBackground> )
     }
 }
