@@ -1,6 +1,5 @@
 import React from 'react';
 import Title from './Title';
-import {Checkbox} from 'antd-mobile-rn';
 import * as Animatable from 'react-native-animatable';
 import {ttmsTickets,searchUserPower,userlist} from './../api/api'
 import {View,Text,ScrollView,TouchableOpacity,Image,Alert} from 'react-native';
@@ -29,7 +28,6 @@ export default class TicketModel extends React.Component{
         let id = jconfig.userinfo.user;
         let jack = '?form.paramAllList.userid='+id
         let list = await userlist(jack);
-        console.log("======>",list);
         this.xunahn(name,v,list.form.paramAllList) 
         } 
     //权限判断
@@ -64,14 +62,13 @@ export default class TicketModel extends React.Component{
     }
 
     render(){
-        console.log(window.jconfig,"--------------")
         return(
             <View>
             <Title navigation={this.props.navigation} rightText="查看流程" centerText={this.props.navigation.state.params.v+'模板'}/>
             <ScrollView style={{paddingBottom:10}}>
                {
                    this.state.uzi.map((v,i)=>
-                   <Animatable.View key={i} useNativeDriver animation="fadeInRight" easing="ease-out-circ">
+                   <Animatable.View key={i} useNativeDriver animation="fadeInRight" easing="ease-out-expo">
                    <TouchableOpacity  
                    onPress={()=>this.goticket(v.TicketTemplateID,this.props.navigation.state.params.v)} 
                    style={{display:'flex',flexDirection:'row',width:'100%',backgroundColor:'#beebff',height:50,alignItems:'center',marginTop:10}}>

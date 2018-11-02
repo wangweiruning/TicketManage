@@ -8,7 +8,6 @@ const resetAction = StackActions.reset({
     index: 0,
     actions: [NavigationActions.navigate({ routeName: 'Tab' })],
   });
-
 export default class Login extends React.Component{
      constructor(props){
          super(props);

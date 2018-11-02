@@ -46,7 +46,7 @@ export default class ToastExample extends React.Component {
     const {navigate} = this.props.navigation;
     return (<View style={{alignItems:'center'}}>
       <NavigationBar navigation={this.props.navigation} centertext={'我的'}/>
-      <Animatable.View style={{width:'95%',borderRadius:10,height:80,backgroundColor:'lightgray',top:10,justifyContent:'center',alignItems:'center'}} useNativeDriver animation="fadeInRight" easing="ease-out-circ">
+      <Animatable.View style={{width:'95%',borderRadius:10,height:80,backgroundColor:'lightgray',top:10,justifyContent:'center',alignItems:'center'}} useNativeDriver animation="fadeInDown" easing="ease-out-quart">
           <Text style={{fontSize:20,color:'black'}}>
             用户id：{jconfig.userinfo.user?jconfig.userinfo.user:'暂无'}
           </Text>

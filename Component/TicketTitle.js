@@ -23,6 +23,7 @@ export default class TicketTitle extends React.Component{
             display:'flex',
             flexDirection: 'row',
             alignItems: 'center',
+            elevation: 4
         }}>
             <TouchableOpacity activeOpacity={0.8} onPress={()=>this._toBack()}
                                   style={{width: 60,marginLeft:5,height:35,display:'flex',alignItems:'center',flexDirection:'row'}}>   
