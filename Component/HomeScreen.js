@@ -51,6 +51,7 @@ export default class HomeScreen extends React.Component {
             <View style={{flex:1,display:'flex',alignItems:'center',flexDirection:'row'}}>
                   <Image source={require('../images/unhandle_ticket.png')} style={{width:20,resizeMode:Image.resizeMode.contain,left:15,marginTop:2}}/>
                   <Text style={{
+                    fontWeight:'500',
                     left:40,
                     color:'white',
                     fontSize:20
@@ -64,6 +65,7 @@ export default class HomeScreen extends React.Component {
              <View style={{flex:1,display:'flex',alignItems:'center',flexDirection:'row'}}>
                   <Image source={require('../images/online_ticket.png')} style={{width:20,resizeMode:Image.resizeMode.contain,left:15,marginTop:2}}/>
                   <Text style={{
+                    fontWeight:'500',
                     left:40,
                     color:'white',
                     fontSize:20
@@ -77,6 +79,7 @@ export default class HomeScreen extends React.Component {
           <View style={{flex:1,display:'flex',alignItems:'center',flexDirection:'row'}}>
                   <Image source={require('../images/search_ticket.png')} style={{width:20,resizeMode:Image.resizeMode.contain,left:15,marginTop:2}}/>
                   <Text style={{
+                    fontWeight:'500',
                     left:40,
                     color:'white',
                     fontSize:20

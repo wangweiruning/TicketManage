@@ -305,6 +305,7 @@ export default class Tdetail extends React.Component{
                 <TouchableOpacity 
                             onPress={()=>this.submitAll()}
                             style={{
+                                elevation:2,
                                 justifyContent:'center',
                                 alignItems:'center',
                                 width:'60%',

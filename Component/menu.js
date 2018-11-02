@@ -50,8 +50,8 @@ export default class ToastExample extends React.Component {
           <Text style={{fontSize:20,color:'black'}}>用户id：</Text>
           <Text style={{fontSize:20,color:'black',fontWeight:'500'}}>{jconfig.userinfo.user?jconfig.userinfo.user:'暂无'}</Text>
       </Animatable.View>
-        <TouchableOpacity onPress={()=> this.out()} style={{top:40,justifyContent:'center',alignItems:'center',width:'80%',backgroundColor:'#00a6e7',borderRadius:5,height:40}}>
-          <Text style={{color:'white',fontSize:20}}>退出</Text>
+        <TouchableOpacity onPress={()=> this.out()} style={{elevation:2,top:40,justifyContent:'center',alignItems:'center',width:'80%',backgroundColor:'#00a6e7',borderRadius:5,height:40}}>
+          <Text style={{color:'white',fontSize:20,fontWeight:'500'}}>退出</Text>
         </TouchableOpacity>
       </View>);
   }

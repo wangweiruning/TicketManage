@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text,View,TouchableOpacity} from 'react-native';
+import {Text,View,Button} from 'react-native';
 
 export default class NavigationBar extends React.Component{
     constructor(props){
@@ -29,8 +29,7 @@ export default class NavigationBar extends React.Component{
             <View style={{width:80,justifyContent:'center',alignItems:'center'}}>
                 {
                     this.props.centertext==='管理'?
-                    <TouchableOpacity style={{width:75,height:27,backgroundColor:'rgba(158,158,158,.2)',alignItems:'center',justifyContent:'center',right:7}} onPress={()=>this.show()}>
-                      <Text style={{color:'#26baee',fontWeight:'500'}}>新建两票</Text></TouchableOpacity>:null
+                    <Button color='#1e56a0' title="新建两票" onPress={()=>this.show()}/>:null
                 }
             </View>    
         </View>)
