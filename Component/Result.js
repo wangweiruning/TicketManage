@@ -231,7 +231,7 @@ export default class Tdetail extends React.Component{
         let data1 = Object.assign(this.state.newpagedata,s)
         this.state.pagedata=data;
         this.state.newpagedata=data1;
-        this.state.isgzfzr=value;
+        // this.state.isgzfzr=value;
         this.forceUpdate()
     }
     onChange(tt,value){
