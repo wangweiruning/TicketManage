@@ -56,7 +56,8 @@ export default class Tdetail extends React.Component{
             showChecked:{},
             groupName:[],
             chengyuanName:[],
-            newpagedata:{}
+            newpagedata:{},
+            isgzfzr:""
 
         }
     }
@@ -230,6 +231,7 @@ export default class Tdetail extends React.Component{
         let data1 = Object.assign(this.state.newpagedata,s)
         this.state.pagedata=data;
         this.state.newpagedata=data1;
+        this.state.isgzfzr=value;
         this.forceUpdate()
     }
     onChange(tt,value){
@@ -332,7 +334,7 @@ export default class Tdetail extends React.Component{
     gotSubmit=()=>{
         return  <View style={{margin:5}}>
                         <Text>流转目标</Text>
-                        <DropdownCheckbox open={this.open.bind(this)} style={{backgroundColor:'skyblue'}} TextColor={{color:'black',fontSize:13}} SelectData={this.state.searchRole} color="skyblue"/>
+                        <DropdownCheckbox open={this.open.bind(this)} style={{backgroundColor:'skyblue',borderRadius:5}} TextColor={{color:'black',fontSize:13}} SelectData={this.state.searchRole} color="skyblue"/>
                 </View>
     }
     getliuzhuan=()=>{
@@ -410,25 +412,31 @@ export default class Tdetail extends React.Component{
     submitResult(){
        const usrid= window.jconfig.userinfo;
        console.log(usrid,"用户id")
-        const {newpagedata,showPage,showChecked} = {...this.state};
+        const {pagedata,showPage,showChecked} = {...this.state};
         const commpage={
             TiceketNum:this.state.TiceketNum,
             userId:this.state.userId
         }
-        const datas=Object.assign(newpagedata,showPage,showChecked,commpage)
+        const datas=Object.assign(pagedata,showPage,showChecked,commpage)
         console.log(datas,"333333333333")
+    }
+    getGzryName(datalist,value,names,isgzfzr){
+        let users = '';
+        if(names=="工作负责人"){
+            this.state.chengyuanName.map(pagename=>{
+                if(value==pagename.id){
+                    users= pagename.loginname
+                }
+            })
+            users= isgzfzr?isgzfzr:users
+        }else{
+            users=value
+        }
+        return users?users:"请选择"
     }
     BackpageUseName(datalist,ids){
         let pageUseName=[];
         this.state.chengyuanName.map(pagename=>{
-            if(ids==pagename.id){
-                let dd = Object.assign(this.state.pagedata,{[datalist]:pagename.loginname})
-                let dd2 = Object.assign(this.state.newpagedata,{[datalist]:pagename.loginname})
-                this.setState({
-                    newpagedata:dd2,
-                    pagedata:dd
-                })
-            }
             pageUseName.push(pagename.loginname);//loginname登录名  realname权限名
         })
         return pageUseName
@@ -460,7 +468,7 @@ export default class Tdetail extends React.Component{
                                 <DropdownCheckbox open={this.openothers.bind(this)} isshow={!dis} 
                                 leixin={"datalist"+i}
                                 defaultValue={itemMsg[i-1]?itemMsg[i-1]:"请选择"} style={{backgroundColor:'white',height:50}}  TextColor={{color:'black',fontSize:13}} 
-                                SelectData={v.ParaName=="班组"?this.state.groupName:this.state.searchRole} canClick={dis}/>
+                                SelectData={v.ParaName=="班组"?this.state.searchRole:this.state.searchRole} canClick={dis}/>
                                 :v.ParaTypeID==3?
                                  <ModalDropdown 
                                     disabled={!dis}
@@ -468,9 +476,9 @@ export default class Tdetail extends React.Component{
                                     textStyle={{color:'black',fontSize:13,left:5}} 
                                     style={{backgroundColor:'skyblue',width:'100%',
                                     height:29.3,justifyContent:'center'}} 
-                                    defaultValue={itemMsg[i-1]?itemMsg[i-1]:"请选择"} 
+                                    defaultValue={this.getGzryName("datalist"+i,itemMsg[i-1],v.ParaName,this.state.isgzfzr)} 
                                     onSelect={(e,value)=>this.getSelect(value,'datalist'+i)}
-                                    options={this.BackpageUseName("datalist"+i,itemMsg[i-1])}/>  
+                                    options={this.BackpageUseName()}/>  
                                 :v.ParaTypeID==2?
                                 <View>
                                    <TextInput  
