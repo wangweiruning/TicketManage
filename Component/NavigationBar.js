@@ -22,13 +22,15 @@ export default class NavigationBar extends React.Component{
             flexDirection: 'row',
             justifyContent:'center',
             alignItems: 'center',
+            elevation: 4
         }}>
             <View style={{width:80,height:43}}></View>
             <Text style={{fontSize:20,fontWeight:'500',color:'black',textAlign:'center',flex:1}}>{this.props.centertext}</Text>
             <View style={{width:80,justifyContent:'center',alignItems:'center'}}>
                 {
                     this.props.centertext==='管理'?
-                    <TouchableOpacity  onPress={()=>this.show()}><Text style={{color:'#26baee',fontWeight:'500'}}>新建两票</Text></TouchableOpacity>:null
+                    <TouchableOpacity style={{width:75,height:27,backgroundColor:'rgba(158,158,158,.2)',alignItems:'center',justifyContent:'center',right:7}} onPress={()=>this.show()}>
+                      <Text style={{color:'#26baee',fontWeight:'500'}}>新建两票</Text></TouchableOpacity>:null
                 }
             </View>    
         </View>)
