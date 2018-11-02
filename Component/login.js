@@ -90,7 +90,7 @@ async submitgo(data){
           <Text style={{fontWeight:'500',color:'white',fontSize:20,top:-15}}>瑞智一体化两票管理系统</Text>
            <View style={{flexDirection:'row',alignItems:'center',backgroundColor:'white'}}>
                <Image source={require('../images/login-username.png')} style={{width:20,left:8}} resizeMode = 'contain'/>
-               <InputItem placeholder="账号" defaultValue={this.state.user} onChange={(v)=>this.handleInput('user',v)} style={{width:'85%'}}/>
+               <InputItem clear={true} placeholder="账号" defaultValue={this.state.user} onChange={(v)=>this.handleInput('user',v)} style={{width:'85%'}}/>
            </View>
            <View style={{flexDirection:'row',alignItems:'center',backgroundColor:'white',top:20}}>
                <Image source={require('../images/login-password.png')} style={{width:20,left:8}} resizeMode = 'contain'/>
