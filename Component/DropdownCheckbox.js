@@ -29,19 +29,22 @@ export default class DropdownCheckbox extends React.Component{
     } 
     
     componentWillReceiveProps(nextProps){
+
         if(this.state.default){
             this.setState({default:nextProps.defaultValue})
         }
-        else{this.setState({SelectData:nextProps.SelectData})}
+        else{
+            this.setState({SelectData:nextProps.SelectData})
+            }
            if(nextProps.SelectData.length>0 && nextProps.defaultValue!=undefined){
             nextProps.SelectData.map(item=>{
-                let listOne = item.userId;
+                let listOne = item.userId?item.userId:item.id;
                 let alls = nextProps.defaultValue;
-                console.log("666666666666666_new:",alls,listOne);
                 if (alls.indexOf(listOne)!=-1) {
                      this.state.activeItem[item.userId||item.id] = (item.realname||item.departmentName);
-                console.log(this.state.activeItem,"ffffffffffff")
                 this.forceUpdate()
+                }else{
+
                 }
             })
         }
@@ -50,8 +53,9 @@ export default class DropdownCheckbox extends React.Component{
 
     open(){
         let activeItem = this.state.activeItem;
-        console.log(activeItem,"activeid")
         let display = [];
+        if(activeItem.length>0){
+        console.log(activeItem,"activeid")
         for(let i in activeItem){
             if(activeItem[i]){
                 display.push(activeItem[i]);
@@ -63,6 +67,9 @@ export default class DropdownCheckbox extends React.Component{
         }else{
             return '请选择'
         }
+    }else{
+        return '请选择'
+    }
     }
 
 

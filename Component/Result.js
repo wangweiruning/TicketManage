@@ -218,22 +218,19 @@ export default class Tdetail extends React.Component{
         const saves = await editquanxian(paramsItem);//获取可编辑内容区域
         console.log(saves.form.dataList,"获取可编辑内容区域");
             this.setState({
-                havChangeList:saves.form.dataList
+                havChangeList:saves.form.dataList,
+                nnnmmm:true
             })
-            
-        this.setState({
-            nnnmmm:true
-        })
         } 
     }
     getSelect(value,datalist){
+        console.log(value,datalist)
         let s ={[datalist]:value};
         let data = Object.assign(this.state.pagedata,s)
         let data1 = Object.assign(this.state.newpagedata,s)
-        this.setState({
-            pagedata:data,
-            newpagedata:data1
-        });
+        this.state.pagedata=data;
+        this.state.newpagedata=data1;
+        this.forceUpdate()
     }
     onChange(tt,value){
         let dd= new Date(value)
@@ -329,9 +326,7 @@ export default class Tdetail extends React.Component{
     }
     isChange=(ss)=>{
         let sss = this.state.pagedata;
-
         let aa = Object.values(sss);
-            console.log(aa[1],"================")
              return aa;
     }
     gotSubmit=()=>{
@@ -345,7 +340,7 @@ export default class Tdetail extends React.Component{
         if (this.state.nextFlow!="") {
             arr.push(this.state.nextFlow)
             this.state.showPage.isflew=arr[0];
-            return  <View style={{}}>
+            return  <View style={{margin:5}}>
                         <Text style={{left:5}}>流转状态</Text>
                         <ModalDropdown  dropdownStyle={{width:'100%',height:45}} 
                                         textStyle={{color:'black',alignItems:'center',textAlign:'center',marginTop:7}} 
@@ -355,7 +350,15 @@ export default class Tdetail extends React.Component{
                                         options={arr}/>
                     </View>
             } else {
-              console.log("没有流转状态")          
+                return  <View style={{margin:5}}>
+                <Text style={{left:5}}>流转状态</Text>
+                <ModalDropdown  dropdownStyle={{width:'100%',height:45}} 
+                                textStyle={{color:'black',alignItems:'center',textAlign:'center',marginTop:7}} 
+                                style={{backgroundColor:'skyblue',borderRadius:5,height:30,width:'100%'}}
+                                defaultValue={"请选择"} 
+                                onSelect={(index,value)=>this.changeAgree(1,value)}
+                                options={arr}/>
+            </View>   
         }
     }
     changeAgree=(flag,value)=>{
@@ -376,7 +379,7 @@ export default class Tdetail extends React.Component{
             arr.push("不同意")
         }
         this.state.showPage.isagree=arr[0];
-        return <View style={{height:50}}>
+        return <View style={{height:50,margin:5}}>
         <Text style={{left:5}}>是否同意</Text>
         <ModalDropdown 
         dropdownStyle={{width:'100%',height:45}} 
@@ -415,16 +418,22 @@ export default class Tdetail extends React.Component{
         const datas=Object.assign(newpagedata,showPage,showChecked,commpage)
         console.log(datas,"333333333333")
     }
-    BackpageUseName(){
+    BackpageUseName(datalist,ids){
         let pageUseName=[];
         this.state.chengyuanName.map(pagename=>{
+            if(ids==pagename.id){
+                let dd = Object.assign(this.state.pagedata,{[datalist]:pagename.loginname})
+                let dd2 = Object.assign(this.state.newpagedata,{[datalist]:pagename.loginname})
+                this.setState({
+                    newpagedata:dd2,
+                    pagedata:dd
+                })
+            }
             pageUseName.push(pagename.loginname);//loginname登录名  realname权限名
         })
         return pageUseName
     }
     render(){
-       console.log(this.state)
-
         return(<View style={{justifyContent:'center'}}>
                     <TicketTitle navigation={this.props.navigation} num={this.state.nnnmmm}
                         centerText={this.props.navigation.state.params.typeName+""+this.props.navigation.state.params.ticketNum}/>
@@ -434,7 +443,6 @@ export default class Tdetail extends React.Component{
                             this.state.templateContents.map((v,i)=>{
                                 let dis = this.ischacked(v.TicketParaID);
                                 let itemMsg = this.isChange(i);
-                                console.log(dis,"gggggggggggggggg")
                             return <View  key={i} style={{backgroundColor:'white',marginTop:5}}>
                             <View style={{
                                 width:'100%',
@@ -459,10 +467,10 @@ export default class Tdetail extends React.Component{
                                     dropdownStyle={{width:'100%'}} 
                                     textStyle={{color:'black',fontSize:13,left:5}} 
                                     style={{backgroundColor:'skyblue',width:'100%',
-                                    height:29.3,justifyContent:'center'}}  
+                                    height:29.3,justifyContent:'center'}} 
                                     defaultValue={itemMsg[i-1]?itemMsg[i-1]:"请选择"} 
                                     onSelect={(e,value)=>this.getSelect(value,'datalist'+i)}
-                                    options={this.BackpageUseName()}/>  
+                                    options={this.BackpageUseName("datalist"+i,itemMsg[i-1])}/>  
                                 :v.ParaTypeID==2?
                                 <View>
                                    <TextInput  
