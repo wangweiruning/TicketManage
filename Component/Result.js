@@ -430,7 +430,12 @@ export default class Tdetail extends React.Component{
             })
             users= isgzfzr?isgzfzr:users
         }else{
-            users=value
+            this.state.chengyuanName.map(pagename=>{
+                if(value==pagename.id){
+                    users= pagename.loginname;
+                }
+            })
+            users= users
         }
         return users?users:"请选择"
     }
