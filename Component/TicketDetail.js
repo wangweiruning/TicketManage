@@ -3,7 +3,7 @@ import TicketTitle from './TicketTitle';
 import {DatePicker,List,Checkbox,TextareaItem} from 'antd-mobile-rn';
 import {View,Text,ScrollView,TouchableOpacity,TextInput,ToastAndroid} from 'react-native';
 import ModalDropdown from 'react-native-modal-dropdown';
-import {newTiceketNum,searchTicketBasicInfo,TicketBasicInfo,searchTicketFlow,editquanxian,searchUserForRole} from './../api/api'
+import {newTiceketNum,searchTicketBasicInfo,TicketBasicInfo,searchTicketFlow,editquanxian,searchUserForRole,tijiao} from './../api/api'
 import DropdownCheckbox from './DropdownCheckbox';
 
 export default class Tdetail extends React.Component{
@@ -28,6 +28,7 @@ export default class Tdetail extends React.Component{
             listdata:[],
             newpagedata:{},
             pagedata:{},//输入框
+            submitall:{}
         }
     }
 
@@ -50,7 +51,6 @@ export default class Tdetail extends React.Component{
         let e = this.props.navigation.state.params.name;
         let r = `?form.templateId=${e}`;
         let x = await newTiceketNum(r);
-
 
 
         let j = x.form.newTicket;
@@ -76,6 +76,7 @@ export default class Tdetail extends React.Component{
 
         let aa = [];
         let kobe = zero.form.dataList;
+
         for(let j in kobe){
               let bryent = kobe[j].realname;
               aa.push(bryent);
@@ -100,6 +101,7 @@ export default class Tdetail extends React.Component{
             jax:bool.form.templateContents,
             zed:feel.form.dataList
        })
+       console.log(this.state.user,'user')
        this.loding();
        this.xunahn(this.state.jax,this.state.zed);
        this.getlls(bool.form.templateContents);
@@ -170,7 +172,6 @@ export default class Tdetail extends React.Component{
         this.setState({
             pagedata: data
         });
-        alert(v)
     }
     isChacked=(ss)=>{
         let sss = this.state.pagedata;
@@ -188,9 +189,12 @@ export default class Tdetail extends React.Component{
 
     }
  
-    submitAll=()=>{
+   async submitAll(){
         const {pagedata} = {...this.state};
-        console.log(this.state,'ffff')
+        let all = tijiao(pagedata);
+        console.log(all,'ffffffaaaaaaa');
+        
+        // console.log(this.state,'ffff')
     }
 
     getSelect(value,datalist){

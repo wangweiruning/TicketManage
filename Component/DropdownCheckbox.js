@@ -32,11 +32,11 @@ export default class DropdownCheckbox extends React.Component{
             this.setState({default:nextProps.defaultValue,SelectData:nextProps.SelectData})
            if(nextProps.SelectData.length>0 && nextProps.defaultValue!=undefined){
             nextProps.SelectData.map(item=>{
-                let listOne = item.userId?item.userId:item.id;
+                let listOne = item.userid?item.userid:item.id;
                 let alls = nextProps.defaultValue;
                 console.log(listOne,alls,"4444444444444444444444")
                 if (alls.indexOf(listOne)!=-1) {
-                     this.state.activeItem[item.userId||item.id] = (item.realname||item.departmentName);
+                     this.state.activeItem[item.userid||item.id] = (item.realname||item.departmentName);
                 this.forceUpdate()
                 }
             })
@@ -141,10 +141,10 @@ export default class DropdownCheckbox extends React.Component{
                 keyExtractor={(item, index) => index.toString()}
                 renderItem={({item,index}) =>
                 <Animatable.View useNativeDriver animation="fadeInRight" easing="ease-out-quart"><View key={index} style={{marginLeft:10,marginTop:10,flexDirection:'row',padding:5,width:'95%',height:40,backgroundColor:'white',borderRadius:5}}>
-                <Checkbox checked={this.state.activeItem[item.userId ||item.id]}
+                <Checkbox checked={this.state.activeItem[item.userid ||item.id]}
                 onChange={(e)=>{
                         let s = e.target.checked;
-                        this.state.activeItem[item.userId||item.id] = s?item.realname||item.departmentName:"";
+                        this.state.activeItem[item.userid||item.id] = s?item.realname||item.departmentName:"";
                         console.log(this.state.activeItem,"ffffffffffff")
                         this.forceUpdate();
                 }}>
