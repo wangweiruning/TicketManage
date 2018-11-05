@@ -33,6 +33,16 @@ export function correation(data) {
     });
 }
 
+//历史流程
+export function historys(data) {
+    return Httpdata.post({
+        url: url.historys+data,
+        method: 'post',
+        dataType: "json",
+		contentType: "application/x-www-form-urlencoded",
+    });
+}
+
 //编辑模板详情权限
 export function editquanxian(data) {
     return Httpdata.post({
@@ -178,7 +188,7 @@ export function findbumen(data) {
     })
 }
 
-//tijiao
+//提交接口
 export function tijiao(data) {
     return Httpdata.post({
         url: url.tijiao+data,
@@ -187,3 +197,4 @@ export function tijiao(data) {
 		contentType: "application/x-www-form-urlencoded",
     })
 }
+

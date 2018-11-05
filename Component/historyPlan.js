@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View,TouchableOpacity,Button,ScrollView } from 'react-native';
-import {correation} from './../api/api'
+import {historys} from './../api/api'
 import Title from './Title'
 export default class HistoryPlan extends React.Component{
   constructor(props) {
@@ -29,13 +29,13 @@ export default class HistoryPlan extends React.Component{
           {text: '去登陆', onPress: () => navigate('login')},
         ],
       );
-        const datas = "?form.userId="+jconfig.userinfo.user;
-        const result = await correation(datas);
-        console.log(result.form.dataList,"获取历史流程")
+        const datas = "?form.tree_node_operation="+0;
+        const result = await historys(datas);
+        console.log(result.form.page.dataRows,"获取历史流程")
 
-        if(result&&result.form.dataList.length>0){
+        if(result&&result.form.page.dataRows.length>0){
         this.setState({
-            result:result.form.dataList,//序列化：转换为一个 (字符串)JSON字符串
+            result:result.form.page.dataRows,//序列化：转换为一个 (字符串)JSON字符串
         });
         }  
     }
@@ -49,18 +49,16 @@ export default class HistoryPlan extends React.Component{
                             key={i}
                             style={{marginTop:5,paddingBottom:10,paddingTop:10,width:"90%",marginLeft:20}}>
                             <Text style={{color:"#000000"}}>两票类型：{itemdata.tickettypename}</Text>
-                            <Text style={{color:"#000000"}}>负责人：{itemdata.headuser}</Text>
-                            <Text style={{color:"#000000"}}>编号：{itemdata.ticketserialnum}</Text>
-                            <Text style={{color:"#000000"}}>流转人：{itemdata.manageuser}</Text>
+                            <Text style={{color:"#000000"}}>两票编号：{itemdata.ticketserialnum}</Text>
+                            <Text style={{color:"#000000"}}>工作负责人：{itemdata.realname}</Text>
                             <View><Text style={{color:"#000000"}}>内容：</Text></View>
                             <Text numberOfLines={10} style = {{paddingBottom:15,borderColor:"#eeeeee",borderWidth:1,borderStyle:"solid",color:"#000000"}}>{itemdata.content}</Text>
-                            <Text style={{color:"#000000"}}>等待时间：{itemdata.manageTime}</Text>
-                            <Text style={{color:"#000000"}}>流转时间：{itemdata.lastTime}</Text>
-                            <Button
+                            <Text style={{color:"#000000"}}>开票时间：{itemdata.filltickettime}</Text>
+                            {/* <Button
                                 onPress={()=>this.gotoItem(itemdata)}
                                 title="查看详情"
                                 color="#406ea4"
-                                />
+                                /> */}
                     </View>
             })
         } else {

@@ -124,7 +124,15 @@ export default class Tdetail extends React.Component{
             }
 
         ticketFlowrole = liucheng.form.dataList;//该流程所属类型的所有状态角色
+        //去除作废流程
+						for(var i = 0; i < ticketFlowRole.length; i ++){
+							debugger;
+							if(ticketFlowRole[i].ticketstatusname == "作废"){
+								ticketFlowRole.splice(i, 1);
+							}
+						}
         ticketFlowrole.map(item=>{
+
             if(item.ticketstatusname==this.props.navigation.state.params.ticketstatusname){
                 this.setState({ticketstatusid:item.ticketstatusid})
             }
@@ -162,7 +170,9 @@ export default class Tdetail extends React.Component{
                 let  listPageData={['datalist'+index]:null};
                 dataPage=Object.assign(this.state.pagedata,listPageData);
                  this.getdefault(list,v,'datalist'+index);//获取默认值
-            }   
+            }
+            // let itemKeys =[];
+            // let keys= Object.keys(v);   
         })
         this.setState({
             pagedata:dataPage
@@ -376,21 +386,21 @@ export default class Tdetail extends React.Component{
     changeAgree=(flag,value)=>{
         console.log(flag,value)
         if (flag==0) {
-            this.state.showPage.isagree = value;
+            this.state.showPage.isagree = value=="同意"?1:2;
         } else {
             this.state.showPage.isflew = value;
         }
         this.forceUpdate();
     }
     aggreeall=()=>{
-        let arr=[];
+        let arr=["同意"];
         const aggress =this.state.aggree;
-        if(aggress!=2){
-            arr.push("同意")
+        if(aggress==1){
+            
         }else{
             arr.push("不同意")
         }
-        this.state.showPage.isagree=arr[0];
+        this.state.showPage.isagree=arr[0]=="同意"?1:2;
         return <View style={{height:50,margin:5}}>
         <Text style={{left:5}}>是否同意</Text>
         <ModalDropdown 
@@ -495,7 +505,7 @@ export default class Tdetail extends React.Component{
                             this.state.templateContents.map((v,i)=>{
                                 let dis = this.ischacked(v.TicketParaID);
                                 let itemMsg = this.isChange(i);
-                            return <View  key={i} style={{backgroundColor:'white',marginTop:5}}>
+                            return <View  key={i} style={{backgroundColor:'white',marginTop:5,marginBottom:20}}>
                             <View style={{
                                 width:'100%',
                                 height:30,
