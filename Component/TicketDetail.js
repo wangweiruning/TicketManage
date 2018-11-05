@@ -4,14 +4,13 @@ import {DatePicker,List,Checkbox,TextareaItem} from 'antd-mobile-rn';
 import {View,Text,ScrollView,TouchableOpacity,TextInput,ToastAndroid} from 'react-native';
 import ModalDropdown from 'react-native-modal-dropdown';
 import {newTiceketNum,searchTicketBasicInfo,TicketBasicInfo,searchTicketFlow,editquanxian,searchUserForRole,tijiao} from './../api/api'
-import DropdownCheckbox from './DropdownCheckbox';
+import TicketDropdownCheckBox from './TicketDropdownCheckBox';
 
 export default class Tdetail extends React.Component{
     constructor(props){
         super(props)
         this.state={
             isgzfzr:'',
-            vvval:"111,哈哈,超级管理员",
             value:null,
             num:'',
             jax:[],
@@ -101,7 +100,6 @@ export default class Tdetail extends React.Component{
             jax:bool.form.templateContents,
             zed:feel.form.dataList
        })
-       console.log(this.state.user,'user')
        this.loding();
        this.xunahn(this.state.jax,this.state.zed);
        this.getlls(bool.form.templateContents);
@@ -135,7 +133,6 @@ export default class Tdetail extends React.Component{
 
     open(val){
         let display = [];
-    
         for(let i in val){
             if(val[i]){
                 display.push(val[i]);
@@ -191,10 +188,9 @@ export default class Tdetail extends React.Component{
  
    async submitAll(){
         const {pagedata} = {...this.state};
-        let all = tijiao(pagedata);
-        console.log(all,'ffffffaaaaaaa');
-        
-        // console.log(this.state,'ffff')
+        console.log(this.state.pagedata,'ffff')
+        // let all = await tijiao(pagedata);
+        // console.log(all,'ffffffaaaaaaa');
     }
 
     getSelect(value,datalist){
@@ -231,7 +227,7 @@ export default class Tdetail extends React.Component{
               </View>
                {      
                   v.ParaTypeID==4? 
-                  <DropdownCheckbox  open={this.open.bind(this)} style={{backgroundColor:'white',height:50}} 
+                  <TicketDropdownCheckBox open={this.open.bind(this)} style={{backgroundColor:'white',height:50}} 
                   TextColor={{color:'black',fontSize:13}} SelectData={this.state.user}/>: 
                   v.ParaTypeID==3?
                   <ModalDropdown 
@@ -301,7 +297,7 @@ export default class Tdetail extends React.Component{
                 </View>
             <View style={{display:'flex',justifyContent:'center',margin:5}}>
                 <Text style={{color:'black'}}>流转目标</Text>
-                <DropdownCheckbox  open={this.open.bind(this)} style={{backgroundColor:'skyblue'}} TextColor={{color:'black',fontSize:13}} SelectData={this.state.user}/>
+                <TicketDropdownCheckBox open={this.open.bind(this)} style={{backgroundColor:'skyblue'}} TextColor={{color:'black',fontSize:13}} SelectData={this.state.user}/>
             </View>
             <View style={{display:'flex',justifyContent:'center',margin:5}}>
                 <Text style={{color:'black'}}>详细意见</Text>
