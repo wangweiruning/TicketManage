@@ -85,19 +85,22 @@ async submitgo(data){
         
         let username = this.state.user;
         let password = this.state.pass;
-        return(<View>
-          <View style={{top:15,alignItems:'center'}}>
-          <Text style={{fontWeight:'500',color:'#005792',fontSize:20}}>瑞智一体化两票管理系统</Text>
-           <View style={{flexDirection:'row',alignItems:'center',backgroundColor:'white',top:20,elevation:3}}>
+        return(<View style={{position:'relative',flex:1}}>
+                    <View style={{position:'absolute',width:'100%',height:'100%'}}>
+                    <Image source={require('../images/cc.jpg')} style={{width:'100%',height:'100%'}}/>
+                    </View>
+          <View style={{marginTop:15,alignItems:'center'}}>
+          <Text style={{fontWeight:'500',color:'white',fontSize:20}}>瑞智一体化两票管理系统</Text>
+           <View style={{flexDirection:'row',alignItems:'center',backgroundColor:'white',marginTop:15,elevation:3}}>
                <Image source={require('../images/login-username.png')} style={{width:20,left:8}} resizeMode = 'contain'/>
                <InputItem placeholder="账号" defaultValue={this.state.user} onChange={(v)=>this.handleInput('user',v)} style={{width:'85%'}}/>
            </View>
-           <View style={{flexDirection:'row',alignItems:'center',backgroundColor:'white',top:30,elevation:3}}>
+           <View style={{flexDirection:'row',alignItems:'center',backgroundColor:'white',marginTop:15,elevation:3}}>
                <Image source={require('../images/login-password.png')} style={{width:20,left:8}} resizeMode = 'contain'/>
                <InputItem type="password" defaultValue={this.state.pass} placeholder="密码" onChange={(v)=>this.handleInput('pass',v)} style={{width:'85%'}}/>
            </View>
            <TouchableOpacity onPress={()=>this.submitgo({username,password,code:'50ACD07A6C49F3B9E082EF40461AC6D1'})} 
-               style={{elevation:3,top:50,justifyContent:'center',alignItems:'center',width:'80%',backgroundColor:'#00a6e7',borderRadius:5,height:40}}>
+               style={{elevation:3,marginTop:15,justifyContent:'center',alignItems:'center',width:'80%',backgroundColor:'#00a6e7',borderRadius:5,height:40}}>
           <Text style={{color:'white',fontSize:20}}>登录</Text>
         </TouchableOpacity>
         </View>
