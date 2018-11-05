@@ -32,11 +32,11 @@ export default class Tdetail extends React.Component{
             userId:"",
             templateContents:[],//获取模板列表
             dataList:[],//两票基本信息
-            LcdataList:[],//当前类型两票流程
+            ticketFlowrole:[],//当前类型两票流程
             searchRole:[],//提交对象
             havChangeList:[],//获取可编辑模块
             nextFlowId:"",//下一个流转id
-            nextFlow:"",//下一个流转流程
+            nextFlow:[],//下一个流转流程
             ticketstatusid:'',//当前流程id
             TicketTypeID:"",//票类型id
             aggree:1,//是否同意提交
@@ -60,7 +60,10 @@ export default class Tdetail extends React.Component{
             groupName:[],
             chengyuanName:[],
             newpagedata:{},
-            isgzfzr:""
+            isgzfzr:"",
+            index:"",
+            isBack:"",
+            skipFlowId:""
 
         }
     }
@@ -117,27 +120,20 @@ export default class Tdetail extends React.Component{
         let data = '?form.ticketTypeName='+typeName;
         let liucheng = await searchTicketFlow(data);
         console.log(liucheng,"当前类型两票流程 ")
-            if(liucheng.form.dataList.length>0){
-                this.setState({
-                    LcdataList:liucheng.form.dataList
-                })
-            }
 
         ticketFlowrole = liucheng.form.dataList;//该流程所属类型的所有状态角色
         //去除作废流程
-						for(var i = 0; i < ticketFlowRole.length; i ++){
-							debugger;
-							if(ticketFlowRole[i].ticketstatusname == "作废"){
-								ticketFlowRole.splice(i, 1);
-							}
-						}
-        ticketFlowrole.map(item=>{
-
+        ticketFlowrole.map((item,i)=>{
+            if(item.ticketstatusname == "作废"){
+                ticketFlowrole.splice(i, 1);
+            }
             if(item.ticketstatusname==this.props.navigation.state.params.ticketstatusname){
                 this.setState({ticketstatusid:item.ticketstatusid})
             }
         })
-        
+        this.setState({
+            ticketFlowrole:ticketFlowrole
+        })
             console.log(ticketFlowrole,"该流程所属类型的所有状态角色")
         if(searchs.form.dataList.length>0){//数据库中已有记录
             console.log("数据库中已有记录")
@@ -204,6 +200,9 @@ export default class Tdetail extends React.Component{
                     break;
                 }
             }
+            this.setState({
+                index:index
+            })
             console.log(index,"======================")
             if (index > ticketFlowrole.length - 3) { //最后两个状态为验收和作废，均为终结流程
                 console.log("终结流程!")
@@ -211,9 +210,10 @@ export default class Tdetail extends React.Component{
             //设置流转状态及流转目标
             var nextFlowId = ticketFlowrole[index + 1].ticketstatusid;//下一个流程id
             var nextFlow = ticketFlowrole[index + 1].ticketstatusname;//下一个流程状态
+            let arr=[nextFlow];
             this.setState({
                 nextFlowId:nextFlowId,
-                nextFlow:nextFlow
+                nextFlow:arr
             })
             var nextRoleId = ticketFlowrole[index + 1].ticketroleid;
             const dui="?form.roleId="+nextRoleId;
@@ -226,6 +226,11 @@ export default class Tdetail extends React.Component{
 
         skipFlowId = ticketFlowrole[index].skipflowid;
         isBack = ticketFlowrole[index].isback;
+        this.setState({
+            isBack:isBack,
+            skipFlowId:skipFlowId
+        })
+        console.log(skipFlowId,"skipFlowId")
         if (skipFlowId == 0 && isBack == 0) {
             this.setState({
                 aggree:1
@@ -318,7 +323,7 @@ export default class Tdetail extends React.Component{
  * **/
     open(val){
         let display = [];
-    
+    console.log(val,"vvvvvvvvvvv")
         for(let i in val){
             if(val[i]){
                 display.push(val[i]);
@@ -358,39 +363,115 @@ export default class Tdetail extends React.Component{
                 </View>
     }
     getliuzhuan=()=>{
-        let arr=[];
-        if (this.state.nextFlow!="") {
-            arr.push(this.state.nextFlow)
+        let arr=this.state.nextFlow;
+        console.log(arr,"33333444444444")
+     
             this.state.showPage.isflew=arr[0];
             return  <View style={{margin:5}}>
                         <Text style={{left:5}}>流转状态</Text>
-                        <ModalDropdown  dropdownStyle={{width:'100%',height:45}} 
+                        <ModalDropdown  dropdownStyle={{width:'100%'}} 
                                         textStyle={{color:'black',alignItems:'center',textAlign:'center',marginTop:7}} 
-                                        style={{backgroundColor:'skyblue',borderRadius:5,height:30,width:'100%'}}
-                                        defaultValue={arr[0]} 
-                                        onSelect={(index,value)=>this.changeAgree(1,value)}
+                                        style={{backgroundColor:'skyblue',borderRadius:5,width:'100%'}}
+                                        defaultValue={arr[0]?arr[0]:"请选择"}
+                                        onSelect={(index,value)=>this.changeAgree(index,1,value)}
                                         options={arr}/>
                     </View>
-            } else {
-                return  <View style={{margin:5}}>
-                <Text style={{left:5}}>流转状态</Text>
-                <ModalDropdown  dropdownStyle={{width:'100%',height:45}} 
-                                textStyle={{color:'black',alignItems:'center',textAlign:'center',marginTop:7}} 
-                                style={{backgroundColor:'skyblue',borderRadius:5,height:30,width:'100%'}}
-                                defaultValue={"请选择"} 
-                                onSelect={(index,value)=>this.changeAgree(1,value)}
-                                options={arr}/>
-            </View>   
+            
+    }
+   async getNewSubdeta(index,isBack,ticketFlowRole,skipFlowId){
+        //设置回转状态及回转目标
+        console.log(index,isBack,ticketFlowRole,skipFlowId)
+       
+					var backFlowNameArray = [];
+                    var backRoleIdArray = [];
+                    let NewArr=[];
+					if (isBack == 1) {
+						for (var i = 0; i < index; i++) {
+							if(ticketFlowRole[i].ticketrolerank == 1){
+								backFlowNameArray.push(ticketFlowRole[i].ticketstatusname);
+                                backRoleIdArray.push(ticketFlowRole[i].ticketroleid);
+                                
+                                let itemarr='回转-' + ticketFlowRole[i].ticketstatusname;
+                                NewArr.push(itemarr)
+							}
+                        }
+                        this.setState({
+                            nextFlow:NewArr
+                        })
+
+                        const dui="?form.roleId="+backRoleIdArray.join();
+                        const searchRole = await searchUserForRole(dui);//获取提交对象
+                        this.setState({
+                            searchRole:searchRole.form.dataList
+                        })
+					}else{
+                        //设置跳转状态及跳转目标
+					var skipFlowName = "";
+                    var skipRoleIdArray = [];
+                    var aar=[];
+					if (skipFlowId != 0) {
+						for (var i = 0; i < ticketFlowRole.length; i++) {
+							if (ticketFlowRole[i].ticketstatusid == skipFlowId) {
+								skipFlowName = ticketFlowRole[i].ticketstatusname;
+                                skipRoleIdArray.push(ticketFlowRole[i].ticketroleid);
+                                
+                            };
+                            aar.push(skipFlowName);
+                        }
+                        
+                        let tiaozhuan = Object.assign(this.state.nextFlow,aar);
+                        //跳转id  skipFlowId
+                        this.setState({nextFlow:aar})
+                        const dui="?form.roleId="+skipRoleIdArray.join();
+                        const searchRole = await searchUserForRole(dui);//获取提交对象
+						this.setState({
+                            searchRole:searchRole.form.dataList,
+                            nextFlow:aar
+                        })	
+					}
+                    }
+
+					
+    }
+
+    async getSubdata(index,ticketFlowrole){
+        if (index > ticketFlowrole.length - 3) { //最后两个状态为验收和作废，均为终结流程
+                console.log("终结流程!")
+        } else {
+            //设置流转状态及流转目标
+            var nextFlowId = ticketFlowrole[index + 1].ticketstatusid;//下一个流程id
+            var nextFlow = ticketFlowrole[index + 1].ticketstatusname;//下一个流程状态
+            let arr=[nextFlow];
+            this.setState({
+                nextFlowId:nextFlowId,
+                nextFlow:arr
+            })
+            var nextRoleId = ticketFlowrole[index + 1].ticketroleid;
+            const dui="?form.roleId="+nextRoleId;
+            const searchRole = await searchUserForRole(dui);//获取提交对象
+            console.log(searchRole,"获取提交对象")
+            this.setState({
+                searchRole:searchRole.form.dataList
+            })
         }
     }
-    changeAgree=(flag,value)=>{
-        console.log(flag,value)
+    changeAgree=(index,flag,value)=>{
+        console.log(index,"index")
+        let arr=[];
+        arr.push(value)
         if (flag==0) {
-            this.state.showPage.isagree = value=="同意"?1:2;
+            if (index==0) {
+                this.getSubdata(this.state.index,this.state.ticketFlowrole)
+            } else {
+                this.getNewSubdeta(this.state.index,this.state.isBack,this.state.ticketFlowrole,this.state.skipFlowId);//获取新的流转对象和新的提交对象
+            }
+            this.state.showPage.isagree = (index+1)==1?1:2;
+            this.forceUpdate();
         } else {
             this.state.showPage.isflew = value;
+            this.forceUpdate();
         }
-        this.forceUpdate();
+        
     }
     aggreeall=()=>{
         let arr=["同意"];
@@ -404,11 +485,11 @@ export default class Tdetail extends React.Component{
         return <View style={{height:50,margin:5}}>
         <Text style={{left:5}}>是否同意</Text>
         <ModalDropdown 
-        dropdownStyle={{width:'100%',height:45}} 
+        dropdownStyle={{width:'100%'}} 
         textStyle={{color:'black',alignItems:'center',textAlign:'center',marginTop:7}} 
-        style={{backgroundColor:'skyblue',borderRadius:5,height:30,width:'100%'}} 
+        style={{backgroundColor:'skyblue',borderRadius:5,width:'100%'}} 
         defaultValue={arr[0]} 
-        onSelect={(index,value)=>this.changeAgree(0,value)}
+        onSelect={(index,value)=>this.changeAgree(index,0,value)}
         options={arr}/>
     </View>
     }
@@ -593,6 +674,7 @@ export default class Tdetail extends React.Component{
                             {this.getliuzhuan()}
                             {this.gotSubmit()}
                             </View> 
+                            <Text style={{left:5}}>详细意见</Text>
                             <TextareaItem   onChangeText={(v)=>this.onChangeTextInput()} 
                                             autoHeight 
                                             style={{ paddingVertical: 5,
