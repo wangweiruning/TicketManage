@@ -231,7 +231,7 @@ export default class Tdetail extends React.Component{
         let data1 = Object.assign(this.state.newpagedata,s)
         this.state.pagedata=data;
         this.state.newpagedata=data1;
-        this.state.isgzfzr=value;
+        // this.state.isgzfzr=value;
         this.forceUpdate()
     }
     onChange(tt,value){
@@ -430,7 +430,12 @@ export default class Tdetail extends React.Component{
             })
             users= isgzfzr?isgzfzr:users
         }else{
-            users=value
+            this.state.chengyuanName.map(pagename=>{
+                if(value==pagename.id){
+                    users= pagename.loginname;
+                }
+            })
+            users= users
         }
         return users?users:"请选择"
     }
