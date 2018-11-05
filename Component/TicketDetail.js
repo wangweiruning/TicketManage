@@ -274,7 +274,7 @@ export default class Tdetail extends React.Component{
               <View style={{
                   width:'100%',
                   height:30,
-                  backgroundColor:'white',
+                  backgroundColor:'rgb(72,171,255)',
                   borderBottomWidth:1,
                   borderBottomColor:'black',
                   borderStyle:'solid',
@@ -296,9 +296,12 @@ export default class Tdetail extends React.Component{
                 }
                 </View>
             <View style={{display:'flex',justifyContent:'center',margin:5}}>
-            
                 <Text style={{color:'black'}}>流转目标</Text>
                 <DropdownCheckbox  open={this.open.bind(this)} style={{backgroundColor:'skyblue'}} TextColor={{color:'black',fontSize:13}} SelectData={this.state.user}/>
+            </View>
+            <View style={{display:'flex',justifyContent:'center',margin:5}}>
+                <Text style={{color:'black'}}>详细意见</Text>
+                <TextareaItem placeholder='请输入' autoHeight style={{ paddingVertical: 5 ,backgroundColor:"#fffeee"}}/>
             </View>
             </View> 
             <View style={{marginBottom:50,width:'100%',display:'flex',justifyContent:'center',alignItems:'center'}}>
