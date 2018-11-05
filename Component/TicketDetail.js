@@ -3,15 +3,14 @@ import TicketTitle from './TicketTitle';
 import {DatePicker,List,Checkbox,TextareaItem} from 'antd-mobile-rn';
 import {View,Text,ScrollView,TouchableOpacity,TextInput,ToastAndroid} from 'react-native';
 import ModalDropdown from 'react-native-modal-dropdown';
-import {newTiceketNum,searchTicketBasicInfo,TicketBasicInfo,searchTicketFlow,editquanxian,searchUserForRole} from './../api/api'
-import DropdownCheckbox from './DropdownCheckbox';
+import {newTiceketNum,searchTicketBasicInfo,TicketBasicInfo,searchTicketFlow,editquanxian,searchUserForRole,tijiao} from './../api/api'
+import TicketDropdownCheckBox from './TicketDropdownCheckBox';
 
 export default class Tdetail extends React.Component{
     constructor(props){
         super(props)
         this.state={
             isgzfzr:'',
-            vvval:"111,哈哈,超级管理员",
             value:null,
             num:'',
             jax:[],
@@ -28,6 +27,7 @@ export default class Tdetail extends React.Component{
             listdata:[],
             newpagedata:{},
             pagedata:{},//输入框
+            submitall:{}
         }
     }
 
@@ -50,7 +50,6 @@ export default class Tdetail extends React.Component{
         let e = this.props.navigation.state.params.name;
         let r = `?form.templateId=${e}`;
         let x = await newTiceketNum(r);
-
 
 
         let j = x.form.newTicket;
@@ -76,6 +75,7 @@ export default class Tdetail extends React.Component{
 
         let aa = [];
         let kobe = zero.form.dataList;
+
         for(let j in kobe){
               let bryent = kobe[j].realname;
               aa.push(bryent);
@@ -133,7 +133,6 @@ export default class Tdetail extends React.Component{
 
     open(val){
         let display = [];
-    
         for(let i in val){
             if(val[i]){
                 display.push(val[i]);
@@ -170,7 +169,6 @@ export default class Tdetail extends React.Component{
         this.setState({
             pagedata: data
         });
-        alert(v)
     }
     isChacked=(ss)=>{
         let sss = this.state.pagedata;
@@ -188,9 +186,11 @@ export default class Tdetail extends React.Component{
 
     }
  
-    submitAll=()=>{
+   async submitAll(){
         const {pagedata} = {...this.state};
-        console.log(this.state,'ffff')
+        console.log(this.state.pagedata,'ffff')
+        // let all = await tijiao(pagedata);
+        // console.log(all,'ffffffaaaaaaa');
     }
 
     getSelect(value,datalist){
@@ -215,7 +215,7 @@ export default class Tdetail extends React.Component{
            return <View  key={i} style={{backgroundColor:'white',marginTop:5}}>
               <View style={{
                   width:'100%',
-                  height:30,
+                  padding:5,
                   flexDirection:'row',
                   backgroundColor:'white',
                   borderBottomWidth:1,
@@ -227,7 +227,7 @@ export default class Tdetail extends React.Component{
               </View>
                {      
                   v.ParaTypeID==4? 
-                  <DropdownCheckbox  open={this.open.bind(this)} style={{backgroundColor:'white',height:50}} 
+                  <TicketDropdownCheckBox open={this.open.bind(this)} style={{backgroundColor:'white',height:50}} 
                   TextColor={{color:'black',fontSize:13}} SelectData={this.state.user}/>: 
                   v.ParaTypeID==3?
                   <ModalDropdown 
@@ -297,7 +297,7 @@ export default class Tdetail extends React.Component{
                 </View>
             <View style={{display:'flex',justifyContent:'center',margin:5}}>
                 <Text style={{color:'black'}}>流转目标</Text>
-                <DropdownCheckbox  open={this.open.bind(this)} style={{backgroundColor:'skyblue'}} TextColor={{color:'black',fontSize:13}} SelectData={this.state.user}/>
+                <TicketDropdownCheckBox open={this.open.bind(this)} style={{backgroundColor:'skyblue'}} TextColor={{color:'black',fontSize:13}} SelectData={this.state.user}/>
             </View>
             <View style={{display:'flex',justifyContent:'center',margin:5}}>
                 <Text style={{color:'black'}}>详细意见</Text>

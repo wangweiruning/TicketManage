@@ -5,7 +5,7 @@ import {View,Text,Image,TouchableOpacity,Modal,TextInput,FlatList} from 'react-n
 
 
 
-export default class DropdownCheckbox extends React.Component{
+export default class TicketDropdownCheckBox extends React.Component{
     constructor(props){
         super(props)
         this.state={
@@ -13,65 +13,32 @@ export default class DropdownCheckbox extends React.Component{
             selected: '',
             show:false,
             text:'',
-            default:this.props.defaultValue,
             activeItem:new Array(this.props.SelectData.length).fill(""),
             defaultChecked:false,
             datas:''
         }
     }
     
-
-    onSelect = (value) => {
-        this.setState({
-          visible: false,
-          selected: value,
-        });
-    } 
     
     componentWillReceiveProps(nextProps){
-            this.setState({default:nextProps.defaultValue,SelectData:nextProps.SelectData})
-           if(nextProps.SelectData.length>0 && nextProps.defaultValue!=undefined){
-            nextProps.SelectData.map(item=>{
-                let listOne = item.userid?item.userid:item.id;
-                let alls = nextProps.defaultValue;
-                console.log(listOne,alls,"4444444444444444444444")
-                if (alls.indexOf(listOne)!=-1) {
-                     this.state.activeItem[item.userid||item.id] = (item.realname||item.departmentName);
-                this.forceUpdate()
-                }
-            })
-        }
+        this.setState({SelectData:this.props.SelectData});
     }
 
 
     open(){
         let activeItem = this.state.activeItem;
         let display = [];
-        if(activeItem.length>0){
-        console.log(activeItem,"activeid")
         for(let i in activeItem){
             if(activeItem[i]){
                 display.push(activeItem[i]);
             }
         };
-
         if(display.length>0){
             return display.join(",");
         }else{
             return '请选择'
         }
-    }else{
-        return '请选择'
     }
-    }
-
-
-    handleInput(k, v){
-        this.setState({
-            [k]: v
-        });
-    }
-
 
     onChanegeTextKeyword(text){
         this.timeA(text);
@@ -141,21 +108,21 @@ export default class DropdownCheckbox extends React.Component{
                 keyExtractor={(item, index) => index.toString()}
                 renderItem={({item,index}) =>
                 <Animatable.View useNativeDriver animation="fadeInRight" easing="ease-out-quart"><View key={index} style={{marginLeft:10,marginTop:10,flexDirection:'row',padding:5,width:'95%',height:40,backgroundColor:'white',borderRadius:5}}>
-                <Checkbox checked={this.state.activeItem[item.userid ||item.id]}
+                <Checkbox checked={this.state.activeItem[item.userid]}
                 onChange={(e)=>{
                         let s = e.target.checked;
-                        this.state.activeItem[item.userid||item.id] = s?item.realname||item.departmentName:"";
+                        this.state.activeItem[item.userid] = s?item.realname:"";
                         console.log(this.state.activeItem,"ffffffffffff")
                         this.forceUpdate();
                 }}>
-                <Text style={{width:'100%',left:5,color:color?color:'gray',fontSize:fontSize?fontSize:18}}>{item.realname ||item.departmentName}</Text></Checkbox>
+                <Text style={{width:'100%',left:5,color:color?color:'gray',fontSize:fontSize?fontSize:18}}>{item.realname}</Text></Checkbox>
                 </View></Animatable.View>}
                 />
                 <TouchableOpacity activeOpacity={.7} style={{justifyContent:'center',alignItems:'center',backgroundColor:'#00a6e7',height:50}} 
                     onPress={()=>{
                         this.setState({visible:false,SelectData:this.props.SelectData})
-                        this.props.open(this.state.activeItem,this.props.leixin)}
-                    }>
+                        this.props.open(this.state.activeItem)
+                    }}>
                     <Text style={{fontSize:18,color:'white'}}>确定</Text>
                 </TouchableOpacity>
             </Modal>
