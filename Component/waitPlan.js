@@ -11,15 +11,6 @@ export default class WaitPlan extends React.Component{
       animating: false,
       result:'',
       userId:""
-    //   result:[{
-    //     tickettypename:'水力自控工作票',
-    //     headuser:'央研究院11',
-    //     ticketserialnum:'1',
-    //     manageuser:'超级管理员',
-    //     content:'222222222',
-    //     managetime:'2018-09-27T15:06:01',
-    //     lastTime:'2018-09-27T15:06:01'
-    //   }]
     };
   }
     async componentDidMount(){
@@ -95,6 +86,13 @@ export default class WaitPlan extends React.Component{
                                                 isAlter:1,
                                                 departmentid:params.departmentid,
                                                 userId:this.state.userId,
+                                                isqianfa:true,
+                                                ticketstatusname:params.ticketstatusname,//状态名字
+                                                ticketbasicinfoid:params.ticketbasicinfoid,//票基本信息id
+                                                ticketroleid:params.ticketroleid,//roleid
+                                                recordoption:params.recordoption,
+                                                flowroleid:params.flowroleid,
+                                                detailinfo:params.detailinfo,
                                                 _:Date.parse(new Date())})
     }
   render() {

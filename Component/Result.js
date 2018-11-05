@@ -37,7 +37,10 @@ export default class Tdetail extends React.Component{
             havChangeList:[],//获取可编辑模块
             nextFlowId:"",//下一个流转id
             nextFlow:"",//下一个流转流程
+            ticketstatusid:'',//当前流程id
+            TicketTypeID:"",//票类型id
             aggree:1,//是否同意提交
+            detailinfo:"",
             havelist:[],
             ContentID:"",
             rolecontentid:"",
@@ -121,6 +124,12 @@ export default class Tdetail extends React.Component{
             }
 
         ticketFlowrole = liucheng.form.dataList;//该流程所属类型的所有状态角色
+        ticketFlowrole.map(item=>{
+            if(item.ticketstatusname==this.props.navigation.state.params.ticketstatusname){
+                this.setState({ticketstatusid:item.ticketstatusid})
+            }
+        })
+        
             console.log(ticketFlowrole,"该流程所属类型的所有状态角色")
         if(searchs.form.dataList.length>0){//数据库中已有记录
             console.log("数据库中已有记录")
@@ -128,7 +137,8 @@ export default class Tdetail extends React.Component{
             var basicInfoId = searchs.form.dataList[0].TicketBasicInfoID;//TicketBasicInfoID第一条数据的信息id 
             console.log(statusId,basicInfoId)
             this.setState({
-                dataList:searchs.form.dataList
+                dataList:searchs.form.dataList,
+                TicketTypeID:searchs.form.dataList[0].TicketTypeID
             })
 
             // 这里需要获取已经经过的流程
@@ -226,7 +236,7 @@ export default class Tdetail extends React.Component{
     }
     getSelect(value,datalist){
         console.log(value,datalist)
-        let s ={[datalist]:value};
+        let s ={[datalist]:[value]};
         let data = Object.assign(this.state.pagedata,s)
         let data1 = Object.assign(this.state.newpagedata,s)
         this.state.pagedata=data;
@@ -409,6 +419,12 @@ export default class Tdetail extends React.Component{
         })
       }
 
+    onChangeTextInput(v){
+        this.setState({
+            detailInfo:v
+        })
+      }
+
     submitResult(){
        const usrid= window.jconfig.userinfo;
        console.log(usrid,"用户id")
@@ -419,6 +435,29 @@ export default class Tdetail extends React.Component{
         }
         const datas=Object.assign(pagedata,showPage,showChecked,commpage)
         console.log(datas,"333333333333")
+
+
+
+       let data= { 'form.basicInfoId':this.props.navigation.state.params.ticketbasicinfoid,  
+                    'form.ticketTypeId':"",  
+                    'form.ticketTypeName': this.props.navigation.state.params.typeName,
+                    'form.ticketStatusId': this.state.ticketstatusid,
+                    'form.ticketNum': this.props.navigation.state.params.ticketNum,
+                    'form.templateId': this.props.navigation.state.params.templateID,
+                    'form.flowroleid': this.props.navigation.state.params.flowroleid,
+                    'form.userId': this.props.navigation.state.params.userId,
+                    'form.recordOption': this.props.navigation.state.params.recordoption,
+                    'form.detailInfo': this.state.detailinfo,
+                    'form.nextFlowId': this.state.nextFlowId,
+                    'form.nextUserId': "",
+                    "form.paraData":  { "be21661054e1954cd859e4d931779f59":"44444",
+                                        "9bbbe1145e0aa5486c590f23013ad6e8":"2222",
+                                        "f74a30d4588c9546635abdf7dfec59f5":"2222",
+                                        "9fd8792648e614499c4aa0a2947f000b":"1111",
+                                        "8a5dbd2537677340d73a9125449e0331":"111",
+                                        "0a0cce0c121721429018c96af5f8b036":"2018-11-05 09:27"}
+                }
+                console.log(data,"222333333")
     }
     getGzryName(datalist,value,names,isgzfzr){
         let users = '';
@@ -527,6 +566,7 @@ export default class Tdetail extends React.Component{
                             }
                                     </View>
                         })}
+                        {this.props.navigation.state.params.isqianfa&&<View>
                             <View style={{backgroundColor:'white',marginTop:5,marginBottom:20}}>
                             <View style={{
                                 width:'100%',
@@ -539,11 +579,15 @@ export default class Tdetail extends React.Component{
                                 }}>
                                 <Text style={{color:'#3e5ed2',left:5}}>提交</Text>
                             </View>
-                                {this.aggreeall()}
-                                {this.getliuzhuan()}
-                                {this.gotSubmit()}
-                           
+                            { this.aggreeall()}
+                            {this.getliuzhuan()}
+                            {this.gotSubmit()}
                             </View> 
+                            <TextareaItem   onChangeText={(v)=>this.onChangeTextInput()} 
+                                            autoHeight 
+                                            style={{ paddingVertical: 5,
+                                                     borderBottomWidth:2,
+                                                     backgroundColor:"#fffeee" }}></TextareaItem>
                             <View style={{marginBottom:50,width:'100%',display:'flex',justifyContent:'center',alignItems:'center'}}>
                                 <TouchableOpacity 
                                             onPress={()=>this.submitResult()}
@@ -556,6 +600,7 @@ export default class Tdetail extends React.Component{
                                         <Text style={{color:'white',fontSize:20}}>提交</Text>
                                 </TouchableOpacity>
                             </View>
+                            </View>}
                   </ScrollView>
               </View>)
     }

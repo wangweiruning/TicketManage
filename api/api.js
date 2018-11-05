@@ -177,3 +177,13 @@ export function findbumen(data) {
 		contentType: "application/x-www-form-urlencoded",
     })
 }
+
+//tijiao
+export function tijiao(data) {
+    return Httpdata.post({
+        url: url.tijiao+data,
+        method: 'post',
+        dataType: "json",
+		contentType: "application/x-www-form-urlencoded",
+    })
+}
