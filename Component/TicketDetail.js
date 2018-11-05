@@ -215,7 +215,7 @@ export default class Tdetail extends React.Component{
            return <View  key={i} style={{backgroundColor:'white',marginTop:5}}>
               <View style={{
                   width:'100%',
-                  height:30,
+                  padding:5,
                   flexDirection:'row',
                   backgroundColor:'white',
                   borderBottomWidth:1,
