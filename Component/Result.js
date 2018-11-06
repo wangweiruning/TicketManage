@@ -382,9 +382,10 @@ export default class Tdetail extends React.Component{
     openothers(val,leixing){
         let display = [];
         let datas=[];
-        console.log(val,leixing,"vallllllllls")
+        let alljsitem = Object.keys(val).join(",");
+        console.log(alljsitem,leixing,"vallllllllls")
         this.state.chengyuanName.map(item=>{
-            if(item.id){
+            if(alljsitem.indexOf(item.id) != -1){
                 datas.push(item.id)  
             }
         })
@@ -394,7 +395,7 @@ export default class Tdetail extends React.Component{
             }
         };
         let s ={[leixing]:display.join(",")};
-        let ss ={[leixing]:datas.join(",")};
+        let ss ={[leixing]:datas};
         let data = Object.assign(this.state.pagedata,s)
         let data1 = Object.assign(this.state.newpagedata,ss)
         this.setState({
