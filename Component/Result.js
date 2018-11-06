@@ -1,6 +1,6 @@
 import React from 'react';
 import {InputItem,DatePicker,List,Checkbox,TextareaItem} from 'antd-mobile-rn';
-import {View,Text,ScrollView,TouchableOpacity,Picker,TextInput} from 'react-native';
+import {View,Text,ScrollView,TouchableOpacity,Picker,TextInput,Alert} from 'react-native';
 import ModalDropdown from 'react-native-modal-dropdown';
 import DropdownCheckbox from '../Component/DropdownCheckbox';
 import TicketTitle from './TicketTitle';
@@ -14,7 +14,8 @@ import {TicketBasicInfo,
         editquanxian,
         findbumen,
         findgroup,
-        historys
+        historys,
+        tijiao
     } from './../api/api'
 import {StackActions, NavigationActions} from 'react-navigation';
 const resetAction = StackActions.reset({
@@ -567,34 +568,36 @@ export default class Tdetail extends React.Component{
         })
       }
 
-    submitResult(){
-       const usrid= window.jconfig.userinfo;
-       console.log(usrid,"用户id")
-        const {newpagedata,pagedata,showPage,showChecked} = {...this.state};
-        const commpage={
-            TiceketNum:this.state.TiceketNum,
-            userId:this.state.userId
+    async submitResult(){
+        const {newpagedata} = {...this.state};
+    console.log(this.state.vvval,"rrrrrrrrrrrr")
+        if(this.state.vvval){
+                let data= {'form.basicInfoId':this.props.navigation.state.params.ticketbasicinfoid,  
+                'form.ticketTypeId':this.state.TicketTypeID,  
+                'form.ticketTypeName': this.props.navigation.state.params.typeName,
+                'form.ticketStatusId': this.state.ticketstatusid,
+                'form.ticketNum': this.props.navigation.state.params.ticketNum,
+                'form.templateId': this.props.navigation.state.params.templateID,
+                'form.flowroleid': this.props.navigation.state.params.flowroleid,
+                'form.userId': this.props.navigation.state.params.userId,
+                'form.recordOption': this.state.agreeLiuzhuan,
+                'form.detailInfo': this.state.detailinfo,
+                'form.nextFlowId': this.state.nextFlowId,
+                'form.nextUserId': this.state.vvval,
+                "form.paraData":JSON.stringify(newpagedata)
+            }
+            var para = "";
+            for(var a in data){
+                para +=("&"+a+"=" + data[a]);
+            }
+            para = "?"+para.substr(1,para.length);
+            console.log(para)
+            const tijiaodata = await tijiao(para);
+            
+            // this.props.navigation.dispatch(resetAction);
+        }else{
+            Alert.alert("流转目标不能为空！")
         }
-        const datas=Object.assign(pagedata,showPage,showChecked,commpage)
-        console.log(newpagedata,"333333333333")
-
-
-
-       let data= { 'form.basicInfoId':this.props.navigation.state.params.ticketbasicinfoid,  
-                    'form.ticketTypeId':this.state.TicketTypeID,  
-                    'form.ticketTypeName': this.props.navigation.state.params.typeName,
-                    'form.ticketStatusId': this.state.ticketstatusid,
-                    'form.ticketNum': this.props.navigation.state.params.ticketNum,
-                    'form.templateId': this.props.navigation.state.params.templateID,
-                    'form.flowroleid': this.props.navigation.state.params.flowroleid,
-                    'form.userId': this.props.navigation.state.params.userId,
-                    'form.recordOption': this.state.agreeLiuzhuan,
-                    'form.detailInfo': this.state.detailinfo,
-                    'form.nextFlowId': this.state.nextFlowId,
-                    'form.nextUserId': this.state.vvval,
-                    "form.paraData":newpagedata
-                }
-                console.log(data,"222333333")
     }
     getGzryName(datalist,value,names,isgzfzr){
         let users = '';
