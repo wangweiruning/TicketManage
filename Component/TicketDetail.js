@@ -47,6 +47,7 @@ export default class Tdetail extends React.Component{
             itemsss:[],
             group:[],
             userData:[],
+            getAllTempanyId:[]
         }
     }
 
@@ -102,11 +103,15 @@ export default class Tdetail extends React.Component{
               aa.push(bryent);
           }
           let aaa=[];
+          let getAllTempanyId = [];
+          
           bool.form.templateContents.map((item,i)=>{
+            let idss = item.TicketParaID;
+            getAllTempanyId.push(idss)
             let dd={["datalist"+i]:null};
              aaa=Object.assign(this.state.pagedata,dd)
           })
-          this.setState({pagedata:aaa})
+          this.setState({pagedata:aaa,getAllTempanyId:getAllTempanyId})
 
         
         let kl = [];
@@ -202,15 +207,72 @@ export default class Tdetail extends React.Component{
             vvval:sss.join(",")
         })
     }
-
-    onChange(tt,value){
-        let dd= new Date(value)
-        let s ={[tt]:dd};
+    openothers(val,leixing){
+        let display = [];
+        let datas=[];
+        let alljsitem = Object.keys(val).join(",");
+        console.log(alljsitem,leixing,"vallllllllls")
+        this.state.group.map(item=>{
+            if(alljsitem.indexOf(item.id) != -1){
+                datas.push(item.id)  
+            }
+        })
+        for(let i in val){
+            if(val[i]){
+                display.push(val[i]);
+            }
+        };
+        let s ={[leixing]:display.join(",")};
+        let ss ={[leixing]:datas};
         let data = Object.assign(this.state.pagedata,s)
+        let data1 = Object.assign(this.state.newpagedata,ss)
         this.setState({
-            pagedata:data
+            pagedata: data,
+            newpagedata:data1
         });
+    }
 
+    formatDateTime(theDate) {
+
+        var _hour = theDate.getHours();
+        
+        var _minute = theDate.getMinutes();
+        
+        var _second = theDate.getSeconds();
+        
+        var _year = theDate.getFullYear()
+        
+        var _month = theDate.getMonth();
+        
+        var _date = theDate.getDate();
+        
+        if(_hour<10){_hour="0"+_hour ;}
+        
+        if(_minute<10){_minute="0"+_minute;  }
+        
+        if(_second<10){_second="0"+_second  }
+        
+        _month = _month + 1;
+        
+        if(_month < 10){_month = "0" + _month;}
+        
+        if(_date<10){_date="0"+_date  }
+        
+        return  _year + "-" + _month + "-" + _date + " " + _hour + ":" + _minute ;
+        
+        }
+
+    onChange(tt,value,getAllTempanyId){
+        let dd= new Date(value);
+        let vals=this.formatDateTime(value)
+        let s ={[tt]:dd};
+        let s2 ={[getAllTempanyId]:vals};
+        let data = Object.assign(this.state.pagedata,s);
+        let data1 = Object.assign(this.state.newpagedata,s2);
+        this.setState({
+            pagedata:data,
+            newpagedata:data1
+        });
       }
 
 
@@ -223,11 +285,14 @@ export default class Tdetail extends React.Component{
       
     }
 
-    handleInput(k, v){
+    handleInput(k, v,three){
         let s ={[k]:v};
+        let rt = {[three]:v}
         let data = Object.assign(this.state.pagedata,s)
+        let datas = Object.assign(this.state.newpagedata,rt)
         this.setState({
-            pagedata: data
+            pagedata: data,
+            newpagedata:datas
         });
     }
     isChacked=(ss)=>{
@@ -261,15 +326,15 @@ export default class Tdetail extends React.Component{
     }
  
    async submitAll(){
-        const {pagedata} = {...this.state};
-        let data = {
+    const {newpagedata} = {...this.state};
+    let data = {
             "form.basicInfoId": "0",
             "form.ticketTypeId": this.props.navigation.state.params.treeid,
             "form.ticketTypeName":this.props.navigation.state.params.v,
             "form.ticketStatusId": this.state.statuss,
             "form.ticketNum": this.state.num,
             "form.templateId": this.props.navigation.state.params.name,
-            // "form.paraData": JSON.stringify(ticketData),
+            "form.paraData": JSON.stringify(newpagedata),
             "form.flowroleid": this.state.flowroleid,
             "form.userId":jconfig.userinfo.user,
             "form.recordOption": this.state.stateTr,
@@ -277,16 +342,26 @@ export default class Tdetail extends React.Component{
             "form.nextFlowId": this.state.roleid,
             "form.nextUserId": this.state.vvval,
         }
+        var para = "";
+        for(var a in data){
+        para +=("&"+a+"=" + data[a]);
+        }
+        para +='?'+para.substr(1,para.length);
         console.log(data,'daaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaad')
-        // let all = await tijiao(pagedata);
-        // console.log(all,'ffffffaaaaaaa');
+        let all = await tijiao(data);
+        console.log(all,'ffffffaaaaaaa');
     }
 
-    getSelect(value,datalist){
+    getSelect(value,datalist,getAllTempanyId){
         console.log(value,datalist)
         let s ={[datalist]:value};
+        let kk = [];
+        kk.push(value)
+        let gh = {[getAllTempanyId]:kk}
+        let fj = Object.assign(this.state.newpagedata,gh)
         let data = Object.assign(this.state.pagedata,s)
         this.state.pagedata=data;
+        this.state.newpagedata=fj;
         this.state.isgzfzr=value;
         this.forceUpdate()
     }
@@ -303,6 +378,7 @@ export default class Tdetail extends React.Component{
         }
     }
     render(){
+        let getAllTempanyId = this.state.getAllTempanyId
         return(<View style={{justifyContent:'center'}}>
             <TicketTitle navigation={this.props.navigation} num={this.state.num} centerText={this.props.navigation.state.params.v+'('+this.state.num+')'}/>
         <ScrollView style={{display:'flex'}}>
@@ -327,8 +403,8 @@ export default class Tdetail extends React.Component{
               </View>
                {      
                   v.ParaTypeID==4? 
-                  <TicketDropdownCheckBox open={this.open.bind(this)} style={{backgroundColor:'white',height:50}} 
-                  TextColor={{color:'black',fontSize:13}} SelectData={v.ParaName=="班组"?this.state.userData:this.state.group} leixin={'datalist'+i}/>: 
+                  <TicketDropdownCheckBox open={this.openothers.bind(this)} style={{backgroundColor:'white',height:50}} 
+                  TextColor={{color:'black',fontSize:13}} SelectData={v.ParaName=="班组"?this.state.userData:this.state.group} leixin={getAllTempanyId[i]}/>: 
                   v.ParaTypeID==3?
                   <ModalDropdown 
                   disabled={dis}
@@ -337,11 +413,11 @@ export default class Tdetail extends React.Component{
                   style={{backgroundColor:'skyblue',width:'100%',
                   height:29.3,justifyContent:'center'}}  
                   defaultValue={v.ParaName=="工作负责人"?this.state.isgzfzr?this.state.isgzfzr:'请选择':"请选择"}
-                  onSelect={(e,value)=>this.getSelect(value,'datalist'+i)}
+                  onSelect={(e,value)=>this.getSelect(value,'datalist'+i,getAllTempanyId[i])}
                   options={this.BackpageUseName()}/>:v.ParaTypeID==2?
                   <View>
                    <TextInput editable={!dis}
-                    onChangeText={(v)=>this.handleInput('datalist'+i,v)} style={{borderRadius:5,backgroundColor:'white',width:'100%',backgroundColor:"#fffeee"}}/>
+                    onChangeText={(v)=>this.handleInput('datalist'+i,v,getAllTempanyId[i])} style={{borderRadius:5,backgroundColor:'white',width:'100%',backgroundColor:"#fffeee"}}/>
                     {v.IsConfirm==1?<View style={{flexDirection:'row',margin:5}}>
                     <Checkbox onChange={(e)=>this.onChangecoform('Checkbox'+i,e.target.checked)}
                         disabled={!dis}
@@ -352,14 +428,14 @@ export default class Tdetail extends React.Component{
                      value={itemMsg[i]}
                      mode="datetime"
                      minDate={new Date(2015,1,1)}
-                     onChange={(e)=>this.onChange('datalist'+i ,e)}
+                     onChange={(e)=>this.onChange('datalist'+i ,e,getAllTempanyId[i])}
                      format="YYYY-MM-DD HH:mm"
                      disabled={dis}
                    >
                     <List.Item arrow="horizontal"></List.Item>
                     </DatePicker></View>:v.ParaTypeID==6?
                   <View><TextareaItem editable={!dis} placeholder={'请输入'}
-                  onChange={(v)=>this.handleInput('datalist'+i,v)}
+                  onChange={(v)=>this.handleInput('datalist'+i,v,getAllTempanyId[i])}
                 //   value={itemMsg[i-1]} 
                   autoHeight 
                   style={{ paddingVertical: 5 ,backgroundColor:"#fffeee"}} />
