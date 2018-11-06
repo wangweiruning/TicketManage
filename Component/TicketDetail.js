@@ -344,11 +344,11 @@ export default class Tdetail extends React.Component{
         }
         var para = "";
         for(var a in data){
-        para +=("&"+a+"=" + data[a]);
+        para +=("&"+a+"=" +encodeURIComponent(data[a]));
         }
-        para +='?'+para.substr(1,para.length);
+        para ='?'+para.substr(1,para.length);
         console.log(data,'daaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaad')
-        let all = await tijiao(data);
+        let all = await tijiao(para);
         console.log(all,'ffffffaaaaaaa');
     }
 
