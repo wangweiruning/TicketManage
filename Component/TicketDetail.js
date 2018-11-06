@@ -1,7 +1,7 @@
 import React from 'react';
 import TicketTitle from './TicketTitle';
 import {DatePicker,List,Checkbox,TextareaItem} from 'antd-mobile-rn';
-import {View,Text,ScrollView,TouchableOpacity,TextInput,ToastAndroid} from 'react-native';
+import {View,Text,ScrollView,TouchableOpacity,TextInput,ToastAndroid,Alert} from 'react-native';
 import ModalDropdown from 'react-native-modal-dropdown';
 import {newTiceketNum,
         searchTicketBasicInfo,
@@ -15,7 +15,11 @@ import {newTiceketNum,
         findbumen,
         findgroup} from './../api/api'
 import TicketDropdownCheckBox from './TicketDropdownCheckBox';
-
+import {StackActions, NavigationActions} from 'react-navigation';
+const resetAction = StackActions.reset({
+    index: 0,
+    actions: [NavigationActions.navigate({ routeName: 'Tab' })],
+    });
 export default class Tdetail extends React.Component{
     constructor(props){
         super(props)
@@ -327,6 +331,10 @@ export default class Tdetail extends React.Component{
  
    async submitAll(){
     const {newpagedata} = {...this.state};
+    if (this.state.vvval) {
+        Alert.alert("流转目标不能为空！")
+    } else {
+
     let data = {
             "form.basicInfoId": "0",
             "form.ticketTypeId": this.props.navigation.state.params.treeid,
@@ -350,6 +358,11 @@ export default class Tdetail extends React.Component{
         console.log(data,'daaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaad')
         let all = await tijiao(para);
         console.log(all,'ffffffaaaaaaa');
+
+        if(all){
+            this.props.navigation.dispatch(resetAction);
+        }
+    }
     }
 
     getSelect(value,datalist,getAllTempanyId){
