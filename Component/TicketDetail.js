@@ -10,6 +10,7 @@ export default class Tdetail extends React.Component{
     constructor(props){
         super(props)
         this.state={
+            vvval:'',
             isgzfzr:'',
             value:null,
             num:'',
@@ -27,7 +28,12 @@ export default class Tdetail extends React.Component{
             listdata:[],
             newpagedata:{},
             pagedata:{},//输入框
-            submitall:{}
+            submitall:{},
+            statuss:'',
+            stateTr:1,
+            detailInfo:'',
+            roleid:'',
+            flowroleid:''
         }
     }
 
@@ -36,7 +42,7 @@ export default class Tdetail extends React.Component{
           
       }
     
-     loding(){
+     loading(){
         if(this.state.num==''){
              setTimeout(()=>ToastAndroid.show("数据加载缓慢，请耐心等待", ToastAndroid.SHORT))
         }
@@ -95,12 +101,16 @@ export default class Tdetail extends React.Component{
         this.setState({
             user:zero.form.dataList,
             monst:good.form.dataList[1].ticketroleid,
+            statuss:good.form.dataList[1].ticketstatusid,
+            roleid:good.form.dataList[2].ticketflowid,
             status:kl,
+            flowroleid:bool.form.templateContents[1].FlowRoleID,
             num:x.form.newTicket,
             jax:bool.form.templateContents,
             zed:feel.form.dataList
        })
-       this.loding();
+       console.log(good,bool,'hhhhhhhhhhhhhhhhhhhhhhhhhooooommmmm')
+       this.loading();
        this.xunahn(this.state.jax,this.state.zed);
        this.getlls(bool.form.templateContents);
       }
@@ -132,6 +142,8 @@ export default class Tdetail extends React.Component{
     }
 
     open(val){
+        let sss= Object.keys(val);
+        console.log(sss,"dddddddddd")
         let display = [];
         for(let i in val){
             if(val[i]){
@@ -139,7 +151,7 @@ export default class Tdetail extends React.Component{
             }
         };
         this.setState({
-            vvval:display.join(",")
+            vvval:sss.join(",")
         })
     }
 
@@ -177,6 +189,12 @@ export default class Tdetail extends React.Component{
              return aa;
     }
    
+    handleInputs(k, v){
+        this.setState({
+           [k]:v
+        });
+    }
+
     chackSSSS=(asd)=>{
         let sss = this.state.zed;
         let index = sss.findIndex((v)=>{
@@ -188,7 +206,22 @@ export default class Tdetail extends React.Component{
  
    async submitAll(){
         const {pagedata} = {...this.state};
-        console.log(this.state.pagedata,'ffff')
+        let data = {
+            "form.basicInfoId": "0",
+            "form.ticketTypeId": this.props.navigation.state.params.treeid,
+            "form.ticketTypeName":this.props.navigation.state.params.v,
+            "form.ticketStatusId": this.state.statuss,
+            "form.ticketNum": this.state.num,
+            "form.templateId": this.props.navigation.state.params.name,
+            // "form.paraData": JSON.stringify(ticketData),
+            "form.flowroleid": this.state.flowroleid,
+            "form.userId":jconfig.userinfo.user,
+            "form.recordOption": this.state.stateTr,
+            "form.detailInfo": this.state.detailInfo,
+            "form.nextFlowId": this.state.roleid,
+            "form.nextUserId": this.state.vvval,
+        }
+        console.log(data,'daaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaad')
         // let all = await tijiao(pagedata);
         // console.log(all,'ffffffaaaaaaa');
     }
@@ -201,7 +234,18 @@ export default class Tdetail extends React.Component{
         this.state.isgzfzr=value;
         this.forceUpdate()
     }
-
+    
+    sssgo(index){
+        if (index==0) {
+            this.setState({
+                stateTr:1
+            })
+        } else {
+            this.setState({
+                stateTr:2
+            })
+        }
+    }
     render(){
         return(<View style={{justifyContent:'center'}}>
             <TicketTitle navigation={this.props.navigation} num={this.state.num} centerText={this.props.navigation.state.params.v+'('+this.state.num+')'}/>
@@ -285,7 +329,7 @@ export default class Tdetail extends React.Component{
             <View style={{display:'flex',justifyContent:'center',margin:5}}>
                 <Text style={{color:'black'}}>是否同意</Text>
                 <ModalDropdown dropdownStyle={{width:'100%'}} textStyle={{color:'black',fontSize:13,left:5}} 
-                style={{backgroundColor:'skyblue',width:'100%',height:29.3,justifyContent:'center'}} defaultValue={'请选择'} options={['同意', '拒绝']}/>
+                style={{backgroundColor:'skyblue',width:'100%',height:29.3,justifyContent:'center'}} defaultValue={'请选择'} options={['同意', '拒绝']} onSelect={(index,v)=>this.sssgo(index,v)}/>
             </View>
             <View style={{display:'flex',justifyContent:'center',margin:5}}>
                 <Text style={{color:'black'}}>流转状态</Text>
@@ -301,7 +345,7 @@ export default class Tdetail extends React.Component{
             </View>
             <View style={{display:'flex',justifyContent:'center',margin:5}}>
                 <Text style={{color:'black'}}>详细意见</Text>
-                <TextareaItem placeholder='请输入' autoHeight style={{ paddingVertical: 5 ,backgroundColor:"#fffeee"}}/>
+                <TextareaItem placeholder='请输入' autoHeight onChangeText={(v)=>this.handleInputs('detailInfo',v)} style={{ paddingVertical: 5 ,backgroundColor:"#fffeee"}}/>
             </View>
             </View> 
             <View style={{marginBottom:50,width:'100%',display:'flex',justifyContent:'center',alignItems:'center'}}>
