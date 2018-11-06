@@ -1,6 +1,6 @@
 import React from 'react';
 import {View,TouchableOpacity,Text,Alert,ToastAndroid,Platform,BackHandler,DeviceEventEmitter,Image,ImageBackground} from 'react-native';
-import {InputItem} from 'antd-mobile-rn';
+import {InputItem,ActivityIndicator} from 'antd-mobile-rn';
 import {login} from '../api/api';
 import MySorage from '../api/storage';
 import {StackActions, NavigationActions} from 'react-navigation';
@@ -15,7 +15,8 @@ export default class Login extends React.Component{
          this.state={
             user:'techlab',
             pass:'Whu2008',
-            result:{}
+            result:{},
+            loading:false
         }
      }
 
@@ -50,7 +51,10 @@ export default class Login extends React.Component{
       };
       }
      
-async submitgo(data){
+    async submitgo(data){
+        this.setState({
+            loading:true
+        })
         try{
          const datas ="?form.user="+data.username+"&form.pass="+data.password+"&code="+'50ACD07A6C49F3B9E082EF40461AC6D1'; 
          const result = await login(datas)
@@ -66,10 +70,13 @@ async submitgo(data){
              }
              this.setState({
                  result:JSON.stringify(result),//序列化：转换为一个 (字符串)JSON字符串
+                 
              });
         }catch(e){
             Alert.alert('',"服务器开小差了~~，请联系管理员",[{text:'是',onPress:this.opntion2Selected}])
-            console.log("promisr:",e);
+            this.setState({
+                loading:true
+            })
         }
             
             
@@ -86,6 +93,23 @@ async submitgo(data){
         let username = this.state.user;
         let password = this.state.pass;
         return(<View style={{position:'relative',flex:1}}>
+        {this.state.loading?<View style={{alignItems:'center',top:'45%'}}>
+        <View style={{borderRadius:4,
+                      borderColor:'rgba(255,255,255,.3)',
+                      borderWidth:1,
+                      borderStyle:'solid',
+                      position:'absolute',
+                      width:80,
+                      height:80,
+                      alignItems:'center',
+                      backgroundColor:'rgba(0,0,0,.3)',
+                      paddingTop:10,
+                      zIndex:10000000000}}>
+              <ActivityIndicator color="#00bbf0"/>
+              <Text style={{color:'white',fontSize:15,marginTop:15}}>登录中...</Text>
+        </View>
+        </View>:null}
+        
                     <View style={{position:'absolute',width:'100%',height:'100%'}}>
                     <Image source={require('../images/cc.jpg')} style={{width:'100%',height:'100%'}}/>
                     </View>

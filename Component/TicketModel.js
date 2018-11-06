@@ -23,15 +23,15 @@ export default class TicketModel extends React.Component{
          })
      }
 
-    async goticket(name,v){
+    async goticket(name,v,treeid){
 
         let id = jconfig.userinfo.user;
         let jack = '?form.paramAllList.userid='+id
         let list = await userlist(jack);
-        this.xunahn(name,v,list.form.paramAllList) 
+        this.xunahn(name,v,list.form.paramAllList,treeid) 
         } 
     //权限判断
-    async xunahn(name,v,sss){
+    async xunahn(name,v,sss,treeid){
         let s = sss;
         let p =false;
         for (let index = 0; index < s.length; index++) {
@@ -50,7 +50,7 @@ export default class TicketModel extends React.Component{
                     }
                 }
                 if (flag) {
-                    navigate('TicketDetail',{name,v})
+                    navigate('TicketDetail',{name,v,treeid})
                 } else {
                     Alert.alert("提示","你没有权限创建此模板")
                 }
@@ -70,7 +70,7 @@ export default class TicketModel extends React.Component{
                    this.state.uzi.map((v,i)=>
                    <Animatable.View key={i} useNativeDriver animation="fadeInRight" easing="ease-out-expo">
                    <TouchableOpacity  
-                   onPress={()=>this.goticket(v.TicketTemplateID,this.props.navigation.state.params.v)} 
+                   onPress={()=>this.goticket(v.TicketTemplateID,this.props.navigation.state.params.v,this.props.navigation.state.params.name)} 
                    style={{display:'flex',flexDirection:'row',width:'100%',backgroundColor:'#beebff',height:50,alignItems:'center',marginTop:10}}>
                           <Image source={require('../images/company_tree.png')} style={{width:20,left:5,resizeMode:Image.resizeMode.contain}}/>
                            <Text style={{fontSize:18,color:'black',left:10,flex:1}}>{v.TicketTemplateName}</Text>

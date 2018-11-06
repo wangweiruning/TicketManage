@@ -108,20 +108,20 @@ export default class TicketDropdownCheckBox extends React.Component{
                 keyExtractor={(item, index) => index.toString()}
                 renderItem={({item,index}) =>
                 <Animatable.View useNativeDriver animation="fadeInRight" easing="ease-out-quart"><View key={index} style={{marginLeft:10,marginTop:10,flexDirection:'row',padding:5,width:'95%',height:40,backgroundColor:'white',borderRadius:5}}>
-                <Checkbox checked={this.state.activeItem[item.userid]}
+                <Checkbox checked={this.state.activeItem[item.userid || item.id]}
                 onChange={(e)=>{
                         let s = e.target.checked;
-                        this.state.activeItem[item.userid] = s?item.realname:"";
+                        this.state.activeItem[item.userid || item.id] = s?item.realname || item.departmentName:'';
                         console.log(this.state.activeItem,"ffffffffffff")
                         this.forceUpdate();
                 }}>
-                <Text style={{width:'100%',left:5,color:color?color:'gray',fontSize:fontSize?fontSize:18}}>{item.realname}</Text></Checkbox>
+                <Text style={{width:'100%',left:5,color:color?color:'gray',fontSize:fontSize?fontSize:18}}>{item.realname || item.departmentName}</Text></Checkbox>
                 </View></Animatable.View>}
                 />
                 <TouchableOpacity activeOpacity={.7} style={{justifyContent:'center',alignItems:'center',backgroundColor:'#00a6e7',height:50}} 
                     onPress={()=>{
                         this.setState({visible:false,SelectData:this.props.SelectData})
-                        this.props.open(this.state.activeItem)
+                        this.props.open(this.state.activeItem,this.props.leixin)
                     }}>
                     <Text style={{fontSize:18,color:'white'}}>确定</Text>
                 </TouchableOpacity>
