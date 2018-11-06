@@ -588,13 +588,15 @@ export default class Tdetail extends React.Component{
             }
             var para = "";
             for(var a in data){
-                para +=("&"+a+"=" + data[a]);
+                para +=("&"+a+"=" + encodeURIComponent(data[a]));
             }
             para = "?"+para.substr(1,para.length);
             console.log(para)
-            const tijiaodata = await tijiao(para);
             
-            // this.props.navigation.dispatch(resetAction);
+            const tijiaodata = await tijiao(para);
+            if(tijiaodata){
+                this.props.navigation.dispatch(resetAction);
+            }
         }else{
             Alert.alert("流转目标不能为空！")
         }

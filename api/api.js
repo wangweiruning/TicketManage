@@ -190,11 +190,12 @@ export function findbumen(data) {
 
 //提交接口
 export function tijiao(data) {
+    
     return Httpdata.post({
         url: url.tijiao+data,
         method: 'post',
         dataType: "json",
-		contentType: "application/x-www-form-urlencoded",
+		contentType: "application/x-www-form-urlencoded;charset=UTF-8",
     })
 }
 
