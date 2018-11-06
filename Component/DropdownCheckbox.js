@@ -47,8 +47,8 @@ export default class DropdownCheckbox extends React.Component{
     open(){
         let activeItem = this.state.activeItem;
         let display = [];
-        if(activeItem.length>0){
-        console.log(activeItem,"activeid")
+        console.log(activeItem,"vvvvvvvvvcccccccc")
+   
         for(let i in activeItem){
             if(activeItem[i]){
                 display.push(activeItem[i]);
@@ -60,9 +60,6 @@ export default class DropdownCheckbox extends React.Component{
         }else{
             return '请选择'
         }
-    }else{
-        return '请选择'
-    }
     }
 
 
@@ -111,6 +108,7 @@ export default class DropdownCheckbox extends React.Component{
     render(){
         if(!this.props){console.log('dsfgdfsֵ')}
         let {color,fontSize} = {...this.props.TextColor}
+        console.log(this.state.SelectData,"fffffffffddddddd")
         return(
             <View>
             <TouchableOpacity disabled={this.props.isshow} onPress={()=>this.setState({visible:true})}>
@@ -144,8 +142,7 @@ export default class DropdownCheckbox extends React.Component{
                 <Checkbox checked={this.state.activeItem[item.userid ||item.id]}
                 onChange={(e)=>{
                         let s = e.target.checked;
-                        this.state.activeItem[item.userid||item.id] = s?item.realname||item.departmentName:"";
-                        console.log(this.state.activeItem,"ffffffffffff")
+                        this.state.activeItem[item.userid||item.id] = s?(item.realname||item.departmentName):"";
                         this.forceUpdate();
                 }}>
                 <Text style={{width:'100%',left:5,color:color?color:'gray',fontSize:fontSize?fontSize:18}}>{item.realname ||item.departmentName}</Text></Checkbox>
