@@ -1,7 +1,6 @@
 import React from 'react';
 import NavigationBar from './NavigationBar';
 import MySorage from '../api/storage';
-import {userlist} from './../api/api';
 import {Text,View,Image,TouchableOpacity} from 'react-native';
 
 
@@ -23,21 +22,6 @@ export default class HomeScreen extends React.Component {
     }
   }
 
-  async componentDidMount() {
-    let list = await userlist();
-    console.log(list.form.paramAllList,'llllliiiiisttt')
-    this.xunahn(list.form.paramAllList)
-  }
-
-  xunahn(sss){
-    let s = sss;
-    let itemsss= [];
-    
-    let index = s.findIndex((item)=>{
-      console.log(`${item.realname}===>${jconfig.userinfo.user}`);
-        return (item.userid == jconfig.userinfo.id) || (item.realname == jconfig.userinfo.user);
-    });
-  }
   render() {
       const { navigate } = this.props.navigation;
       return (<View style={{alignItems:'center'}}>

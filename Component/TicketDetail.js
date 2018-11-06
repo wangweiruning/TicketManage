@@ -3,7 +3,17 @@ import TicketTitle from './TicketTitle';
 import {DatePicker,List,Checkbox,TextareaItem} from 'antd-mobile-rn';
 import {View,Text,ScrollView,TouchableOpacity,TextInput,ToastAndroid} from 'react-native';
 import ModalDropdown from 'react-native-modal-dropdown';
-import {newTiceketNum,searchTicketBasicInfo,TicketBasicInfo,searchTicketFlow,editquanxian,searchUserForRole,tijiao} from './../api/api'
+import {newTiceketNum,
+        searchTicketBasicInfo,
+        TicketBasicInfo,
+        searchTicketFlow,
+        editquanxian,
+        searchUserForRole,
+        tijiao,
+        historys,
+        userlist,
+        findbumen,
+        findgroup} from './../api/api'
 import TicketDropdownCheckBox from './TicketDropdownCheckBox';
 
 export default class Tdetail extends React.Component{
@@ -28,12 +38,15 @@ export default class Tdetail extends React.Component{
             listdata:[],
             newpagedata:{},
             pagedata:{},//输入框
-            submitall:{},
             statuss:'',
             stateTr:1,
             detailInfo:'',
             roleid:'',
-            flowroleid:''
+            flowroleid:'',
+            userId:'',
+            itemsss:[],
+            group:[],
+            userData:[],
         }
     }
 
@@ -61,9 +74,11 @@ export default class Tdetail extends React.Component{
         let j = x.form.newTicket;
         let a = `?form.ticketNum=${j}`;
         let g = await searchTicketBasicInfo(a);
+  
 
-
-
+        let opt = `?form.tree_node_operation=0`;
+        let userId = await historys(opt);
+        let list = await userlist();
         let kjl = `?form.jqgrid_row_selected_id=${e}`;
         let bool = await TicketBasicInfo(kjl);
 
@@ -99,6 +114,7 @@ export default class Tdetail extends React.Component{
         kl.push(google)
         
         this.setState({
+            userId:userId.form.userId,
             user:zero.form.dataList,
             monst:good.form.dataList[1].ticketroleid,
             statuss:good.form.dataList[1].ticketstatusid,
@@ -111,6 +127,9 @@ export default class Tdetail extends React.Component{
        })
        console.log(good,bool,'hhhhhhhhhhhhhhhhhhhhhhhhhooooommmmm')
        this.loading();
+       this.pipei(list.form.paramAllList);
+       this.getdepartment();
+       this.getgroup();
        this.xunahn(this.state.jax,this.state.zed);
        this.getlls(bool.form.templateContents);
       }
@@ -124,6 +143,36 @@ export default class Tdetail extends React.Component{
         this.setState({
             listdata:datas
         })
+      }
+
+     async getdepartment(){
+        let mlxg = `?form.tree_node_id=${this.state.itemsss[0].departmentid}&form.tree_node_operation=2`;
+        let me = await findbumen(mlxg);
+        this.setState({
+            userData:me.form.page.dataRows
+        })
+      }
+
+     async getgroup(){
+        let pdd = `?form.tree_node_id=${this.state.itemsss[0].departmentid}&form.tree_node_operation=0`;
+        let white = await findgroup(pdd);
+        this.setState({
+            group:white.form.page.dataRows
+        })
+      }
+    
+      pipei(sss){
+        let s = sss;
+        let itemsss= [];
+        
+        let index = s.findIndex((item)=>{
+            if(item.userid == this.state.userId){
+                itemsss.push(item);
+                this.setState({
+                      itemsss:itemsss
+                })
+            }
+        });
       }
 
 
@@ -143,7 +192,6 @@ export default class Tdetail extends React.Component{
 
     open(val){
         let sss= Object.keys(val);
-        console.log(sss,"dddddddddd")
         let display = [];
         for(let i in val){
             if(val[i]){
@@ -202,6 +250,14 @@ export default class Tdetail extends React.Component{
         });
         return index==-1;
 
+    }
+    
+    BackpageUseName(){
+        let pageUseName=[];
+        this.state.group.map(pagename=>{
+            pageUseName.push(pagename.realname);//loginname登录名  realname权限名
+        })
+        return pageUseName
     }
  
    async submitAll(){
@@ -272,7 +328,7 @@ export default class Tdetail extends React.Component{
                {      
                   v.ParaTypeID==4? 
                   <TicketDropdownCheckBox open={this.open.bind(this)} style={{backgroundColor:'white',height:50}} 
-                  TextColor={{color:'black',fontSize:13}} SelectData={this.state.user}/>: 
+                  TextColor={{color:'black',fontSize:13}} SelectData={v.ParaName=="班组"?this.state.userData:this.state.group} leixin={'datalist'+i}/>: 
                   v.ParaTypeID==3?
                   <ModalDropdown 
                   disabled={dis}
@@ -282,7 +338,7 @@ export default class Tdetail extends React.Component{
                   height:29.3,justifyContent:'center'}}  
                   defaultValue={v.ParaName=="工作负责人"?this.state.isgzfzr?this.state.isgzfzr:'请选择':"请选择"}
                   onSelect={(e,value)=>this.getSelect(value,'datalist'+i)}
-                  options={this.state.status}/>:v.ParaTypeID==2?
+                  options={this.BackpageUseName()}/>:v.ParaTypeID==2?
                   <View>
                    <TextInput editable={!dis}
                     onChangeText={(v)=>this.handleInput('datalist'+i,v)} style={{borderRadius:5,backgroundColor:'white',width:'100%',backgroundColor:"#fffeee"}}/>
@@ -324,7 +380,7 @@ export default class Tdetail extends React.Component{
                   borderStyle:'solid',
                   justifyContent:'center',
                   }}>
-                  <Text style={{color:'#3e5ed2',left:5}}>提交</Text>
+                  <Text style={{color:'lightgray',left:5}}>提交</Text>
               </View>
             <View style={{display:'flex',justifyContent:'center',margin:5}}>
                 <Text style={{color:'black'}}>是否同意</Text>
