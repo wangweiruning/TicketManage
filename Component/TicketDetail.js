@@ -203,14 +203,47 @@ export default class Tdetail extends React.Component{
         })
     }
 
-    onChange(tt,value){
-        let dd= new Date(value)
-        let s ={[tt]:dd};
-        let data = Object.assign(this.state.pagedata,s)
-        this.setState({
-            pagedata:data
-        });
+    formatDateTime(theDate) {
 
+        var _hour = theDate.getHours();
+        
+        var _minute = theDate.getMinutes();
+        
+        var _second = theDate.getSeconds();
+        
+        var _year = theDate.getFullYear()
+        
+        var _month = theDate.getMonth();
+        
+        var _date = theDate.getDate();
+        
+        if(_hour<10){_hour="0"+_hour ;}
+        
+        if(_minute<10){_minute="0"+_minute;  }
+        
+        if(_second<10){_second="0"+_second  }
+        
+        _month = _month + 1;
+        
+        if(_month < 10){_month = "0" + _month;}
+        
+        if(_date<10){_date="0"+_date  }
+        
+        return  _year + "-" + _month + "-" + _date + " " + _hour + ":" + _minute ;
+        
+        }
+
+    onChange(tt,value){
+        let dd= new Date(value);
+        let vals=this.formatDateTime(value)
+        let s ={[tt]:dd};
+        let s2 ={[tt]:vals};
+        let data = Object.assign(this.state.pagedata,s);
+        let data1 = Object.assign(this.state.newpagedata,s2);
+        this.setState({
+            pagedata:data,
+            newpagedata:data1
+        });
       }
 
 
@@ -261,7 +294,7 @@ export default class Tdetail extends React.Component{
     }
  
    async submitAll(){
-        const {pagedata} = {...this.state};
+        const {newpagedata} = {...this.state};
         let data = {
             "form.basicInfoId": "0",
             "form.ticketTypeId": this.props.navigation.state.params.treeid,
@@ -279,7 +312,7 @@ export default class Tdetail extends React.Component{
         }
         console.log(data,'daaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaad')
         // let all = await tijiao(pagedata);
-        // console.log(all,'ffffffaaaaaaa');
+        console.log(newpagedata,'ffffffaaaaaaa');
     }
 
     getSelect(value,datalist){
