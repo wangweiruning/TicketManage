@@ -93,7 +93,7 @@ export default class Login extends React.Component{
         let username = this.state.user;
         let password = this.state.pass;
         return(<View style={{position:'relative',flex:1}}>
-        {this.state.loading?<View style={{alignItems:'center',top:'45%'}}>
+        {this.state.loading?<View style={{alignItems:'center',top:'65%'}}>
         <View style={{borderRadius:4,
                       borderColor:'rgba(255,255,255,.3)',
                       borderWidth:1,
@@ -113,7 +113,7 @@ export default class Login extends React.Component{
                     <View style={{position:'absolute',width:'100%',height:'100%'}}>
                     <Image source={require('../images/cc.jpg')} style={{width:'100%',height:'100%'}}/>
                     </View>
-          <View style={{marginTop:15,alignItems:'center'}}>
+          <View style={{marginTop:"50%",alignItems:'center'}}>
           <Text style={{fontWeight:'500',color:'white',fontSize:20}}>瑞智一体化两票管理系统</Text>
            <View style={{flexDirection:'row',alignItems:'center',backgroundColor:'white',marginTop:15,elevation:3}}>
                <Image source={require('../images/login-username.png')} style={{width:20,left:8}} resizeMode = 'contain'/>

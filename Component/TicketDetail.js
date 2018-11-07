@@ -331,7 +331,7 @@ export default class Tdetail extends React.Component{
  
    async submitAll(){
     const {newpagedata} = {...this.state};
-    if (this.state.vvval) {
+    if (this.state.vvval.length<2) {
         Alert.alert("流转目标不能为空！")
     } else {
 
@@ -357,10 +357,13 @@ export default class Tdetail extends React.Component{
         para ='?'+para.substr(1,para.length);
         console.log(data,'daaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaad')
         let all = await tijiao(para);
-        console.log(all,'ffffffaaaaaaa');
-
-        if(all){
-            this.props.navigation.dispatch(resetAction);
+        if(all.form.paraData.length>2){
+            Alert.alert(
+                '提示',`${this.props.navigation.state.params.v}创建成功！`,
+                [
+                 {text:'是',onPress:()=>this.props.navigation.dispatch(resetAction)},
+                ]
+            );
         }
     }
     }
@@ -416,28 +419,27 @@ export default class Tdetail extends React.Component{
               </View>
                {      
                   v.ParaTypeID==4? 
-                  <TicketDropdownCheckBox open={this.openothers.bind(this)} style={{backgroundColor:'white',height:50}} 
+                  <TicketDropdownCheckBox isshow={dis} open={this.openothers.bind(this)} style={{backgroundColor:'white',height:50}} 
                   TextColor={{color:'black',fontSize:13}} SelectData={v.ParaName=="班组"?this.state.userData:this.state.group} leixin={getAllTempanyId[i]}/>: 
                   v.ParaTypeID==3?
                   <ModalDropdown 
                   disabled={dis}
                   dropdownStyle={{width:'100%'}} 
                   textStyle={{color:'black',fontSize:13,left:5}} 
-                  style={{backgroundColor:'skyblue',width:'100%',
+                  style={{backgroundColor:!dis?"#fffeee":"#cccfff",width:'100%',
                   height:29.3,justifyContent:'center'}}  
                   defaultValue={v.ParaName=="工作负责人"?this.state.isgzfzr?this.state.isgzfzr:'请选择':"请选择"}
                   onSelect={(e,value)=>this.getSelect(value,'datalist'+i,getAllTempanyId[i])}
                   options={this.BackpageUseName()}/>:v.ParaTypeID==2?
                   <View>
-                   <TextInput editable={!dis}
-                    onChangeText={(v)=>this.handleInput('datalist'+i,v,getAllTempanyId[i])} style={{borderRadius:5,backgroundColor:'white',width:'100%',backgroundColor:"#fffeee"}}/>
+                   <TextInput editable={!dis} placeholder="请输入内容..."
+                    onChangeText={(v)=>this.handleInput('datalist'+i,v,getAllTempanyId[i])} style={{borderRadius:5,backgroundColor:'white',width:'100%',backgroundColor:!dis?"#fffeee":"#cccfff"}}/>
                     {v.IsConfirm==1?<View style={{flexDirection:'row',margin:5}}>
                     <Checkbox onChange={(e)=>this.onChangecoform('Checkbox'+i,e.target.checked)}
                         disabled={!dis}
                     ><Text>是否已执行</Text></Checkbox></View>:null}
                     </View>
-                    :v.ParaTypeID==5?<View style={{left:5,width:290}}>
-                   <DatePicker 
+                    :v.ParaTypeID==5?<DatePicker 
                      value={itemMsg[i]}
                      mode="datetime"
                      minDate={new Date(2015,1,1)}
@@ -445,13 +447,13 @@ export default class Tdetail extends React.Component{
                      format="YYYY-MM-DD HH:mm"
                      disabled={dis}
                    >
-                    <List.Item arrow="horizontal"></List.Item>
-                    </DatePicker></View>:v.ParaTypeID==6?
-                  <View><TextareaItem editable={!dis} placeholder={'请输入'}
+                    <List.Item arrow="horizontal" style={{backgroundColor:!dis?"#fffeee":"#cccfff"}}>选择时间：</List.Item>
+                    </DatePicker>:v.ParaTypeID==6?
+                  <View><TextareaItem editable={!dis} placeholder="请输入内容..."
                   onChange={(v)=>this.handleInput('datalist'+i,v,getAllTempanyId[i])}
                 //   value={itemMsg[i-1]} 
                   autoHeight 
-                  style={{ paddingVertical: 5 ,backgroundColor:"#fffeee"}} />
+                  style={{ paddingVertical: 5 ,backgroundColor:!dis?"#fffeee":"#cccfff"}} />
                   {v.IsConfirm==1?<View style={{flexDirection:'row'}}><Checkbox onChange={(e)=>this.onChangecoform('Checkbox'+i,e.target.checked)} disabled={dis}/><Text>是否已执行</Text></View>:<Text></Text>}
                   </View>:null
                }
@@ -474,23 +476,23 @@ export default class Tdetail extends React.Component{
             <View style={{display:'flex',justifyContent:'center',margin:5}}>
                 <Text style={{color:'black'}}>是否同意</Text>
                 <ModalDropdown dropdownStyle={{width:'100%'}} textStyle={{color:'black',fontSize:13,left:5}} 
-                style={{backgroundColor:'skyblue',width:'100%',height:29.3,justifyContent:'center'}} defaultValue={'请选择'} options={['同意', '拒绝']} onSelect={(index,v)=>this.sssgo(index,v)}/>
+                style={{backgroundColor:'#fffeee',width:'100%',height:29.3,justifyContent:'center'}} defaultValue={'请选择'} options={['同意', '拒绝']} onSelect={(index,v)=>this.sssgo(index,v)}/>
             </View>
             <View style={{display:'flex',justifyContent:'center',margin:5}}>
                 <Text style={{color:'black'}}>流转状态</Text>
                 {
                   this.state.status!="" &&
                   <ModalDropdown dropdownStyle={{width:'100%'}} textStyle={{color:'black',fontSize:13,left:5}} 
-                  style={{backgroundColor:'skyblue',width:'100%',height:29.3,justifyContent:'center'}} defaultValue={'请选择'} options={this.state.status}/>
+                  style={{backgroundColor:'#fffeee',width:'100%',height:29.3,justifyContent:'center'}} defaultValue={'请选择'} options={this.state.status}/>
                 }
                 </View>
             <View style={{display:'flex',justifyContent:'center',margin:5}}>
                 <Text style={{color:'black'}}>流转目标</Text>
-                <TicketDropdownCheckBox open={this.open.bind(this)} style={{backgroundColor:'skyblue'}} TextColor={{color:'black',fontSize:13}} SelectData={this.state.user}/>
+                <TicketDropdownCheckBox open={this.open.bind(this)} style={{backgroundColor:'#fffeee'}} TextColor={{color:'black',fontSize:13}} SelectData={this.state.user}/>
             </View>
             <View style={{display:'flex',justifyContent:'center',margin:5}}>
                 <Text style={{color:'black'}}>详细意见</Text>
-                <TextareaItem placeholder='请输入' autoHeight onChangeText={(v)=>this.handleInputs('detailInfo',v)} style={{ paddingVertical: 5 ,backgroundColor:"#fffeee"}}/>
+                <TextareaItem placeholder="请输入内容..." autoHeight onChangeText={(v)=>this.handleInputs('detailInfo',v)} style={{ paddingVertical: 5 ,backgroundColor:"#fffeee"}}/>
             </View>
             </View> 
             <View style={{marginBottom:50,width:'100%',display:'flex',justifyContent:'center',alignItems:'center'}}>

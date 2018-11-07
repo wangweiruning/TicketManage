@@ -1,6 +1,6 @@
 import React from 'react';
-import {InputItem,DatePicker,List,Checkbox,TextareaItem} from 'antd-mobile-rn';
-import {View,Text,ScrollView,TouchableOpacity,Picker,TextInput,Alert} from 'react-native';
+import {InputItem,DatePicker,List,Checkbox,TextareaItem,ActivityIndicator} from 'antd-mobile-rn';
+import {View,Text,ScrollView,TouchableOpacity,Picker,TextInput,Alert,ToastAndroid} from 'react-native';
 import ModalDropdown from 'react-native-modal-dropdown';
 import DropdownCheckbox from '../Component/DropdownCheckbox';
 import TicketTitle from './TicketTitle';
@@ -68,6 +68,7 @@ export default class Tdetail extends React.Component{
             skipFlowId:"",
             getAllTempanyId:[],//获取所有模块id
             agreeLiuzhuan:1,
+            loading:false
         }
     }
       async componentDidMount(){
@@ -209,9 +210,9 @@ export default class Tdetail extends React.Component{
                 index:index
             })
             console.log(index,"======================")
-            if (index > ticketFlowrole.length - 3) { //最后两个状态为验收和作废，均为终结流程
-                console.log("终结流程!")
-        } else {
+        //     if (index > ticketFlowrole.length - 3) { //最后两个状态为验收和作废，均为终结流程
+        //         console.log("终结流程!")
+        // } else {
             //设置流转状态及流转目标
             var nextFlowId = ticketFlowrole[index + 1].ticketstatusid;//下一个流程id
             var nextFlow = ticketFlowrole[index + 1].ticketstatusname;//下一个流程状态
@@ -227,7 +228,7 @@ export default class Tdetail extends React.Component{
             this.setState({
                 searchRole:searchRole.form.dataList
             })
-        }
+        // }
 
         skipFlowId = ticketFlowrole[index].skipflowid;
         isBack = ticketFlowrole[index].isback;
@@ -246,7 +247,7 @@ export default class Tdetail extends React.Component{
             })
         }
         console.log(index+1,"111111111111111")
-        const paramsItem = "?form.flowroleid="+ticketFlowList[index-1].FlowRoleID;
+        const paramsItem = "?form.flowroleid="+ticketFlowList[0].FlowRoleID;
         const saves = await editquanxian(paramsItem);//获取可编辑内容区域
         console.log(saves.form.dataList,"获取可编辑内容区域");
             this.setState({
@@ -423,8 +424,8 @@ export default class Tdetail extends React.Component{
             return  <View style={{margin:5}}>
                         <Text style={{left:5}}>流转状态</Text>
                         <ModalDropdown  dropdownStyle={{width:'100%'}} 
-                                        textStyle={{color:'black',alignItems:'center',textAlign:'center',marginTop:7}} 
-                                        style={{backgroundColor:'skyblue',borderRadius:5,width:'100%'}}
+                                        textStyle={{color:'black',alignItems:'center',left:5,marginTop:7}} 
+                                        style={{backgroundColor:'#fffeee',borderRadius:5,width:'100%'}}
                                         defaultValue={arr[0]?arr[0]:"请选择"}
                                         onSelect={(index,value)=>this.changeAgree(index,1,value)}
                                         options={arr}/>
@@ -487,9 +488,9 @@ export default class Tdetail extends React.Component{
     }
 
     async getSubdata(index,ticketFlowrole){
-        if (index > ticketFlowrole.length - 3) { //最后两个状态为验收和作废，均为终结流程
-                console.log("终结流程!")
-        } else {
+        // if (index > ticketFlowrole.length - 3) { //最后两个状态为验收和作废，均为终结流程
+        //         console.log(ticketFlowrole,"终结流程!")
+        // } else {
             //设置流转状态及流转目标
             var nextFlowId = ticketFlowrole[index + 1].ticketstatusid;//下一个流程id
             var nextFlow = ticketFlowrole[index + 1].ticketstatusname;//下一个流程状态
@@ -505,7 +506,7 @@ export default class Tdetail extends React.Component{
             this.setState({
                 searchRole:searchRole.form.dataList
             })
-        }
+        // }
     }
     changeAgree=(index,flag,value)=>{
         console.log(index,"index")
@@ -538,8 +539,8 @@ export default class Tdetail extends React.Component{
         <Text style={{left:5}}>是否同意</Text>
         <ModalDropdown 
         dropdownStyle={{width:'100%'}} 
-        textStyle={{color:'black',alignItems:'center',textAlign:'center',marginTop:7}} 
-        style={{backgroundColor:'skyblue',borderRadius:5,width:'100%'}} 
+        textStyle={{color:'black',alignItems:'center',left:5,marginTop:7}} 
+        style={{backgroundColor:'#fffeee',borderRadius:5,width:'100%'}} 
         defaultValue={arr[0]} 
         onSelect={(index,value)=>this.changeAgree(index,0,value)}
         options={arr}/>
@@ -569,7 +570,13 @@ export default class Tdetail extends React.Component{
       }
 
     async submitResult(){
+
         const {newpagedata} = {...this.state};
+        if(JSON.stringify(newpagedata).length<=2){
+            Alert.alert("提示",'请填写数据')
+            console.log(JSON.stringify(newpagedata).length,'sssssssssssssss')
+            return false;
+        }
     console.log(this.state.vvval,"rrrrrrrrrrrr")
         if(this.state.vvval){
                 let data= {'form.basicInfoId':this.props.navigation.state.params.ticketbasicinfoid,  
@@ -592,13 +599,25 @@ export default class Tdetail extends React.Component{
             }
             para = "?"+para.substr(1,para.length);
             console.log(para)
-            
+            this.setState({
+            loading:true
+        })
             const tijiaodata = await tijiao(para);
-            if(tijiaodata){
-                this.props.navigation.dispatch(resetAction);
+            console.log(tijiaodata)
+            if(tijiaodata.form.paraData.length>2){
+                this.setState({
+                    loading:false
+                })
+                Alert.alert(
+                    '提示','数据提交成功！',
+                    [
+                     {text:'是',onPress:()=>this.props.navigation.dispatch(resetAction)},
+                    ]
+                );
+                
             }
         }else{
-            Alert.alert("流转目标不能为空！")
+            Alert.alert("提示","流转目标不能为空")
         }
     }
     getGzryName(datalist,value,names,isgzfzr){
@@ -632,7 +651,23 @@ export default class Tdetail extends React.Component{
         return(<View style={{justifyContent:'center'}}>
                     <TicketTitle navigation={this.props.navigation} num={this.state.nnnmmm}
                         centerText={this.props.navigation.state.params.typeName+""+this.props.navigation.state.params.ticketNum}/>
-                   
+                    {this.state.loading?<View style={{alignItems:'center',top:'45%'}}>
+                    <View style={{borderRadius:4,
+                                borderColor:'rgba(255,255,255,.3)',
+                                borderWidth:1,
+                                borderStyle:'solid',
+                                position:'absolute',
+                                width:100,
+                                height:80,
+                                alignItems:'center',
+                                backgroundColor:'rgba(0,0,0,.3)',
+                                paddingTop:10,
+                                zIndex:10000000000}}>
+                        <ActivityIndicator color="#00bbf0"/>
+                        <Text style={{color:'white',fontSize:15,marginTop:15}}>数据提交中...</Text>
+                    </View>
+                    </View>:null}
+        
                     <ScrollView style={{display:'flex'}}>
                         {
                             this.state.templateContents.map((v,i)=>{
@@ -660,8 +695,8 @@ export default class Tdetail extends React.Component{
                                  <ModalDropdown 
                                     disabled={!dis}
                                     dropdownStyle={{width:'100%'}} 
-                                    textStyle={{color:'black',fontSize:13,left:5}} 
-                                    style={{backgroundColor:'skyblue',width:'100%',
+                                    textStyle={{color:!dis?'black':'red',fontSize:13,left:5}} 
+                                    style={{backgroundColor:!dis?'#cccfff':"#fffeee",width:'100%',
                                     height:29.3,justifyContent:'center'}} 
                                     defaultValue={this.getGzryName(getAllTempanyId[i],itemMsg[i-1],v.ParaName,this.state.isgzfzr)} 
                                     onSelect={(e,value)=>this.getSelect(e,value,getAllTempanyId[i])}
@@ -670,9 +705,9 @@ export default class Tdetail extends React.Component{
                                 <View>
                                    <TextInput  
                                     value={itemMsg[i-1]}
-                                    editable={dis} 
+                                    editable={dis}  placeholder="请输入内容..."
                                     onChangeText={(v)=>this.handleInput(getAllTempanyId[i],v)} 
-                                    style={{borderRadius:5,backgroundColor:'white',width:'100%',backgroundColor:"#fffeee"}} />
+                                    style={{borderRadius:5,width:'100%',backgroundColor:dis?"#fffeee":"#cccfff"}} />
                                         {v.IsConfirm==1?<View style={{flexDirection:'row',margin:5}}>
                                         <Checkbox
                                             onChange={(e)=>this.onChangecoform('Checkbox'+i,e.target.checked)}
@@ -691,17 +726,18 @@ export default class Tdetail extends React.Component{
                                     format="YYYY-MM-DD HH:mm"
                                     disabled={!dis}
                                     >
-                                    <List.Item arrow="horizontal">选择时间：</List.Item>
+                                    <List.Item arrow="horizontal" style={{backgroundColor:dis?"#fffeee":"#cccfff"}}>选择时间：</List.Item>
                                 </DatePicker>:v.ParaTypeID==6?
                                 <View>
                                   <TextareaItem editable={dis} 
-                                                  placeholder="高度自适应" 
+                                                rows={4}
+                                                placeholder="请输入内容..." 
                                                   defaultValue={itemMsg[i-1]}
                                                   onChangeText={(v)=>this.handleInput(getAllTempanyId[i],v)}
                                                   autoHeight 
                                                   style={{ paddingVertical: 5,
                                                     borderBottomWidth:2,
-                                                  backgroundColor:"#fffeee" }} />
+                                                  backgroundColor:dis?"#fffeee":"#cccfff"}} />
                                                               
                                 {v.IsConfirm==1?<View style={{flexDirection:'row',margin:5}}><Checkbox  onChange={(e)=>this.onChangecoform('Checkbox'+i,e.target.checked)}
                                             disabled={!dis}><Text>是否已执行</Text></Checkbox></View>:<Text></Text>}
@@ -720,7 +756,7 @@ export default class Tdetail extends React.Component{
                                 borderStyle:'solid',
                                 justifyContent:'center',
                                 }}>
-                                <Text style={{color:'#3e5ed2',left:5}}>提交</Text>
+                                <Text style={{color:'lightgray',left:5}}>提交</Text>
                             </View>
                             { this.aggreeall()}
                             {this.getliuzhuan()}
@@ -728,6 +764,8 @@ export default class Tdetail extends React.Component{
                             <Text style={{left:5}}>详细意见</Text>
                             <TextareaItem   onChangeText={(v)=>this.onChangeTextInput(v)} 
                                             autoHeight 
+                                            rows={4}
+                                            placeholder="请输入内容..."
                                             style={{ paddingVertical: 5,
                                                      borderBottomWidth:2,
                                                      backgroundColor:"#fffeee" }}/>
