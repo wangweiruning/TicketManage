@@ -92,6 +92,7 @@ export default class CorrelationPlan extends React.Component{
             ticketNum:params.ticketserialnum,
             templateID:params.tickettemplateid,
             isAlter:1,
+            isqianfa:false,
             departmentid:params.departmentid,
             userId:this.state.userId,
             _:Date.parse(new Date())})
@@ -101,7 +102,7 @@ export default class CorrelationPlan extends React.Component{
 let height = this.state.result.length * 100;
     return (
         <View style={{flex:1}}>
-        <Title navigation={this.props.navigation} centerText={'待处理流程'} />
+        <Title navigation={this.props.navigation} centerText={'相关流程'} />
         {/* 需要循环获取数据 */}
             <View style={{flex:1,backgroundColor:"#ffffff"}}>
             <PageListView

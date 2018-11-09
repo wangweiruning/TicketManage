@@ -42,6 +42,15 @@ export function historys(data) {
 		contentType: "application/x-www-form-urlencoded",
     });
 }
+//gethistory获取当前历史票信息
+export function gethistory(data) {
+    return Httpdata.post({
+        url: url.gethistory+data,
+        method: 'post',
+        dataType: "json",
+		contentType: "application/x-www-form-urlencoded",
+    });
+}
 
 //编辑模板详情权限
 export function editquanxian(data) {

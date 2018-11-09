@@ -334,7 +334,6 @@ export default class Tdetail extends React.Component{
     if (this.state.vvval.length<2) {
         Alert.alert("流转目标不能为空！")
     } else {
-
     let data = {
             "form.basicInfoId": 0,
             "form.ticketTypeName":this.props.navigation.state.params.v,
@@ -431,7 +430,7 @@ export default class Tdetail extends React.Component{
                   textStyle={{color:'black',fontSize:13,left:5}} 
                   style={{backgroundColor:!dis?"#fffeee":"#cccfff",width:'100%',
                   height:29.3,justifyContent:'center'}}  
-                  defaultValue={v.ParaName=="工作负责人"?this.state.isgzfzr?this.state.isgzfzr:this.state.isgzfzr:"请选择"}
+                  defaultValue={v.ParaName=="工作负责人"?this.state.isgzfzr?this.state.isgzfzr:"请选择":"请选择"}
                   onSelect={(e,value)=>this.getSelect(value,'datalist'+i,getAllTempanyId[i])}
                   options={this.BackpageUseName()}/>:v.ParaTypeID==2?
                   <View>

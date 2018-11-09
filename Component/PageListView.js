@@ -320,7 +320,7 @@ export default class PageListView extends Component{
         return this.props.renderNoMore();
       }else {
         return (
-          <View style={{alignItems: 'center', justifyContent:'center',height:40,width:w,backgroundColor:'#eee'}}>
+          <View style={{alignItems: 'center', justifyContent:'center',height:40,width:w,backgroundColor:'#eee',paddingBottom:20}}>
             <Text allowFontScaling={false} style={{color: '#000', fontSize: 12}}>没有更多数据了...</Text>
           </View>
         );
@@ -330,7 +330,7 @@ export default class PageListView extends Component{
           return this.props.renderLoadMore();
       }else {
         return (
-          <View style={{alignItems: 'center', justifyContent:'center',height:40,width:w,backgroundColor:'#eee',flexDirection:'row'}}>
+          <View style={{alignItems: 'center', justifyContent:'center',height:40,width:w,backgroundColor:'#eee',flexDirection:'row',paddingBottom:20}}>
             <ActivityIndicator animating={this.state.first?true:this.state.isLoadding} color='#333' size='small' style={{marginRight:7}}/>
             <Text allowFontScaling={false} style={{color: '#000', fontSize: 12,}}>{this.state.first?'正在加载中,请稍等':this.state.isLoadding?'正在加载中,请稍等':'上拉加载更多'}...</Text>
           </View>

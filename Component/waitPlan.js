@@ -32,7 +32,7 @@ export default class WaitPlan extends React.Component{
         })
     }
 
-    gotoItem(params){
+  async  gotoItem(params){
         //跳转时传递参数 typeName：票名称 ticketNum:编号  templateID：工作票模板id（tickettemplateid） isAlter 常量1   _： 当前时间戳  departmentid部门id
         this.props.navigation.navigate('Result',{
                                                 typeName:params.tickettypename,

@@ -1,6 +1,6 @@
 import React from 'react';
-import {Text, View,ScrollView ,Alert} from 'react-native';
-import {historys} from './../api/api'
+import {Text, View,ScrollView ,Alert,Button} from 'react-native';
+import {historys,gethistory} from './../api/api'
 import Title from './Title'
 import PageListView from './PageListView'
 export default class HistoryPlan extends React.Component{
@@ -24,17 +24,26 @@ export default class HistoryPlan extends React.Component{
       );
   }
 
-     gotoItem(params){
-        //跳转时传递参数 typeName：票名称 ticketNum:编号  templateID：工作票模板id（TicketTemplateID） isAlter 常量1   _： 当前时间戳
-        this.props.navigation.navigate('Result',{
-            typeName:params.tickettypename,
-            ticketNum:params.ticketserialnum,
-            templateID:params.tickettemplateid,
-            isAlter:1,
-            departmentid:params.departmentid,
-            userId:this.state.userId,
-            _:Date.parse(new Date())})
-    }
+  async gotoItem(params){
+
+    const items ="?form.jqgrid_row_selected_id="+params.id
+    let getLIshi = await gethistory(items);
+    let ttt = JSON.parse(getLIshi.form.dataJson);
+    let sss= ttt.sendParameterList[0];
+    console.log(sss)
+    //跳转时传递参数 typeName：票名称 ticketNum:编号  templateID：工作票模板id（tickettemplateid） isAlter 常量1   _： 当前时间戳  departmentid部门id
+    this.props.navigation.navigate('Result',{
+                                            typeName:sss.tickettypename,
+                                            ticketNum:sss.ticketserialnum,
+                                            templateID:sss.tickettemplateid,
+                                            ticketTypeId:sss.ticketTypeId,
+                                            departmentid:sss.departmentid,
+                                            userId:sss.userId,
+                                            isqianfa:false,
+                                            ticketstatusname:sss.ticketstatusname,//状态名字
+                                            ticketbasicinfoid:sss.ticketbasicinfoid,//票基本信息id
+})
+}
        // 20180730 刷新
  async _refresh(callBack){
   //    const datas = "?tree_node_operation=0&pageSize=10&curPage="+page;
@@ -82,13 +91,18 @@ _renderRow(itemdata) {
             <View><Text style={{color:"#000000"}}>内容：</Text></View>
             <Text numberOfLines={10} style = {{paddingBottom:15,borderColor:"#eeeeee",borderWidth:1,borderStyle:"solid",color:"#000000"}}>{itemdata.content}</Text>
             <Text style={{color:"#000000"}}>开票时间：{itemdata.filltickettime}</Text>
+            <Button
+            onPress={()=>this.gotoItem(itemdata)}
+            title="查看详情"
+            color="#406ea4"
+            />
           </View>)
 }
   render() {
       let height = this.state.result.length * 100;
       return (
         <View style={{flex:1}}>
-          <Title navigation={this.props.navigation} centerText={'待处理流程'} />
+          <Title navigation={this.props.navigation} centerText={'历史流程'} />
           {/* 需要循环获取数据 */}
               <View style={{flex:1,backgroundColor:"#ffffff"}}>
               <PageListView
