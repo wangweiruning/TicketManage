@@ -112,7 +112,7 @@ export default class WaitPlan extends React.Component{
       <View style={{flex:1}}>
         <Title navigation={this.props.navigation} centerText={'待处理流程'} />
         {/* 需要循环获取数据 */}
-            <View style={{flex:1,backgroundColor:"#ffffff"}}>
+            <View style={{flex:1,backgroundColor:"#ffffff",marginTop:20}}>
             {jconfig.userinfo.status?<PageListView
                 height={height}
                 pageLen={15}

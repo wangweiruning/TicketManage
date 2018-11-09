@@ -425,7 +425,8 @@ export default class Tdetail extends React.Component{
             this.state.showPage.isflew=arr[0];
             return  <View style={{margin:5}}>
                         <Text style={{left:5}}>流转状态</Text>
-                        <ModalDropdown  dropdownStyle={{width:'100%'}} 
+                        <ModalDropdown  dropdownTextStyle={{fontSize:15}}
+                                    dropdownStyle={{width:'100%',height:50}}   
                                         textStyle={{color:'black',alignItems:'center',fontSize:18,left:5,marginTop:7}} 
                                         style={{backgroundColor:'#fffeee',borderRadius:5,width:'100%'}}
                                         defaultValue={arr[0]?arr[0]:"请选择"}
@@ -540,7 +541,8 @@ export default class Tdetail extends React.Component{
         return <View style={{height:50,margin:5}}>
         <Text style={{left:5}}>是否同意</Text>
         <ModalDropdown 
-        dropdownStyle={{width:'100%'}} 
+        dropdownTextStyle={{fontSize:15}}
+        dropdownStyle={{width:'100%',height:50}}   
         textStyle={{color:'black',alignItems:'center',fontSize:18,left:5,marginTop:7}} 
         style={{backgroundColor:'#fffeee',borderRadius:5,width:'100%'}} 
         defaultValue={arr[0]} 
@@ -603,24 +605,24 @@ export default class Tdetail extends React.Component{
             this.setState({
             loading:true
         })
-            // try {
-            //     const tijiaodata = await tijiao(para)
-            //     console.log(tijiaodata)
-            //     this.setState({
-            //         loading:false
-            //     })
-            //     Alert.alert(
-            //         '提示','数据提交成功！',
-            //         [
-            //          {text:'是',onPress:()=>this.props.navigation.dispatch(resetAction)},
-            //         ]
-            //     );
-            // } catch (error) {
-            //     ToastAndroid.show('数据填写错误',ToastAndroid.SHORT);
-            //     this.setState({
-            //         loading:false
-            //     })
-            // }
+            try {
+                const tijiaodata = await tijiao(para)
+                console.log(tijiaodata)
+                this.setState({
+                    loading:false
+                })
+                Alert.alert(
+                    '提示','数据提交成功！',
+                    [
+                     {text:'是',onPress:()=>this.props.navigation.dispatch(resetAction)},
+                    ]
+                );
+            } catch (error) {
+                ToastAndroid.show('数据填写错误',ToastAndroid.SHORT);
+                this.setState({
+                    loading:false
+                })
+            }
             
                
                 
@@ -705,7 +707,8 @@ export default class Tdetail extends React.Component{
                                 :v.ParaTypeID==3?
                                  <ModalDropdown 
                                     disabled={!dis}
-                                    dropdownStyle={{width:'100%'}} 
+                                    dropdownTextStyle={{fontSize:15}}
+                                    dropdownStyle={{width:'100%',height:50}}  
                                     textStyle={{color:!dis?'black':'red',fontSize:18,left:5}} 
                                     style={{backgroundColor:!dis?'#cccfff':"#fffeee",width:'100%',
                                     height:29.3,justifyContent:'center'}} 
@@ -803,6 +806,7 @@ export default class Tdetail extends React.Component{
                                 <TouchableOpacity 
                                             onPress={()=>this.submitResult()}
                                             style={{
+                                                elevation:2,
                                                 justifyContent:'center',
                                                 alignItems:'center',
                                                 width:'60%',
