@@ -342,7 +342,7 @@ export default class Tdetail extends React.Component{
     ischacked=(asd,iscofrom)=>{
         let sss = this.state.havChangeList;
         let index=0;
-        if (sss.length>0) {
+        if (sss.length>0 && !this.props.navigation.state.params.canot) {
             sss.forEach(item=>{
                 if(item.IsConfirm==1){
                     this.setState({
@@ -599,28 +599,28 @@ export default class Tdetail extends React.Component{
                 para +=("&"+a+"=" + encodeURIComponent(data[a]));
             }
             para = "?"+para.substr(1,para.length);
-            console.log(para)
+            console.log(para,"gggggggggggg")
             this.setState({
             loading:true
         })
-            try {
-                const tijiaodata = await tijiao(para)
-                console.log(tijiaodata)
-                this.setState({
-                    loading:false
-                })
-                Alert.alert(
-                    '提示','数据提交成功！',
-                    [
-                     {text:'是',onPress:()=>this.props.navigation.dispatch(resetAction)},
-                    ]
-                );
-            } catch (error) {
-                ToastAndroid.show('数据填写错误',ToastAndroid.SHORT);
-                this.setState({
-                    loading:false
-                })
-            }
+            // try {
+            //     const tijiaodata = await tijiao(para)
+            //     console.log(tijiaodata)
+            //     this.setState({
+            //         loading:false
+            //     })
+            //     Alert.alert(
+            //         '提示','数据提交成功！',
+            //         [
+            //          {text:'是',onPress:()=>this.props.navigation.dispatch(resetAction)},
+            //         ]
+            //     );
+            // } catch (error) {
+            //     ToastAndroid.show('数据填写错误',ToastAndroid.SHORT);
+            //     this.setState({
+            //         loading:false
+            //     })
+            // }
             
                
                 
@@ -654,7 +654,9 @@ export default class Tdetail extends React.Component{
         })
         return pageUseName
     }
+    
     render(){
+        
         let getAllTempanyId=this.state.getAllTempanyId;
         return(<View style={{justifyContent:'center'}}>
                     <TicketTitle navigation={this.props.navigation} num={this.state.nnnmmm}
@@ -681,6 +683,7 @@ export default class Tdetail extends React.Component{
                             this.state.templateContents.map((v,i)=>{
                                 let dis = this.ischacked(v.TicketParaID);
                                 let itemMsg = this.isChange();
+                                // console.log(isNaN(itemMsg[i-1]),itemMsg[i-1],"eeeeeeeeeeeeeeeeeee")
                             return <View  key={i} style={{backgroundColor:'white',marginTop:5,marginBottom:20}}>
                             <View style={{
                                 width:'100%',

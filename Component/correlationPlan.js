@@ -95,7 +95,8 @@ export default class CorrelationPlan extends React.Component{
             isqianfa:false,
             departmentid:params.departmentid,
             userId:this.state.userId,
-            _:Date.parse(new Date())})
+            canot:true
+          })
     }
 
   render() {
