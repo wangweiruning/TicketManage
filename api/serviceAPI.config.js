@@ -20,5 +20,6 @@ const URL ={
     findbumen:url+'departmentMng/departmentMng_loadGrid.action',//获取部门：部门id 部门名称
     tijiao:url+'ticketMng/ticketMng_ticketCommit.action',//提交
     historys:url+'ticketMng/ticketMng_loadGrid.action',//历史流程
+    gethistory:url+'ticketSearch/previousTicketSearch_sendParameter.action'//获取票信息
 }
 export default URL

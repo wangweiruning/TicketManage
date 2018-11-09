@@ -9,11 +9,13 @@ import {newTiceketNum,
         searchTicketFlow,
         editquanxian,
         searchUserForRole,
+        searchTicketRecord,
         tijiao,
         historys,
         userlist,
         findbumen,
-        findgroup} from './../api/api'
+        findgroup,
+        awaitdeteal} from './../api/api'
 import TicketDropdownCheckBox from './TicketDropdownCheckBox';
 import {StackActions, NavigationActions} from 'react-navigation';
 const resetAction = StackActions.reset({
@@ -51,6 +53,7 @@ export default class Tdetail extends React.Component{
             itemsss:[],
             group:[],
             userData:[],
+            basicInfoId:"",
             getAllTempanyId:[]
         }
     }
@@ -78,8 +81,9 @@ export default class Tdetail extends React.Component{
 
         let j = x.form.newTicket;
         let a = `?form.ticketNum=${j}`;
-        let g = await searchTicketBasicInfo(a);
-  
+        // let g = await searchTicketBasicInfo(a);
+        let  ggs= `?form.basicInfoId=null`
+        let ssgg= await searchTicketRecord(ggs)
 
         let opt = `?form.tree_node_operation=0`;
         let userId = await historys(opt);
@@ -129,12 +133,13 @@ export default class Tdetail extends React.Component{
             statuss:good.form.dataList[1].ticketstatusid,
             roleid:good.form.dataList[2].ticketflowid,
             status:kl,
+            basicInfoId:good.form.dataList[0].FlowRoleID,
             flowroleid:bool.form.templateContents[1].FlowRoleID,
             num:x.form.newTicket,
             jax:bool.form.templateContents,
             zed:feel.form.dataList
        })
-       console.log(good,bool,'hhhhhhhhhhhhhhhhhhhhhhhhhooooommmmm')
+       console.log(good,'hhhhhhhhhhhhhhhhhhhhhhhhhooooommmmm')
        this.loading();
        this.pipei(list.form.paramAllList);
        this.getdepartment();
@@ -334,7 +339,6 @@ export default class Tdetail extends React.Component{
     if (this.state.vvval.length<2) {
         Alert.alert("流转目标不能为空！")
     } else {
-
     let data = {
             "form.basicInfoId": 0,
             "form.ticketTypeName":this.props.navigation.state.params.v,
@@ -342,7 +346,7 @@ export default class Tdetail extends React.Component{
             "form.ticketNum": this.state.num,
             "form.templateId": this.props.navigation.state.params.name,
             "form.paraData": JSON.stringify(newpagedata),
-            "form.flowroleid": this.state.flowroleid,
+            "form.flowroleid": this.state.basicInfoId,
             "form.userId":jconfig.userinfo.user,
             "form.recordOption": this.state.stateTr,
             "form.detailInfo": this.state.detailInfo,
@@ -354,7 +358,7 @@ export default class Tdetail extends React.Component{
         para +=("&"+a+"="+encodeURIComponent(data[a]));
         }
         para ='?'+para.substr(1,para.length);
-        console.log(data,'daaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaad')
+        console.log(data,para,'daaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaad')
         let all = await tijiao(para);
         console.log(all,'daaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaad')
         if(all.form.paraData.length>2){
@@ -432,7 +436,7 @@ export default class Tdetail extends React.Component{
                   textStyle={{color:'black',fontSize:13,left:5}} 
                   style={{backgroundColor:!dis?"#fffeee":"#cccfff",width:'100%',
                   height:29.3,justifyContent:'center'}}  
-                  defaultValue={v.ParaName=="工作负责人"?this.state.isgzfzr?this.state.isgzfzr:this.state.isgzfzr:"请选择"}
+                  defaultValue={v.ParaName=="工作负责人"?this.state.isgzfzr?this.state.isgzfzr:"请选择":"请选择"}
                   onSelect={(e,value)=>this.getSelect(value,'datalist'+i,getAllTempanyId[i])}
                   options={this.BackpageUseName()}/>:v.ParaTypeID==2?
                   <View>
