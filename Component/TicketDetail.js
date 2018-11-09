@@ -431,6 +431,7 @@ export default class Tdetail extends React.Component{
                   TextColor={{color:'black',fontSize:13,backgroundColor:dis?"#fffeee":"#cccfff"}} SelectData={v.ParaName=="班组"?this.state.userData:this.state.group} leixin={getAllTempanyId[i]}/>: 
                   v.ParaTypeID==3?
                   <ModalDropdown 
+                  dropdownTextStyle={{fontSize:15}}
                   disabled={dis}
                   dropdownStyle={{width:'100%'}} 
                   textStyle={{color:'black',fontSize:13,left:5}} 
@@ -483,14 +484,14 @@ export default class Tdetail extends React.Component{
               </View>
             <View style={{display:'flex',justifyContent:'center',margin:5}}>
                 <Text style={{color:'black'}}>是否同意</Text>
-                <ModalDropdown dropdownStyle={{width:'100%'}} textStyle={{color:'black',fontSize:13,left:5}} 
+                <ModalDropdown dropdownTextStyle={{fontSize:15}} dropdownStyle={{width:'100%'}} textStyle={{color:'black',fontSize:13,left:5}} 
                 style={{backgroundColor:'#fffeee',width:'100%',height:29.3,justifyContent:'center'}} defaultValue={'同意'} options={['同意']} onSelect={(index,v)=>this.sssgo(index,v)}/>
             </View>
             <View style={{display:'flex',justifyContent:'center',margin:5}}>
                 <Text style={{color:'black'}}>流转状态</Text>
                 {
                   this.state.status!="" &&
-                  <ModalDropdown dropdownStyle={{width:'100%'}} textStyle={{color:'black',fontSize:13,left:5}} 
+                  <ModalDropdown dropdownTextStyle={{fontSize:15}} dropdownStyle={{width:'100%'}} textStyle={{color:'black',fontSize:13,left:5}} 
                   style={{backgroundColor:'#fffeee',width:'100%',height:29.3,justifyContent:'center'}} defaultValue={'请选择'} options={this.state.status}/>
                 }
                 </View>
