@@ -82,7 +82,7 @@ export default class TicketDropdownCheckBox extends React.Component{
             <View>
             <TouchableOpacity disabled={this.props.isshow} onPress={()=>this.setState({visible:true})}>
             <View style={{flexDirection:'row',alignItems:'center',...this.props.style}}>
-                        <Text style={{padding:5,flex:1,flexDirection:'row',color:color?color:'gray',fontSize:fontSize?fontSize:18}}>{
+                        <Text style={{padding:5,flex:1,flexDirection:'row',color:color?color:'gray',fontSize:fontSize?fontSize:18,backgroundColor:!this.props.isshow?"#fffeee":"#cccfff"}}>{
                             this.open()
                         }</Text>
                     </View>

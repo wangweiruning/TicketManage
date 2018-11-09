@@ -1,6 +1,6 @@
 import React from 'react';
 import {View,TouchableOpacity,Text,Alert,ToastAndroid,Platform,BackHandler,DeviceEventEmitter,Image,ImageBackground} from 'react-native';
-import {InputItem,ActivityIndicator} from 'antd-mobile-rn';
+import {InputItem,ActivityIndicator,Toast} from 'antd-mobile-rn';
 import {login} from '../api/api';
 import MySorage from '../api/storage';
 import {StackActions, NavigationActions} from 'react-navigation';
@@ -70,12 +70,12 @@ export default class Login extends React.Component{
              }
              this.setState({
                  result:JSON.stringify(result),//序列化：转换为一个 (字符串)JSON字符串
-                 
              });
         }catch(e){
-            Alert.alert('',"服务器开小差了~~，请联系管理员",[{text:'是',onPress:this.opntion2Selected}])
+            Toast.fail("服务器开小差了~~",5,null,true)
+            // Alert.alert('',"服务器开小差了~~，请联系管理员",[{text:'是',onPress:this.opntion2Selected}])
             this.setState({
-                loading:true
+                loading:false
             })
         }
             
@@ -113,7 +113,7 @@ export default class Login extends React.Component{
                     <View style={{position:'absolute',width:'100%',height:'100%'}}>
                     <Image source={require('../images/cc.jpg')} style={{width:'100%',height:'100%'}}/>
                     </View>
-          <View style={{marginTop:"50%",alignItems:'center'}}>
+          <View style={{marginTop:"30%",alignItems:'center'}}>
           <Text style={{fontWeight:'500',color:'white',fontSize:20}}>瑞智一体化两票管理系统</Text>
            <View style={{flexDirection:'row',alignItems:'center',backgroundColor:'white',marginTop:15,elevation:3}}>
                <Image source={require('../images/login-username.png')} style={{width:20,left:8}} resizeMode = 'contain'/>

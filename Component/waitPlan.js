@@ -16,7 +16,8 @@ export default class WaitPlan extends React.Component{
   }
     async componentWillMount(){
         const {navigate} = this.props.navigation
-        if(!jconfig.userinfo.status) return Alert.alert(
+        if(!jconfig.userinfo.status) {
+           Alert.alert(
             "登录验证",
             "你还没有登录哦，请先登录再来吧",
             [
@@ -24,6 +25,7 @@ export default class WaitPlan extends React.Component{
               {text: '去登陆', onPress: () => navigate('login')},
             ],
           );
+        }
         const histo = await historys("?form.tree_node_operation="+0);
         this.setState({
             userId:histo.form.userId
@@ -37,6 +39,7 @@ export default class WaitPlan extends React.Component{
                                                 ticketNum:params.ticketserialnum,
                                                 templateID:params.tickettemplateid,
                                                 isAlter:1,
+                                                ticketTypeId:params.ticketTypeId,
                                                 departmentid:params.departmentid,
                                                 userId:this.state.userId,
                                                 isqianfa:true,
@@ -49,14 +52,14 @@ export default class WaitPlan extends React.Component{
                                                 _:Date.parse(new Date())})
     }
 
-    // 20180730 刷新
+    // 20181107 刷新
  async _refresh(callBack){
     const histo = await historys("?form.tree_node_operation="+0);
      console.log(this.state.userId,"this.state.userId")
     const datas = "?form.userId="+histo.form.userId+"&pageSize=10&curPage=0";
     const result = await awaitdeteal(datas);
     console.log(result.form.dataList,"1111111111111111")
-    callBack(result.form.dataList);
+    callBack(result.form.dataList.reverse());
            if(result&&result.form.dataList.length>0){
           this.setState({
               result:this.state.result.concat(result.form.dataList),//序列化：转换为一个 (字符串)JSON字符串
@@ -65,7 +68,7 @@ export default class WaitPlan extends React.Component{
    
   }
    
-  // 20180730 加载更多
+  // 20181107 加载更多
   async _loadMore(page,callBack){
     const histo = await historys("?form.tree_node_operation="+0);
      console.log(this.state.userId,"this.state.userId")
@@ -80,7 +83,7 @@ export default class WaitPlan extends React.Component{
         }
   }
    
-  // 20180730 子组件渲染
+  // 20181107 子组件渲染
   _renderRow(itemdata) {
     // <CommentItem row={row} />
     return (
@@ -110,13 +113,14 @@ export default class WaitPlan extends React.Component{
         <Title navigation={this.props.navigation} centerText={'待处理流程'} />
         {/* 需要循环获取数据 */}
             <View style={{flex:1,backgroundColor:"#ffffff"}}>
-            <PageListView
+            {jconfig.userinfo.status?<PageListView
                 height={height}
                 pageLen={15}
                 renderRow={this._renderRow.bind(this)}
                 refresh={this._refresh.bind(this)}
                 loadMore={this._loadMore.bind(this)}
-            />
+            />:<Text style={{textAlign:"center",marginTop:20}}>还没有任何数据</Text>
+            }
             </View>
       </View>
     );

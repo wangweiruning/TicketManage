@@ -65,7 +65,6 @@ export default class CorrelationPlan extends React.Component{
    
   // 20180730 子组件渲染
   _renderRow(itemdata) {
-    // <CommentItem row={row} />
     return (
       <View 
             onPress={()=>this.gotoItem(itemdata)}

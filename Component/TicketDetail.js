@@ -336,8 +336,7 @@ export default class Tdetail extends React.Component{
     } else {
 
     let data = {
-            "form.basicInfoId": "0",
-            "form.ticketTypeId": this.props.navigation.state.params.treeid,
+            "form.basicInfoId": 0,
             "form.ticketTypeName":this.props.navigation.state.params.v,
             "form.ticketStatusId": this.state.statuss,
             "form.ticketNum": this.state.num,
@@ -372,7 +371,11 @@ export default class Tdetail extends React.Component{
         console.log(value,datalist)
         let s ={[datalist]:value};
         let kk = [];
-        kk.push(value)
+        this.state.group.map(pagename=>{
+            if(value==pagename.realname){
+                kk.push(pagename.id)
+            }
+        })
         let gh = {[getAllTempanyId]:kk}
         let fj = Object.assign(this.state.newpagedata,gh)
         let data = Object.assign(this.state.pagedata,s)
@@ -420,7 +423,7 @@ export default class Tdetail extends React.Component{
                {      
                   v.ParaTypeID==4? 
                   <TicketDropdownCheckBox isshow={dis} open={this.openothers.bind(this)} style={{backgroundColor:'white',height:50}} 
-                  TextColor={{color:'black',fontSize:13}} SelectData={v.ParaName=="班组"?this.state.userData:this.state.group} leixin={getAllTempanyId[i]}/>: 
+                  TextColor={{color:'black',fontSize:13,backgroundColor:dis?"#fffeee":"#cccfff"}} SelectData={v.ParaName=="班组"?this.state.userData:this.state.group} leixin={getAllTempanyId[i]}/>: 
                   v.ParaTypeID==3?
                   <ModalDropdown 
                   disabled={dis}
@@ -428,7 +431,7 @@ export default class Tdetail extends React.Component{
                   textStyle={{color:'black',fontSize:13,left:5}} 
                   style={{backgroundColor:!dis?"#fffeee":"#cccfff",width:'100%',
                   height:29.3,justifyContent:'center'}}  
-                  defaultValue={v.ParaName=="工作负责人"?this.state.isgzfzr?this.state.isgzfzr:'请选择':"请选择"}
+                  defaultValue={v.ParaName=="工作负责人"?this.state.isgzfzr?this.state.isgzfzr:this.state.isgzfzr:"请选择"}
                   onSelect={(e,value)=>this.getSelect(value,'datalist'+i,getAllTempanyId[i])}
                   options={this.BackpageUseName()}/>:v.ParaTypeID==2?
                   <View>
@@ -476,7 +479,7 @@ export default class Tdetail extends React.Component{
             <View style={{display:'flex',justifyContent:'center',margin:5}}>
                 <Text style={{color:'black'}}>是否同意</Text>
                 <ModalDropdown dropdownStyle={{width:'100%'}} textStyle={{color:'black',fontSize:13,left:5}} 
-                style={{backgroundColor:'#fffeee',width:'100%',height:29.3,justifyContent:'center'}} defaultValue={'请选择'} options={['同意', '拒绝']} onSelect={(index,v)=>this.sssgo(index,v)}/>
+                style={{backgroundColor:'#fffeee',width:'100%',height:29.3,justifyContent:'center'}} defaultValue={'同意'} options={['同意']} onSelect={(index,v)=>this.sssgo(index,v)}/>
             </View>
             <View style={{display:'flex',justifyContent:'center',margin:5}}>
                 <Text style={{color:'black'}}>流转状态</Text>
