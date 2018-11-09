@@ -542,7 +542,7 @@ export default class Tdetail extends React.Component{
         <ModalDropdown 
         dropdownStyle={{width:'100%'}} 
         textStyle={{color:'black',alignItems:'center',fontSize:18,left:5,marginTop:7}} 
-        style={{backgroundColor:'#fffeee',borderRadius:5,fontSize:16,width:'100%'}} 
+        style={{backgroundColor:'#fffeee',borderRadius:5,width:'100%'}} 
         defaultValue={arr[0]} 
         onSelect={(index,value)=>this.changeAgree(index,0,value)}
         options={arr}/>

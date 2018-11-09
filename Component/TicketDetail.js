@@ -351,11 +351,12 @@ export default class Tdetail extends React.Component{
         }
         var para = "";
         for(var a in data){
-        para +=("&"+a+"=" +encodeURIComponent(data[a]));
+        para +=("&"+a+"="+encodeURIComponent(data[a]));
         }
         para ='?'+para.substr(1,para.length);
         console.log(data,'daaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaad')
         let all = await tijiao(para);
+        console.log(all,'daaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaad')
         if(all.form.paraData.length>2){
             Alert.alert(
                 '提示',`${this.props.navigation.state.params.v}创建成功！`,
@@ -435,7 +436,7 @@ export default class Tdetail extends React.Component{
                   onSelect={(e,value)=>this.getSelect(value,'datalist'+i,getAllTempanyId[i])}
                   options={this.BackpageUseName()}/>:v.ParaTypeID==2?
                   <View>
-                   <TextInput editable={!dis} placeholder="请输入内容..."
+                   <TextInput editable={!dis} placeholder="请输入内容..." underlineColorAndroid="transparent"
                     onChangeText={(v)=>this.handleInput('datalist'+i,v,getAllTempanyId[i])} style={{borderRadius:5,backgroundColor:'white',width:'100%',backgroundColor:!dis?"#fffeee":"#cccfff"}}/>
                     {v.IsConfirm==1?<View style={{flexDirection:'row',margin:5}}>
                     <Checkbox onChange={(e)=>this.onChangecoform('Checkbox'+i,e.target.checked)}
