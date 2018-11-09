@@ -75,7 +75,7 @@ export default class Login extends React.Component{
         }catch(e){
             Alert.alert('',"服务器开小差了~~，请联系管理员",[{text:'是',onPress:this.opntion2Selected}])
             this.setState({
-                loading:true
+                loading:false
             })
         }
             
