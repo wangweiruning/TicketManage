@@ -11,7 +11,8 @@ export default class CorrelationPlan extends React.Component{
     this.state = {
         animating: false,
         result:'',
-        userId:""
+        userId:"",
+        havenotdate:false
         };
       }
     async  componentWillMount(){
@@ -25,9 +26,19 @@ export default class CorrelationPlan extends React.Component{
         ],
       );
         const histo = await historys("?form.tree_node_operation="+0);
-        this.setState({
-            userId:histo.form.userId
-        })
+        const datas = "?form.userId="+histo.form.userId+"&pageSize=10&curPage=0";
+                const result = await correation(datas);
+                       if(result&&result.form.dataList.length>0){
+                      this.setState({
+                          userId:histo.form.userId,
+                          result:result.form.dataList,//序列化：转换为一个 (字符串)JSON字符串
+                      });
+                     }
+                     if(!result.form.dataList.length>0){
+                      this.setState({
+                        havenotdate:true
+                    })
+                  }
      }
     
      // 20180730 刷新
@@ -58,7 +69,8 @@ export default class CorrelationPlan extends React.Component{
             console.log(result.form.dataList,"获取相关流程")
                    if(result&&result.form.dataList.length>0){
                   this.setState({
-                      result:result.form.dataList.concat(result.form.dataList),//序列化：转换为一个 (字符串)JSON字符串
+                      result:result.form.dataList.reverse(),//序列化：转换为一个 (字符串)JSON字符串
+                      havenotdate:true
                   });
                  }
   }
@@ -106,13 +118,31 @@ let height = this.state.result.length * 100;
         <Title navigation={this.props.navigation} centerText={'相关流程'} />
         {/* 需要循环获取数据 */}
             <View style={{flex:1,backgroundColor:"#ffffff"}}>
-            <PageListView
-                height={height}
-                pageLen={14}
-                renderRow={this._renderRow.bind(this)}
-                refresh={this._refresh.bind(this)}
-                loadMore={this._loadMore.bind(this)}
-            />
+            <ScrollView>
+              {this.state.result.length>0&&this.state.result.map((itemdata,index)=>{
+                 return (
+                  <View 
+                        key={index}
+                        onPress={()=>this.gotoItem(itemdata)}
+                        style={{marginTop:5,paddingBottom:10,paddingTop:10,width:"90%",marginLeft:20,height:220}}>
+                    <Text style={{color:"#000000"}}>两票类型：{itemdata.tickettypename}</Text>
+                    <Text style={{color:"#000000"}}>负责人：{itemdata.headuser}</Text>
+                    <Text style={{color:"#000000"}}>编号：{itemdata.ticketserialnum}</Text>
+                    <Text style={{color:"#000000"}}>流转人：{itemdata.manageuser}</Text>
+                    <View><Text style={{color:"#000000"}}>内容：</Text></View>
+                    <Text numberOfLines={10} style = {{paddingBottom:15,borderColor:"#eeeeee",borderWidth:1,borderStyle:"solid",color:"#000000"}}>{itemdata.content}</Text>
+                    <Text style={{color:"#000000"}}>等待时间：{itemdata.manageTime}</Text>
+                    <Text style={{color:"#000000"}}>流转时间：{itemdata.lastTime}</Text>
+                    <Button
+                        onPress={()=>this.gotoItem(itemdata)}
+                        title="查看详情"
+                        color="#406ea4"
+                        />
+                </View>
+                )
+              })}
+              {this.state.havenotdate&&<View style={{marginVertical:20}}><Text style={{textAlign:"center"}}>暂时没有数据！</Text></View>}
+            </ScrollView>
             </View>
       </View>
     );

@@ -40,6 +40,8 @@ export default class DropdownCheckbox extends React.Component{
                 this.forceUpdate()
                 }
             })
+        }else{
+            return false;
         }
     }
 
@@ -47,21 +49,19 @@ export default class DropdownCheckbox extends React.Component{
     open(){
         let activeItem = this.state.activeItem;
         let display = [];
-        console.log(activeItem,"vvvvvvvvvcccccccc")
-   
+       
+        if(activeItem.length>0){
+             console.log(activeItem,"vvvvvvvvvcccccccc")
         for(let i in activeItem){
             if(activeItem[i]){
                 display.push(activeItem[i]);
             }
         };
-
-        if(display.length>0){
             return display.join(",");
         }else{
             return '请选择'
         }
     }
-
 
     handleInput(k, v){
         this.setState({
@@ -108,13 +108,12 @@ export default class DropdownCheckbox extends React.Component{
     render(){
         if(!this.props){console.log('dsfgdfsֵ')}
         let {color,fontSize} = {...this.props.TextColor}
-        console.log(this.state.SelectData,"fffffffffddddddd")
         return(
             <View>
             <TouchableOpacity disabled={this.props.isshow} onPress={()=>this.setState({visible:true})}>
             <View style={{flexDirection:'row',alignItems:'center',...this.props.style}}>
                         <Text style={{backgroundColor:this.props.isshow?'#cccfff':"#fffeee",padding:5,flex:1,flexDirection:'row',color:color?color:'gray',fontSize:fontSize?fontSize:18}}>{
-                            this.open()
+                            this.state.SelectData.length>0?this.open():"请选择"
                         }</Text>
                     </View>
             </TouchableOpacity>

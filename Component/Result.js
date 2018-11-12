@@ -1,8 +1,12 @@
 import React from 'react';
-import {InputItem,DatePicker,List,Checkbox,TextareaItem,ActivityIndicator} from 'antd-mobile-rn';
+import {InputItem,List,TextareaItem,ActivityIndicator} from 'antd-mobile-rn';
 import {View,Text,ScrollView,TouchableOpacity,Picker,TextInput,Alert,ToastAndroid} from 'react-native';
 import ModalDropdown from 'react-native-modal-dropdown';
 import DropdownCheckbox from '../Component/DropdownCheckbox';
+
+import CheckBox from 'react-native-checkbox';
+
+import DatePicker from 'react-native-datepicker'
 import TicketTitle from './TicketTitle';
 import {TicketBasicInfo,
         searchTicketBasicInfo,
@@ -68,10 +72,11 @@ export default class Tdetail extends React.Component{
             skipFlowId:"",
             getAllTempanyId:[],//获取所有模块id
             agreeLiuzhuan:1,
-            loading:false
+            loading:false,
+            flowRoleId:""
         }
     }
-      async componentDidMount(){
+      async componentWillMount(){
         this.getCanNotdata();
       }
 
@@ -155,13 +160,19 @@ export default class Tdetail extends React.Component{
             const FlowList = await searchFlowRecord(flewFrom)
             console.log(FlowList,"这里需要获取已经经过的流程 ")
             ticketFlowList = FlowList.form.dataList;//获取当前流程所有状态
+            if(ticketFlowList[0].ManageTime){
+                flowRoleId = ticketFlowList[ticketFlowList.length - 1].FlowRoleID;	//按时间顺序排序，当两票完结或作废时为最后一条
+            }else{
+                flowRoleId = ticketFlowList[0].FlowRoleID;	//按时间顺序排序，两票未完成时处理时间为空，排在第一条
+            }
             //将已填写的参数值填入页面
             const TicketRecord =await searchTicketRecord(flewFrom);
             console.log(TicketRecord,"将已填写的参数值填入页面 ")
             const list = TicketRecord.form.dataList;//获取到票数据内容，等待传入页面
             
             this.setState({
-                listdatas:list
+                listdatas:list,
+                flowRoleId:flowRoleId
             })
             let dataPage = {};
             let getAllTempanyId=[];
@@ -185,34 +196,36 @@ export default class Tdetail extends React.Component{
             //获取组名称
             const group = "?form.tree_node_id="+departmentid+'&form.tree_node_operation=2';
             const bumen = await findbumen(group);
-            console.log(bumen.form.page.dataRows,"获取部门")
-            this.setState({
-                groupName:bumen.form.page.dataRows
-            })
+            console.log(bumen,"获取部门")
 
             //获取部门成员
             const chengyuan = "?form.tree_node_id="+departmentid+'&form.tree_node_operation=0';
             const groupnumber = await findgroup(chengyuan)
-            console.log(groupnumber.form.page.dataRows,"获取成员")
-            console.log(index+1,"111111111111111")
+            console.log(groupnumber,"获取成员")
             const paramsItem = "?form.flowroleid="+ticketFlowList[0].FlowRoleID;
             const saves = await editquanxian(paramsItem);//获取可编辑内容区域
             console.log(saves.form.dataList,"获取可编辑内容区域");
                 this.setState({
-                    chengyuanName:groupnumber.form.page.dataRows,
+                    nnnmmm:true,
+                    // groupName:bumen.form.page.dataRows,
+                    // chengyuanName:groupnumber.form.page.dataRows,
                     havChangeList:saves.form.dataList,
-                    nnnmmm:true
+                    
                 })
             
              //设置提交目标
-             for (var i = 1; i < ticketFlowrole.length; i++) {
+             for (var i = 0; i < ticketFlowrole.length; i++) {
+                console.log(index,ticketFlowrole.length,"======================")
                  let ticketrolerank=ticketFlowrole[i].ticketrolerank;
-
-                if (ticketFlowrole[i].ticketstatusid == statusId) {
+                 if (ticketFlowrole[i].FlowRoleID == flowRoleId) {
                     index = i;
-                    console.log(111111)
                     break;
                 }
+                // if (ticketFlowrole[i].ticketstatusid == statusId) {
+                //     index = i;
+                //     console.log(111111)
+                //     break;
+                // }
             }
             this.setState({
                 index:index
@@ -264,7 +277,11 @@ export default class Tdetail extends React.Component{
         console.log(value,datalist)
         let s ={[datalist]:[value]};
         let ss=[];
-        this.state.chengyuanName.map(pagename=>{
+        /***
+ * searchRole
+ *chengyuanName
+ *  ***/
+        this.state.searchRole.map(pagename=>{
             if(value==pagename.loginname){
                 ss.push(pagename.id)
             }
@@ -278,41 +295,10 @@ export default class Tdetail extends React.Component{
         this.forceUpdate()
     }
 
-     formatDateTime(theDate) {
-
-        var _hour = theDate.getHours();
-        
-        var _minute = theDate.getMinutes();
-        
-        var _second = theDate.getSeconds();
-        
-        var _year = theDate.getFullYear()
-        
-        var _month = theDate.getMonth();
-        
-        var _date = theDate.getDate();
-        
-        if(_hour<10){_hour="0"+_hour ;}
-        
-        if(_minute<10){_minute="0"+_minute;  }
-        
-        if(_second<10){_second="0"+_second  }
-        
-        _month = _month + 1;
-        
-        if(_month < 10){_month = "0" + _month;}
-        
-        if(_date<10){_date="0"+_date  }
-        
-        return  _year + "-" + _month + "-" + _date + " " + _hour + ":" + _minute;
-        
-        }
     onChange(tt,value){
-       console.log(value,"ddddddddddddddddd")
-        let dd= new Date(value)
-        let vals=this.formatDateTime(value)
-        let s ={[tt]:dd};
-        let s2 ={[tt]:vals};
+        console.log(value,"getdatas")
+        let s ={[tt]:value};
+        let s2 ={[tt]:value};
         let data = Object.assign(this.state.pagedata,s)
         let data1 = Object.assign(this.state.newpagedata,s2)
         this.setState({
@@ -322,10 +308,13 @@ export default class Tdetail extends React.Component{
         
       }
       onChangecoform(value,dis){
-          const listitem ={[value]:dis}
-          const sss=Object.assign(this.state.showChecked,listitem)
+          console.log(dis,"vvvvvvxxxxxxxxx")
+          const listitem ={[value]:dis==false?0:1}
+          const sss=Object.assign(this.state.pagedata,listitem)
+          const ss=Object.assign(this.state.newpagedata,listitem)
         this.setState({
-            showChecked:sss
+            pagedata:sss,
+            newpagedata:ss
         });
         
       }
@@ -343,13 +332,13 @@ export default class Tdetail extends React.Component{
         let sss = this.state.havChangeList;
         let index=0;
         if (sss.length>0 && !this.props.navigation.state.params.canot) {
-            sss.forEach(item=>{
-                if(item.IsConfirm==1){
-                    this.setState({
-                        [iscofrom]:true
-                    })
-                }
-            })
+            // sss.forEach(item=>{
+            //     if(item.IsConfirm==1){
+            //         this.setState({
+            //             [iscofrom]:true
+            //         })
+            //     }
+            // })
 
              index = sss.findIndex((v)=>{
                  return v.TicketParaID == asd;
@@ -388,9 +377,13 @@ export default class Tdetail extends React.Component{
     openothers(val,leixing){
         let display = [];
         let datas=[];
+        /***
+ * searchRole
+ *chengyuanName
+ *  ***/
         let alljsitem = Object.keys(val).join(",");
         console.log(alljsitem,leixing,"vallllllllls")
-        this.state.chengyuanName.map(item=>{
+        this.state.searchRole.map(item=>{
             if(alljsitem.indexOf(item.id) != -1){
                 datas.push(item.id)  
             }
@@ -587,7 +580,7 @@ export default class Tdetail extends React.Component{
                 'form.ticketStatusId': this.state.ticketstatusid,
                 'form.ticketNum': this.props.navigation.state.params.ticketNum,
                 'form.templateId': this.props.navigation.state.params.templateID,
-                'form.flowroleid': this.props.navigation.state.params.flowroleid,
+                'form.flowroleid': this.state.flowRoleId,
                 'form.userId': this.props.navigation.state.params.userId,
                 'form.recordOption': this.state.agreeLiuzhuan,
                 'form.detailInfo': this.state.detailinfo,
@@ -632,6 +625,11 @@ export default class Tdetail extends React.Component{
     }
     getGzryName(datalist,value,names,isgzfzr){
         let users = '';
+
+        /***
+ * searchRole
+ *chengyuanName
+ *  ***/
         if(names=="工作负责人"){
             this.state.chengyuanName.map(pagename=>{
                 if(value==pagename.id){
@@ -651,12 +649,30 @@ export default class Tdetail extends React.Component{
     }
     BackpageUseName(datalist,ids){
         let pageUseName=[];
+/***
+ * searchRole
+ *chengyuanName
+ *  ***/
+
         this.state.chengyuanName.map(pagename=>{
             pageUseName.push(pagename.loginname);//loginname登录名  realname权限名
         })
         return pageUseName
     }
     
+
+    getddds=ddd=>{
+      
+        let sdate = this.state.listdatas;
+        let index = sdate.findIndex(item=>{
+                if (ddd==item.TicketParaID) {
+                    return 1
+                } else {
+                    return 0
+                }
+        })
+        return index!=-1;
+    }
     render(){
         
         let getAllTempanyId=this.state.getAllTempanyId;
@@ -685,7 +701,6 @@ export default class Tdetail extends React.Component{
                             this.state.templateContents.map((v,i)=>{
                                 let dis = this.ischacked(v.TicketParaID);
                                 let itemMsg = this.isChange();
-                                // console.log(isNaN(itemMsg[i-1]),itemMsg[i-1],"eeeeeeeeeeeeeeeeeee")
                             return <View  key={i} style={{backgroundColor:'white',marginTop:5,marginBottom:20}}>
                             <View style={{
                                 width:'100%',
@@ -703,7 +718,7 @@ export default class Tdetail extends React.Component{
                                 <DropdownCheckbox open={this.openothers.bind(this)} isshow={!dis} 
                                 leixin={getAllTempanyId[i]}
                                 defaultValue={itemMsg[i-1]?itemMsg[i-1]:"请选择"} style={{backgroundColor:'white',height:50}}  TextColor={{color:'black',fontSize:18}} 
-                                SelectData={v.ParaName=="班组"?this.state.groupName:this.state.chengyuanName} canClick={dis}/>
+                                SelectData={v.ParaName=="班组"?this.state.searchRole:this.state.searchRole} canClick={dis}/>
                                 :v.ParaTypeID==3?
                                  <ModalDropdown 
                                     disabled={!dis}
@@ -723,40 +738,27 @@ export default class Tdetail extends React.Component{
                                     onChangeText={(v)=>this.handleInput(getAllTempanyId[i],v)} 
                                     style={{borderRadius:5,width:'100%',backgroundColor:dis?"#fffeee":"#cccfff"}} />
                                         {v.IsConfirm==1?<View style={{flexDirection:'row',margin:5}}>
-                                        <Checkbox
-                                            onChange={(e)=>this.onChangecoform('Checkbox'+i,e.target.checked)}
-                                            disabled={!dis}
-                                        ><Text>是否已执行</Text></Checkbox></View>:<Text></Text>}
+                                        <CheckBox
+                                           label={'是否已执行'}
+                                           checked={this.getddds(getAllTempanyId[i]+'_1')}
+                                           onChange={(e)=>this.onChangecoform(getAllTempanyId[i]+'_1',e.target.checked) }
+                                           underlayColor={"transparent"}
+                                           disabled={!dis}
+                                        ></CheckBox></View>:<Text></Text>}
                                 </View>:v.ParaTypeID==5
                                 ?
-                                <List>
-                                    <DatePicker
-                                        value={itemMsg[i-1]?new Date(itemMsg[i-1]):null}
-                                        mode="datetime"
-                                        minDate={new Date(2015, 1, 1)}
-                                        onOk={()=>this.setState({
-                                            value:itemMsg[i-1] 
-                                        })}
-                                        disabled={!dis}
-                                        onChange={(value)=>this.onChange(getAllTempanyId[i],value)}
-                                        format="YYYY-MM-DD HH:mm"
-                                    >
-                                        <List.Item arrow="horizontal" style={{backgroundColor:dis?"#fffeee":"#cccfff"}}>选择时间：</List.Item>
-                                    </DatePicker>
-                                </List>
-                                //  <DatePicker
-                                //     value={itemMsg[i-1]?new Date(itemMsg[i-1]):null}
-                                //     mode="datetime"
-                                //     onOk={()=>this.setState({
-                                //         value:itemMsg[i-1] 
-                                //     })}
-                                //     minDate={new Date(2000, 1, 1, 0, 0)}
-                                //     onChange={(value)=>this.onChange(getAllTempanyId[i],value)}
-                                //     format="YYYY-MM-DD HH:mm"
-                                //     disabled={!dis}
-                                //     >
-                                //     <List.Item arrow="horizontal" style={{backgroundColor:dis?"#fffeee":"#cccfff"}}>选择时间：</List.Item>
-                                // </DatePicker>
+                                <DatePicker      
+                                style={{width:"100%",backgroundColor:dis?"#fffeee":"#cccfff"}}        
+                                date={itemMsg[i-1]?itemMsg[i-1]:null} 
+                                mode="datetime"        
+                                format="YYYY-MM-DD HH:mm"         
+                                confirmBtnText="确定"        
+                                cancelBtnText="取消"      
+                                showIcon={true} 
+                                disabled={!dis} 
+                                minDate={new Date(2015, 1, 1)}
+                                placeholder="请选择时间"      
+                                onDateChange={(value)=>this.onChange(getAllTempanyId[i],value)}/>
                                 :v.ParaTypeID==6?
                                 <View>
                                   <TextareaItem editable={dis} 
@@ -769,8 +771,14 @@ export default class Tdetail extends React.Component{
                                                     borderBottomWidth:2,
                                                   backgroundColor:dis?"#fffeee":"#cccfff"}} />
                                                               
-                                {v.IsConfirm==1?<View style={{flexDirection:'row',margin:5}}><Checkbox  onChange={(e)=>this.onChangecoform('Checkbox'+i,e.target.checked)}
-                                            disabled={!dis}><Text>是否已执行</Text></Checkbox></View>:<Text></Text>}
+                                {v.IsConfirm==1?<View style={{flexDirection:'row',margin:5}}>
+                                <CheckBox
+                                label={'是否已执行'}
+                                checked={this.getddds(getAllTempanyId[i]+'_1')}
+                                onChange={(e)=>this.onChangecoform(getAllTempanyId[i]+'_1',e.target.checked) }
+                                underlayColor={"transparent"}
+                                disabled={!dis}
+                                        ></CheckBox></View>:<Text></Text>}
                                 </View>:<Text></Text>
                             }
                                     </View>
