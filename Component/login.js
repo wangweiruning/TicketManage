@@ -95,7 +95,7 @@ export default class Login extends React.Component{
         return(<View style={{position:'relative',flex:1}}>
         {this.state.loading?<View style={{alignItems:'center',top:'65%'}}>
         <View style={{borderRadius:4,
-                      borderColor:'rgba(255,255,255,.3)',
+                      borderColor:'rgba(255,255,255,.5)',
                       borderWidth:1,
                       borderStyle:'solid',
                       position:'absolute',

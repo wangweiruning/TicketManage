@@ -5,7 +5,7 @@ import MySorage from '../api/storage';
 import {userlist,historys} from '../api/api';
 import * as Animatable from 'react-native-animatable';
 import {StackActions, NavigationActions} from 'react-navigation';
-
+import {parseDate} from './parseDate';
 export default class ToastExample extends React.Component {
   constructor(props){
     super(props)
@@ -24,8 +24,26 @@ export default class ToastExample extends React.Component {
       list:x.form.paramAllList,
       user:g.form.userId
     })
-    this.real()
+    this.real();
   }
+
+ parseDate(date) {
+    var isoExp, parts;
+    isoExp = /^\s*(\d{4})-(\d\d)-(\d\d)\s(\d\d):(\d\d):(\d\d)\s*$/;
+    try {
+        parts = isoExp.exec(date);
+    } catch(e) {
+      console.log(e,'ccccccccccccc')
+        return null;
+    }
+    if (parts) {
+        date = new Date(parts[1], parts[2] - 1, parts[3], parts[4], parts[5], parts[6]);
+    } else {
+        return null;
+    }
+    console.log(date,'ccccccccccccccccccc')
+    return date;
+}
 
 
   real(){
@@ -67,6 +85,7 @@ export default class ToastExample extends React.Component {
 }
 
   render() {
+    this.parseDate('2016-11-15 10:20')
     const {navigate} = this.props.navigation;
     return (<View style={{alignItems:'center'}}>
       <NavigationBar navigation={this.props.navigation} centertext={'我的'}/>
