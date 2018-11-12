@@ -304,11 +304,11 @@ export default class Tdetail extends React.Component{
         
         if(_date<10){_date="0"+_date  }
         
-        return  _year + "-" + _month + "-" + _date + " " + _hour + ":" + _minute ;
+        return  _year + "-" + _month + "-" + _date + " " + _hour + ":" + _minute;
         
         }
     onChange(tt,value){
-       
+       console.log(value,"ddddddddddddddddd")
         let dd= new Date(value)
         let vals=this.formatDateTime(value)
         let s ={[tt]:dd};
@@ -709,7 +709,7 @@ export default class Tdetail extends React.Component{
                                     disabled={!dis}
                                     dropdownTextStyle={{fontSize:15}}
                                     dropdownStyle={{width:'100%',height:50}}  
-                                    textStyle={{color:!dis?'black':'red',fontSize:18,left:5}} 
+                                    textStyle={{color:'black',fontSize:18,left:5}} 
                                     style={{backgroundColor:!dis?'#cccfff':"#fffeee",width:'100%',
                                     height:29.3,justifyContent:'center'}} 
                                     defaultValue={this.getGzryName(getAllTempanyId[i],itemMsg[i-1],v.ParaName,this.state.isgzfzr)} 
@@ -734,7 +734,6 @@ export default class Tdetail extends React.Component{
                                         value={itemMsg[i-1]?new Date(itemMsg[i-1]):null}
                                         mode="datetime"
                                         minDate={new Date(2015, 1, 1)}
-                                        maxDate={new Date(2026, 12, 31)}
                                         onOk={()=>this.setState({
                                             value:itemMsg[i-1] 
                                         })}
@@ -781,7 +780,7 @@ export default class Tdetail extends React.Component{
                             <View style={{
                                 width:'100%',
                                 height:30,
-                                backgroundColor:'white',
+                                backgroundColor:'rgb(72,171,255)',
                                 borderBottomWidth:1,
                                 borderBottomColor:'black',
                                 borderStyle:'solid',

@@ -143,7 +143,7 @@ export default class PageListView extends Component{
     if(this.state.ifDataEmpty&&this.props.renderEmpty){return this.props.renderEmpty()}
     if(this.props.inScrollView){return this.renderListView()}
     return(
-      <View style={[{flex:1},{zIndex:-99999}]} onLayout={this.onLayout}>
+      <View style={[{flex:1},{zIndex:33}]} onLayout={this.onLayout}>
         <Animated.View ref={aniView=>{this.aniView=aniView}} style={[{transform:[{translateY:this.state.pullAni}]},{width:this.state.width,height:this.state.height+this.props.renderRefreshViewH}]}>
           {this.props.renderRefreshView?this.props.renderRefreshView(this.state.pullState):this.renderRefreshView()}
           <View style={[{width:this.state.width,height:this.state.height}]} {...this.panResponder.panHandlers}>
