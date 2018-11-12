@@ -232,7 +232,6 @@ export default class PageListView extends Component{
   componentDidMount(){
     this.resetAni();
     this.props.refresh((res)=>{
-        console.log(res,"fffffff")
       if(!this.dealWithArr(res)){return}
       let len=res.length;
       this.updateData(res,len);

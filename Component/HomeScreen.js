@@ -25,7 +25,7 @@ export default class HomeScreen extends React.Component {
   render() {
       const { navigate } = this.props.navigation;
       return (<View style={{alignItems:'center'}}>
-               <NavigationBar navigation={this.props.navigation} centertext={'管理'}/>
+               <NavigationBar navigation={this.props.navigation} centertext={'两票管理'}/>
           {
             this.state.content.map((v,i)=><View key={i}>
             <TouchableOpacity 

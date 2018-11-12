@@ -24,7 +24,8 @@ export default class HttpUtils{
                 headers: { 
                     'Content-Type': 'application/x-www-form-urlencoded'
                 },
-                // body:JSON.stringify({'form.user':'techlab','form.pass':'Whu2008'})
+                Origin: "xxxx",
+                body:JSON.stringify(data)
             })//返回 服务器处理的结果
                 .then(response=>response.json())
                 .then(result=>{

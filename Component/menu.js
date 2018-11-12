@@ -5,7 +5,6 @@ import MySorage from '../api/storage';
 import {userlist,historys} from '../api/api';
 import * as Animatable from 'react-native-animatable';
 import {StackActions, NavigationActions} from 'react-navigation';
-
 export default class ToastExample extends React.Component {
   constructor(props){
     super(props)
@@ -24,8 +23,9 @@ export default class ToastExample extends React.Component {
       list:x.form.paramAllList,
       user:g.form.userId
     })
-    this.real()
+    this.real();
   }
+
 
 
   real(){
@@ -71,11 +71,11 @@ export default class ToastExample extends React.Component {
     return (<View style={{alignItems:'center'}}>
       <NavigationBar navigation={this.props.navigation} centertext={'我的'}/>
       <Animatable.View style={{flexDirection:'row',width:'95%',borderRadius:10,height:80,backgroundColor:'lightgray',top:10,justifyContent:'center',alignItems:'center'}} useNativeDriver animation="fadeInDown" easing="ease-out-quart">
-          <Text style={{fontSize:20,color:'black'}}>用户：</Text>
+          <Text style={{fontSize:20,color:'black'}}>登录名：</Text>
           <Text style={{fontSize:20,color:'black',fontWeight:'500'}}>{jconfig.userinfo.user?this.state.realname:'暂无'}</Text>
       </Animatable.View>
         <TouchableOpacity onPress={()=> this.out()} style={{elevation:2,top:40,justifyContent:'center',alignItems:'center',width:'80%',backgroundColor:'#00a6e7',borderRadius:5,height:40}}>
-          <Text style={{color:'white',fontSize:20,fontWeight:'500'}}>退出</Text>
+          <Text style={{color:'white',fontSize:20,fontWeight:'500'}}>退出登录</Text>
         </TouchableOpacity>
       </View>);
   }

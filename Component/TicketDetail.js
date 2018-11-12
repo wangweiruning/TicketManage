@@ -15,7 +15,8 @@ import {newTiceketNum,
         userlist,
         findbumen,
         findgroup,
-        awaitdeteal} from './../api/api'
+        awaitdeteal} from './../api/api';
+
 import TicketDropdownCheckBox from './TicketDropdownCheckBox';
 import {StackActions, NavigationActions} from 'react-navigation';
 const resetAction = StackActions.reset({
@@ -273,7 +274,7 @@ export default class Tdetail extends React.Component{
 
     onChange(tt,value,getAllTempanyId){
         let dd= new Date(value);
-        let vals=this.formatDateTime(value)
+        let vals=this.formatDateTime(value);
         let s ={[tt]:dd};
         let s2 ={[getAllTempanyId]:vals};
         let data = Object.assign(this.state.pagedata,s);
