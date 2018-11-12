@@ -1,5 +1,5 @@
 import React from 'react';
-import {View,TouchableOpacity,Text,Alert,ToastAndroid,Platform,BackHandler,DeviceEventEmitter,Image,ImageBackground} from 'react-native';
+import {View,TouchableOpacity,Text,Alert,ToastAndroid,Platform,BackHandler,DeviceEventEmitter,Image} from 'react-native';
 import {InputItem,ActivityIndicator,Toast} from 'antd-mobile-rn';
 import {login} from '../api/api';
 import MySorage from '../api/storage';
@@ -56,30 +56,31 @@ export default class Login extends React.Component{
             loading:true
         })
         try{
-         const datas ="?form.user="+data.username+"&form.pass="+data.password+"&code="+'50ACD07A6C49F3B9E082EF40461AC6D1'; 
-         const result = await login(datas)
-         if(result.form.status == 0){    
+         let datas =`?form.user=${data.username}&form.pass=${data.password}&code=50ACD07A6C49F3B9E082EF40461AC6D1`; 
+         let result = await login(datas)
+         if(result.form.status == 0){
              Alert.alert('',result.form.targetresult,[{text:'是',onPress:this.opntion2Selected}])
-          }
-             else{
-                console.log(result.form)
-                window.jconfig.userinfo=result.form;
-                MySorage._sava("userinfo", JSON.stringify(result.form));
-                ToastAndroid.show(result.form.targetresult,ToastAndroid.SHORT)
-                this.props.navigation.dispatch(resetAction);
-             }
              this.setState({
-                 result:JSON.stringify(result),//序列化：转换为一个 (字符串)JSON字符串
-             });
+                loading:false
+            })
+          }
+         else{
+         console.log(result.form)
+         window.jconfig.userinfo=result.form;
+         MySorage._sava("userinfo", JSON.stringify(result.form));
+         ToastAndroid.show(result.form.targetresult,ToastAndroid.SHORT)
+         this.props.navigation.dispatch(resetAction);
+        }
+         this.setState({
+              result:result,  //序列化：转换为一个 (字符串)JSON字符串
+        });
         }catch(e){
             Toast.fail("服务器开小差了~~",3,null,true)
-            // Alert.alert('',"服务器开小差了~~，请联系管理员",[{text:'是',onPress:this.opntion2Selected}])
+            alert(e)
             this.setState({
                 loading:false
             })
         }
-            
-            
      }
 
      handleInput(k, v){
@@ -109,10 +110,9 @@ export default class Login extends React.Component{
               <Text style={{color:'white',fontSize:15,marginTop:15}}>登录中...</Text>
         </View>
         </View>:null}
-        
-                    <View style={{position:'absolute',width:'100%',height:'100%'}}>
-                    <Image source={require('../images/cc.jpg')} style={{width:'100%',height:'100%'}}/>
-                    </View>
+        <View style={{position:'absolute',width:'100%',height:'100%'}}>
+        <Image source={require('../images/cc.jpg')} style={{width:'100%',height:'100%'}}/>
+        </View>
           <View style={{marginTop:"30%",alignItems:'center'}}>
           <Text style={{fontWeight:'500',color:'white',fontSize:20}}>瑞智一体化两票管理系统</Text>
            <View style={{flexDirection:'row',alignItems:'center',backgroundColor:'white',marginTop:15,elevation:3}}>
