@@ -64,7 +64,7 @@ export default class TicketModel extends React.Component{
     render(){
         return(
             <View>
-            <Title navigation={this.props.navigation} rightText="查看流程" centerText={this.props.navigation.state.params.v+'模板'}/>
+            <Title navigation={this.props.navigation} centerText={this.props.navigation.state.params.v+'模板'}/>
             <ScrollView style={{paddingBottom:10}}>
                {
                    this.state.uzi.map((v,i)=>

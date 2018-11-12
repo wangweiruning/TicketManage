@@ -268,7 +268,7 @@ export default class Tdetail extends React.Component{
         
         if(_date<10){_date="0"+_date  }
         
-        return  _year + "-" + _month + "-" + _date + " " + _hour + ":" + _minute ;
+        return  _year + "-" + _month + "-" + _date + " " + _hour + ":" + _minute;
         
         }
 
