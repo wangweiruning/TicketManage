@@ -28,7 +28,7 @@ export default class NavigationBar extends React.Component{
             <Text style={{fontSize:20,fontWeight:'500',color:'black',textAlign:'center',flex:1}}>{this.props.centertext}</Text>
             <View style={{width:80,justifyContent:'center',alignItems:'center'}}>
                 {
-                    this.props.centertext==='管理'?
+                    this.props.centertext==='两票管理'?
                     <Button color='#1e56a0' title="新建两票" onPress={()=>this.show()}/>:null
                 }
             </View>    

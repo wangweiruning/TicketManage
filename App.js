@@ -62,7 +62,7 @@ const TabRouteConfigs = { // 表示各个页面路由配置,让导航器知道�
   ToastExample: {
       screen: ToastExample,
       navigationOptions: { // 指定路由页面的配置选项
-          tabBarLabel: '信息', // 可用作头部标�?headerTitle ，或者Tab标题 tabBarLabel
+          tabBarLabel: '我的', // 可用作头部标�?headerTitle ，或者Tab标题 tabBarLabel
           tabBarIcon: ({ focused }) => ( 
               <Image resizeMode = 'contain' source = { focused ? require('./images/wmy.png') : require('./images/my.png') } style = { { width: 20, height: 20 } }
               />

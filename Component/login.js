@@ -72,7 +72,7 @@ export default class Login extends React.Component{
                  result:JSON.stringify(result),//序列化：转换为一个 (字符串)JSON字符串
              });
         }catch(e){
-            Toast.fail("服务器开小差了~~",5,null,true)
+            Toast.fail("服务器开小差了~~",3,null,true)
             // Alert.alert('',"服务器开小差了~~，请联系管理员",[{text:'是',onPress:this.opntion2Selected}])
             this.setState({
                 loading:false
@@ -102,7 +102,7 @@ export default class Login extends React.Component{
                       width:80,
                       height:80,
                       alignItems:'center',
-                      backgroundColor:'rgba(0,0,0,.3)',
+                      backgroundColor:'rgba(0,0,0,.6)',
                       paddingTop:10,
                       zIndex:10000000000}}>
               <ActivityIndicator color="#00bbf0"/>
@@ -123,8 +123,8 @@ export default class Login extends React.Component{
                <Image source={require('../images/login-password.png')} style={{width:20,left:8}} resizeMode = 'contain'/>
                <InputItem type="password" defaultValue={this.state.pass} placeholder="密码" onChange={(v)=>this.handleInput('pass',v)} style={{width:'85%'}}/>
            </View>
-           <TouchableOpacity onPress={()=>this.submitgo({username,password,code:'50ACD07A6C49F3B9E082EF40461AC6D1'})} 
-               style={{elevation:3,marginTop:15,justifyContent:'center',alignItems:'center',width:'80%',backgroundColor:'#00a6e7',borderRadius:5,height:40}}>
+           <TouchableOpacity disabled={this.state.loading?true:false} onPress={()=>this.submitgo({username,password,code:'50ACD07A6C49F3B9E082EF40461AC6D1'})} 
+               style={{elevation:3,marginTop:15,justifyContent:'center',alignItems:'center',width:'80%',backgroundColor:this.state.loading?'lightgray':'#00a6e7',borderRadius:5,height:40}}>
           <Text style={{color:'white',fontSize:20}}>登录</Text>
         </TouchableOpacity>
         </View>
