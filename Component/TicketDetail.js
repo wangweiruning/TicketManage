@@ -287,7 +287,8 @@ export default class Tdetail extends React.Component{
 
 
     onChangecoform(value,dis){
-        const listitem ={[value]:dis}
+        console.log(dis,"fffffffffffffffff")
+        const listitem ={[value]:dis?1:0}
         const sss=Object.assign(this.state.showChecked,listitem)
       this.setState({
           showChecked:sss
@@ -336,7 +337,8 @@ export default class Tdetail extends React.Component{
     }
  
    async submitAll(){
-    const {newpagedata} = {...this.state};
+    const {newpagedata,showChecked} = {...this.state};
+    const tts = Object.assign(newpagedata,showChecked)
     if (this.state.vvval.length<2) {
         Alert.alert("流转目标不能为空！")
     } else {
@@ -346,7 +348,7 @@ export default class Tdetail extends React.Component{
             "form.ticketStatusId": this.state.statuss,
             "form.ticketNum": this.state.num,
             "form.templateId": this.props.navigation.state.params.name,
-            "form.paraData": JSON.stringify(newpagedata),
+            "form.paraData": JSON.stringify(tts),
             "form.flowroleid": this.state.basicInfoId,
             "form.userId":jconfig.userinfo.user,
             "form.recordOption": this.state.stateTr,
@@ -376,10 +378,10 @@ export default class Tdetail extends React.Component{
     getSelect(value,datalist,getAllTempanyId){
         console.log(value,datalist)
         let s ={[datalist]:value};
-        let kk = [];
+        let kk = "";
         this.state.group.map(pagename=>{
             if(value==pagename.realname){
-                kk.push(pagename.id)
+                kk=pagename.id
             }
         })
         let gh = {[getAllTempanyId]:kk}
@@ -445,7 +447,7 @@ export default class Tdetail extends React.Component{
                    <TextInput editable={!dis} placeholder="请输入内容..." underlineColorAndroid="transparent"
                     onChangeText={(v)=>this.handleInput('datalist'+i,v,getAllTempanyId[i])} style={{borderRadius:5,backgroundColor:'white',width:'100%',backgroundColor:!dis?"#fffeee":"#cccfff"}}/>
                     {v.IsConfirm==1?<View style={{flexDirection:'row',margin:5}}>
-                    <Checkbox onChange={(e)=>this.onChangecoform('Checkbox'+i,e.target.checked)}
+                    <Checkbox onChange={(e)=>this.onChangecoform(getAllTempanyId[i]+"_1",e.target.checked)}
                         disabled={!dis}
                     ><Text>是否已执行</Text></Checkbox></View>:null}
                     </View>

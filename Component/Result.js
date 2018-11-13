@@ -73,7 +73,8 @@ export default class Tdetail extends React.Component{
             getAllTempanyId:[],//获取所有模块id
             agreeLiuzhuan:1,
             loading:false,
-            flowRoleId:""
+            flowRoleId:"",
+            newChecked:{},//是否选中
         }
     }
       async componentWillMount(){
@@ -176,20 +177,26 @@ export default class Tdetail extends React.Component{
             })
             let dataPage = {};
             let getAllTempanyId=[];
+            let dataid="";
           x.form.templateContents.map((v,index)=>{
-              let dataid=v.TicketParaID;
+                dataid= v.TicketParaID
+             if(dataid.slice(dataid.length-2,dataid.length)!= "_1") { 
+
               getAllTempanyId.push(dataid)
             if(v.IsConfirm==1) this.isconfoms('iscofrom'+index);
-            if(index>0){
                 let  listPageData={[dataid]:null};
+                if(index>0){
                 dataPage=Object.assign(this.state.pagedata,listPageData);
                  this.getdefault(list,v,dataid);//获取默认值
-            }  
+                }
+            }
+            this.setState({
+                pagedata:dataPage,
+                getAllTempanyId:getAllTempanyId
+            })
         })
-        this.setState({
-            pagedata:dataPage,
-            getAllTempanyId:getAllTempanyId
-        })
+        
+        
 
             
 
@@ -308,13 +315,12 @@ export default class Tdetail extends React.Component{
         
       }
       onChangecoform(value,dis){
-          console.log(dis,"vvvvvvxxxxxxxxx")
-          const listitem ={[value]:dis==false?0:1}
-          const sss=Object.assign(this.state.pagedata,listitem)
-          const ss=Object.assign(this.state.newpagedata,listitem)
+          const listitem ={[value]:!dis==false?0:1}
+          const newpagedata = Object.assign(this.state.newpagedata,listitem)
+          const nes=Object.assign(this.state.newChecked,listitem)
         this.setState({
-            pagedata:sss,
-            newpagedata:ss
+            newChecked:nes,
+            newpagedata:newpagedata
         });
         
       }
@@ -361,6 +367,7 @@ export default class Tdetail extends React.Component{
  * 获取提交对象
  * **/
     open(val){
+        console.log(val,"vals")
         let display = [];
     let Datastring=Object.keys(val);
         for(let i in val){
@@ -545,19 +552,26 @@ export default class Tdetail extends React.Component{
     }
 
     getdefault(datas,v,datalist){
-        let s={};
-        var data={};
+        let s = {};
+        var data = {};
+        let newdata = {};
+        let dataNEW = {};
             datas.map((item,i)=>{
                 if(item.TicketParaID==v.TicketParaID){
                     s ={[datalist]:item.TicketParaValue};
-                    console.log(s,"555555555")
-                            data = Object.assign(this.state.pagedata,s);
-                        this.setState({
-                            pagedata: data
-                        }); 
-                }
-                          
+                    data = Object.assign(this.state.pagedata,s);      
+                }else if (item.TicketParaID.slice(item.TicketParaID.length-2,item.TicketParaID.length)=="_1"){
+                    newdata = {[item.TicketParaID]:item.TicketParaValue}
+                    console.log(item.TicketParaID,"ffffffffffffffsssssssss")
+                    dataNEW = Object.assign(this.state.newChecked,newdata);
+                } else{
+                   
+                }              
         })
+        this.setState({
+            pagedata: data,
+            newChecked:dataNEW
+        });
       }
 
     onChangeTextInput(v){
@@ -663,18 +677,25 @@ export default class Tdetail extends React.Component{
 
     getddds=ddd=>{
       
-        let sdate = this.state.listdatas;
-        let index = sdate.findIndex(item=>{
-                if (ddd==item.TicketParaID) {
+        let sdate = this.state.newChecked;
+        let tt=0;
+        let keys = Object.keys(sdate);
+        let values = Object.values(sdate);
+        console.log(values,"hhhhhhhhhhhhhhhhhhhh")
+        let index = keys.findIndex((item,i)=>{
+                if (ddd==item) {
+                    tt=i;
                     return 1
                 } else {
                     return 0
                 }
         })
-        return index!=-1;
+        if(index!=-1){
+            return values[tt]==1?true:false;
+        }
+ 
     }
     render(){
-        
         let getAllTempanyId=this.state.getAllTempanyId;
         return(<View style={{justifyContent:'center'}}>
                     <TicketTitle navigation={this.props.navigation} num={this.state.nnnmmm}
@@ -741,7 +762,7 @@ export default class Tdetail extends React.Component{
                                         <CheckBox
                                            label={'是否已执行'}
                                            checked={this.getddds(getAllTempanyId[i]+'_1')}
-                                           onChange={(e)=>this.onChangecoform(getAllTempanyId[i]+'_1',e.target.checked) }
+                                           onChange={(e)=>this.onChangecoform(getAllTempanyId[i]+'_1',e) }
                                            underlayColor={"transparent"}
                                            disabled={!dis}
                                         ></CheckBox></View>:<Text></Text>}
@@ -775,7 +796,7 @@ export default class Tdetail extends React.Component{
                                 <CheckBox
                                 label={'是否已执行'}
                                 checked={this.getddds(getAllTempanyId[i]+'_1')}
-                                onChange={(e)=>this.onChangecoform(getAllTempanyId[i]+'_1',e.target.checked) }
+                                onChange={(e)=>this.onChangecoform(getAllTempanyId[i]+'_1',e) }
                                 underlayColor={"transparent"}
                                 disabled={!dis}
                                         ></CheckBox></View>:<Text></Text>}
