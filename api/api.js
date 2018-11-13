@@ -208,3 +208,42 @@ export function tijiao(data) {
     })
 }
 
+export function AllMangerUser() {
+    
+    return Httpdata.post({
+        url: url.AllMangerUser,
+        method: 'post',
+        dataType: "json",
+		contentType: "application/x-www-form-urlencoded",
+    })
+}
+
+export function ParaIdForTeam() {
+    
+    return Httpdata.post({
+        url: url.ParaIdForTeam,
+        method: 'post',
+        dataType: "json",
+		contentType: "application/x-www-form-urlencoded",
+    })
+}
+
+export function AllDepartment() {
+    
+    return Httpdata.post({
+        url: url.AllDepartment,
+        method: 'post',
+        dataType: "json",
+		contentType: "application/x-www-form-urlencoded",
+    })
+}
+
+export function ForDepartment(data) {
+    
+    return Httpdata.post({
+        url: url.ForDepartment+data,
+        method: 'post',
+        dataType: "json",
+		contentType: "application/x-www-form-urlencoded",
+    })
+}

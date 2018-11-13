@@ -20,6 +20,10 @@ const URL ={
     findbumen:url+'departmentMng/departmentMng_loadGrid.action',//获取部门：部门id 部门名称
     tijiao:url+'ticketMng/ticketMng_ticketCommit.action',//提交
     historys:url+'ticketMng/ticketMng_loadGrid.action',//历史流程
-    gethistory:url+'ticketSearch/previousTicketSearch_sendParameter.action'//获取票信息
+    gethistory:url+'ticketSearch/previousTicketSearch_sendParameter.action',//获取票信息
+    AllMangerUser:url+'ticketMng/ticketMng_searchAllMangerUser.action', //所有工作负责人
+    ParaIdForTeam:url+'ticketMng/ticketMng_searchParaIdForTeam.action', //班组班组成员id
+    AllDepartment:url+'ticketMng/ticketMng_searchAllDepartment.action',  //查询所有部门
+    ForDepartment:url+'ticketMng/ticketMng_searchUserForDepartment.action',  //根据部门id查班组成员
 }
 export default URL
