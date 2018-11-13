@@ -180,22 +180,12 @@ export default class Tdetail extends React.Component{
             let dataid="";
           x.form.templateContents.map((v,index)=>{
                 dataid= v.TicketParaID
-             if(dataid.slice(dataid.length-2,dataid.length)!= "_1") { 
-
-              getAllTempanyId.push(dataid)
-            if(v.IsConfirm==1) this.isconfoms('iscofrom'+index);
-                let  listPageData={[dataid]:null};
-                if(index>0){
-                dataPage=Object.assign(this.state.pagedata,listPageData);
-                 this.getdefault(list,v,dataid);//获取默认值
-                }
-            }
-            this.setState({
-                pagedata:dataPage,
-                getAllTempanyId:getAllTempanyId
-            })
+                getAllTempanyId.push(dataid)
+                this.setState({
+                    getAllTempanyId:getAllTempanyId
+                })
         })
-        
+        this.getdefault(list);//获取默认值
         
 
             
@@ -263,11 +253,12 @@ export default class Tdetail extends React.Component{
 
         skipFlowId = ticketFlowrole[index].skipflowid;
         isBack = ticketFlowrole[index].isback;
+     
         this.setState({
             isBack:isBack,
             skipFlowId:skipFlowId
         })
-        console.log(skipFlowId,"skipFlowId")
+        console.log(skipFlowId,isBack,"skipFlowId")
         if (skipFlowId == 0 && isBack == 0) {
             this.setState({
                 aggree:1
@@ -283,14 +274,14 @@ export default class Tdetail extends React.Component{
     getSelect(e,value,datalist){
         console.log(value,datalist)
         let s ={[datalist]:[value]};
-        let ss=[];
+        let ss="";
         /***
  * searchRole
  *chengyuanName
  *  ***/
         this.state.searchRole.map(pagename=>{
             if(value==pagename.loginname){
-                ss.push(pagename.id)
+                ss=pagename.id
             }
         })
         let ssss = {[datalist]:ss}
@@ -426,7 +417,7 @@ export default class Tdetail extends React.Component{
             return  <View style={{margin:5}}>
                         <Text style={{left:5}}>流转状态</Text>
                         <ModalDropdown  dropdownTextStyle={{fontSize:15}}
-                                    dropdownStyle={{width:'100%',height:50}}   
+                                    dropdownStyle={{width:'100%'}}   
                                         textStyle={{color:'black',alignItems:'center',fontSize:18,left:5,marginTop:7}} 
                                         style={{backgroundColor:'#fffeee',borderRadius:5,width:'100%'}}
                                         defaultValue={arr[0]?arr[0]:"请选择"}
@@ -533,16 +524,17 @@ export default class Tdetail extends React.Component{
     aggreeall=()=>{
         let arr=["同意"];
         const aggress =this.state.aggree;
+        console.log(aggress,"bbbbbbbbbbbbbbbbbbbbbbbbbb")
         if(aggress==1){
             
         }else{
             arr.push("不同意")
         }
-        return <View style={{height:50,margin:5}}>
+        return <View style={{margin:5}}>
         <Text style={{left:5}}>是否同意</Text>
         <ModalDropdown 
         dropdownTextStyle={{fontSize:15}}
-        dropdownStyle={{width:'100%',height:50}}   
+        dropdownStyle={{width:'100%'}}   
         textStyle={{color:'black',alignItems:'center',fontSize:18,left:5,marginTop:7}} 
         style={{backgroundColor:'#fffeee',borderRadius:5,width:'100%'}} 
         defaultValue={arr[0]} 
@@ -551,27 +543,28 @@ export default class Tdetail extends React.Component{
     </View>
     }
 
-    getdefault(datas,v,datalist){
+    getdefault(datas){
+
         let s = {};
         var data = {};
         let newdata = {};
         let dataNEW = {};
             datas.map((item,i)=>{
-                if(item.TicketParaID==v.TicketParaID){
-                    s ={[datalist]:item.TicketParaValue};
-                    data = Object.assign(this.state.pagedata,s);      
-                }else if (item.TicketParaID.slice(item.TicketParaID.length-2,item.TicketParaID.length)=="_1"){
+                if(item.TicketParaID.slice(item.TicketParaID.length-2,item.TicketParaID.length)!="_1"){
+                    s ={[item.TicketParaID]:item.TicketParaValue};
+                    data = Object.assign(this.state.pagedata,s);
+                    this.setState({
+                        pagedata: data
+                    });      
+                }else{
                     newdata = {[item.TicketParaID]:item.TicketParaValue}
-                    console.log(item.TicketParaID,"ffffffffffffffsssssssss")
                     dataNEW = Object.assign(this.state.newChecked,newdata);
-                } else{
-                   
-                }              
+                    this.setState({
+                        newChecked:dataNEW
+                    });
+                }             
         })
-        this.setState({
-            pagedata: data,
-            newChecked:dataNEW
-        });
+        
       }
 
     onChangeTextInput(v){
@@ -637,30 +630,40 @@ export default class Tdetail extends React.Component{
             Alert.alert("提示","流转目标不能为空")
         }
     }
-    getGzryName(datalist,value,names,isgzfzr){
-        let users = '';
 
-        /***
- * searchRole
- *chengyuanName
- *  ***/
-        if(names=="工作负责人"){
-            this.state.chengyuanName.map(pagename=>{
-                if(value==pagename.id){
-                    users= pagename.loginname
-                }
-            })
-            users= isgzfzr?isgzfzr:users
+
+
+    getGzryName(getAllTempanyId){
+        let users = '';
+        let ggg = this.state.pagedata;
+        let indexid = 0;
+        let values = Object.values(ggg);
+
+        let keys = Object.values(ggg);
+        const itemm =  keys.findIndex((item,index)=>{
+            if(item==getAllTempanyId){
+                indexid = index;
+                return true;
+            }else{
+                return false;
+            }
+        })
+        let defat = values[indexid];
+        this.state.chengyuanName.map(pagename=>{
+            if(defat==pagename.id){
+                users= pagename.loginname
+            }
+        })
+        
+        if(itemm!=-1){
+            return users?users:'请选择';
         }else{
-            this.state.chengyuanName.map(pagename=>{
-                if(value==pagename.id){
-                    users= pagename.loginname;
-                }
-            })
-            users= users
+            return '请选择'
         }
-        return users?users:"请选择"
     }
+
+
+
     BackpageUseName(datalist,ids){
         let pageUseName=[];
 /***
@@ -695,8 +698,33 @@ export default class Tdetail extends React.Component{
         }
  
     }
+
+    getchecked(getAllTempanyId){
+        let ggg = this.state.pagedata;
+        let indexid = 0;
+        let values = Object.values(ggg);
+        let keys = Object.keys(ggg);
+        console.log(keys,getAllTempanyId,"gggggggjjjjjjjjjjjjjjj")
+        const itemm =  keys.findIndex((item,index)=>{
+            if(item==getAllTempanyId){
+                
+                indexid = index;
+                return true;
+            }else{
+                return false;
+            }
+        })
+        
+        if(itemm!=-1){
+            return values[indexid]?values[indexid]:""
+        }else{
+            return '请输入内容...'
+        }
+    }
     render(){
+        let itemMsg = this.isChange();
         let getAllTempanyId=this.state.getAllTempanyId;
+         console.log(this.state.pagedata,getAllTempanyId,"pppppppppppppppppppp")
         return(<View style={{justifyContent:'center'}}>
                     <TicketTitle navigation={this.props.navigation} num={this.state.nnnmmm}
                         centerText={this.props.navigation.state.params.typeName+""+this.props.navigation.state.params.ticketNum}/>
@@ -721,7 +749,7 @@ export default class Tdetail extends React.Component{
                         {
                             this.state.templateContents.map((v,i)=>{
                                 let dis = this.ischacked(v.TicketParaID);
-                                let itemMsg = this.isChange();
+                                
                             return <View  key={i} style={{backgroundColor:'white',marginTop:5,marginBottom:20}}>
                             <View style={{
                                 width:'100%',
@@ -738,7 +766,7 @@ export default class Tdetail extends React.Component{
                             {   v.ParaTypeID==4? 
                                 <DropdownCheckbox open={this.openothers.bind(this)} isshow={!dis} 
                                 leixin={getAllTempanyId[i]}
-                                defaultValue={itemMsg[i-1]?itemMsg[i-1]:"请选择"} style={{backgroundColor:'white',height:50}}  TextColor={{color:'black',fontSize:18}} 
+                                defaultValue={this.getchecked(v.TicketParaID)} style={{backgroundColor:'white',height:50}}  TextColor={{color:'black',fontSize:18}} 
                                 SelectData={v.ParaName=="班组"?this.state.searchRole:this.state.searchRole} canClick={dis}/>
                                 :v.ParaTypeID==3?
                                  <ModalDropdown 
@@ -748,13 +776,13 @@ export default class Tdetail extends React.Component{
                                     textStyle={{color:'black',fontSize:18,left:5}} 
                                     style={{backgroundColor:!dis?'#cccfff':"#fffeee",width:'100%',
                                     height:29.3,justifyContent:'center'}} 
-                                    defaultValue={this.getGzryName(getAllTempanyId[i],itemMsg[i-1],v.ParaName,this.state.isgzfzr)} 
+                                    defaultValue={this.getGzryName(v.TicketParaID)} 
                                     onSelect={(e,value)=>this.getSelect(e,value,getAllTempanyId[i])}
                                     options={this.BackpageUseName()}/>  
                                 :v.ParaTypeID==2?
                                 <View>
                                    <TextInput  
-                                    value={itemMsg[i-1]}
+                                    value={this.getchecked(getAllTempanyId[i])}
                                     editable={dis}  placeholder="请输入内容..."
                                     onChangeText={(v)=>this.handleInput(getAllTempanyId[i],v)} 
                                     style={{borderRadius:5,width:'100%',backgroundColor:dis?"#fffeee":"#cccfff"}} />
@@ -785,7 +813,7 @@ export default class Tdetail extends React.Component{
                                   <TextareaItem editable={dis} 
                                                 rows={4}
                                                 placeholder="请输入内容..." 
-                                                  defaultValue={itemMsg[i-1]}
+                                                  defaultValue={this.getchecked(getAllTempanyId[i])}
                                                   onChangeText={(v)=>this.handleInput(getAllTempanyId[i],v)}
                                                   autoHeight 
                                                   style={{ paddingVertical: 5,
