@@ -6,7 +6,6 @@ export default class HttpUtils{
                 .then(response=>response.json())//把数据解析成json格式,然后取出
                 .then(result=>{
                        resolve(result);//表示完成
-                       console.log(result,'kcuf')
                 })
                 .catch(error=>{
                         reject(error);
@@ -25,12 +24,11 @@ export default class HttpUtils{
                     'Content-Type': 'application/x-www-form-urlencoded'
                 },
                 Origin: "xxxx",
-                body:JSON.stringify(data)
+                // body:JSON.stringify(data)
             })//返回 服务器处理的结果
                 .then(response=>response.json())
                 .then(result=>{
                     resolve(result);
-                    console.log(result)
                 })
                 .catch(error=> {
                     reject(error);

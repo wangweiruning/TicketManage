@@ -1,9 +1,10 @@
 import React from 'react';
-import {View,TouchableOpacity,Text,Alert,ToastAndroid,Platform,BackHandler,DeviceEventEmitter,Image} from 'react-native';
+import {View,TouchableOpacity,Text,Alert,ToastAndroid,Platform,BackHandler,DeviceEventEmitter,Image,TextInput} from 'react-native';
 import {InputItem,ActivityIndicator,Toast} from 'antd-mobile-rn';
 import {login} from '../api/api';
 import MySorage from '../api/storage';
 import {StackActions, NavigationActions} from 'react-navigation';
+import {TextInputLayout} from 'rn-textinputlayout';
 const resetAction = StackActions.reset({
     index: 0,
     actions: [NavigationActions.navigate({ routeName: 'Tab' })],
@@ -13,8 +14,8 @@ export default class Login extends React.Component{
          super(props);
          MySorage._getStorage();
          this.state={
-            user:'techlab',
-            pass:'Whu2008',
+            user:'www',
+            pass:'000000',
             result:{},
             loading:false
         }
@@ -23,22 +24,22 @@ export default class Login extends React.Component{
      componentDidMount () {
         MySorage._getStorage()
             // 添加监听进入登陆页然后禁止用户点击返回键返回主页面
-            // this.viewDidAppear = this.props.navigation.addListener(
-            //     'willFocus',(obj)=>{
-            //         if (Platform.OS === 'android') {
-            //             BackHandler.addEventListener("hardwareBackPress", this.onBackClicked);
-            //         }
-            //     }
-            //  );
+            this.viewDidAppear = this.props.navigation.addListener(
+                'willFocus',(obj)=>{
+                    if (Platform.OS === 'android') {
+                        BackHandler.addEventListener("hardwareBackPress", this.onBackClicked);
+                    }
+                }
+             );
     
-            //  // 添加监听登陆页界面被销毁之后恢复返回键的效果
-            //  this.viewDidAppear1 = this.props.navigation.addListener(
-            //     'willBlur',(obj)=>{
-            //         if (Platform.OS === 'android') {
-            //             BackHandler.removeEventListener("hardwareBackPress", this.onBackClicked)
-            //         }
-            //     }
-            //  );
+             // 添加监听登陆页界面被销毁之后恢复返回键的效果
+             this.viewDidAppear1 = this.props.navigation.addListener(
+                'willBlur',(obj)=>{
+                    if (Platform.OS === 'android') {
+                        BackHandler.removeEventListener("hardwareBackPress", this.onBackClicked)
+                    }
+                }
+             );
      } 
 
      onBackClicked = () => {
@@ -55,8 +56,11 @@ export default class Login extends React.Component{
         this.setState({
             loading:true
         })
+        let idata = data
+        console.log(idata,'iiiiiiiiiiiiiiiii')
         try{
-         let datas =`?form.user=${data.username}&form.pass=${data.password}&code=50ACD07A6C49F3B9E082EF40461AC6D1`; 
+         let datas =`?form.user=${data.username}&form.pass=${data.password}&code=50ACD07A6C49F3B9E082EF40461AC6D1`;
+         console.log(datas,'iiiiiiiiiiiiiiiii')
          let result = await login(datas)
          if(result.form.status == 0){
              Alert.alert('',result.form.targetresult,[{text:'是',onPress:this.opntion2Selected}])
@@ -65,7 +69,7 @@ export default class Login extends React.Component{
             })
           }
          else{
-         console.log(result.form)
+         console.log(JSON.stringify(result))
          window.jconfig.userinfo=result.form;
          MySorage._sava("userinfo", JSON.stringify(result.form));
          ToastAndroid.show(result.form.targetresult,ToastAndroid.SHORT)
@@ -77,6 +81,7 @@ export default class Login extends React.Component{
         }catch(e){
             Toast.fail("服务器开小差了~~",3,null,true)
             alert(e)
+            console.log(e)
             this.setState({
                 loading:false
             })
@@ -85,7 +90,7 @@ export default class Login extends React.Component{
 
      handleInput(k, v){
         this.setState({
-            [k]: v
+            [k]:v
         });
     }
       
@@ -115,15 +120,25 @@ export default class Login extends React.Component{
         </View>
           <View style={{marginTop:"30%",alignItems:'center'}}>
           <Text style={{fontWeight:'500',color:'white',fontSize:20}}>瑞智一体化两票管理系统</Text>
-           <View style={{flexDirection:'row',alignItems:'center',backgroundColor:'white',marginTop:15,elevation:3}}>
-               <Image source={require('../images/login-username.png')} style={{width:20,left:8}} resizeMode = 'contain'/>
-               <InputItem placeholder="账号" defaultValue={this.state.user} onChange={(v)=>this.handleInput('user',v)} style={{width:'85%'}}/>
+           <View style={{flexDirection:'row',alignItems:'flex-end',marginTop:15,height:60}}>
+               <Image source={require('../images/login-username.png')} style={{width:25,top:10,marginRight:5}} resizeMode = 'contain'/>
+               {/* <InputItem placeholder="账号" defaultValue={this.state.user} onChange={(e)=>this.handleInput('user',e)} style={{width:'85%'}}/> */}
+            <TextInputLayout focusColor='white' style={{width:'82%'}}>
+                    <TextInput style={{fontSize:16,height:40,color:'white'}} defaultValue={this.state.user}
+                        placeholder={'账号'} onChangeText={(e)=>this.handleInput('user',e)}
+                    />
+            </TextInputLayout>
            </View>
-           <View style={{flexDirection:'row',alignItems:'center',backgroundColor:'white',marginTop:15,elevation:3}}>
-               <Image source={require('../images/login-password.png')} style={{width:20,left:8}} resizeMode = 'contain'/>
-               <InputItem type="password" defaultValue={this.state.pass} placeholder="密码" onChange={(v)=>this.handleInput('pass',v)} style={{width:'85%'}}/>
+           <View style={{flexDirection:'row',alignItems:'flex-end',marginTop:15,height:60}}>
+               <Image source={require('../images/login-password.png')} style={{width:25,top:10,marginRight:5}} resizeMode = 'contain'/>
+               {/* <InputItem type="password" defaultValue={this.state.pass} placeholder="密码" onChange={(e)=>this.handleInput('pass',e)} style={{width:'85%'}}/> */}
+            <TextInputLayout focusColor='white' style={{width:'82%'}}>
+                    <TextInput style={{fontSize:16,height:40,color:'white'}} defaultValue={this.state.pass}
+                        placeholder={'密码'} secureTextEntry={true} onChangeText={(e)=>this.handleInput('pass',e)}
+                    />
+            </TextInputLayout>
            </View>
-           <TouchableOpacity disabled={this.state.loading?true:false} onPress={()=>this.submitgo({username,password,code:'50ACD07A6C49F3B9E082EF40461AC6D1'})} 
+           <TouchableOpacity disabled={this.state.loading?true:false} onPress={()=>this.submitgo({username,password})} 
                style={{elevation:3,marginTop:15,justifyContent:'center',alignItems:'center',width:'80%',backgroundColor:this.state.loading?'lightgray':'#00a6e7',borderRadius:5,height:40}}>
           <Text style={{color:'white',fontSize:20}}>登录</Text>
         </TouchableOpacity>
