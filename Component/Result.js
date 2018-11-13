@@ -272,7 +272,6 @@ export default class Tdetail extends React.Component{
     } 
     }
     getSelect(e,value,datalist){
-        console.log(value,datalist)
         let s ={[datalist]:[value]};
         let ss="";
         /***
@@ -329,14 +328,6 @@ export default class Tdetail extends React.Component{
         let sss = this.state.havChangeList;
         let index=0;
         if (sss.length>0 && !this.props.navigation.state.params.canot) {
-            // sss.forEach(item=>{
-            //     if(item.IsConfirm==1){
-            //         this.setState({
-            //             [iscofrom]:true
-            //         })
-            //     }
-            // })
-
              index = sss.findIndex((v)=>{
                  return v.TicketParaID == asd;
            });
@@ -716,15 +707,13 @@ export default class Tdetail extends React.Component{
         })
         
         if(itemm!=-1){
-            return values[indexid]?values[indexid]:""
+            return values[indexid]?values[indexid]:null
         }else{
-            return '请输入内容...'
+            return null;
         }
     }
     render(){
-        let itemMsg = this.isChange();
         let getAllTempanyId=this.state.getAllTempanyId;
-         console.log(this.state.pagedata,getAllTempanyId,"pppppppppppppppppppp")
         return(<View style={{justifyContent:'center'}}>
                     <TicketTitle navigation={this.props.navigation} num={this.state.nnnmmm}
                         centerText={this.props.navigation.state.params.typeName+""+this.props.navigation.state.params.ticketNum}/>
@@ -765,8 +754,8 @@ export default class Tdetail extends React.Component{
                             </View>
                             {   v.ParaTypeID==4? 
                                 <DropdownCheckbox open={this.openothers.bind(this)} isshow={!dis} 
-                                leixin={getAllTempanyId[i]}
-                                defaultValue={this.getchecked(v.TicketParaID)} style={{backgroundColor:'white',height:50}}  TextColor={{color:'black',fontSize:18}} 
+                                leixin={v.TicketParaID}
+                                defaultValue={this.getGzryName(v.TicketParaID)} style={{backgroundColor:'white',height:50}}  TextColor={{color:'black',fontSize:18}} 
                                 SelectData={v.ParaName=="班组"?this.state.searchRole:this.state.searchRole} canClick={dis}/>
                                 :v.ParaTypeID==3?
                                  <ModalDropdown 
@@ -777,20 +766,20 @@ export default class Tdetail extends React.Component{
                                     style={{backgroundColor:!dis?'#cccfff':"#fffeee",width:'100%',
                                     height:29.3,justifyContent:'center'}} 
                                     defaultValue={this.getGzryName(v.TicketParaID)} 
-                                    onSelect={(e,value)=>this.getSelect(e,value,getAllTempanyId[i])}
+                                    onSelect={(e,value)=>this.getSelect(e,value,v.TicketParaID)}
                                     options={this.BackpageUseName()}/>  
                                 :v.ParaTypeID==2?
                                 <View>
                                    <TextInput  
-                                    value={this.getchecked(getAllTempanyId[i])}
+                                    value={this.getchecked(v.TicketParaID)}
                                     editable={dis}  placeholder="请输入内容..."
-                                    onChangeText={(v)=>this.handleInput(getAllTempanyId[i],v)} 
+                                    onChangeText={(v)=>this.handleInput(v.TicketParaID,v)} 
                                     style={{borderRadius:5,width:'100%',backgroundColor:dis?"#fffeee":"#cccfff"}} />
                                         {v.IsConfirm==1?<View style={{flexDirection:'row',margin:5}}>
                                         <CheckBox
                                            label={'是否已执行'}
-                                           checked={this.getddds(getAllTempanyId[i]+'_1')}
-                                           onChange={(e)=>this.onChangecoform(getAllTempanyId[i]+'_1',e) }
+                                           checked={this.getddds(v.TicketParaID+'_1')}
+                                           onChange={(e)=>this.onChangecoform(v.TicketParaID+'_1',e) }
                                            underlayColor={"transparent"}
                                            disabled={!dis}
                                         ></CheckBox></View>:<Text></Text>}
@@ -798,7 +787,7 @@ export default class Tdetail extends React.Component{
                                 ?
                                 <DatePicker      
                                 style={{width:"100%",backgroundColor:dis?"#fffeee":"#cccfff"}}        
-                                date={itemMsg[i-1]?itemMsg[i-1]:null} 
+                                date={this.getchecked(v.TicketParaID)} 
                                 mode="datetime"        
                                 format="YYYY-MM-DD HH:mm"         
                                 confirmBtnText="确定"        
@@ -807,14 +796,14 @@ export default class Tdetail extends React.Component{
                                 disabled={!dis} 
                                 minDate={new Date(2015, 1, 1)}
                                 placeholder="请选择时间"      
-                                onDateChange={(value)=>this.onChange(getAllTempanyId[i],value)}/>
+                                onDateChange={(value)=>this.onChange(v.TicketParaID,value)}/>
                                 :v.ParaTypeID==6?
                                 <View>
                                   <TextareaItem editable={dis} 
                                                 rows={4}
                                                 placeholder="请输入内容..." 
-                                                  defaultValue={this.getchecked(getAllTempanyId[i])}
-                                                  onChangeText={(v)=>this.handleInput(getAllTempanyId[i],v)}
+                                                  defaultValue={this.getchecked(v.TicketParaID)}
+                                                  onChangeText={(v)=>this.handleInput(v.TicketParaID,v)}
                                                   autoHeight 
                                                   style={{ paddingVertical: 5,
                                                     borderBottomWidth:2,
@@ -823,8 +812,8 @@ export default class Tdetail extends React.Component{
                                 {v.IsConfirm==1?<View style={{flexDirection:'row',margin:5}}>
                                 <CheckBox
                                 label={'是否已执行'}
-                                checked={this.getddds(getAllTempanyId[i]+'_1')}
-                                onChange={(e)=>this.onChangecoform(getAllTempanyId[i]+'_1',e) }
+                                checked={this.getddds(v.TicketParaID+'_1')}
+                                onChange={(e)=>this.onChangecoform(v.TicketParaID+'_1',e) }
                                 underlayColor={"transparent"}
                                 disabled={!dis}
                                         ></CheckBox></View>:<Text></Text>}
