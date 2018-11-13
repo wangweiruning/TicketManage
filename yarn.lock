@@ -4828,6 +4828,12 @@ rmc-tabs@~1.2.0:
     babel-runtime "6.x"
     rc-gesture "~0.0.18"
 
+rn-textinputlayout@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/rn-textinputlayout/-/rn-textinputlayout-1.0.5.tgz#46fe3ce67acea9df977d403106203b7733b00907"
+  dependencies:
+    prop-types "^15.6.0"
+
 rn-topview@^0.1.6:
   version "0.1.6"
   resolved "http://registry.npm.taobao.org/rn-topview/download/rn-topview-0.1.6.tgz#b1b1216caf730f8547cd23c9b918ad0288454b11"
