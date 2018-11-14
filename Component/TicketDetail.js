@@ -58,7 +58,8 @@ export default class Tdetail extends React.Component{
             group:[],
             userData:[],
             basicInfoId:"",
-            getAllTempanyId:[]
+            getAllTempanyId:[],
+            ischanges:false
         }
     }
 
@@ -226,33 +227,59 @@ export default class Tdetail extends React.Component{
         })
     }
 
-    async openothers(val,leixing){
+    async openothers(val,leixing,banzu){
         let display = [];
         let datas=[];
-        let alljsitem = Object.keys(val).join(",");
+        console.log(val,"vvvvvvvvvvvvvvvv")
+        let alljsitem = Object.keys(val);
+        let alljsv = Object.values(val);
+        let tts=[];
+        let params=[];
+        let tindex = alljsv.findIndex((item,index)=>{
+            if(item!=""){
+                tts.push({[alljsitem[index]]:alljsv[index]});
+            }
+        })
+        console.log(tts,"ttttttttttt")
+
+        tts.map(item=>{
+            params.push(Object.keys(item)[0])
+        })
+        // if(tindex!=-1){
+        //     alljsitem[tts]
+        // }
         this.state.Department.map(item=>{
             if(alljsitem.indexOf(item.DepartmentID) != -1){
                 datas.push(item.DepartmentID)  
             }
         })
 
-        let alljsi = datas.join(",");
+        let alljsi = params.join(",");
         for(let i in val){
             if(val[i]){
                 display.push(val[i]);
             }
         };
         let s ={[leixing]:display.join(",")};
-        let y = alljsi==''?`?form.departmentId=`:`?form.departmentId=${alljsi}`
+       
+        if(banzu=="班组"){
+            console.log(banzu,alljsi,"eeeeeeeeeeeeeeeee")
+        let y = alljsi==''? `?form.departmentId=`:`?form.departmentId=${alljsi}`
         let Team =await ForDepartment(y)
+        this.setState({ParaId:[]},()=>{
+            this.state.ischanges=true;
+            this.state.ParaId=Team.form.dataList;
+            this.forceUpdate()
+        })
+    }else{
+        this.state.ischanges=false;
+        this.forceUpdate()
+    }
         let ss ={[leixing]:datas};
         let data = Object.assign(this.state.pagedata,s)
         let data1 = Object.assign(this.state.newpagedata,ss)
-        this.setState({
-            ParaId:Team.form.dataList,
-            pagedata: data,
-            newpagedata:data1
-        });
+        this.state.pagedata= data;
+        this.state.newpagedata=data1;
         this.forceUpdate()
     }
 
@@ -444,8 +471,13 @@ export default class Tdetail extends React.Component{
               </View>
                {      
                   v.ParaTypeID==4? 
-                  <TicketDropdownCheckBox isshow={dis} open={this.openothers.bind(this)} style={{backgroundColor:'white',height:50}} 
-                  TextColor={{color:'black',fontSize:13,backgroundColor:dis?"#fffeee":"#cccfff"}} SelectData={v.ParaName=="班组"?this.state.Department:this.state.ParaId} leixin={getAllTempanyId[i]}/>: 
+                  <TicketDropdownCheckBox isshow={dis}
+                   open={this.openothers.bind(this)} style={{backgroundColor:'white',height:50}} 
+                   ischanges={this.state.ischanges}
+                  TextColor={{color:'black',fontSize:13,backgroundColor:dis?"#fffeee":"#cccfff"}} 
+                  SelectData={v.ParaName=="班组"?this.state.Department:this.state.ParaId} 
+                  banzu={v.ParaName}
+                  leixin={getAllTempanyId[i]}/>: 
                   v.ParaTypeID==3?
                   <ModalDropdown 
                   dropdownTextStyle={{fontSize:15}}
