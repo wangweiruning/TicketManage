@@ -4,7 +4,6 @@ import * as Animatable from 'react-native-animatable';
 import {View,Text,Image,TouchableOpacity,Modal,TextInput,FlatList} from 'react-native';
 
 
-
 export default class DropdownCheckbox extends React.Component{
     constructor(props){
         super(props)
@@ -16,7 +15,8 @@ export default class DropdownCheckbox extends React.Component{
             default:this.props.defaultValue,
             activeItem:new Array(this.props.SelectData.length).fill(""),
             defaultChecked:false,
-            datas:''
+            datas:'',
+            a:1
         }
     }
     
@@ -30,16 +30,18 @@ export default class DropdownCheckbox extends React.Component{
     
     componentWillReceiveProps(nextProps){
             this.setState({default:nextProps.defaultValue,SelectData:nextProps.SelectData})
-           if(nextProps.SelectData.length>0 && nextProps.defaultValue!=undefined){
-            nextProps.SelectData.map(item=>{
-                let listOne = item.userid?item.userid:item.id;
-                let alls = nextProps.defaultValue;
-                console.log(listOne,alls,"4444444444444444444444")
-                if (alls.indexOf(listOne)!=-1) {
-                     this.state.activeItem[item.userid||item.id] = (item.realname||item.departmentName);
+            let a =this.state.a;
+           if(nextProps.SelectData.length>0 && nextProps.defaultValue!=undefined&& a==1){
+               this.state.a=this.state.a+1;
+                nextProps.SelectData.map(item=>{
+                    let listOne = item.userid?item.userid:item.DepartmentID;
+                    let alls = nextProps.defaultValue;
+                    if (alls.indexOf(listOne)!=-1) {
+                        this.state.activeItem[item.userid||item.DepartmentID] = (item.realname||item.DepartmentName);
+                        this.forceUpdate()
+                    }
+                })
                 this.forceUpdate()
-                }
-            })
         }else{
             return false;
         }
@@ -49,16 +51,20 @@ export default class DropdownCheckbox extends React.Component{
     open(){
         let activeItem = this.state.activeItem;
         let display = [];
-       console.log( typeof( activeItem),";;;;;;;;;;;;;;;;;;;;;;;;;;;")
         if(Object.keys(activeItem).length>0){
-             console.log(activeItem,"vvvvvvvvvcccccccc")
         for(let i in activeItem){
             if(activeItem[i]){
                 display.push(activeItem[i]);
             }
         };
+        
+        if(display.length>0) {
             return display.join(",");
-        }else{
+            }else{
+                return "请选择"
+            }
+        
+    }else{
             return '请选择'
         }
     }
@@ -88,7 +94,7 @@ export default class DropdownCheckbox extends React.Component{
             return;
         }else{
             for (var i = 0; i < this.props.SelectData.length; i++) {
-               if (this.props.SelectData[i].realname===text ||this.props.SelectData[i].departmentName ===text) {
+               if (this.props.SelectData[i].realname===text ||this.props.SelectData[i].DepartmentName ===text) {
                     this.setState({
                         SelectData:[this.props.SelectData[i]],
                     });
@@ -137,20 +143,24 @@ export default class DropdownCheckbox extends React.Component{
                 data = {this.state.SelectData}
                 keyExtractor={(item, index) => index.toString()}
                 renderItem={({item,index}) =>
-                <Animatable.View useNativeDriver animation="fadeInRight" easing="ease-out-quart"><View key={index} style={{marginLeft:10,marginTop:10,flexDirection:'row',padding:5,width:'95%',height:40,backgroundColor:'white',borderRadius:5}}>
-                <Checkbox checked={this.state.activeItem[item.userid ||item.id]}
-                onChange={(e)=>{
-                        let s = e.target.checked;
-                        this.state.activeItem[item.userid||item.id] = s?(item.realname||item.departmentName):"";
-                        this.forceUpdate();
-                }}>
-                <Text style={{width:'100%',left:5,color:color?color:'gray',fontSize:fontSize?fontSize:18}}>{item.realname ||item.departmentName}</Text></Checkbox>
+                <Animatable.View useNativeDriver animation="fadeInRight" easing="ease-out-quart">
+                    <View key={index} 
+                          style={{marginLeft:10,marginTop:10,flexDirection:'row',padding:5,width:'95%',height:40,backgroundColor:'white',borderRadius:5}}>
+                    <Checkbox   checked={this.state.activeItem[item.userid ||item.DepartmentID]}
+                                onChange={(e)=>{
+                                        let s = e.target.checked;
+                                        this.state.activeItem[item.userid||item.DepartmentID] = s?(item.realname||item.DepartmentName):"";
+                                        this.forceUpdate();
+                                }}>
+                <Text style={{width:'100%',left:5,color:color?color:'gray',fontSize:fontSize?fontSize:18}}>
+                {item.realname ||item.DepartmentName}</Text>
+                </Checkbox>
                 </View></Animatable.View>}
                 />
                 <TouchableOpacity activeOpacity={.7} style={{justifyContent:'center',alignItems:'center',backgroundColor:'#00a6e7',height:50}} 
                     onPress={()=>{
                         this.setState({visible:false,SelectData:this.props.SelectData})
-                        this.props.open(this.state.activeItem,this.props.leixin)}
+                        this.props.open(this.state.activeItem,this.props.leixin,this.props.ParaName)}
                     }>
                     <Text style={{fontSize:18,color:'white'}}>确定</Text>
                 </TouchableOpacity>

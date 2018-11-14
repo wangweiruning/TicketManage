@@ -23,11 +23,11 @@ export default class HistoryPlan extends React.Component{
           {text: '去登陆', onPress: () => navigate('login')},
         ],
       );
-      const datas = "?form.tree_node_operation="+0;
+      const datas = "?form.tree_node_operation="+0+"&form.page.pageSize=15&form.page.curPageNo=1";
       const result = await historys(datas);
       console.log(result.form.page.dataRows,"获取历史流程")
 
-      if(result&&result.form.page.dataRows.length>0){
+      if(result){
       this.setState({
           result:result.form.page.dataRows.reverse(),//序列化：转换为一个 (字符串)JSON字符串
       });
@@ -41,7 +41,7 @@ export default class HistoryPlan extends React.Component{
 
   async gotoItem(params){
 
-    const items ="?form.jqgrid_row_selected_id="+params.id
+    const items ="?form.jqgrid_row_selected_id="+params.id;
     let getLIshi = await gethistory(items);
     let ttt = JSON.parse(getLIshi.form.dataJson);
     let sss= ttt.sendParameterList[0];
@@ -63,7 +63,7 @@ export default class HistoryPlan extends React.Component{
 
 
   render() {
-      let height = this.state.result.length * 100;
+      // let height = this.state.result.length * 100;
       return (
         <View style={{flex:1}}>
           <Title navigation={this.props.navigation} centerText={'历史流程'} />

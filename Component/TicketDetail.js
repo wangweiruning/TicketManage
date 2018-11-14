@@ -267,12 +267,12 @@ export default class Tdetail extends React.Component{
         let y = alljsi==''? `?form.departmentId=`:`?form.departmentId=${alljsi}`
         let Team =await ForDepartment(y)
         this.setState({ParaId:[]},()=>{
-            this.state.ischanges=true;
+            // this.state.ischanges=true;
             this.state.ParaId=Team.form.dataList;
             this.forceUpdate()
         })
     }else{
-        this.state.ischanges=false;
+        // this.state.ischanges=false;
         this.forceUpdate()
     }
         let ss ={[leixing]:datas};
