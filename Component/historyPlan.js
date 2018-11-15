@@ -9,7 +9,7 @@ export default class HistoryPlan extends React.Component{
     super(props);
     this.state = {
         animating: false,
-        result:'',
+        result:[],
         havenotdate:false,
         mengCard:true
     };
@@ -35,7 +35,7 @@ export default class HistoryPlan extends React.Component{
           mengCard:false
       });
     }
-    if(!result.form.dataList.length>0){
+    if(!result.form.page.dataRows.length>0){
       this.setState({
         havenotdate:true
     })
@@ -67,6 +67,7 @@ export default class HistoryPlan extends React.Component{
 
   render() {
       // let height = this.state.result.length * 100;
+      let result = this.state.result;
       return (
         <View style={{flex:1}}>
           <Title navigation={this.props.navigation} centerText={'历史流程'} />
@@ -78,7 +79,7 @@ export default class HistoryPlan extends React.Component{
                 <Text style={{color:"#ffffff",textAlign:"center",marginTop:10,fontSize:20}}>加载中</Text>
                 </View></View>}
               <ScrollView>
-                {this.state.result.length>0&&this.state.result.map((itemdata,index)=>{
+                {result.length>0&&result.map((itemdata,index)=>{
                   return <View key={index}
                   style={{marginTop:5,paddingBottom:10,paddingTop:10,width:"90%",marginLeft:20}}>
                   <Text style={{color:"#000000"}}>两票类型：{itemdata.tickettypename}</Text>

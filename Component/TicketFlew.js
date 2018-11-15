@@ -1,8 +1,9 @@
 import React from 'react';
 import { StyleSheet, Text, View,TouchableOpacity ,ScrollView,Button,Alert,ToastAndroid} from 'react-native';
 import Title from './Title'
-import {searchTicketFlow} from './../api/api'
+import {searchFlowRecord} from './../api/api'
 import MySorage from '../api/storage';
+import * as Animatable from 'react-native-animatable';
 export default class TicketFlew extends React.Component{
   constructor(props) {
     MySorage._getStorage()
@@ -22,25 +23,36 @@ export default class TicketFlew extends React.Component{
     }
     async submitgo(){
         if(!jconfig.userinfo) return ToastAndroid.show('请登录',ToastAndroid.SHORT);
-        let ghr = `?form.ticketTypeName=${this.props.navigation.state.params.centerText}`;
-        let result = await searchTicketFlow(ghr);
+        let ghr = `?form.basicInfoId=${this.props.navigation.state.params.basicInfoId}`;
+        let result = await searchFlowRecord(ghr);
         console.log(result.form.dataList,"0000000000000000000000")
                if(result&&result.form.dataList.length>0){
               this.setState({
-                  result:result.form.dataList,//序列化：转换为一个 (字符串)JSON字符串
+                  result:result.form.dataList[0].ticketstatusname=="开票"?result.form.dataList:result.form.dataList.reverse(),//序列化：转换为一个 (字符串)JSON字符串
               });
              }
 }
-
+    itemdata(time){
+        if(time==null){
+            return "0小时"
+        }else{
+        let Times = time.replace(/-/g,"/").replace(/T/,' ');
+        var endTime = new Date(Times).getTime() + 1000;
+        let tian="",shi="",fen="";
+        var syhm = Date.now()-endTime ; // 剩余毫秒
+    
+        tian = Math.floor(syhm / 1000 / 60 / 60 / 24)+"天";
+        shi = Math.floor(syhm / 1000 / 60 / 60 % 24)+"时";
+        fen = Math.floor(syhm / 1000 / 60 % 60)+"分";
+        return tian+shi+fen;
+        }
+    }
      showpage(){
         let itemdatas = this.state.result;
-        const { navigate } = this.props.navigation;
-        console.log(itemdatas)
         if (itemdatas.length>0) {
-  
             return  itemdatas.map((itemdata,i)=>{
-                return <View key={i}
-                            style={{
+                return <Animatable.View key={i} useNativeDriver animation="fadeInRight" easing="ease-out-expo">
+                <View  style={{
                                 marginTop:5,
                                 paddingBottom:10,
                                 paddingTop:10,
@@ -59,32 +71,17 @@ export default class TicketFlew extends React.Component{
                                                 ?"#a900a1":itemdata.ticketstatusname=="作废"
                                                 ?"#0880bc":itemdata.ticketstatusname=="验收"
                                                 ?"#6975a1":itemdata.ticketstatusname=="作废"
-                                                ?"#999999":"#ffffff"
+                                                ?"#999999":"red"
                                 }}>
-                        <Text style={{color:"#000000"}}>两票状态：{itemdata.ticketstatusname}</Text>
-                        <Text style={{color:"#000000"}}>负责人：{itemdata.ticketrolename}</Text>
-                        <Text style={{color:"#000000"}}>处理人：{itemdata.ticketrolename}</Text>
-                        <Text style={{color:"#000000"}}>处理周期：{itemdata.ticketrolerank}</Text>
-                        <View><Text style={{color:"#000000"}}>处理意见：{itemdata.tickettypeid}</Text></View>
-                        {/* <Button
-                            onPress={()=>this.gotoItem(itemdata)}
-                            title="查看详情"
-                            color="#406ea4"
-                            /> */}
+                        <Text style={{color:"#000000"}}>  两票状态：{itemdata.ticketstatusname}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{itemdata.ticketrolename}</Text>
+                        <Text style={{color:"#000000"}}>  处理人：{itemdata.RealName}</Text>
+                        <Text style={{color:"#000000"}}>  处理周期：{this.itemdata(itemdata.ManageTime)}</Text>
+                        <Text style={{color:"#000000"}}>  处理意见：{itemdata.RecordOption==1?'同意':itemdata.RecordOption==""?"待处理":'不同意'}</Text>
+                        <Text style={{color:"#000000"}}>  处理时间：{itemdata.ManageTime!=null?itemdata.ManageTime.replace(/T/,' '):"待处理"}</Text>
                     </View>
+                    </Animatable.View>
             })
-        } else {
-            return <View 
-            onPress={()=>this.gotoItem(itemdata)}
-            style={{marginTop:5,paddingBottom:10,paddingTop:10,width:"90%",marginLeft:20}}>
-        <Text style={{color:"#000000",textAlign:"center",marginTop:10,marginBottom:10}}>没有流程</Text>
-        {/* <Button
-            onPress={()=>this.submitgo()}
-            title="获取"
-            color="#406ea4"
-            /> */}
-    </View>
-        }
+        } 
         
      }
 
@@ -102,7 +99,7 @@ export default class TicketFlew extends React.Component{
       console.log(this.props.navigation)
     return (
       <View>
-        <Title navigation={this.props.navigation} centerText={this.props.navigation.state.params.centerText+"流程"} />
+        <Title navigation={this.props.navigation} centerText={this.props.navigation.state.params.name+"已完成流程"} />
         {/* 需要循环获取数据 */}
         <ScrollView style={{marginBottom:50}}>
         {/* <TouchableOpacity> */}

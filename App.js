@@ -18,7 +18,7 @@ import CorrelationPlan from './Component/correlationPlan';
 import HistoryPlan from './Component/historyPlan';
 import MySorage from './api/storage';
 import TicketModel from './Component/TicketModel';
-// import TicketFlew from './Component/TicketFlew';
+import TicketFlew from './Component/TicketFlew';
 import Result from './Component/Result';
 import {StackNavigator, TabBarBottom, TabNavigator,StackActions, NavigationActions} from "react-navigation";
 import {
@@ -171,15 +171,15 @@ const StackRouteConfigs={
       gesturesEnabled: true
   }
   },
-  // TicketFlew:{
-  //   screen:TicketFlew,
-  //   path:'app/TicketFlew',
-  //   header:null,
-  //   navigationOptions: {
-  //     header: null,
-  //     gesturesEnabled: true
-  // }
-  // }
+  TicketFlew:{
+    screen:TicketFlew,
+    path:'app/TicketFlew',
+    header:null,
+    navigationOptions: {
+      header: null,
+      gesturesEnabled: true
+  }
+  }
 };
 
 const StackNavigatorConfigs={
@@ -220,31 +220,16 @@ onBackAndroid = () => {
  }
 
   async getUserInfo () {
-  //  try {
-  //    console.log('_')
-  //   MySorage._load("userinfo",async (res) => {
-  //     console.log("登录信息:",res);
-  //     let info = JSON.parse(res);
-  //     // if(!info){
-  //     //   this.navigator.dispatch(resetAction);
-  //     // }
-  //     window.jconfig.userinfo=info;
-  //     console.log("sasaasasa",info)
-  //   })
-  //  } catch (error) {
-  //    console.log("rrrrrrrrrr:",error)
-  //  }
+ 
   try {
    return new Promise((s1, s2) => {
     MySorage._load("userinfo", (res) => {
-              console.log("登录信息:",res);
       let info = JSON.parse(res);
       if(!info){
         this.navigator.dispatch(resetAction);
         return
       }
       window.jconfig.userinfo=info;
-      console.log("sasaasasa",info)
     });
    });}
    catch(e){

@@ -2,16 +2,18 @@ import Httpdata from './Httpdata'
 
 
 import url from './serviceAPI.config';
+import { Result } from 'antd-mobile-rn';
 //登陆
 
 
 export function login(data) {
-    return Httpdata.post({
+    return   lHttpdata.post({
         url: url.userLogin+data,
         method: 'post',
         dataType: "json",
-		contentType: "application/x-www-form-urlencoded",
+        contentType: "application/x-www-form-urlencoded",
     });
+    
 }
 //待处理流程
 export function awaitdeteal(data) {

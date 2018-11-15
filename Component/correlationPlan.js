@@ -11,7 +11,7 @@ export default class CorrelationPlan extends React.Component{
     super(props);
     this.state = {
         animating: false,
-        result:'',
+        result:[],
         userId:"",
         havenotdate:false,
         mengCard:true
@@ -111,6 +111,7 @@ export default class CorrelationPlan extends React.Component{
             isAlter:1,
             isqianfa:false,
             departmentid:params.departmentid,
+            ticketbasicinfoid:params.ticketbasicinfoid,
             userId:this.state.userId,
             canot:true
           })
@@ -118,6 +119,7 @@ export default class CorrelationPlan extends React.Component{
 
   render() {
 let height = this.state.result.length * 100;
+let result = this.state.result;
     return (
         <View style={{flex:1}}>
         <Title navigation={this.props.navigation} centerText={'相关流程'} />
@@ -129,7 +131,7 @@ let height = this.state.result.length * 100;
                 <Text style={{color:"#ffffff",textAlign:"center",marginTop:10,fontSize:20}}>加载中</Text>
                 </View></View>}
             <ScrollView>
-              {this.state.result.length>0&&this.state.result.map((itemdata,index)=>{
+              {result.length>0&&result.map((itemdata,index)=>{
                  return (
                   <View 
                         key={index}
