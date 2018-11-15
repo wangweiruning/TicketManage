@@ -15,13 +15,18 @@ export default class TicketDropdownCheckBox extends React.Component{
             text:'',
             activeItem:new Array(this.props.SelectData.length).fill(""),
             defaultChecked:false,
-            datas:''
+            datas:'',
+            ischanges:false,
         }
     }
     
     
     componentWillReceiveProps(nextProps){
-        this.state.SelectData=this.props.SelectData;
+        this.state.ischanges=nextProps.ischanges
+        this.state.SelectData=nextProps.SelectData;
+        if(this.props.banzu!="班组"&&this.state.ischanges){
+            this.state.activeItem=[]
+        }
         this.forceUpdate()
     }
 
@@ -122,8 +127,11 @@ export default class TicketDropdownCheckBox extends React.Component{
                 />
                 <TouchableOpacity activeOpacity={.7} style={{justifyContent:'center',alignItems:'center',backgroundColor:'#00a6e7',height:50}} 
                     onPress={()=>{
+                        if(this.props.ParaName!="班组"){
+                            this.state.ischanges=false;
+                        }
                         this.setState({visible:false,SelectData:this.props.SelectData})
-                        this.props.open(this.state.activeItem,this.props.leixin)
+                        this.props.open(this.state.activeItem,this.props.leixin,this.props.banzu)
                         this.forceUpdate();
                     }}>
                     <Text style={{fontSize:18,color:'white'}}>确定</Text>

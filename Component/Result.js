@@ -77,6 +77,7 @@ export default class Tdetail extends React.Component{
             flowRoleId:"",
             newChecked:{},//是否选中
             ParaId:[],
+            ischanges:false,
         }
     }
       async componentWillMount(){
@@ -398,7 +399,7 @@ export default class Tdetail extends React.Component{
             let y = params==''? `?form.departmentId=`:`?form.departmentId=${params.join(",")}`
             let Team =await ForDepartment(y)
             this.setState({ParaId:[]},()=>{
-                // this.state.ischanges=true;
+                this.state.ischanges=true;
                 this.state.ParaId=Team.form.dataList;
                 this.forceUpdate()
             })
@@ -408,6 +409,8 @@ export default class Tdetail extends React.Component{
                     datas.push(pagename.userid)  
                 }
             })
+            this.state.ischanges=false;
+            this.forceUpdate()
         }
 
         for(let i in val){
@@ -803,11 +806,14 @@ export default class Tdetail extends React.Component{
                                 <Text style={{color:'#3e5ed2',left:5}}>{v.ParaName}</Text>
                             </View>
                             {   v.ParaTypeID==4? 
-                                <DropdownCheckbox open={this.openothers.bind(this)} isshow={!dis} 
+                                <DropdownCheckbox open={this.openothers.bind(this)}  
+                                isshow={!dis}
                                 leixin={v.TicketParaID}
                                 ParaName={v.ParaName}
+                                getDefaultValue={v.ParaName=="班组"?false:true}
                                 defaultValue={this.getDefaultMore(v.TicketParaID,v.ParaName)} 
                                 style={{backgroundColor:'white'}}  
+                                ischanges={this.state.ischanges}
                                 TextColor={{color:'black',fontSize:18}} 
                                 SelectData={v.ParaName=="班组"?this.state.groupName:this.state.ParaId} canClick={dis}/>
                                 :v.ParaTypeID==3?
@@ -834,7 +840,7 @@ export default class Tdetail extends React.Component{
                                            checked={this.getddds(v.TicketParaID+'_1')}
                                            onChange={(e)=>this.onChangecoform(v.TicketParaID+'_1',e) }
                                            underlayColor={"transparent"}
-                                           disabled={!dis}
+                                           disabled={dis}
                                         ></CheckBox></View>:<Text></Text>}
                                 </View>:v.ParaTypeID==5
                                 ?
@@ -868,7 +874,7 @@ export default class Tdetail extends React.Component{
                                 checked={this.getddds(v.TicketParaID+'_1')}
                                 onChange={(e)=>this.onChangecoform(v.TicketParaID+'_1',e) }
                                 underlayColor={"transparent"}
-                                disabled={!dis}
+                                disabled={dis}
                                         ></CheckBox></View>:<Text></Text>}
                                 </View>:<Text></Text>
                             }

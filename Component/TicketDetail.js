@@ -245,14 +245,8 @@ export default class Tdetail extends React.Component{
         tts.map(item=>{
             params.push(Object.keys(item)[0])
         })
-        // if(tindex!=-1){
-        //     alljsitem[tts]
-        // }
-        this.state.Department.map(item=>{
-            if(alljsitem.indexOf(item.DepartmentID) != -1){
-                datas.push(item.DepartmentID)  
-            }
-        })
+       
+       
 
         let alljsi = params.join(",");
         for(let i in val){
@@ -263,16 +257,25 @@ export default class Tdetail extends React.Component{
         let s ={[leixing]:display.join(",")};
        
         if(banzu=="班组"){
-            console.log(banzu,alljsi,"eeeeeeeeeeeeeeeee")
+            this.state.Department.map(item=>{
+                if(alljsitem.indexOf(item.DepartmentID) != -1){
+                    datas.push(item.DepartmentID)  
+                }
+            })
         let y = alljsi==''? `?form.departmentId=`:`?form.departmentId=${alljsi}`
         let Team =await ForDepartment(y)
         this.setState({ParaId:[]},()=>{
-            // this.state.ischanges=true;
+            this.state.ischanges=true;
             this.state.ParaId=Team.form.dataList;
             this.forceUpdate()
         })
     }else{
-        // this.state.ischanges=false;
+        this.state.ischanges=false;
+        this.state.ParaId.map(pagename=>{
+            if(alljsitem.join(",").indexOf(pagename.userid) != -1){
+                datas.push(pagename.userid)  
+            }
+        })
         this.forceUpdate()
     }
         let ss ={[leixing]:datas};
