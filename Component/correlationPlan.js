@@ -28,6 +28,7 @@ export default class CorrelationPlan extends React.Component{
         const histo = await historys("?form.tree_node_operation="+0);
         const datas = "?form.userId="+histo.form.userId+"&pageSize=10&curPage=0";
                 const result = await correation(datas);
+                console.log(result)
                        if(result&&result.form.dataList.length>0){
                       this.setState({
                           userId:histo.form.userId,
@@ -131,8 +132,7 @@ let height = this.state.result.length * 100;
                     <Text style={{color:"#000000"}}>流转人：{itemdata.manageuser}</Text>
                     <View><Text style={{color:"#000000"}}>内容：</Text></View>
                     <Text numberOfLines={10} style = {{paddingBottom:15,borderColor:"#eeeeee",borderWidth:1,borderStyle:"solid",color:"#000000"}}>{itemdata.content}</Text>
-                    <Text style={{color:"#000000"}}>等待时间：{itemdata.manageTime}</Text>
-                    <Text style={{color:"#000000"}}>流转时间：{itemdata.lastTime}</Text>
+                    <Text style={{color:"#000000"}}>处理时间：{itemdata.managetime}</Text>
                     <Button
                         onPress={()=>this.gotoItem(itemdata)}
                         title="查看详情"

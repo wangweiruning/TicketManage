@@ -16,10 +16,11 @@ import {TicketBasicInfo,
         newTiceketNum,
         searchUserForRole,
         editquanxian,
-        findbumen,
-        findgroup,
+        AllDepartment,
+        AllMangerUser,
         historys,
-        tijiao
+        tijiao,
+        ForDepartment
     } from './../api/api'
 import {StackActions, NavigationActions} from 'react-navigation';
 const resetAction = StackActions.reset({
@@ -75,6 +76,7 @@ export default class Tdetail extends React.Component{
             loading:false,
             flowRoleId:"",
             newChecked:{},//是否选中
+            ParaId:[],
         }
     }
       async componentWillMount(){
@@ -106,7 +108,7 @@ export default class Tdetail extends React.Component{
             TiceketNum:TiceketNum.form.newTicket,
             userId:userId
         })
-        
+          
            
 
         let r = '?form.jqgrid_row_selected_id='+templateID;
@@ -191,23 +193,22 @@ export default class Tdetail extends React.Component{
             
 
             //获取组名称
-            const group = "?form.tree_node_id="+departmentid+'&form.tree_node_operation=2';
-            const bumen = await findbumen(group);
+            let bumen = await AllDepartment();
             console.log(bumen,"获取部门")
-
-            //获取部门成员
-            const chengyuan = "?form.tree_node_id="+departmentid+'&form.tree_node_operation=0';
-            const groupnumber = await findgroup(chengyuan)
-            console.log(groupnumber,"获取成员")
+            let y = `?form.departmentId=`
+            let Team =await ForDepartment(y) //根据部门id获取用户
+            //获取工作负责人
+            const groupnumber = await AllMangerUser()
+            console.log(groupnumber,"获取工作负责人")
             const paramsItem = "?form.flowroleid="+ticketFlowList[0].FlowRoleID;
             const saves = await editquanxian(paramsItem);//获取可编辑内容区域
             console.log(saves.form.dataList,"获取可编辑内容区域");
                 this.setState({
                     nnnmmm:true,
-                    // groupName:bumen.form.page.dataRows,
-                    // chengyuanName:groupnumber.form.page.dataRows,
+                    groupName:bumen.form.dataList,
+                    chengyuanName:groupnumber.form.dataList,
                     havChangeList:saves.form.dataList,
-                    
+                    ParaId:Team.form.dataList
                 })
             
              //设置提交目标
@@ -278,9 +279,9 @@ export default class Tdetail extends React.Component{
  * searchRole
  *chengyuanName
  *  ***/
-        this.state.searchRole.map(pagename=>{
-            if(value==pagename.loginname){
-                ss=pagename.id
+        this.state.chengyuanName.map(pagename=>{
+            if(value==pagename.realname){
+                ss=pagename.userid
             }
         })
         let ssss = {[datalist]:ss}
@@ -363,20 +364,52 @@ export default class Tdetail extends React.Component{
         })
         this.forceUpdate()
     }
-    openothers(val,leixing){
+
+
+
+   async openothers(val,leixing,ParaName){
         let display = [];
         let datas=[];
-        /***
- * searchRole
- *chengyuanName
- *  ***/
-        let alljsitem = Object.keys(val).join(",");
-        console.log(alljsitem,leixing,"vallllllllls")
-        this.state.searchRole.map(item=>{
-            if(alljsitem.indexOf(item.id) != -1){
-                datas.push(item.id)  
+        let alljsitem = Object.keys(val);
+        let alljsv = Object.values(val);
+        let tts=[];
+        let params=[];
+         alljsv.findIndex((item,index)=>{
+            if(item!=""){
+                tts.push({[alljsitem[index]]:alljsv[index]});
             }
         })
+        tts.map(item=>{
+            params.push(Object.keys(item)[0])
+        })
+        // this.state.chengyuanName.map(item=>{
+        //     if(alljsitem.indexOf(item.userid) != -1){
+        //         datas.push(item.userid)  
+        //     }
+        // })
+        
+         if(ParaName=="班组"){
+            this.state.groupName.map(pagename=>{
+                if(alljsitem.join(",").indexOf(pagename.DepartmentID) != -1){
+                    datas.push(pagename.DepartmentID)  
+                } 
+            })
+
+            let y = params==''? `?form.departmentId=`:`?form.departmentId=${params.join(",")}`
+            let Team =await ForDepartment(y)
+            this.setState({ParaId:[]},()=>{
+                // this.state.ischanges=true;
+                this.state.ParaId=Team.form.dataList;
+                this.forceUpdate()
+            })
+        }else{
+            this.state.ParaId.map(pagename=>{
+                if(alljsitem.join(",").indexOf(pagename.userid) != -1){
+                    datas.push(pagename.userid)  
+                }
+            })
+        }
+
         for(let i in val){
             if(val[i]){
                 display.push(val[i]);
@@ -622,7 +655,28 @@ export default class Tdetail extends React.Component{
         }
     }
 
+    getDefaultMore(getAllTempanyId,ParaName){
 
+        let ggg = this.state.pagedata;
+        let indexid = 0;
+        let values = Object.values(ggg);
+        let keys = Object.keys(ggg);
+        const itemm =  keys.findIndex((item,index)=>{
+            if(item==getAllTempanyId){
+                indexid = index;
+                return true;
+            }else{
+                return false;
+            }
+        })
+        let defat = values[indexid];//获取部门/成员id
+        
+        if(itemm!=-1){
+            return defat?defat:'请选择';
+        }else{
+            return '请选择'
+        }
+    }
 
     getGzryName(getAllTempanyId){
         let users = '';
@@ -630,7 +684,7 @@ export default class Tdetail extends React.Component{
         let indexid = 0;
         let values = Object.values(ggg);
 
-        let keys = Object.values(ggg);
+        let keys = Object.keys(ggg);
         const itemm =  keys.findIndex((item,index)=>{
             if(item==getAllTempanyId){
                 indexid = index;
@@ -641,8 +695,8 @@ export default class Tdetail extends React.Component{
         })
         let defat = values[indexid];
         this.state.chengyuanName.map(pagename=>{
-            if(defat==pagename.id){
-                users= pagename.loginname
+            if(defat==pagename.userid){
+                users= pagename.realname
             }
         })
         
@@ -663,19 +717,17 @@ export default class Tdetail extends React.Component{
  *  ***/
 
         this.state.chengyuanName.map(pagename=>{
-            pageUseName.push(pagename.loginname);//loginname登录名  realname权限名
+            pageUseName.push(pagename.realname);//loginname登录名  realname权限名
         })
         return pageUseName
     }
     
 
     getddds=ddd=>{
-      
         let sdate = this.state.newChecked;
         let tt=0;
         let keys = Object.keys(sdate);
         let values = Object.values(sdate);
-        console.log(values,"hhhhhhhhhhhhhhhhhhhh")
         let index = keys.findIndex((item,i)=>{
                 if (ddd==item) {
                     tt=i;
@@ -695,7 +747,6 @@ export default class Tdetail extends React.Component{
         let indexid = 0;
         let values = Object.values(ggg);
         let keys = Object.keys(ggg);
-        console.log(keys,getAllTempanyId,"gggggggjjjjjjjjjjjjjjj")
         const itemm =  keys.findIndex((item,index)=>{
             if(item==getAllTempanyId){
                 
@@ -713,7 +764,6 @@ export default class Tdetail extends React.Component{
         }
     }
     render(){
-        let getAllTempanyId=this.state.getAllTempanyId;
         return(<View style={{justifyContent:'center'}}>
                     <TicketTitle navigation={this.props.navigation} num={this.state.nnnmmm}
                         centerText={this.props.navigation.state.params.typeName+""+this.props.navigation.state.params.ticketNum}/>
@@ -755,13 +805,16 @@ export default class Tdetail extends React.Component{
                             {   v.ParaTypeID==4? 
                                 <DropdownCheckbox open={this.openothers.bind(this)} isshow={!dis} 
                                 leixin={v.TicketParaID}
-                                defaultValue={this.getGzryName(v.TicketParaID)} style={{backgroundColor:'white',height:50}}  TextColor={{color:'black',fontSize:18}} 
-                                SelectData={v.ParaName=="班组"?this.state.searchRole:this.state.searchRole} canClick={dis}/>
+                                ParaName={v.ParaName}
+                                defaultValue={this.getDefaultMore(v.TicketParaID,v.ParaName)} 
+                                style={{backgroundColor:'white'}}  
+                                TextColor={{color:'black',fontSize:18}} 
+                                SelectData={v.ParaName=="班组"?this.state.groupName:this.state.ParaId} canClick={dis}/>
                                 :v.ParaTypeID==3?
                                  <ModalDropdown 
                                     disabled={!dis}
                                     dropdownTextStyle={{fontSize:15}}
-                                    dropdownStyle={{width:'100%',height:50}}  
+                                    dropdownStyle={{width:'100%'}}  
                                     textStyle={{color:'black',fontSize:18,left:5}} 
                                     style={{backgroundColor:!dis?'#cccfff':"#fffeee",width:'100%',
                                     height:29.3,justifyContent:'center'}} 
@@ -773,7 +826,7 @@ export default class Tdetail extends React.Component{
                                    <TextInput  
                                     value={this.getchecked(v.TicketParaID)}
                                     editable={dis}  placeholder="请输入内容..."
-                                    onChangeText={(v)=>this.handleInput(v.TicketParaID,v)} 
+                                    onChangeText={(values)=>this.handleInput(v.TicketParaID,values)} 
                                     style={{borderRadius:5,width:'100%',backgroundColor:dis?"#fffeee":"#cccfff"}} />
                                         {v.IsConfirm==1?<View style={{flexDirection:'row',margin:5}}>
                                         <CheckBox
@@ -803,7 +856,7 @@ export default class Tdetail extends React.Component{
                                                 rows={4}
                                                 placeholder="请输入内容..." 
                                                   defaultValue={this.getchecked(v.TicketParaID)}
-                                                  onChangeText={(v)=>this.handleInput(v.TicketParaID,v)}
+                                                  onChangeText={(values)=>this.handleInput(v.TicketParaID,values)}
                                                   autoHeight 
                                                   style={{ paddingVertical: 5,
                                                     borderBottomWidth:2,

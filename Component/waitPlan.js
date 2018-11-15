@@ -30,9 +30,9 @@ export default class WaitPlan extends React.Component{
           );
         }
         const histo = await historys("?form.tree_node_operation="+0);
-        const datas = "?form.userId="+histo.form.userId+"&pageSize=10&curPage=0";
+        const datas = "?form.userId="+histo.form.userId;
     const result = await awaitdeteal(datas);
-    // console.log(result.form.dataList,"1111111111111111")
+    console.log(result.form.dataList,"1111111111111111")
         this.setState({
             userId:histo.form.userId,
             dataLis:result.form.dataList.reverse()
@@ -120,6 +120,18 @@ export default class WaitPlan extends React.Component{
     </View>
     )
   }
+  awaitTime(time){
+    let Times = time.replace(/-/g,"/").replace(/T/,' ');
+    var endTime = new Date(Times).getTime() + 1000;
+    let tian="",shi="",fen="";
+    var syhm = Date.now()-endTime ; // 剩余毫秒
+   
+    tian = Math.floor(syhm / 1000 / 60 / 60 / 24)+"天";
+    shi = Math.floor(syhm / 1000 / 60 / 60 % 24)+"时";
+    fen = Math.floor(syhm / 1000 / 60 % 60)+"分";
+   
+ return tian+shi+fen;
+  }
   render() {
       let height = this.state.result.length * 100;
       let dataLis = this.state.dataLis
@@ -149,7 +161,7 @@ export default class WaitPlan extends React.Component{
                 <Text style={{color:"#000000"}}>流转人：{itemdata.manageuser}</Text>
                 <View><Text style={{color:"#000000"}}>内容：</Text></View>
                 <Text numberOfLines={10} style = {{paddingBottom:15,borderColor:"#eeeeee",borderWidth:1,borderStyle:"solid",color:"#000000"}}>{itemdata.content}</Text>
-                <Text style={{color:"#000000"}}>等待时间：{itemdata.manageTime}</Text>
+                <Text style={{color:"orange"}}>等待时间：{this.awaitTime(itemdata.lastTime)}</Text>
                 <Text style={{color:"#000000"}}>流转时间：{itemdata.lastTime}</Text>
                 <Button
                     onPress={()=>this.gotoItem(itemdata)}
