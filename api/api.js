@@ -2,12 +2,11 @@ import Httpdata from './Httpdata'
 
 
 import url from './serviceAPI.config';
-import { Result } from 'antd-mobile-rn';
 //登陆
 
 
 export function login(data) {
-    return   lHttpdata.post({
+    return  Httpdata.post({
         url: url.userLogin+data,
         method: 'post',
         dataType: "json",

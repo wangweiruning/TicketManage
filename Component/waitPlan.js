@@ -127,8 +127,8 @@ export default class WaitPlan extends React.Component{
     let Times = time.replace(/-/g,"/").replace(/T/,' ');
     var endTime = new Date(Times).getTime() + 1000;
     let tian="",shi="",fen="";
-    var syhm = Date.now()-endTime ; // 剩余毫秒
-   
+    var syhm = Date.now() -endTime ; // 剩余毫秒
+   console.log(syhm,"syhmsyhmsyhmsyhm")
     tian = Math.floor(syhm / 1000 / 60 / 60 / 24)+"天";
     shi = Math.floor(syhm / 1000 / 60 / 60 % 24)+"时";
     fen = Math.floor(syhm / 1000 / 60 % 60)+"分";
