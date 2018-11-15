@@ -129,7 +129,16 @@ this.state.ischanges=nextProps.ischanges
                 <Checkbox checked={this.state.activeItem[item.userid || item.DepartmentID]}
                 onChange={(e)=>{
                         let s = e.target.checked;
-                        this.state.activeItem[item.userid || item.DepartmentID] = s?item.realname || item.DepartmentName:'';
+                        console.log(s,"fffffffffffffffffff")
+                        if(this.props.ParaName!="班组"){
+                            this.state.ischanges=false;
+                        }
+                        if(s){
+                            this.state.activeItem[item.userid || item.DepartmentID] = s?item.realname || item.DepartmentName:'';
+                        }else{
+                            this.state.activeItem=[]
+                        }
+                        
                         console.log(this.state.activeItem,"ffffffffffff")
                         this.forceUpdate();
                 }}>
@@ -138,9 +147,7 @@ this.state.ischanges=nextProps.ischanges
                 />
                 <TouchableOpacity activeOpacity={.7} style={{justifyContent:'center',alignItems:'center',backgroundColor:'#00a6e7',height:50}} 
                     onPress={()=>{
-                        if(this.props.ParaName!="班组"){
-                            this.state.ischanges=false;
-                        }
+                        
                         this.setState({visible:false,SelectData:this.props.SelectData})
                         this.props.open(this.state.activeItem,this.props.leixin,this.props.banzu)
                         this.forceUpdate();

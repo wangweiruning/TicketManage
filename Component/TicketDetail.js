@@ -255,7 +255,7 @@ export default class Tdetail extends React.Component{
             }
         };
         let s ={[leixing]:display.join(",")};
-       
+       console.log(s,"eeeeeeeeeeeeeeeeee")
         if(banzu=="班组"){
             this.state.Department.map(item=>{
                 if(alljsitem.indexOf(item.DepartmentID) != -1){
