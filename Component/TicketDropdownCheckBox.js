@@ -21,26 +21,39 @@ export default class TicketDropdownCheckBox extends React.Component{
     
     
     componentWillReceiveProps(nextProps){
-        this.state.SelectData=this.props.SelectData;
+        this.setState({SelectData:this.props.SelectData})
+        // this.state.;
         this.forceUpdate()
     }
-
 
     open(){
         let activeItem = this.state.activeItem;
         let display = [];
+        if(this.props.ischanges&&this.props.banzu!=='班组'){
+            activeItem =[];
+        }
         for(let i in activeItem){
             if(activeItem[i]){
                 display.push(activeItem[i]);
             }
-        };
+        }
         console.log(display,'displaydisplaydisplay')
         if(display.length>0){
             return display.join(",");
         }else{
-            return '请选择'
+            return '==请选择=='
         }
     }
+
+    // nulls(item){
+    //     if(this.props.ischanges&&this.props.banzu!=='班组'){
+    //         console.log(item.userid,';;;;;;;;;;;;;;;')
+    //       return  this.state.activeItem[item.userid=='' || item.DepartmentID=='']
+    //     }else{
+    //         console.log(item.userid,';;;;;;;;;;;;;;;')
+    //         return  this.state.activeItem[item.userid || item.DepartmentID]
+    //     }
+    // }
 
     onChanegeTextKeyword(text){
         this.timeA(text);
@@ -70,7 +83,6 @@ export default class TicketDropdownCheckBox extends React.Component{
                 SelectData:[]
               });
         }
-
         }
         }
         });
@@ -123,7 +135,7 @@ export default class TicketDropdownCheckBox extends React.Component{
                 <TouchableOpacity activeOpacity={.7} style={{justifyContent:'center',alignItems:'center',backgroundColor:'#00a6e7',height:50}} 
                     onPress={()=>{
                         this.setState({visible:false,SelectData:this.props.SelectData})
-                        this.props.open(this.state.activeItem,this.props.leixin)
+                        this.props.open(this.state.activeItem,this.props.leixin,this.props.banzu)
                         this.forceUpdate();
                     }}>
                     <Text style={{fontSize:18,color:'white'}}>确定</Text>
