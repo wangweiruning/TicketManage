@@ -2,6 +2,7 @@ import React from 'react';
 import {Text, View,ScrollView ,Alert,Button} from 'react-native';
 import {historys,gethistory} from './../api/api'
 import Title from './Title'
+import {ActivityIndicator } from 'antd-mobile-rn';
 import PageListView from './PageListView'
 export default class HistoryPlan extends React.Component{
   constructor(props) {
@@ -10,6 +11,7 @@ export default class HistoryPlan extends React.Component{
         animating: false,
         result:'',
         havenotdate:false,
+        mengCard:true
     };
   }
 
@@ -30,6 +32,7 @@ export default class HistoryPlan extends React.Component{
       if(result){
       this.setState({
           result:result.form.page.dataRows.reverse(),//序列化：转换为一个 (字符串)JSON字符串
+          mengCard:false
       });
     }
     if(!result.form.dataList.length>0){
@@ -69,6 +72,11 @@ export default class HistoryPlan extends React.Component{
           <Title navigation={this.props.navigation} centerText={'历史流程'} />
           {/* 需要循环获取数据 */}
               <View style={{flex:1,backgroundColor:"#ffffff"}}>
+              {this.state.mengCard&&<View style={{display:"flex",flexDirection:"column",zIndex:444,width:"100%",height:"100%",backgroundColor:"gray"}}>
+              <View style={{marginTop:"50%"}}>
+                <ActivityIndicator color="#ffffff"/>
+                <Text style={{color:"#ffffff",textAlign:"center",marginTop:10,fontSize:20}}>加载中</Text>
+                </View></View>}
               <ScrollView>
                 {this.state.result.length>0&&this.state.result.map((itemdata,index)=>{
                   return <View key={index}

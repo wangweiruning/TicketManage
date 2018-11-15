@@ -3,6 +3,7 @@ import { StyleSheet, Text, View,TouchableOpacity,ScrollView,Button,ToastAndroid,
 import Title from './Title'
 import {correation,historys} from './../api/api'
 import MySorage from '../api/storage';
+import {ActivityIndicator } from 'antd-mobile-rn';
 import PageListView from './PageListView'
 export default class CorrelationPlan extends React.Component{
   constructor(props) {
@@ -12,7 +13,8 @@ export default class CorrelationPlan extends React.Component{
         animating: false,
         result:'',
         userId:"",
-        havenotdate:false
+        havenotdate:false,
+        mengCard:true
         };
       }
     async  componentWillMount(){
@@ -33,6 +35,7 @@ export default class CorrelationPlan extends React.Component{
                       this.setState({
                           userId:histo.form.userId,
                           result:result.form.dataList,//序列化：转换为一个 (字符串)JSON字符串
+                          mengCard:false
                       });
                      }
                      if(!result.form.dataList.length>0){
@@ -71,7 +74,8 @@ export default class CorrelationPlan extends React.Component{
                    if(result&&result.form.dataList.length>0){
                   this.setState({
                       result:result.form.dataList.reverse(),//序列化：转换为一个 (字符串)JSON字符串
-                      havenotdate:true
+                      havenotdate:true,
+                      mengCard:flase
                   });
                  }
   }
@@ -119,6 +123,11 @@ let height = this.state.result.length * 100;
         <Title navigation={this.props.navigation} centerText={'相关流程'} />
         {/* 需要循环获取数据 */}
             <View style={{flex:1,backgroundColor:"#ffffff"}}>
+            {this.state.mengCard&&<View style={{display:"flex",flexDirection:"column",zIndex:444,width:"100%",height:"100%",backgroundColor:"gray"}}>
+            <View style={{marginTop:"50%"}}>
+                <ActivityIndicator color="#ffffff"/>
+                <Text style={{color:"#ffffff",textAlign:"center",marginTop:10,fontSize:20}}>加载中</Text>
+                </View></View>}
             <ScrollView>
               {this.state.result.length>0&&this.state.result.map((itemdata,index)=>{
                  return (
@@ -132,7 +141,7 @@ let height = this.state.result.length * 100;
                     <Text style={{color:"#000000"}}>流转人：{itemdata.manageuser}</Text>
                     <View><Text style={{color:"#000000"}}>内容：</Text></View>
                     <Text numberOfLines={10} style = {{paddingBottom:15,borderColor:"#eeeeee",borderWidth:1,borderStyle:"solid",color:"#000000"}}>{itemdata.content}</Text>
-                    <Text style={{color:"#000000"}}>处理时间：{itemdata.managetime}</Text>
+                    <Text style={{color:"#000000"}}>处理时间：{itemdata.managetime.replace(/T/,' ')}</Text>
                     <Button
                         onPress={()=>this.gotoItem(itemdata)}
                         title="查看详情"

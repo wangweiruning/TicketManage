@@ -1,7 +1,8 @@
 import React from 'react';
-import {  Text, View,TouchableOpacity ,Button,Alert,ScrollView} from 'react-native';
+import {  Text, View ,Button,Alert,ScrollView} from 'react-native';
 import Title from './Title'
 import {awaitdeteal,historys} from './../api/api'
+import {ActivityIndicator } from 'antd-mobile-rn';
 import MySorage from '../api/storage';
 import PageListView from './PageListView'
 import * as Animatable from 'react-native-animatable';
@@ -15,6 +16,7 @@ export default class WaitPlan extends React.Component{
       userId:"",
       dataLis:[],
       havenotdate:false,
+      mengCard:true
     };
   }
     async componentWillMount(){
@@ -35,7 +37,8 @@ export default class WaitPlan extends React.Component{
     console.log(result.form.dataList,"1111111111111111")
         this.setState({
             userId:histo.form.userId,
-            dataLis:result.form.dataList.reverse()
+            dataLis:result.form.dataList.reverse(),
+            mengCard:false
         })
         if(!result.form.dataList.length>0){
           this.setState({
@@ -148,6 +151,12 @@ export default class WaitPlan extends React.Component{
                 loadMore={this._loadMore.bind(this)}
             />:<Text style={{textAlign:"center",marginTop:20}}>还没有任何数据</Text>
             } */}
+            {this.state.mengCard&&<View style={{display:"flex",flexDirection:"column",zIndex:444,width:"100%",height:"100%",backgroundColor:"gray"}}>
+                <View style={{marginTop:"50%"}}>
+                <ActivityIndicator color="#ffffff"/>
+                <Text style={{color:"#ffffff",textAlign:"center",marginTop:10,fontSize:20}}>加载中</Text>
+                </View>
+                </View>}
             <ScrollView>
          {  dataLis.length>0&&dataLis.map((itemdata,index)=>{
              return (
@@ -162,7 +171,7 @@ export default class WaitPlan extends React.Component{
                 <View><Text style={{color:"#000000"}}>内容：</Text></View>
                 <Text numberOfLines={10} style = {{paddingBottom:15,borderColor:"#eeeeee",borderWidth:1,borderStyle:"solid",color:"#000000"}}>{itemdata.content}</Text>
                 <Text style={{color:"orange"}}>等待时间：{this.awaitTime(itemdata.lastTime)}</Text>
-                <Text style={{color:"#000000"}}>流转时间：{itemdata.lastTime}</Text>
+                <Text style={{color:"#000000"}}>流转时间：{itemdata.lastTime.replace(/T/,' ')}</Text>
                 <Button
                     onPress={()=>this.gotoItem(itemdata)}
                     title="查看详情"
