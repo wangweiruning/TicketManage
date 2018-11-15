@@ -32,9 +32,7 @@ export default class MySorage extends Component {
                 // 或是在任何时候，直接对storage.sync进行赋值修改
                 sync: SYNC  // 这个sync文件是要你自己写的
             });
-            console.log("store1:",storage);
         }
-
         return storage;
     }
 
@@ -46,7 +44,6 @@ export default class MySorage extends Component {
      */
 
     static _sava3(key, object, expires) {
-        console.log("----save3");
         this.isInit();
         storage.save({
             key: key,  // 注意:请不要在key中使用_下划线符号!
@@ -60,7 +57,6 @@ export default class MySorage extends Component {
 
 
     static _sava(key, object) {
-        console.log("----save");
         this._sava3(key, object, defaultExpires);
     }
 
@@ -113,7 +109,6 @@ export default class MySorage extends Component {
                 someFlag: someFlag,
             },
         }).then(ret => {
-
             callBack(ret);
             return ret;
         }).catch(err => {
