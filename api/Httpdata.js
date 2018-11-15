@@ -25,12 +25,10 @@ export default class HttpUtils{
                 // body:JSON.stringify(data)
             })//返回 服务器处理的结果
                 .then(response=>{
-                    console.log("response:",response);
                     let res=response.json();
                     return res
                 })
                 .then(result=>{
-                    console.log("result222:",result)
                     resolve(result);
                 })
                 .catch(error=> {

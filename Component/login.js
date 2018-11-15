@@ -59,9 +59,8 @@ export default class Login extends React.Component{
         })
         try{
          let datas =`?form.user=${data.username}&form.pass=${data.password}&code=50ACD07A6C49F3B9E082EF40461AC6D1`;
-         console.log(datas,'iiiiiiiiiiiiiiiii')
+         
          let result = await login(datas)
-         console.log("result1111",result)
          if(result.form.status == 0){
              Alert.alert('',result.form.targetresult,[{text:'是',onPress:this.opntion2Selected}])
              this.setState({
@@ -69,7 +68,6 @@ export default class Login extends React.Component{
             })
           }
          else{
-         console.log(JSON.stringify(result))
          window.jconfig.userinfo=result.form;
          MySorage._sava("userinfo", JSON.stringify(result.form));
          ToastAndroid.show(result.form.targetresult,ToastAndroid.SHORT)
@@ -80,8 +78,7 @@ export default class Login extends React.Component{
         });
         }catch(e){
             Toast.fail("服务器开小差了~~",3,null,true)
-            alert(e)
-            console.log(e)
+            
             this.setState({
                 loading:false
             })
