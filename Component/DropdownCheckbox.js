@@ -16,7 +16,8 @@ export default class DropdownCheckbox extends React.Component{
             activeItem:new Array(this.props.SelectData.length).fill(""),
             defaultChecked:false,
             datas:'',
-            a:1
+            a:1,
+            ischanges:false,
         }
     }
     
@@ -29,19 +30,23 @@ export default class DropdownCheckbox extends React.Component{
     } 
     
     componentWillReceiveProps(nextProps){
-            this.setState({default:nextProps.defaultValue,SelectData:nextProps.SelectData})
+            this.setState({default:nextProps.defaultValue,SelectData:nextProps.SelectData,ischanges:nextProps.ischanges})
             let a =this.state.a;
            if(nextProps.SelectData.length>0 && nextProps.defaultValue!=undefined&& a==1){
                this.state.a=this.state.a+1;
+               let alls = nextProps.defaultValue;
                 nextProps.SelectData.map(item=>{
                     let listOne = item.userid?item.userid:item.DepartmentID;
-                    let alls = nextProps.defaultValue;
                     if (alls.indexOf(listOne)!=-1) {
                         this.state.activeItem[item.userid||item.DepartmentID] = (item.realname||item.DepartmentName);
                         this.forceUpdate()
                     }
                 })
                 this.forceUpdate()
+        }else if(this.props.getDefaultValue&&this.state.ischanges){
+                    this.state.activeItem =[];
+                    this.forceUpdate()
+
         }else{
             return false;
         }
@@ -149,6 +154,9 @@ export default class DropdownCheckbox extends React.Component{
                     <Checkbox   checked={this.state.activeItem[item.userid ||item.DepartmentID]}
                                 onChange={(e)=>{
                                         let s = e.target.checked;
+                                        if(this.props.ParaName!="班组"){
+                                            this.state.ischanges=false;
+                                        }
                                         this.state.activeItem[item.userid||item.DepartmentID] = s?(item.realname||item.DepartmentName):"";
                                         this.forceUpdate();
                                 }}>

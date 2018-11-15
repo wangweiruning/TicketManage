@@ -244,14 +244,8 @@ export default class Tdetail extends React.Component{
         tts.map(item=>{
             params.push(Object.keys(item)[0])
         })
-        // if(tindex!=-1){
-        //     alljsitem[tts]
-        // }
-        this.state.Department.map(item=>{
-            if(alljsitem.indexOf(item.DepartmentID) != -1){
-                datas.push(item.DepartmentID)  
-            }
-        })
+       
+       
 
         let alljsi = params.join(",");
         for(let i in val){
@@ -262,14 +256,19 @@ export default class Tdetail extends React.Component{
         let s ={[leixing]:display.join(",")};
        
         if(banzu=="班组"){
-            console.log(banzu,alljsi,"eeeeeeeeeeeeeeeee")
+            this.state.Department.map(item=>{
+                if(alljsitem.indexOf(item.DepartmentID) != -1){
+                    datas.push(item.DepartmentID)  
+                }
+            })
         let y = alljsi==''? `?form.departmentId=`:`?form.departmentId=${alljsi}`
         let Team =await ForDepartment(y)
         this.setState({ParaId:[]},()=>{
-            this.state.ParaId=Team.form.dataList;
+                      this.state.ParaId=Team.form.dataList;
             this.forceUpdate()
         })
     }else{
+    
         this.forceUpdate()
     }
         let ss ={[leixing]:datas};
@@ -469,10 +468,12 @@ export default class Tdetail extends React.Component{
                {      
                   v.ParaTypeID==4? 
                   <TicketDropdownCheckBox isshow={dis}
+                  
                   open={this.openothers.bind(this)} style={{backgroundColor:'white',height:50}}
                   TextColor={{color:'black',fontSize:13,backgroundColor:dis?"#fffeee":"#cccfff"}} 
                   SelectData={v.ParaName=="班组"?this.state.Department:this.state.ParaId} 
                   banzu={v.ParaName}
+                
                   leixin={getAllTempanyId[i]}/>:
                   v.ParaTypeID==3?
                   <ModalDropdown 
