@@ -6,8 +6,7 @@ import url from './serviceAPI.config';
 
 
 export function login(data) {
-    return  Httpdata.post({
-        url: url.userLogin+data,
+    return   Httpdata.post({        url: url.userLogin+data,
         method: 'post',
         dataType: "json",
         contentType: "application/x-www-form-urlencoded",

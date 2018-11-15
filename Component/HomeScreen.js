@@ -1,6 +1,5 @@
 import React from 'react';
 import NavigationBar from './NavigationBar';
-import MySorage from '../api/storage';
 import {Text,View,Image,TouchableOpacity} from 'react-native';
 
 
