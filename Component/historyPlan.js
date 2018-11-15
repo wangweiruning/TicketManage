@@ -25,7 +25,7 @@ export default class HistoryPlan extends React.Component{
           {text: '去登陆', onPress: () => navigate('login')},
         ],
       );
-      const datas = "?form.tree_node_operation="+0+"&form.page.pageSize=15&form.page.curPageNo=1";
+      const datas = "?form.tree_node_operation="+0+"&form.page.pageSize=100&form.page.curPageNo=1";
       const result = await historys(datas);
       console.log(result.form.page.dataRows,"获取历史流程")
 
