@@ -21,23 +21,21 @@ export default class TicketDropdownCheckBox extends React.Component{
     
     
     componentWillReceiveProps(nextProps){
-        this.setState({SelectData:this.props.SelectData})
-        // this.state.;
+        if(this.props.SelectData != nextProps.SelectData){
+        this.state.SelectData=nextProps.SelectData;
+        this.state.activeItem = new Array(nextProps.SelectData.length).fill("");
+        }
         this.forceUpdate()
     }
 
     open(){
         let activeItem = this.state.activeItem;
         let display = [];
-        if(this.props.ischanges&&this.props.banzu!=='班组'){
-            activeItem =[];
-        }
         for(let i in activeItem){
             if(activeItem[i]){
                 display.push(activeItem[i]);
             }
         }
-        console.log(display,'displaydisplaydisplay')
         if(display.length>0){
             return display.join(",");
         }else{
@@ -107,11 +105,7 @@ export default class TicketDropdownCheckBox extends React.Component{
             <View style={{backgroundColor:'#ecf0f1',}}>
             <View style={{flexDirection:'row',alignItems:'center',borderBottomColor:'lightgray',borderStyle:'solid',borderBottomWidth:1}}>
             <Image style={{left:5,width:16, height:16}}  source={require('../images/serch.png')}/>
-            <TextInput 
-                maxLength={20}
-                multiline={true}
-                autoFocus={false}
-                onChangeText={this.onChanegeTextKeyword.bind(this)}
+            <TextInput maxLength={20} multiline={true} autoFocus={false} onChangeText={this.onChanegeTextKeyword.bind(this)}
                 style={{fontSize:13, color: '#999',overflow:'hidden',width:'95%',left:5}}
                 placeholder={"请输入"}
             />

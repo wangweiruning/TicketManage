@@ -59,7 +59,6 @@ export default class Tdetail extends React.Component{
             userData:[],
             basicInfoId:"",
             getAllTempanyId:[],
-            ischanges:false
         }
     }
 
@@ -267,12 +266,10 @@ export default class Tdetail extends React.Component{
         let y = alljsi==''? `?form.departmentId=`:`?form.departmentId=${alljsi}`
         let Team =await ForDepartment(y)
         this.setState({ParaId:[]},()=>{
-            // this.state.ischanges=true;
             this.state.ParaId=Team.form.dataList;
             this.forceUpdate()
         })
     }else{
-        // this.state.ischanges=false;
         this.forceUpdate()
     }
         let ss ={[leixing]:datas};
@@ -472,12 +469,11 @@ export default class Tdetail extends React.Component{
                {      
                   v.ParaTypeID==4? 
                   <TicketDropdownCheckBox isshow={dis}
-                  open={this.openothers.bind(this)} style={{backgroundColor:'white',height:50}} 
-                  ischanges={this.state.ischanges}
+                  open={this.openothers.bind(this)} style={{backgroundColor:'white',height:50}}
                   TextColor={{color:'black',fontSize:13,backgroundColor:dis?"#fffeee":"#cccfff"}} 
                   SelectData={v.ParaName=="班组"?this.state.Department:this.state.ParaId} 
                   banzu={v.ParaName}
-                  leixin={getAllTempanyId[i]}/>: 
+                  leixin={getAllTempanyId[i]}/>:
                   v.ParaTypeID==3?
                   <ModalDropdown 
                   dropdownTextStyle={{fontSize:15}}
