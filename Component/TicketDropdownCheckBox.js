@@ -22,30 +22,42 @@ export default class TicketDropdownCheckBox extends React.Component{
     
     
     componentWillReceiveProps(nextProps){
-        this.state.ischanges=nextProps.ischanges
+this.state.ischanges=nextProps.ischanges
         this.state.SelectData=nextProps.SelectData;
         if(this.props.banzu!="班组"&&this.state.ischanges){
             this.state.activeItem=[]
-        }
-        this.forceUpdate()
-    }
-
+        }       
+ this.forceUpdate()  
+  }
 
     open(){
         let activeItem = this.state.activeItem;
         let display = [];
+        if(this.props.ischanges&&this.props.banzu!=='班组'){
+            activeItem =[];
+        }
         for(let i in activeItem){
             if(activeItem[i]){
                 display.push(activeItem[i]);
             }
-        };
+        }
         console.log(display,'displaydisplaydisplay')
         if(display.length>0){
             return display.join(",");
         }else{
-            return '请选择'
+            return '==请选择=='
         }
     }
+
+    // nulls(item){
+    //     if(this.props.ischanges&&this.props.banzu!=='班组'){
+    //         console.log(item.userid,';;;;;;;;;;;;;;;')
+    //       return  this.state.activeItem[item.userid=='' || item.DepartmentID=='']
+    //     }else{
+    //         console.log(item.userid,';;;;;;;;;;;;;;;')
+    //         return  this.state.activeItem[item.userid || item.DepartmentID]
+    //     }
+    // }
 
     onChanegeTextKeyword(text){
         this.timeA(text);
@@ -75,7 +87,6 @@ export default class TicketDropdownCheckBox extends React.Component{
                 SelectData:[]
               });
         }
-
         }
         }
         });
