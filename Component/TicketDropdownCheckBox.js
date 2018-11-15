@@ -26,6 +26,7 @@ export default class TicketDropdownCheckBox extends React.Component{
         this.state.activeItem = new Array(nextProps.SelectData.length).fill("");
         }
         this.forceUpdate()
+    }
 
     open(){
         let activeItem = this.state.activeItem;
