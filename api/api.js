@@ -90,11 +90,11 @@ export function TicketBasicInfo(data) {
     })
 }
 export function moban(data) {
-    return Httpdata.get({
-        method:'GET',
-        url: url.moban+data
-        // dataType: "json",
-        // contentType: "application/x-www-form-urlencoded",
+    return Httpdata.post({
+        method:'post',
+        url: url.moban+data,
+        dataType: "json",
+        contentType: "application/x-www-form-urlencoded",
     })
 }
 
