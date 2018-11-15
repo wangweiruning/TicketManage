@@ -2,16 +2,26 @@ import Httpdata from './Httpdata'
 
 
 import url from './serviceAPI.config';
+import { Result } from 'antd-mobile-rn';
 //登陆
 
 
 export function login(data) {
-    return Httpdata.post({
+    let resultTest=Httpdata.post({
         url: url.userLogin+data,
         method: 'post',
         dataType: "json",
-		contentType: "application/x-www-form-urlencoded",
+        contentType: "application/x-www-form-urlencoded",
     });
+    console.log("resultTest111:",resultTest)
+    // let resultFirst=resultTest.charAt(1);
+    // console.log("resultFirst:",resultFirst)
+    // if (resultFirst < 0x20 || resultFirst > 0x7f) {
+	// 	console.log('resultTest get sp char');
+	// 	resultTest = resultTest.substring(1); // 去除第一个字符
+	// 	console.log('resultTest:' + resultTest);
+	// }
+    return  resultTest;
 }
 //待处理流程
 export function awaitdeteal(data) {

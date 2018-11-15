@@ -9,10 +9,11 @@ const resetAction = StackActions.reset({
     index: 0,
     actions: [NavigationActions.navigate({ routeName: 'Tab' })],
   });
+  MySorage._getStorage(); 
 export default class Login extends React.Component{
      constructor(props){
          super(props);
-         MySorage._getStorage();
+        //  MySorage._getStorage(); 
          this.state={
             user:'techlab',
             pass:'Whu2008',
@@ -22,7 +23,7 @@ export default class Login extends React.Component{
      }
 
      componentDidMount () {
-        MySorage._getStorage()
+        // MySorage._getStorage()
             // 添加监听进入登陆页然后禁止用户点击返回键返回主页面
             this.viewDidAppear = this.props.navigation.addListener(
                 'willFocus',(obj)=>{
@@ -56,12 +57,11 @@ export default class Login extends React.Component{
         this.setState({
             loading:true
         })
-        let idata = data
-        console.log(idata,'iiiiiiiiiiiiiiiii')
         try{
          let datas =`?form.user=${data.username}&form.pass=${data.password}&code=50ACD07A6C49F3B9E082EF40461AC6D1`;
          console.log(datas,'iiiiiiiiiiiiiiiii')
          let result = await login(datas)
+         console.log("result1111",result)
          if(result.form.status == 0){
              Alert.alert('',result.form.targetresult,[{text:'是',onPress:this.opntion2Selected}])
              this.setState({

@@ -34,11 +34,11 @@ export default class TicketTitle extends React.Component{
                     <Text style={{color: '#007aff'}}>返回</Text>
             </TouchableOpacity>
             <View style={{flex:1,alignItems: 'center'}}>
-                <Text style={{color: 'black',fontSize:15,fontWeight:'50',textAlign:"center"}}>{this.props.centerText}</Text>
+                <Text style={{color: 'black',fontSize:15,textAlign:"center"}}>{this.props.centerText}</Text>
             </View>
             <View style={{width:80}}>
             <ActivityIndicator animating={this.props.num?false:true} color="#03c1eb"/>
-            {this.props.num&&<Text onPress={()=>this.go()}>流程查看</Text>}
+            {this.props.numns&&<Text onPress={()=>this.go()}>流程查看</Text>}
             </View>
         </View>)
     }

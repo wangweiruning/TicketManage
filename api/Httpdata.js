@@ -1,4 +1,3 @@
-
 export default class HttpUtils{
     static get=(url)=>{
         return new  Promise(((resolve, reject) => {//resolve 和 reject 函数被调用时，分别将promise的状态改为fulfilled（完成）或rejected（失败）
@@ -9,7 +8,6 @@ export default class HttpUtils{
                 })
                 .catch(error=>{
                         reject(error);
-                        console.log(error,'fuck')//表示失败
                 })
             })
         )
@@ -21,13 +19,18 @@ export default class HttpUtils{
                 method:'POST',
                 //(把你想提交得数据序列化为json字符串类型，然后提交)body中的数据就是我们需要向服务器提交的数据,比如用户名,密码等
                 headers: { 
-                    'Content-Type': 'application/x-www-form-urlencoded'
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'cookie':"JSESSIONID=9F0E7C4F327D7621B9994E2A58C93D98"
                 },
-                Origin: "xxxx",
                 // body:JSON.stringify(data)
             })//返回 服务器处理的结果
-                .then(response=>response.json())
+                .then(response=>{
+                    console.log("response:",response);
+                    let res=response.json();
+                    return res
+                })
                 .then(result=>{
+                    console.log("result222:",result)
                     resolve(result);
                 })
                 .catch(error=> {
