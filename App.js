@@ -18,7 +18,7 @@ import CorrelationPlan from './Component/correlationPlan';
 import HistoryPlan from './Component/historyPlan';
 import MySorage from './api/storage';
 import TicketModel from './Component/TicketModel';
-// import TicketFlew from './Component/TicketFlew';
+import TicketFlew from './Component/TicketFlew';
 import Result from './Component/Result';
 import {StackNavigator, TabBarBottom, TabNavigator,StackActions, NavigationActions} from "react-navigation";
 import {
@@ -171,15 +171,15 @@ const StackRouteConfigs={
       gesturesEnabled: true
   }
   },
-  // TicketFlew:{
-  //   screen:TicketFlew,
-  //   path:'app/TicketFlew',
-  //   header:null,
-  //   navigationOptions: {
-  //     header: null,
-  //     gesturesEnabled: true
-  // }
-  // }
+  TicketFlew:{
+    screen:TicketFlew,
+    path:'app/TicketFlew',
+    header:null,
+    navigationOptions: {
+      header: null,
+      gesturesEnabled: true
+  }
+  }
 };
 
 const StackNavigatorConfigs={

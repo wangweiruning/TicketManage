@@ -1,8 +1,9 @@
 import React from 'react';
 import TicketTitle from './TicketTitle';
-import {DatePicker,List,Checkbox,TextareaItem} from 'antd-mobile-rn';
+import {List,Checkbox,TextareaItem} from 'antd-mobile-rn';
 import {View,Text,ScrollView,TouchableOpacity,TextInput,ToastAndroid,Alert} from 'react-native';
 import ModalDropdown from 'react-native-modal-dropdown';
+import DatePicker from 'react-native-datepicker'
 import {newTiceketNum,
         searchTicketBasicInfo,
         TicketBasicInfo,
@@ -317,10 +318,8 @@ export default class Tdetail extends React.Component{
         }
 
     onChange(tt,value,getAllTempanyId){
-        let dd= new Date(value);
-        let vals=this.formatDateTime(value);
-        let s ={[tt]:dd};
-        let s2 ={[getAllTempanyId]:vals};
+        let s ={[tt]:value};
+        let s2 ={[getAllTempanyId]:value};
         let data = Object.assign(this.state.pagedata,s);
         let data1 = Object.assign(this.state.newpagedata,s2);
         this.setState({
@@ -354,6 +353,7 @@ export default class Tdetail extends React.Component{
         let sss = this.state.pagedata;
         
         let aa = Object.values(sss);
+        console.log(aa)
              return aa;
     }
    
@@ -500,16 +500,31 @@ export default class Tdetail extends React.Component{
                         disabled={!dis}
                     ><Text>是否已执行</Text></Checkbox></View>:null}
                     </View>
-                    :v.ParaTypeID==5?<DatePicker 
-                     value={itemMsg[i]}
-                     mode="datetime"
-                     minDate={new Date(2015,1,1)}
-                     onChange={(e)=>this.onChange('datalist'+i ,e,getAllTempanyId[i])}
-                     format="YYYY-MM-DD HH:mm"
-                     disabled={dis}
-                   >
-                    <List.Item arrow="horizontal" style={{backgroundColor:!dis?"#fffeee":"#cccfff"}}>选择时间：</List.Item>
-                    </DatePicker>:v.ParaTypeID==6?
+                    :v.ParaTypeID==5?
+                    <DatePicker      
+                    style={{width:"100%",backgroundColor:dis?"#fffeee":"#cccfff"}}        
+                    date={itemMsg[i]} 
+                    mode="datetime"        
+                    format="YYYY-MM-DD HH:mm"         
+                    confirmBtnText="确定"        
+                    cancelBtnText="取消"      
+                    showIcon={true} 
+                    disabled={!dis} 
+                    minDate={new Date(2015, 1, 1)}
+                    placeholder="请选择时间"      
+                    onDateChange={(e)=>this.onChange('datalist'+i ,e,getAllTempanyId[i])}/>
+                //     <DatePicker 
+                //      value={itemMsg[i]}
+                //      mode="datetime"
+                //      minDate={new Date(2015,1,1)}
+                //      onChange={(e)=>this.onChange('datalist'+i ,e,getAllTempanyId[i])}
+                //      format="YYYY-MM-DD HH:mm"
+                //      disabled={dis}
+                //    >
+                //     <List.Item arrow="horizontal" style={{backgroundColor:!dis?"#fffeee":"#cccfff"}}>选择时间：</List.Item>
+                //     </DatePicker>
+                    :
+                    v.ParaTypeID==6?
                   <View><TextareaItem editable={!dis} placeholder="请输入内容..."
                   onChange={(v)=>this.handleInput('datalist'+i,v,getAllTempanyId[i])}
                 //   value={itemMsg[i-1]} 

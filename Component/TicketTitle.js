@@ -1,5 +1,5 @@
 import React from 'react';
-import {ActivityIndicator} from 'antd-mobile-rn';
+import {ActivityIndicator, Button} from 'antd-mobile-rn';
 import {View,Text,TouchableOpacity,Image} from 'react-native';
 
 export default class TicketTitle extends React.Component{
@@ -14,7 +14,9 @@ export default class TicketTitle extends React.Component{
         this.props.navigation.goBack();
     }
 
-
+    go(){
+        this.props.navigation.navigate('TicketFlew',{basicInfoId:this.props.navigation.state.params.ticketbasicinfoid,name:this.props.navigation.state.params.typeName})
+    }
     render(){
         return(<View style={{
             width: '100%',
@@ -32,9 +34,12 @@ export default class TicketTitle extends React.Component{
                     <Text style={{color: '#007aff'}}>返回</Text>
             </TouchableOpacity>
             <View style={{flex:1,alignItems: 'center'}}>
-                <Text style={{color: 'black',fontSize:15,fontWeight:'500'}}>{this.props.centerText}</Text>
+                <Text style={{color: 'black',fontSize:15,fontWeight:'50',textAlign:"center"}}>{this.props.centerText}</Text>
             </View>
-            <View style={{width:30}}><ActivityIndicator animating={this.props.num?false:true} color="#03c1eb"/></View>
+            <View style={{width:80}}>
+            <ActivityIndicator animating={this.props.num?false:true} color="#03c1eb"/>
+            {this.props.num&&<Text onPress={()=>this.go()}>流程查看</Text>}
+            </View>
         </View>)
     }
 }
