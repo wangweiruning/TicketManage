@@ -15,29 +15,33 @@ export default class TicketDropdownCheckBox extends React.Component{
             text:'',
             activeItem:new Array(this.props.SelectData.length).fill(""),
             defaultChecked:false,
-         
+            datas:'',
+            ischanges:false,
         }
     }
     
     
     componentWillReceiveProps(nextProps){
-        if(this.props.SelectData != nextProps.SelectData){
+this.state.ischanges=nextProps.ischanges
         this.state.SelectData=nextProps.SelectData;
-        this.state.activeItem = new Array(nextProps.SelectData.length).fill("");
-        }
-        this.forceUpdate()
-    }
+        if(this.props.banzu!="班组"&&this.state.ischanges){
+            this.state.activeItem=[]
+        }       
+ this.forceUpdate()  
+  }
 
     open(){
         let activeItem = this.state.activeItem;
         let display = [];
-      
+        if(this.props.ischanges&&this.props.banzu!=='班组'){
+            activeItem =[];
+        }
         for(let i in activeItem){
             if(activeItem[i]){
                 display.push(activeItem[i]);
             }
         }
-      
+        console.log(display,'displaydisplaydisplay')
         if(display.length>0){
             return display.join(",");
         }else{
@@ -107,8 +111,11 @@ export default class TicketDropdownCheckBox extends React.Component{
             <View style={{backgroundColor:'#ecf0f1',}}>
             <View style={{flexDirection:'row',alignItems:'center',borderBottomColor:'lightgray',borderStyle:'solid',borderBottomWidth:1}}>
             <Image style={{left:5,width:16, height:16}}  source={require('../images/serch.png')}/>
-          
-            <TextInput maxLength={20} multiline={true} autoFocus={false} onChangeText={this.onChanegeTextKeyword.bind(this)}
+            <TextInput 
+                maxLength={20}
+                multiline={true}
+                autoFocus={false}
+                onChangeText={this.onChanegeTextKeyword.bind(this)}
                 style={{fontSize:13, color: '#999',overflow:'hidden',width:'95%',left:5}}
                 placeholder={"请输入"}
             />
@@ -131,7 +138,9 @@ export default class TicketDropdownCheckBox extends React.Component{
                 />
                 <TouchableOpacity activeOpacity={.7} style={{justifyContent:'center',alignItems:'center',backgroundColor:'#00a6e7',height:50}} 
                     onPress={()=>{
-                        
+                        if(this.props.ParaName!="班组"){
+                            this.state.ischanges=false;
+                        }
                         this.setState({visible:false,SelectData:this.props.SelectData})
                         this.props.open(this.state.activeItem,this.props.leixin,this.props.banzu)
                         this.forceUpdate();
