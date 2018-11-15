@@ -49,16 +49,6 @@ this.state.ischanges=nextProps.ischanges
         }
     }
 
-    // nulls(item){
-    //     if(this.props.ischanges&&this.props.banzu!=='班组'){
-    //         console.log(item.userid,';;;;;;;;;;;;;;;')
-    //       return  this.state.activeItem[item.userid=='' || item.DepartmentID=='']
-    //     }else{
-    //         console.log(item.userid,';;;;;;;;;;;;;;;')
-    //         return  this.state.activeItem[item.userid || item.DepartmentID]
-    //     }
-    // }
-
     onChanegeTextKeyword(text){
         this.timeA(text);
     }
