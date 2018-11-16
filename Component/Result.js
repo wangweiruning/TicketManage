@@ -780,7 +780,7 @@ export default class Tdetail extends React.Component{
     render(){
         return(<View style={{justifyContent:'center'}}>
                     <TicketTitle navigation={this.props.navigation} num={true} numns={true}
-                        centerText={this.props.navigation.state.params.typeName+""+this.props.navigation.state.params.ticketNum}/>    
+                        centerText={this.props.navigation.state.params.typeName}/>    
                     {this.state.loading?<View style={{alignItems:'center',top:'45%'}}>
                     <View style={{borderRadius:4,
                                 borderColor:'rgba(255,255,255,.3)',

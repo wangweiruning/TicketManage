@@ -86,8 +86,8 @@ export default class HistoryPlan extends React.Component{
                   <Text style={{marginTop:5,color:"#000000"}}>两票编号：{itemdata.ticketserialnum}</Text>
                   <Text style={{marginTop:5,color:"#000000"}}>工作负责人：{itemdata.realname}</Text>
                   <View><Text style={{marginTop:5,color:"#000000"}}>内容：</Text></View>
-                  <Text numberOfLines={10} style = {{marginTop:5,paddingBottom:15,borderColor:"#eeeeee",borderWidth:1,borderStyle:"solid",color:"#000000"}}>{itemdata.content}</Text>
-                  <Text style={{marginTop:5,color:"#000000"}}>开票时间：{itemdata.filltickettime}</Text>
+                  <Text numberOfLines={10} style = {{marginTop:5,paddingBottom:15,borderColor:"#eeeeee",borderWidth:1,borderStyle:"solid",color:"#000000",padding:4}}>{itemdata.content}</Text>
+                  <Text style={{marginTop:5,color:"#000000",marginBottom:5}}>开票时间：{itemdata.filltickettime}</Text>
                   <Button
                   onPress={()=>this.gotoItem(itemdata)}
                   title="查看详情"
