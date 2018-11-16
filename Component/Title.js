@@ -32,7 +32,7 @@ export default class Title extends React.Component{
             <View style={{flex:1,alignItems: 'center'}}>
                 <Text style={{color: 'black',fontSize:15,fontWeight:'500'}}>{this.props.centerText}</Text>
             </View>
-            <View style={{right:7,alignItems:"center",justifyContent:'center',width:75,height:27}}><Text 
+            <View style={{right:7,alignItems:"center",justifyContent:'center',width:60,height:27}}><Text 
                        style={{color: '#007aff',fontWeight:'500'}}>{this.props.rightText}
                   </Text> 
             </View>

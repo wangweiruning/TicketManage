@@ -36,10 +36,9 @@ export default class TicketTitle extends React.Component{
             <View style={{flex:1,alignItems: 'center'}}>
                 <Text style={{color: 'black',fontSize:15,textAlign:"center"}}>{this.props.centerText}</Text>
             </View>
-            <View style={{width:80}}>
- 
-            {this.props.numns&&<Text onPress={()=>this.go()} style={{width:80,height:"100%",lineHeight:43}}>流程查看</Text>}
-            </View>
+            <TouchableOpacity style={{justifyContent:'center',width:60,height:35,right:5}}>
+            {this.props.numns&&<Text onPress={()=>this.go()} style={{color:'#007aff'}}>流程查看</Text>}
+            </TouchableOpacity>
         </View>)
     }
 }
