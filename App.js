@@ -38,6 +38,9 @@ const resetAction = StackActions.reset({
   index: 0,
   actions: [NavigationActions.navigate({ routeName: 'login' })],
 });
+var stateIndex, oStateIndex = false, goBack = false;
+    var lastBackPressed;
+    var current = true;
 console.disableYellowBox = true;
 const TabRouteConfigs = { // 表示各个页面路由配置,让导航器知道需要导航的路由对应的页�?
   Home: { // 路由名称
@@ -211,16 +214,35 @@ export default class App extends Component {
     BackHandler.removeEventListener('hardwareBackPress', this.onBackAndroid);
 }
 
-onBackAndroid = () => {
-  if (this.lastBackPressed && this.lastBackPressed + 2000 >= Date.now()) {
-      //最近2秒内按过back键，可以退出应用。
-      BackHandler.exitApp();
-      return;
+// onBackAndroid = () => {
+//   this.props.navigator.pop();
+
+//   // if (this.lastBackPressed && this.lastBackPressed + 2000 >= Date.now()) {
+//   //     //最近2秒内按过back键，可以退出应用。
+//   //     BackHandler.exitApp();
+//   //     return;
+//   // }
+//   // this.lastBackPressed = Date.now();
+//   // ToastAndroid.show('再按一次退出应用',ToastAndroid.SHORT);
+//   // return true;
+//  }
+ onBackAndroid = () => {
+  if (current == true) {//如果是在首页
+      if (lastBackPressed && lastBackPressed + 2000 >= Date.now()) {
+          //最近2秒内按过back键，可以退出应用。
+          BackHandler.exitApp();
+          return false;
+      }
+
+      lastBackPressed = Date.now();
+      ToastAndroid.show('再按一次退出应用', ToastAndroid.SHORT);
+      return true;
+   } else {
+      if (this.props && this.props.navigation) {
+      this.props.navigator.pop();
+   }
   }
-  this.lastBackPressed = Date.now();
-  ToastAndroid.show('再按一次退出应用',ToastAndroid.SHORT);
-  return true;
- }
+}
 
 async getUserInfo () {
   try {
@@ -248,6 +270,13 @@ async getUserInfo () {
       }} configureScene={(route) => {
         return Navigator.SceneConfigs.HorizontalSwipeJumpFromRight;
     }}
+    onNavigationStateChange={(prevState, newState, action) => {//注册路由改变监听事件
+      if (newState && newState.routes[newState.routes.length - 1].routeName == 'Home') {//如果当前路由是Home页面，则需要处理安卓物理返回按键。
+          current = true;
+      } else {
+          current = false;
+      }
+}}        
     renderScene={(route, navigator) => {
         let Component = route.component;
         Component.navigator = navigator;

@@ -3,7 +3,6 @@ import {InputItem,List,TextareaItem,ActivityIndicator} from 'antd-mobile-rn';
 import {View,Text,ScrollView,TouchableOpacity,Picker,TextInput,Alert,ToastAndroid,Dimensions} from 'react-native';
 import ModalDropdown from 'react-native-modal-dropdown';
 import DropdownCheckbox from '../Component/DropdownCheckbox';
-
 import CheckBox from 'react-native-checkbox';
 import DatePicker from 'react-native-datepicker'
 import TicketTitle from './TicketTitle';
@@ -80,6 +79,14 @@ export default class Tdetail extends React.Component{
             ischanges:false,
             mengCard:true
         }
+    }
+    onBackClicked = () => {
+        const {navigator} = this.props;
+        if (navigator && navigator.getCurrentRoutes().length > 1) {
+            navigator.pop();
+            return true;//true 表示返回上一页
+        }
+        return false; // 默认false  表示跳出RN
     }
       async componentWillMount(){
         this.getCanNotdata();
