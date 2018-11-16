@@ -162,16 +162,16 @@ export default class WaitPlan extends React.Component{
              return (
               <View key={index}
                     onPress={()=>this.gotoItem(itemdata)}
-                    style={{marginTop:5,paddingBottom:10,paddingTop:10,width:"90%",marginLeft:20,height:220}}>
+                    style={{marginTop:5,paddingBottom:10,paddingTop:10,width:"90%",marginLeft:20,height:250}}>
                      <Animatable.View key={index} useNativeDriver animation="fadeInRight" easing="ease-out-expo">
-                <Text style={{color:"#000000"}}>两票类型：{itemdata.tickettypename}</Text>
-                <Text style={{color:"#000000"}}>负责人：{itemdata.headuser}</Text>
-                <Text style={{color:"#000000"}}>编号：{itemdata.ticketserialnum}</Text>
-                <Text style={{color:"#000000"}}>流转人：{itemdata.manageuser}</Text>
-                <View><Text style={{color:"#000000"}}>内容：</Text></View>
-                <Text numberOfLines={10} style = {{paddingBottom:15,borderColor:"#eeeeee",borderWidth:1,borderStyle:"solid",color:"#000000"}}>{itemdata.content}</Text>
-                <Text style={{color:"orange"}}>等待时间：{this.awaitTime(itemdata.lastTime)}</Text>
-                <Text style={{color:"#000000"}}>流转时间：{itemdata.lastTime.replace(/T/,' ')}</Text>
+                <Text style={{color:"#000000",marginTop:5}}>两票类型：{itemdata.tickettypename}</Text>
+                <Text style={{color:"#000000",marginTop:5}}>负责人：{itemdata.headuser}</Text>
+                <Text style={{color:"#000000",marginTop:5}}>编号：{itemdata.ticketserialnum}</Text>
+                <Text style={{color:"#000000",marginTop:5}}>流转人：{itemdata.manageuser}</Text>
+                <View><Text style={{color:"#000000",marginTop:5}}>内容：</Text></View>
+                <Text numberOfLines={10} style = {{marginTop:5,paddingBottom:15,borderColor:"#eeeeee",borderWidth:1,borderStyle:"solid",color:"#000000"}}>{itemdata.content}</Text>
+                <Text style={{color:"orange",marginTop:5}}>等待时间：{this.awaitTime(itemdata.lastTime)}</Text>
+                <Text style={{color:"#000000",marginTop:5}}>流转时间：{itemdata.lastTime.replace(/T/,' ')}</Text>
                 <Button
                     onPress={()=>this.gotoItem(itemdata)}
                     title="查看详情"

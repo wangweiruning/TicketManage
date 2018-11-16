@@ -82,12 +82,12 @@ export default class HistoryPlan extends React.Component{
                 {result.length>0&&result.map((itemdata,index)=>{
                   return <View key={index}
                   style={{marginTop:5,paddingBottom:10,paddingTop:10,width:"90%",marginLeft:20}}>
-                  <Text style={{color:"#000000"}}>两票类型：{itemdata.tickettypename}</Text>
-                  <Text style={{color:"#000000"}}>两票编号：{itemdata.ticketserialnum}</Text>
-                  <Text style={{color:"#000000"}}>工作负责人：{itemdata.realname}</Text>
-                  <View><Text style={{color:"#000000"}}>内容：</Text></View>
-                  <Text numberOfLines={10} style = {{paddingBottom:15,borderColor:"#eeeeee",borderWidth:1,borderStyle:"solid",color:"#000000"}}>{itemdata.content}</Text>
-                  <Text style={{color:"#000000"}}>开票时间：{itemdata.filltickettime}</Text>
+                  <Text style={{marginTop:5,color:"#000000"}}>两票类型：{itemdata.tickettypename}</Text>
+                  <Text style={{marginTop:5,color:"#000000"}}>两票编号：{itemdata.ticketserialnum}</Text>
+                  <Text style={{marginTop:5,color:"#000000"}}>工作负责人：{itemdata.realname}</Text>
+                  <View><Text style={{marginTop:5,color:"#000000"}}>内容：</Text></View>
+                  <Text numberOfLines={10} style = {{marginTop:5,paddingBottom:15,borderColor:"#eeeeee",borderWidth:1,borderStyle:"solid",color:"#000000"}}>{itemdata.content}</Text>
+                  <Text style={{marginTop:5,color:"#000000"}}>开票时间：{itemdata.filltickettime}</Text>
                   <Button
                   onPress={()=>this.gotoItem(itemdata)}
                   title="查看详情"

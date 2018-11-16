@@ -1,11 +1,10 @@
 import React from 'react';
 import {InputItem,List,TextareaItem,ActivityIndicator} from 'antd-mobile-rn';
-import {View,Text,ScrollView,TouchableOpacity,Picker,TextInput,Alert,ToastAndroid} from 'react-native';
+import {View,Text,ScrollView,TouchableOpacity,Picker,TextInput,Alert,ToastAndroid,Dimensions} from 'react-native';
 import ModalDropdown from 'react-native-modal-dropdown';
 import DropdownCheckbox from '../Component/DropdownCheckbox';
 
 import CheckBox from 'react-native-checkbox';
-
 import DatePicker from 'react-native-datepicker'
 import TicketTitle from './TicketTitle';
 import {TicketBasicInfo,
@@ -23,6 +22,7 @@ import {TicketBasicInfo,
         ForDepartment
     } from './../api/api'
 import {StackActions, NavigationActions} from 'react-navigation';
+let {width,height}=Dimensions.get('window');
 const resetAction = StackActions.reset({
     index: 0,
     actions: [NavigationActions.navigate({ routeName: 'Tab' })],
@@ -78,6 +78,7 @@ export default class Tdetail extends React.Component{
             newChecked:{},//是否选中
             ParaId:[],
             ischanges:false,
+            mengCard:true
         }
     }
       async componentWillMount(){
@@ -233,7 +234,8 @@ export default class Tdetail extends React.Component{
 
         if(this.props.navigation.state.params.isqianfa){
             if (index > ticketFlowrole.length -2) { //最后两个状态为验收和作废，均为终结流程
-                Alert.alert("提示",`${this.props.navigation.state.params.typeName}已终结！！！`)
+                Alert.alert("提示",`${this.props.navigation.state.params.typeName}已终结！！！`);
+                this.setState({mengCard:false})
                 return false;
         } else {
             //设置流转状态及流转目标
@@ -271,7 +273,9 @@ export default class Tdetail extends React.Component{
             })
         }
     }
-    } 
+    }
+     console.log("这是最后的东西了")
+     this.setState({mengCard:false})
     }
     getSelect(e,value,datalist){
         let s ={[datalist]:[value]};
@@ -768,8 +772,8 @@ export default class Tdetail extends React.Component{
     }
     render(){
         return(<View style={{justifyContent:'center'}}>
-                    <TicketTitle navigation={this.props.navigation} num={this.state.nnnmmm} numns={this.state.nnnmmm}
-                        centerText={this.props.navigation.state.params.typeName+""+this.props.navigation.state.params.ticketNum}/>
+                    <TicketTitle navigation={this.props.navigation} num={true} numns={true}
+                        centerText={this.props.navigation.state.params.typeName+""+this.props.navigation.state.params.ticketNum}/>    
                     {this.state.loading?<View style={{alignItems:'center',top:'45%'}}>
                     <View style={{borderRadius:4,
                                 borderColor:'rgba(255,255,255,.3)',
@@ -786,18 +790,26 @@ export default class Tdetail extends React.Component{
                         <Text style={{color:'white',fontSize:15,marginTop:15}}>数据提交中...</Text>
                     </View>
                     </View>:null}
-        
+                    {this.state.mengCard&&<View 
+                    style={{display:"flex",flexDirection:"column",zIndex:444,
+                    width:width,height:height-60,backgroundColor:"#ffffff"}}>
+                        <View style={{marginTop:"50%",marginBottom:"50%"}}>
+                            <ActivityIndicator color="#ff4466"/>
+                            <Text style={{color:"#ff4466",textAlign:"center",marginTop:10,fontSize:20}}>加载中</Text>
+                        </View>
+                    </View>}
                     <ScrollView style={{display:'flex'}}>
+                        <View style={{marginBottom:20}}>
                         {
                             this.state.templateContents.map((v,i)=>{
                                 let dis = this.ischacked(v.TicketParaID);
                                 
-                            return <View  key={i} style={{backgroundColor:'white',marginTop:5,marginBottom:20}}>
+                            return <View  key={i} style={{backgroundColor:'white',marginTop:5}}>
                             <View style={{
                                 width:'100%',
                                 padding:5,
                                 flexDirection:'row',
-                                backgroundColor:'white',
+                                backgroundColor:'rgb(208,208,208)',
                                 borderBottomWidth:1,
                                 borderBottomColor:'black',
                                 borderStyle:'solid',
@@ -920,6 +932,7 @@ export default class Tdetail extends React.Component{
                                 </TouchableOpacity>
                             </View>
                             </View>}
+                            </View>
                   </ScrollView>
               </View>)
     }

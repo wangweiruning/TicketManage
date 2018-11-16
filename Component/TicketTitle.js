@@ -38,7 +38,7 @@ export default class TicketTitle extends React.Component{
             </View>
             <View style={{width:80}}>
             <ActivityIndicator animating={this.props.num?false:true} color="#03c1eb"/>
-            {this.props.numns&&<Text onPress={()=>this.go()}>流程查看</Text>}
+            {this.props.numns&&<Text onPress={()=>this.go()} style={{width:80,height:"100%",lineHeight:43}}>流程查看</Text>}
             </View>
         </View>)
     }
