@@ -1,6 +1,6 @@
 import React from 'react';
 import TicketTitle from './TicketTitle';
-import {List,Checkbox,TextareaItem} from 'antd-mobile-rn';
+import {List,Checkbox,TextareaItem,ActivityIndicator} from 'antd-mobile-rn';
 import {View,Text,ScrollView,TouchableOpacity,TextInput,ToastAndroid,Alert} from 'react-native';
 import ModalDropdown from 'react-native-modal-dropdown';
 import DatePicker from 'react-native-datepicker'
@@ -60,7 +60,8 @@ export default class Tdetail extends React.Component{
             userData:[],
             basicInfoId:"",
             getAllTempanyId:[],
-            ischanges:false
+            ischanges:false,
+            loading:false
         }
     }
 
@@ -450,8 +451,12 @@ export default class Tdetail extends React.Component{
     }
     render(){
         let getAllTempanyId = this.state.getAllTempanyId
-        return(<View style={{justifyContent:'center',backgroundColor:'white'}}>
+        return(<View style={{position:'relative',justifyContent:'center',backgroundColor:'white',flex:1}}>
             <TicketTitle navigation={this.props.navigation} num={this.state.num} centerText={this.props.navigation.state.params.v+' '+this.state.num}/>
+            {this.state.num?null:<View style={{top:43,alignItems:'center',position:'absolute',zIndex:1000,backgroundColor:'lightgray',width:'100%',height:'100%'}}>
+              <ActivityIndicator color="#03c1eb"/>
+              <Text style={{color:'white',fontSize:15,marginTop:15}}>加载中...</Text>
+        </View>}
         <ScrollView style={{display:'flex'}}>
         {
             this.state.jax.map((v,i)=>
@@ -513,16 +518,6 @@ export default class Tdetail extends React.Component{
                     minDate={new Date(2015, 1, 1)}
                     placeholder="请选择时间"      
                     onDateChange={(e)=>this.onChange('datalist'+i ,e,getAllTempanyId[i])}/>
-                //     <DatePicker 
-                //      value={itemMsg[i]}
-                //      mode="datetime"
-                //      minDate={new Date(2015,1,1)}
-                //      onChange={(e)=>this.onChange('datalist'+i ,e,getAllTempanyId[i])}
-                //      format="YYYY-MM-DD HH:mm"
-                //      disabled={dis}
-                //    >
-                //     <List.Item arrow="horizontal" style={{backgroundColor:!dis?"#fffeee":"#cccfff"}}>选择时间：</List.Item>
-                //     </DatePicker>
                     :
                     v.ParaTypeID==6?
                   <View><TextareaItem editable={!dis} placeholder="请输入内容..."
@@ -570,7 +565,7 @@ export default class Tdetail extends React.Component{
                 <Text style={{color:'black'}}>详细意见</Text>
                 <TextareaItem placeholder="请输入内容..." autoHeight onChangeText={(v)=>this.handleInputs('detailInfo',v)} style={{ paddingVertical: 5 ,backgroundColor:"#fffeee"}}/>
             </View>
-            </View> 
+            </View>
             <View style={{marginBottom:50,width:'100%',display:'flex',justifyContent:'center',alignItems:'center'}}>
                 <TouchableOpacity 
                             onPress={()=>this.submitAll()}
