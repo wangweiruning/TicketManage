@@ -271,7 +271,7 @@ async getUserInfo () {
         return Navigator.SceneConfigs.HorizontalSwipeJumpFromRight;
     }}
     onNavigationStateChange={(prevState, newState, action) => {//注册路由改变监听事件
-      if (newState && newState.routes[newState.routes.length - 1].routeName == 'Home') {//如果当前路由是Home页面，则需要处理安卓物理返回按键。
+      if (newState && newState.routes[newState.routes.length - 1].routeName == 'Tab') {//如果当前路由是Home页面，则需要处理安卓物理返回按键。
           current = true;
       } else {
           current = false;
