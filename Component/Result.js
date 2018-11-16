@@ -859,7 +859,7 @@ export default class Tdetail extends React.Component{
                                            checked={this.getddds(v.TicketParaID+'_1')}
                                            onChange={(e)=>this.onChangecoform(v.TicketParaID+'_1',e) }
                                            underlayColor={"transparent"}
-                                           disabled={dis}
+                                           disabled={!dis}
                                         ></CheckBox></View>:<Text></Text>}
                                 </View>:v.ParaTypeID==5
                                 ?
@@ -893,7 +893,7 @@ export default class Tdetail extends React.Component{
                                 checked={this.getddds(v.TicketParaID+'_1')}
                                 onChange={(e)=>this.onChangecoform(v.TicketParaID+'_1',e) }
                                 underlayColor={"transparent"}
-                                disabled={dis}
+                                disabled={!dis}
                                         ></CheckBox></View>:<Text></Text>}
                                 </View>:<Text></Text>
                             }
