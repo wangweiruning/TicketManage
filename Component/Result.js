@@ -44,6 +44,7 @@ export default class Tdetail extends React.Component{
             nextFlowId:"",//下一个流转id
             nextFlow:[],//下一个流转流程
             ticketstatusid:'',//当前流程id
+            statusId:"",
             TicketTypeID:"",//票类型id
             aggree:1,//是否同意提交
             detailinfo:"",
@@ -149,9 +150,9 @@ export default class Tdetail extends React.Component{
             if(item.ticketstatusname == "作废"){
                 ticketFlowrole.splice(i, 1);
             }
-            if(item.ticketstatusname==this.props.navigation.state.params.ticketstatusname){
-                this.setState({ticketstatusid:item.ticketstatusid})
-            }
+            // if(item.ticketstatusname==this.props.navigation.state.params.ticketstatusname){
+            //     this.setState({ticketstatusid:item.ticketstatusid})
+            // }
         })
         this.setState({
             ticketFlowrole:ticketFlowrole
@@ -165,6 +166,7 @@ export default class Tdetail extends React.Component{
             this.setState({
                 dataList:searchs.form.dataList,
                 TicketTypeID:TicketTypeID,
+                statusId:statusId
             })
 
             // 这里需要获取已经经过的流程
@@ -365,14 +367,22 @@ export default class Tdetail extends React.Component{
         console.log(val,"vals")
         let display = [];
     let Datastring=Object.keys(val);
+    let Datavalues=Object.values(val);
+    let arrs=[];
+    Datavalues.map((item,indexs)=>{
+        if(item!=""){
+            arrs.push(Datastring[indexs])
+        }
+    })
         for(let i in val){
             if(val[i]){
                 display.push(val[i]);
             }
         };
+        console.log(arrs)
         this.state.showPage.isfleUser=display.join(",");
         this.setState({
-            vvval:Datastring.join(",")
+            vvval:arrs.join(",")
         })
         this.forceUpdate()
     }
@@ -562,7 +572,6 @@ export default class Tdetail extends React.Component{
     aggreeall=()=>{
         let arr=["同意"];
         const aggress =this.state.aggree;
-        console.log(aggress,"bbbbbbbbbbbbbbbbbbbbbbbbbb")
         if(aggress==1){
             
         }else{
@@ -622,7 +631,7 @@ export default class Tdetail extends React.Component{
         if(this.state.vvval||this.state.searchRole.length<1){
                 let data= {'form.basicInfoId':this.props.navigation.state.params.ticketbasicinfoid, 
                 'form.ticketTypeName': this.props.navigation.state.params.typeName,
-                'form.ticketStatusId': this.state.ticketstatusid,
+                'form.ticketStatusId': this.state.statusId,
                 'form.ticketNum': this.props.navigation.state.params.ticketNum,
                 'form.templateId': this.props.navigation.state.params.templateID,
                 'form.flowroleid': this.state.flowRoleId,
@@ -848,19 +857,23 @@ export default class Tdetail extends React.Component{
                                     options={this.BackpageUseName()}/>  
                                 :v.ParaTypeID==2?
                                 <View>
-                                   <TextInput  
+                                        {v.IsConfirm==1 && v.Rank==1?<View style={{flexDirection:'column',margin:5}}>
+                                        <TextInput  
                                     value={this.getchecked(v.TicketParaID)}
                                     editable={dis}  placeholder="请输入内容..."
                                     onChangeText={(values)=>this.handleInput(v.TicketParaID,values)} 
                                     style={{width:'100%',backgroundColor:dis?"#fffeee":"#cccfff"}} />
-                                        {v.IsConfirm==1?<View style={{flexDirection:'row',margin:5}}>
+                                    <View>
                                         <CheckBox
                                            label={'是否已执行'}
                                            checked={this.getddds(v.TicketParaID+'_1')}
-                                           onChange={(e)=>this.onChangecoform(v.TicketParaID+'_1',e) }
+                                           onChange={(e)=>dis&&this.onChangecoform(v.TicketParaID+'_1',e) }
                                            underlayColor={"transparent"}
-                                           disabled={!dis}
-                                        ></CheckBox></View>:<Text></Text>}
+                                        ></CheckBox></View></View>:<TextInput  
+                                        value={this.getchecked(v.TicketParaID)}
+                                        editable={dis}  placeholder="请输入内容..."
+                                        onChangeText={(values)=>this.handleInput(v.TicketParaID,values)} 
+                                        style={{width:'100%',backgroundColor:dis?"#fffeee":"#cccfff"}} />}
                                 </View>:v.ParaTypeID==5
                                 ?
                                 <DatePicker      
@@ -876,8 +889,9 @@ export default class Tdetail extends React.Component{
                                 placeholder="请选择时间"      
                                 onDateChange={(value)=>this.onChange(v.TicketParaID,value)}/>
                                 :v.ParaTypeID==6?
-                                <View>
-                                  <TextareaItem editable={dis} 
+                                <View>                        
+                                {v.IsConfirm==1 ?<View style={{flexDirection:'column',margin:5}}>
+                                <TextareaItem editable={dis} 
                                                 rows={4}
                                                 placeholder="请输入内容..." 
                                                   defaultValue={this.getchecked(v.TicketParaID)}
@@ -886,15 +900,20 @@ export default class Tdetail extends React.Component{
                                                   style={{ paddingVertical: 5,
                                                     borderBottomWidth:2,
                                                   backgroundColor:dis?"#fffeee":"#cccfff"}} />
-                                                              
-                                {v.IsConfirm==1?<View style={{flexDirection:'row',margin:5}}>
                                 <CheckBox
                                 label={'是否已执行'}
                                 checked={this.getddds(v.TicketParaID+'_1')}
-                                onChange={(e)=>this.onChangecoform(v.TicketParaID+'_1',e) }
+                                onChange={(e)=>dis&&this.onChangecoform(v.TicketParaID+'_1',e) }
                                 underlayColor={"transparent"}
-                                disabled={!dis}
-                                        ></CheckBox></View>:<Text></Text>}
+                                        ></CheckBox></View>:<TextareaItem editable={dis} 
+                                        rows={4}
+                                        placeholder="请输入内容..." 
+                                          defaultValue={this.getchecked(v.TicketParaID)}
+                                          onChangeText={(values)=>this.handleInput(v.TicketParaID,values)}
+                                          autoHeight 
+                                          style={{ paddingVertical: 5,
+                                            borderBottomWidth:2,
+                                          backgroundColor:dis?"#fffeee":"#cccfff"}} />}
                                 </View>:<Text></Text>
                             }
                                     </View>
