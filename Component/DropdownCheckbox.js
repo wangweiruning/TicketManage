@@ -56,6 +56,9 @@ export default class DropdownCheckbox extends React.Component{
     open(){
         let activeItem = this.state.activeItem;
         let display = [];
+        if(this.props.ischanges&&this.props.banzu!=='班组'){
+            activeItem =[];
+        }
         if(Object.keys(activeItem).length>0){
         for(let i in activeItem){
             if(activeItem[i]){

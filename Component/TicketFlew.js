@@ -75,7 +75,7 @@ export default class TicketFlew extends React.Component{
                                 }}>
                         <Text style={{color:"#000000"}}>  两票状态：{itemdata.ticketstatusname}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{itemdata.ticketrolename}</Text>
                         <Text style={{color:"#000000"}}>  处理人：{itemdata.RealName}</Text>
-                        <Text style={{color:"#000000"}}>  处理周期：{this.itemdata(itemdata.ManageTime)}</Text>
+                        <Text style={{color:"#000000"}}>  处理周期：{itemdata.TimePeriod}小时</Text>
                         <Text style={{color:"#000000"}}>  处理意见：{itemdata.RecordOption==1?'同意':itemdata.RecordOption==""?"待处理":'不同意'}</Text>
                         <Text style={{color:"#000000"}}>  处理时间：{itemdata.ManageTime!=null?itemdata.ManageTime.replace(/T/,' '):"待处理"}</Text>
                     </View>

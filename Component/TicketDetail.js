@@ -151,7 +151,7 @@ export default class Tdetail extends React.Component{
             jax:bool.form.templateContents,
             zed:feel.form.dataList
        })
-       console.log(good,Department,'hhhhhhhhhhhhhhhhhhhhhhhhhooooommmmm')
+       console.log(bool,good,Department,'hhhhhhhhhhhhhhhhhhhhhhhhhooooommmmm')
        this.loading();
        this.pipei(list.form.paramAllList);
     //    this.getdepartment();

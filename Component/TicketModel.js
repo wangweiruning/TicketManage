@@ -69,7 +69,7 @@ export default class TicketModel extends React.Component{
                {
                    this.state.uzi.map((v,i)=>
                    <Animatable.View key={i} useNativeDriver animation="fadeInRight" easing="ease-out-expo">
-                   <TouchableOpacity  
+                   <TouchableOpacity           
                    onPress={()=>this.goticket(v.TicketTemplateID,this.props.navigation.state.params.v,this.props.navigation.state.params.name)} 
                    style={{display:'flex',flexDirection:'row',width:'100%',backgroundColor:'#beebff',height:50,alignItems:'center',marginTop:10}}>
                           <Image source={require('../images/company_tree.png')} style={{width:20,left:5,resizeMode:Image.resizeMode.contain}}/>
