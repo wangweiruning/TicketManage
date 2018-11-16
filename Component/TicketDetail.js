@@ -453,9 +453,9 @@ export default class Tdetail extends React.Component{
         let getAllTempanyId = this.state.getAllTempanyId
         return(<View style={{position:'relative',justifyContent:'center',backgroundColor:'white',flex:1}}>
             <TicketTitle navigation={this.props.navigation} num={this.state.num} centerText={this.props.navigation.state.params.v+' '+this.state.num}/>
-            {this.state.num?null:<View style={{top:43,alignItems:'center',position:'absolute',zIndex:1000,backgroundColor:'lightgray',width:'100%',height:'100%'}}>
+            {this.state.num?null:<View style={{top:43,justifyContent:'center',alignItems:'center',position:'absolute',zIndex:1000,backgroundColor:'lightgray',width:'100%',height:'100%'}}>
               <ActivityIndicator color="#03c1eb"/>
-              <Text style={{color:'white',fontSize:15,marginTop:15}}>加载中...</Text>
+              <Text style={{color:'#007aff',fontSize:15,marginTop:15}}>加载中...</Text>
         </View>}
         <ScrollView style={{display:'flex'}}>
         {

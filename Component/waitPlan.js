@@ -169,9 +169,9 @@ export default class WaitPlan extends React.Component{
                 <Text style={{color:"#000000",marginTop:5}}>编号：{itemdata.ticketserialnum}</Text>
                 <Text style={{color:"#000000",marginTop:5}}>流转人：{itemdata.manageuser}</Text>
                 <View><Text style={{color:"#000000",marginTop:5}}>内容：</Text></View>
-                <Text numberOfLines={10} style = {{marginTop:5,paddingBottom:15,borderColor:"#eeeeee",borderWidth:1,borderStyle:"solid",color:"#000000"}}>{itemdata.content}</Text>
+                <Text numberOfLines={10} style = {{marginTop:5,paddingBottom:15,borderColor:"#eeeeee",borderWidth:1,borderStyle:"solid",color:"#000000",padding:4}}>{itemdata.content}</Text>
                 <Text style={{color:"orange",marginTop:5}}>等待时间：{this.awaitTime(itemdata.lastTime)}</Text>
-                <Text style={{color:"#000000",marginTop:5}}>流转时间：{itemdata.lastTime.replace(/T/,' ')}</Text>
+                <Text style={{color:"#000000",marginTop:5,marginBottom:5}}>流转时间：{itemdata.lastTime.replace(/T/,' ')}</Text>
                 <Button
                     onPress={()=>this.gotoItem(itemdata)}
                     title="查看详情"
