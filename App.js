@@ -28,6 +28,7 @@ import {
   View,
   Image,BackHandler,ToastAndroid
 } from 'react-native';
+import {islogin} from './api/api'
 MySorage._getStorage()
 window.jconfig={
   userinfo:{},
@@ -220,7 +221,9 @@ onBackAndroid = () => {
  }
 
   async getUserInfo () {
- 
+    let d="?code=50ACD07A6C49F3B9E082EF40461AC6D1";
+ let lofin = await islogin(d);
+ console.log(lofin)
   try {
    return new Promise((s1, s2) => {
     MySorage._load("userinfo", (res) => {

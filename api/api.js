@@ -2,9 +2,18 @@ import Httpdata from './Httpdata'
 
 
 import url from './serviceAPI.config';
+
+//登录验证
+export function islogin(data){
+    return   Httpdata.post({       
+                url: url.islogin+data,
+                method: 'post',
+                dataType: "json",
+                contentType: "application/x-www-form-urlencoded",
+            });
+}
+
 //登陆
-
-
 export function login(data) {
     return   Httpdata.post({        url: url.userLogin+data,
         method: 'post',
