@@ -5,10 +5,8 @@
  */
 
 import React, { Component } from 'react';
-
 import HomeScreen from './Component/HomeScreen';
 import ToastExample from './Component/menu';
-
 import Newticket from './Component/newticket';
 import Login from './Component/login';
 import Tdetail from './Component/TicketDetail';
@@ -38,7 +36,6 @@ const resetAction = StackActions.reset({
   index: 0,
   actions: [NavigationActions.navigate({ routeName: 'login' })],
 });
-var stateIndex, oStateIndex = false, goBack = false;
     var lastBackPressed;
     var current = true;
 console.disableYellowBox = true;
@@ -197,10 +194,7 @@ const Navigators = StackNavigator(StackRouteConfigs,StackNavigatorConfigs);
 export default class App extends Component {
 
   async componentDidMount () {
-    let s = await this.getUserInfo();
-    console.log("------------>",s);
-   //  this.navigator.dispatch(resetAction);
-    
+    await this.getUserInfo();
   }
 
  async componentWillMount(){

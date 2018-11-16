@@ -142,7 +142,7 @@ export default class Tdetail extends React.Component{
             userId:userId.form.userId,
             user:zero.form.dataList,
             monst:good.form.dataList[1].ticketroleid,
-            statuss:good.form.dataList[1].ticketstatusid,
+            statuss:good.form.dataList[0].ticketstatusid,
             roleid:good.form.dataList[2].ticketflowid,
             status:kl,
             basicInfoId:good.form.dataList[0].FlowRoleID,
