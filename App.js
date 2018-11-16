@@ -200,7 +200,9 @@ export default class App extends Component {
     
   }
 
-  componentWillMount(){
+ async componentWillMount(){
+    let d="?code=50ACD07A6C49F3B9E082EF40461AC6D1";
+    await islogin(d);
     BackHandler.addEventListener('hardwareBackPress', this.onBackAndroid);
 }
 
@@ -222,8 +224,6 @@ onBackAndroid = () => {
 
 async getUserInfo () {
   try {
-    let d="?code=50ACD07A6C49F3B9E082EF40461AC6D1";
-    await islogin(d);
    return new Promise((s1, s2) => {
     MySorage._load("userinfo", (res) => {
       let info = JSON.parse(res);
@@ -232,8 +232,9 @@ async getUserInfo () {
         return
       }
       window.jconfig.userinfo=info;
-    });
-   });}
+    })
+   })
+  }
    catch(e){
       console.log(e,'ghhhggg')
    }
