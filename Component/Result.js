@@ -845,7 +845,7 @@ export default class Tdetail extends React.Component{
                                     value={this.getchecked(v.TicketParaID)}
                                     editable={dis}  placeholder="请输入内容..."
                                     onChangeText={(values)=>this.handleInput(v.TicketParaID,values)} 
-                                    style={{borderRadius:5,width:'100%',backgroundColor:dis?"#fffeee":"#cccfff"}} />
+                                    style={{width:'100%',backgroundColor:dis?"#fffeee":"#cccfff"}} />
                                         {v.IsConfirm==1?<View style={{flexDirection:'row',margin:5}}>
                                         <CheckBox
                                            label={'是否已执行'}
