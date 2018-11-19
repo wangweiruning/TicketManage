@@ -17,7 +17,7 @@ export default class NavigationBar extends React.Component{
         return(<View style={{
             width: '100%',
             height: 43,
-            backgroundColor: 'white',
+            backgroundColor: '#4c70b9',
             display:'flex',
             flexDirection: 'row',
             justifyContent:'center',
@@ -25,11 +25,11 @@ export default class NavigationBar extends React.Component{
             elevation: 4
         }}>
             <View style={{width:80,height:43}}></View>
-            <Text style={{fontSize:20,fontWeight:'500',color:'black',textAlign:'center',flex:1}}>{this.props.centertext}</Text>
+            <Text style={{fontSize:20,fontWeight:'500',color:'white',textAlign:'center',flex:1}}>{this.props.centertext}</Text>
             <View style={{width:80,justifyContent:'center',alignItems:'center'}}>
                 {
                     this.props.centertext==='两票管理'?
-                    <Button color='#1e56a0' title="新建两票" onPress={()=>this.show()}/>:null
+                    <Button color='#2185d5' title="新建两票" onPress={()=>this.show()}/>:null
                 }
             </View>    
         </View>)

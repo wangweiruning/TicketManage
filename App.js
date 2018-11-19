@@ -88,15 +88,15 @@ const TabNavigatorConfigs = {
   lazy: true, // 是否懒加载页�?
   header:null,
   tabBarOptions: {
-      activeBackgroundColor:'#0C97E2',
+     activeBackgroundColor:'#4c70b9',
      inactiveBackgroundColor:'#c1c1c1',
      activeTintColor: 'white',
      inactiveTintColor:'black',
-      labelStyle: { fontSize: 10, margin: 0 },
-      IconStyle: { margin: 0 },
-      showIcon: true,
-      pressOpacity: 1,
-      tabStyle: {
+     labelStyle: { fontSize: 10, margin: 0 },
+     IconStyle: { margin: 0 },
+     showIcon: true,
+     pressOpacity: 1,
+     tabStyle: {
           // backgroundColor: '#0C97E2',
       },
   } // 在属性TabBarBottom与TabBarTop中有所不同

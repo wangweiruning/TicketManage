@@ -58,6 +58,27 @@ this.state.ischanges=nextProps.ischanges
       if(this.time){
         clearTimeout(this.time)
       }
+
+      if(!text){
+            this.setState({
+                SelectData:this.props.SelectData,
+            });
+            return;
+      }
+
+      let newData = [];
+      for (var i = 0; i < this.props.SelectData.length; i++) {
+          let ds = this.props.SelectData[i];
+          console.log(ds,'dddddddddddddddddddd')
+          if((ds.realname && ds.realname.indexOf(text)!=-1) || (ds.DepartmentName && ds.DepartmentName.indexOf(text)!=-1)){
+            newData.push(ds);
+          }
+      }
+      this.setState({
+        SelectData:newData,
+     });
+
+      return;
       
       this.time = setTimeout(()=>{
         if (text==='') {
@@ -67,7 +88,7 @@ this.state.ischanges=nextProps.ischanges
             return;
         }else{
             for (var i = 0; i < this.props.SelectData.length; i++) {
-               if (this.props.SelectData[i].realname===text ||this.props.SelectData[i].departmentName ===text) {
+               if (this.props.SelectData[i].realname.indexOf(text)!=-1 ||this.props.SelectData[i].departmentName.indexOf(text)!=-1) {
                     this.setState({
                         SelectData:[this.props.SelectData[i]],
                     });
@@ -97,7 +118,8 @@ this.state.ischanges=nextProps.ischanges
             </TouchableOpacity>
             {
             this.state.visible && 
-            <Modal animationType={'slide'} transparent={true} onRequestClose={()=>console.log('关闭')}>
+            <Modal animationType={'slide'} transparent={true} onRequestClose={()=>{this.setState({visible:false,SelectData:this.props.SelectData})
+            this.props.open(this.state.activeItem,this.props.leixin,this.props.banzu)}}>
             <View style={{backgroundColor:'#ecf0f1',}}>
             <View style={{flexDirection:'row',alignItems:'center',borderBottomColor:'lightgray',borderStyle:'solid',borderBottomWidth:1}}>
             <Image style={{left:5,width:16, height:16}}  source={require('../images/serch.png')}/>
@@ -137,10 +159,8 @@ this.state.ischanges=nextProps.ischanges
                 />
                 <TouchableOpacity activeOpacity={.7} style={{justifyContent:'center',alignItems:'center',backgroundColor:'#00a6e7',height:50}} 
                     onPress={()=>{
-                        
                         this.setState({visible:false,SelectData:this.props.SelectData})
                         this.props.open(this.state.activeItem,this.props.leixin,this.props.banzu)
-                        this.forceUpdate();
                     }}>
                     <Text style={{fontSize:18,color:'white'}}>确定</Text>
                 </TouchableOpacity>

@@ -72,7 +72,7 @@ export default class HistoryPlan extends React.Component{
         <View style={{flex:1}}>
           <Title navigation={this.props.navigation} centerText={'历史流程'} />
           {/* 需要循环获取数据 */}
-              <View style={{flex:1,backgroundColor:"#ffffff"}}>
+              <View style={{flex:1}}>
               {this.state.mengCard&&<View style={{display:"flex",flexDirection:"column",zIndex:444,width:"100%",height:"100%",backgroundColor:"gray"}}>
               <View style={{marginTop:"50%"}}>
                 <ActivityIndicator color="#ffffff"/>
@@ -81,18 +81,20 @@ export default class HistoryPlan extends React.Component{
               <ScrollView>
                 {result.length>0&&result.map((itemdata,index)=>{
                   return <View key={index}
-                  style={{marginTop:5,paddingBottom:10,paddingTop:10,width:"90%",marginLeft:20}}>
-                  <Text style={{marginTop:5,color:"#000000"}}>两票类型：{itemdata.tickettypename}</Text>
-                  <Text style={{marginTop:5,color:"#000000"}}>两票编号：{itemdata.ticketserialnum}</Text>
-                  <Text style={{marginTop:5,color:"#000000"}}>工作负责人：{itemdata.realname}</Text>
-                  <View><Text style={{marginTop:5,color:"#000000"}}>内容：</Text></View>
-                  <Text numberOfLines={10} style = {{marginTop:5,paddingBottom:15,borderColor:"#eeeeee",borderWidth:1,borderStyle:"solid",color:"#000000",padding:4}}>{itemdata.content}</Text>
-                  <Text style={{marginTop:5,color:"#000000",marginBottom:5}}>开票时间：{itemdata.filltickettime}</Text>
-                  <Button
+                  style={{marginTop:6,marginBottom:6,paddingBottom:10,width:"95%",marginLeft:10,backgroundColor:'white',borderRadius:10}}>
+                  <Text style={{marginTop:30,color:"#000000",marginLeft:16}}>两票类型：{itemdata.tickettypename}</Text>
+                  <Text style={{marginTop:3,color:"#000000",marginLeft:16}}>两票编号：{itemdata.ticketserialnum}</Text>
+                  <Text style={{marginTop:3,color:"#000000",marginLeft:16}}>工作负责人：{itemdata.realname}</Text>
+                  <View><Text style={{marginTop:3,color:"#000000",marginLeft:16}}>内容：</Text></View>
+                  <Text numberOfLines={10} style = {{marginLeft:16,width:'93%',marginTop:3,paddingBottom:15,borderColor:"#eeeeee",borderWidth:1,borderStyle:"solid",color:"#000000",padding:4}}>{itemdata.content}</Text>
+                  <Text style={{marginTop:3,color:"#000000",marginBottom:5,marginLeft:16}}>开票时间：{itemdata.filltickettime}</Text>
+                  <View style={{width:'91%',elevation:3,marginLeft:18}}>
+                    <Button
                   onPress={()=>this.gotoItem(itemdata)}
                   title="查看详情"
                   color="#406ea4"
                   />
+                </View>
                 </View>
                 })}
                 {this.state.havenotdate&&<View style={{marginVertical:20}}><Text style={{textAlign:"center"}}>暂时没有数据！</Text></View>}

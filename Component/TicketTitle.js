@@ -21,20 +21,20 @@ export default class TicketTitle extends React.Component{
         return(<View style={{
             width: '100%',
             height: 43,
-            backgroundColor: 'white',
+            backgroundColor: '#4c70b9',
             display:'flex',
             flexDirection: 'row',
             alignItems: 'center',
             elevation: 4
         }}>
             <TouchableOpacity activeOpacity={0.8} onPress={()=>this._toBack()}
-                                  style={{width: 60,marginLeft:5,height:35,display:'flex',alignItems:'center',flexDirection:'row'}}>   
+                                  style={{width: 60,marginLeft:5,height:38,display:'flex',alignItems:'center',flexDirection:'row'}}>   
                     <Image source={require('../images/back.png')}
                         style={{resizeMode: Image.resizeMode.contain, height: 20, width: 20}}/>
-                    <Text style={{color: '#007aff'}}>返回</Text>
+                    <Text style={{color: 'white'}}>返回</Text>
             </TouchableOpacity>
             <View style={{flex:1,alignItems: 'center'}}>
-                <Text style={{color: 'black',fontSize:15,textAlign:"center"}}>{this.props.centerText}</Text>
+                <Text style={{color: 'white',fontSize:15,textAlign:"center"}}>{this.props.centerText}</Text>
             </View>
             <TouchableOpacity style={{justifyContent:'center',width:60,height:35,right:5}}>
             {this.props.numns&&<Text onPress={()=>this.go()} style={{color:'#007aff'}}>流程查看</Text>}

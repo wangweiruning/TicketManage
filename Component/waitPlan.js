@@ -142,7 +142,7 @@ export default class WaitPlan extends React.Component{
       <View style={{flex:1}}>
         <Title navigation={this.props.navigation} centerText={'待处理流程'} />
         {/* 需要循环获取数据 */}
-            <View style={{flex:1,backgroundColor:"#ffffff",marginTop:0}}>
+            <View style={{flex:1,marginTop:0}}>
             {/* {jconfig.userinfo.status?<PageListView
                 height={height}
                 pageLen={15}
@@ -162,21 +162,23 @@ export default class WaitPlan extends React.Component{
              return (
               <View key={index}
                     onPress={()=>this.gotoItem(itemdata)}
-                    style={{marginTop:5,paddingBottom:10,paddingTop:10,width:"90%",marginLeft:20,height:250}}>
+                    style={{marginTop:6,marginBottom:6,paddingBottom:10,width:"95%",marginLeft:10,borderRadius:10,backgroundColor:'white'}}>
                      <Animatable.View key={index} useNativeDriver animation="fadeInRight" easing="ease-out-expo">
-                <Text style={{color:"#000000",marginTop:5}}>两票类型：{itemdata.tickettypename}</Text>
-                <Text style={{color:"#000000",marginTop:5}}>负责人：{itemdata.headuser}</Text>
-                <Text style={{color:"#000000",marginTop:5}}>编号：{itemdata.ticketserialnum}</Text>
-                <Text style={{color:"#000000",marginTop:5}}>流转人：{itemdata.manageuser}</Text>
-                <View><Text style={{color:"#000000",marginTop:5}}>内容：</Text></View>
-                <Text numberOfLines={10} style = {{marginTop:5,paddingBottom:15,borderColor:"#eeeeee",borderWidth:1,borderStyle:"solid",color:"#000000",padding:4}}>{itemdata.content}</Text>
-                <Text style={{color:"orange",marginTop:5}}>等待时间：{this.awaitTime(itemdata.lastTime)}</Text>
-                <Text style={{color:"#000000",marginTop:5,marginBottom:5}}>流转时间：{itemdata.lastTime.replace(/T/,' ')}</Text>
-                <Button
+                <Text style={{color:"#000000",marginTop:20,marginLeft:16}}>两票类型：{itemdata.tickettypename}</Text>
+                <Text style={{color:"#000000",marginTop:3,marginLeft:16}}>负责人：{itemdata.headuser}</Text>
+                <Text style={{color:"#000000",marginTop:3,marginLeft:16}}>编号：{itemdata.ticketserialnum}</Text>
+                <Text style={{color:"#000000",marginTop:3,marginLeft:16}}>流转人：{itemdata.manageuser}</Text>
+                <View><Text style={{color:"#000000",marginTop:3,marginLeft:16}}>内容：</Text></View>
+                <Text numberOfLines={10} style = {{marginLeft:16,width:'93%',marginTop:3,paddingBottom:15,borderColor:"#eeeeee",borderWidth:1,borderStyle:"solid",color:"#000000",padding:4}}>{itemdata.content}</Text>
+                <Text style={{color:"orange",marginTop:3,marginLeft:16}}>等待时间：{this.awaitTime(itemdata.lastTime)}</Text>
+                <Text style={{color:"#000000",marginTop:3,marginBottom:5,marginLeft:16}}>流转时间：{itemdata.lastTime.replace(/T/,' ')}</Text>
+                <View style={{width:'91%',elevation:3,marginLeft:18}}>
+                  <Button
                     onPress={()=>this.gotoItem(itemdata)}
                     title="查看详情"
                     color="#406ea4"
                     />
+                </View>
                 </Animatable.View>
             </View>
             )

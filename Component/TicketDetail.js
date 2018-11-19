@@ -451,6 +451,7 @@ export default class Tdetail extends React.Component{
         }
     }
     render(){
+        console.log(this.state.jax,'this.state.jaxthis.state.jax')
         let getAllTempanyId = this.state.getAllTempanyId
         return(<View style={{position:'relative',justifyContent:'center',backgroundColor:'white',flex:1}}>
             <TicketTitle navigation={this.props.navigation} num={this.state.num} centerText={this.props.navigation.state.params.v+' '+this.state.num}/>

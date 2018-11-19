@@ -124,7 +124,7 @@ let result = this.state.result;
         <View style={{flex:1}}>
         <Title navigation={this.props.navigation} centerText={'相关流程'} />
         {/* 需要循环获取数据 */}
-            <View style={{flex:1,backgroundColor:"#ffffff"}}>
+            <View style={{flex:1}}>
             {this.state.mengCard&&<View style={{display:"flex",flexDirection:"column",zIndex:444,width:"100%",height:"100%",backgroundColor:"gray"}}>
             <View style={{marginTop:"50%"}}>
                 <ActivityIndicator color="#ffffff"/>
@@ -136,19 +136,21 @@ let result = this.state.result;
                   <View 
                         key={index}
                         onPress={()=>this.gotoItem(itemdata)}
-                        style={{marginTop:5,paddingBottom:10,paddingTop:10,width:"90%",marginLeft:20,height:250}}>
-                    <Text style={{marginTop:5,color:"#000000"}}>两票类型：{itemdata.tickettypename}</Text>
-                    <Text style={{marginTop:5,color:"#000000"}}>负责人：{itemdata.headuser}</Text>
-                    <Text style={{marginTop:5,color:"#000000"}}>编号：{itemdata.ticketserialnum}</Text>
-                    <Text style={{marginTop:5,color:"#000000"}}>流转人：{itemdata.manageuser}</Text>
-                    <View><Text style={{marginTop:5,color:"#000000"}}>内容：</Text></View>
-                    <Text numberOfLines={10} style = {{marginTop:5,paddingBottom:15,borderColor:"#eeeeee",borderWidth:1,borderStyle:"solid",color:"#000000",padding:4}}>{itemdata.content}</Text>
-                    <Text style={{marginTop:5,color:"#000000",marginBottom:5}}>处理时间：{itemdata.managetime.replace(/T/,' ')}</Text>
-                    <Button
+                        style={{marginBottom:6,marginTop:6,paddingBottom:10,width:"95%",marginLeft:10,borderRadius:10,backgroundColor:'white'}}>
+                    <Text style={{marginTop:30,color:"#000000",marginLeft:16}}>两票类型：{itemdata.tickettypename}</Text>
+                    <Text style={{marginTop:3,color:"#000000",marginLeft:16}}>负责人：{itemdata.headuser}</Text>
+                    <Text style={{marginTop:3,color:"#000000",marginLeft:16}}>编号：{itemdata.ticketserialnum}</Text>
+                    <Text style={{marginTop:3,color:"#000000",marginLeft:16}}>流转人：{itemdata.manageuser}</Text>
+                    <View><Text style={{marginTop:3,color:"#000000",marginLeft:16}}>内容：</Text></View>
+                    <Text numberOfLines={10} style = {{marginLeft:16,width:'93%',marginTop:3,paddingBottom:15,borderColor:"#eeeeee",borderWidth:1,borderStyle:"solid",color:"#000000",padding:4}}>{itemdata.content}</Text>
+                    <Text style={{marginTop:3,color:"#000000",marginBottom:5,marginLeft:16}}>处理时间：{itemdata.managetime.replace(/T/,' ')}</Text>
+                    <View style={{width:'91%',elevation:3,marginLeft:18}}>
+                      <Button
                         onPress={()=>this.gotoItem(itemdata)}
                         title="查看详情"
                         color="#406ea4"
                         />
+                      </View>
                 </View>
                 )
               })}
