@@ -1,7 +1,7 @@
 import React from 'react';
 import TicketTitle from './TicketTitle';
 import {List,Checkbox,TextareaItem,ActivityIndicator} from 'antd-mobile-rn';
-import {View,Text,ScrollView,TouchableOpacity,TextInput,ToastAndroid,Alert} from 'react-native';
+import {View,Text,ScrollView,TouchableOpacity,TextInput,ToastAndroid,Alert,Image} from 'react-native';
 import ModalDropdown from 'react-native-modal-dropdown';
 import DatePicker from 'react-native-datepicker'
 import {newTiceketNum,
@@ -61,7 +61,8 @@ export default class Tdetail extends React.Component{
             basicInfoId:"",
             getAllTempanyId:[],
             ischanges:false,
-            loading:false
+            loading:false,
+            jcnum:1,
         }
     }
 
@@ -496,9 +497,9 @@ export default class Tdetail extends React.Component{
                   height:29.3,justifyContent:'center'}}  
                   defaultValue={v.ParaName=="工作负责人"?this.state.isgzfzr?this.state.isgzfzr:"请选择":"请选择"}
                   onSelect={(e,value)=>this.getSelect(value,'datalist'+i,getAllTempanyId[i])}
-                  options={this.BackpageUseName()}/>:v.ParaTypeID==2?
+                  options={this.BackpageUseName()}/>:v.ParaTypeID==2 || v.IsAdd==1?
                   <View>
-                   <TextInput editable={!dis} placeholder="请输入内容..." underlineColorAndroid="transparent"
+                    <TextInput editable={!dis} placeholder="请输入内容..." underlineColorAndroid="transparent"
                     onChangeText={(v)=>this.handleInput('datalist'+i,v,getAllTempanyId[i])} style={{backgroundColor:'white',width:'100%',backgroundColor:!dis?"#fffeee":"#cccfff"}}/>
                     {v.IsConfirm==1?<View style={{flexDirection:'row',margin:5}}>
                     <Checkbox onChange={(e)=>this.onChangecoform(getAllTempanyId[i]+"_1",e.target.checked)}
@@ -519,12 +520,23 @@ export default class Tdetail extends React.Component{
                     placeholder="请选择时间"      
                     onDateChange={(e)=>this.onChange('datalist'+i ,e,getAllTempanyId[i])}/>
                     :
-                    v.ParaTypeID==6?
-                  <View><TextareaItem editable={!dis} placeholder="请输入内容..."
-                  onChange={(v)=>this.handleInput('datalist'+i,v,getAllTempanyId[i])}
-                //   value={itemMsg[i-1]} 
-                  autoHeight 
-                  style={{ paddingVertical: 5 ,backgroundColor:!dis?"#fffeee":"#cccfff"}} />
+                    v.ParaTypeID==6 || v.IsAdd==1?
+                  <View>
+                    <View style={{flexDirection:'row'}}>
+                    <TouchableOpacity onPress={()=>this.setState({jcnum:++this.state.jcnum})}>
+                    <Image resizeMode="contain" style={{width:20}} source={require('../images/add.png')}/>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={()=>this.state.jcnum==1?"":this.setState({jcnum:--this.state.jcnum})}>
+                    <Image resizeMode="contain" style={{width:20}} source={require('../images/delete.png')}/>
+                    </TouchableOpacity>
+                    </View>
+                    {
+                        new Array(this.state.jcnum).fill(7).map((item, index) => <TextareaItem key={index} editable={!dis} placeholder="请输入内容..."
+                        onChange={(v)=>this.handleInput('datalist'+i,v,getAllTempanyId[i])}
+                    //   value={itemMsg[i-1]} 
+                      autoHeight 
+                      style={{ paddingVertical: 5 ,backgroundColor:!dis?"#fffeee":"#cccfff"}} />)
+                    }
                   {v.IsConfirm==1?<View style={{flexDirection:'row'}}><Checkbox onChange={(e)=>this.onChangecoform('Checkbox'+i,e.target.checked)} disabled={dis}/><Text>是否已执行</Text></View>:<Text></Text>}
                   </View>:null
                }
