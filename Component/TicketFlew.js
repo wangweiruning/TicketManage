@@ -25,10 +25,10 @@ export default class TicketFlew extends React.Component{
         if(!jconfig.userinfo) return ToastAndroid.show('请登录',ToastAndroid.SHORT);
         let ghr = `?form.basicInfoId=${this.props.navigation.state.params.basicInfoId}`;
         let result = await searchFlowRecord(ghr);
-        console.log(result.form.dataList,"0000000000000000000000")
+        console.log(this.props,"0000000000000000000000")
         let arr0 = result.form.dataList[0];
         let arrs =result.form.dataList;
-        if(this.props.navigation.state.params.ishsitory){
+        if(this.props.navigation.state.params.ishistory){
             arrs = result.form.dataList.slice(1,result.form.dataList.length);
             arrs = arrs.concat(arr0)
         }

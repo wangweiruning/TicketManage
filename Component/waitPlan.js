@@ -66,6 +66,7 @@ export default class WaitPlan extends React.Component{
                                                 recordoption:params.recordoption,
                                                 flowroleid:params.flowroleid,
                                                 detailinfo:params.detailinfo,
+                                                ishistory:true,
                                                 _:Date.parse(new Date())})
     }
 

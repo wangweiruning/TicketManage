@@ -894,7 +894,7 @@ export default class Tdetail extends React.Component{
 
     render(){
         return(<View style={{justifyContent:'center'}}>
-                    <TicketTitle navigation={this.props.navigation} num={true} numns={true}
+                    <TicketTitle navigation={this.props.navigation} num={true} numns={true} ishistory={this.props.navigation.state.params.ishistory}
                         centerText={this.props.navigation.state.params.typeName}/>    
                     {this.state.loading?<View style={{alignItems:'center',top:'45%'}}>
                     <View style={{borderRadius:4,
@@ -938,6 +938,14 @@ export default class Tdetail extends React.Component{
                                 alignItems:'center',
                                 }}>
                                 <Text style={{color:'#3e5ed2',left:5}}>{v.ParaName}</Text>
+                                {v.IsAdd==1&& <View style={{flexDirection:'row',left:5}}>
+                         <TouchableOpacity onPress={()=>this.add(v.TicketParaID)}>
+                            <Image resizeMode="contain" style={{width:20,top:1}} source={require('../images/add.png')}/>  
+                        </TouchableOpacity>
+                        {/* <TouchableOpacity onPress={()=>this.delete(v.TicketParaID)}>
+                            <Image resizeMode="contain" style={{width:20}} source={require('../images/delete.png')}/>
+                        </TouchableOpacity> */}
+                    </View>}
                             </View>
                             {   v.ParaTypeID==4? 
                                 <DropdownCheckbox open={this.openothers.bind(this)}  
@@ -997,14 +1005,7 @@ export default class Tdetail extends React.Component{
                                 :v.ParaTypeID==6?
                                 <View>                        
                                 <View style={{flexDirection:'column',margin:5}}>
-                                {v.IsAdd==1&& <View style={{flexDirection:'row'}}>
-                         <TouchableOpacity onPress={()=>this.add(v.TicketParaID)}>
-                            <Image resizeMode="contain" style={{width:20}} source={require('../images/add.png')}/>  
-                        </TouchableOpacity>
-                        {/* <TouchableOpacity onPress={()=>this.delete(v.TicketParaID)}>
-                            <Image resizeMode="contain" style={{width:20}} source={require('../images/delete.png')}/>
-                        </TouchableOpacity> */}
-                    </View>}
+                            
                     {
                         v.IsAdd==1?
                         new Array(this.isnums(v.TicketParaID)).fill(7).map((item, index) => <TextareaItem key={index} editable={dis} 
@@ -1015,7 +1016,7 @@ export default class Tdetail extends React.Component{
                             autoHeight 
                             style={{paddingVertical: 5,
                                     borderBottomWidth:2,
-                                    backgroundColor:!dis?"#fffeee":"#cccfff"}}
+                                    backgroundColor:dis?"#fffeee":"#cccfff"}}
                     />):
                       <TextareaItem  editable={dis} 
                         rows={4}

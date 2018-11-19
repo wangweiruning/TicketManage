@@ -113,7 +113,8 @@ export default class CorrelationPlan extends React.Component{
             departmentid:params.departmentid,
             ticketbasicinfoid:params.ticketbasicinfoid,
             userId:this.state.userId,
-            canot:true
+            canot:true,
+            ishistory:true
           })
     }
 

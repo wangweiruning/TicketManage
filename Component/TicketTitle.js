@@ -15,7 +15,9 @@ export default class TicketTitle extends React.Component{
     }
 
     go(){
-        this.props.navigation.navigate('TicketFlew',{basicInfoId:this.props.navigation.state.params.ticketbasicinfoid,name:this.props.navigation.state.params.typeName})
+        this.props.navigation.navigate('TicketFlew',{basicInfoId:this.props.navigation.state.params.ticketbasicinfoid,
+            name:this.props.navigation.state.params.typeName,
+            ishistory:this.props.navigation.state.params.ishistory})
     }
     render(){
         return(<View style={{
@@ -37,7 +39,7 @@ export default class TicketTitle extends React.Component{
                 <Text style={{color: 'white',fontSize:15,textAlign:"center"}}>{this.props.centerText}</Text>
             </View>
             <TouchableOpacity style={{justifyContent:'center',width:60,height:35,right:5}}>
-            {this.props.numns&&<Text onPress={()=>this.go()} style={{color:'#007aff'}}>流程查看</Text>}
+            {this.props.numns&&<Text onPress={()=>this.go()} style={{color:'#ffffff'}}>流程查看</Text>}
             </TouchableOpacity>
         </View>)
     }
