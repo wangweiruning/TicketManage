@@ -26,9 +26,16 @@ export default class TicketFlew extends React.Component{
         let ghr = `?form.basicInfoId=${this.props.navigation.state.params.basicInfoId}`;
         let result = await searchFlowRecord(ghr);
         console.log(result.form.dataList,"0000000000000000000000")
-               if(result&&result.form.dataList.length>0){
+        let arr0 = result.form.dataList[0];
+        let arrs =result.form.dataList;
+        if(this.props.navigation.state.params.ishsitory){
+            arrs = result.form.dataList.slice(1,result.form.dataList.length);
+            arrs = arrs.concat(arr0)
+        }
+        console.log(11111111111111,arrs)
+               if(result&&arrs.length>0){
               this.setState({
-                  result:result.form.dataList[0].ticketstatusname=="开票"?result.form.dataList:result.form.dataList.reverse(),//序列化：转换为一个 (字符串)JSON字符串
+                  result:arrs,//序列化：转换为一个 (字符串)JSON字符串
               });
              }
 }
@@ -47,10 +54,16 @@ export default class TicketFlew extends React.Component{
         return tian+shi+fen;
         }
     }
+    awaitTime(time){
+       return this.itemdata(time)
+    }
      showpage(){
         let itemdatas = this.state.result;
+        
         if (itemdatas.length>0) {
+            let awaitTime = itemdatas[itemdatas.length-2].ManageTime;
             return  itemdatas.map((itemdata,i)=>{
+                
                 return <Animatable.View key={i} useNativeDriver animation="fadeInRight" easing="ease-out-expo">
                 <View  style={{
                                 marginTop:5,
@@ -74,8 +87,8 @@ export default class TicketFlew extends React.Component{
                                                 ?"#999999":"red"
                                 }}>
                         <Text style={{color:"#000000"}}>  两票状态：{itemdata.ticketstatusname}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{itemdata.ticketrolename}</Text>
-                        <Text style={{color:"#000000"}}>  处理人：{itemdata.RealName}</Text>
-                        <Text style={{color:"#000000"}}>  处理周期：{itemdata.TimePeriod}小时</Text>
+                        <Text style={{color:"#000000"}}>  处理人：{itemdata.ManageTime==null?"":itemdata.RealName}</Text>
+                        <Text style={{color:"#000000"}}> {itemdata.ManageTime==null?" 等待时间":" 处理周期"}：{itemdata.ManageTime==null?this.awaitTime(awaitTime):itemdata.TimePeriod+"小时"}</Text>
                         <Text style={{color:"#000000"}}>  处理意见：{itemdata.RecordOption==1?'同意':itemdata.RecordOption==""?"待处理":'不同意'}</Text>
                         <Text style={{color:"#000000"}}>  处理时间：{itemdata.ManageTime!=null?itemdata.ManageTime.replace(/T/,' '):"待处理"}</Text>
                     </View>

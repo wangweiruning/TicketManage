@@ -63,6 +63,9 @@ export default class Tdetail extends React.Component{
             ischanges:false,
             loading:false,
             jcnum:1,
+            isadd:{},
+            additem:{},
+            datamore:{}
         }
     }
 
@@ -124,14 +127,20 @@ export default class Tdetail extends React.Component{
           }
           let aaa=[];
           let getAllTempanyId = [];
-          
+          let aas=[];
           bool.form.templateContents.map((item,i)=>{
+
             let idss = item.TicketParaID;
             getAllTempanyId.push(idss)
             let dd={["datalist"+i]:null};
+            
              aaa=Object.assign(this.state.pagedata,dd)
+             if(item.IsAdd==1){
+                 aas=Object.assign(this.state.isadd,{[item.TicketParaID]:1});
+            }
           })
-          this.setState({pagedata:aaa,getAllTempanyId:getAllTempanyId})
+
+          this.setState({pagedata:aaa,getAllTempanyId:getAllTempanyId,isadd:aas})
         let kl = [];
         let google = good.form.dataList[1].ticketstatusname;
         kl.push(google)
@@ -161,6 +170,7 @@ export default class Tdetail extends React.Component{
        this.getlls(bool.form.templateContents);
       }
       
+
       getlls(data){
         let datas = [];
             data.map((v,i)=>{
@@ -214,6 +224,7 @@ export default class Tdetail extends React.Component{
                 }
             }
         }
+        
         this.forceUpdate();
     }
 
@@ -351,11 +362,28 @@ export default class Tdetail extends React.Component{
             newpagedata:datas
         });
     }
+    handleInputmore(k, v,three,index){
+        let datamores = this.state.datamore;
+        let moredata = Object.values(datamores)
+        let s ={[k]:v};
+        let rt = {[three+index]:v}
+        console.log("rrr",k, v,three)
+        let data = Object.assign(this.state.pagedata,s)
+        let datamore = Object.assign(this.state.datamore,rt)
+
+        let datas = Object.assign(this.state.newpagedata,{[three+"*1"]:moredata})
+        
+        this.setState({
+            pagedata: data,
+            newpagedata:datas,
+            datamore:datamore
+        });
+        console.log("fffffffff",datas)
+    }
     isChacked=(ss)=>{
         let sss = this.state.pagedata;
         
         let aa = Object.values(sss);
-        console.log(aa)
              return aa;
     }
    
@@ -407,7 +435,7 @@ export default class Tdetail extends React.Component{
         para +=("&"+a+"="+encodeURIComponent(data[a]));
         }
         para ='?'+para.substr(1,para.length);
-        console.log(data,para,'daaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaad')
+        console.log(newpagedata,para,'daaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaad')
         let all = await tijiao(para);
         console.log(all,'daaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaad')
         if(all.form.paraData.length>2){
@@ -450,6 +478,45 @@ export default class Tdetail extends React.Component{
             })
         }
     }
+    add(v){
+        let varr=this.state.isadd;
+        let keys = Object.keys(varr);
+        let values = Object.values(varr);
+        
+        let index = keys.findIndex((item,i)=>{
+            if(item==v){
+                console.log(varr,"555555555")
+                itemsss =  values[i+1]+1;
+                let objects = Object.assign(this.state.isadd,{[item]:values[i]+1})
+                this.state.isadd=objects;
+                this.forceUpdate();
+            }
+        })  
+    }
+    isnums(v){
+        let varr=this.state.isadd;
+        let keys = Object.keys(varr);
+        let values = Object.values(varr);
+        let ss =0;
+        let index = keys.findIndex((item,i)=>{
+            if(item==v){
+                ss=i
+            }
+        })
+        return values[ss];  
+    }
+    delete(v){
+        let varr=this.state.isadd;
+        let keys = Object.keys(varr);
+        let values = Object.values(varr);
+        let index = keys.findIndex((item,i)=>{
+            if(item==v){
+                let objects = Object.assign(this.state.isadd,{[item]:values[i]-1<=1?1:values[i]-1})
+                this.state.isadd=objects;
+                this.forceUpdate();
+            }
+        })
+    }
     render(){
         console.log(this.state.jax,'this.state.jaxthis.state.jax')
         let getAllTempanyId = this.state.getAllTempanyId
@@ -464,7 +531,6 @@ export default class Tdetail extends React.Component{
             this.state.jax.map((v,i)=>
             {
            let dis = this.chackSSSS(v.TicketParaID);
-          
            let itemMsg = this.isChacked(i);
            return <View key={i} style={{backgroundColor:'white',marginTop:5}}>
               <View style={{
@@ -498,7 +564,7 @@ export default class Tdetail extends React.Component{
                   height:29.3,justifyContent:'center'}}  
                   defaultValue={v.ParaName=="工作负责人"?this.state.isgzfzr?this.state.isgzfzr:"请选择":"请选择"}
                   onSelect={(e,value)=>this.getSelect(value,'datalist'+i,getAllTempanyId[i])}
-                  options={this.BackpageUseName()}/>:v.ParaTypeID==2 || v.IsAdd==1?
+                  options={this.BackpageUseName()}/>:v.ParaTypeID==2 ?
                   <View>
                     <TextInput editable={!dis} placeholder="请输入内容..." underlineColorAndroid="transparent"
                     onChangeText={(v)=>this.handleInput('datalist'+i,v,getAllTempanyId[i])} style={{backgroundColor:'white',width:'100%',backgroundColor:!dis?"#fffeee":"#cccfff"}}/>
@@ -521,22 +587,26 @@ export default class Tdetail extends React.Component{
                     placeholder="请选择时间"      
                     onDateChange={(e)=>this.onChange('datalist'+i ,e,getAllTempanyId[i])}/>
                     :
-                    v.ParaTypeID==6 || v.IsAdd==1?
+                    v.ParaTypeID==6?
                   <View>
-                    <View style={{flexDirection:'row'}}>
-                    <TouchableOpacity onPress={()=>this.setState({jcnum:++this.state.jcnum})}>
-                    <Image resizeMode="contain" style={{width:20}} source={require('../images/add.png')}/>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={()=>this.state.jcnum==1?"":this.setState({jcnum:--this.state.jcnum})}>
-                    <Image resizeMode="contain" style={{width:20}} source={require('../images/delete.png')}/>
-                    </TouchableOpacity>
-                    </View>
+                    {v.IsAdd==1&& <View style={{flexDirection:'row'}}>
+                         <TouchableOpacity onPress={()=>this.add(v.TicketParaID)}>
+                            <Image resizeMode="contain" style={{width:20}} source={require('../images/add.png')}/>  
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={()=>this.delete(v.TicketParaID)}>
+                            <Image resizeMode="contain" style={{width:20}} source={require('../images/delete.png')}/>
+                        </TouchableOpacity>
+                    </View>}
                     {
-                        new Array(this.state.jcnum).fill(7).map((item, index) => <TextareaItem key={index} editable={!dis} placeholder="请输入内容..."
-                        onChange={(v)=>this.handleInput('datalist'+i,v,getAllTempanyId[i])}
+                        v.IsAdd==1?new Array(this.isnums(v.TicketParaID)).fill(7).map((item, index) => <TextareaItem key={index} editable={!dis} placeholder="请输入内容..."
+                        onChange={(e)=>this.handleInputmore('datalist'+i,e,getAllTempanyId[i],index)}
                     //   value={itemMsg[i-1]} 
                       autoHeight 
-                      style={{ paddingVertical: 5 ,backgroundColor:!dis?"#fffeee":"#cccfff"}} />)
+                      style={{ paddingVertical: 5 ,backgroundColor:!dis?"#fffeee":"#cccfff"}} />):<TextareaItem  editable={!dis} placeholder="请输入内容..."
+                      onChange={(e)=>this.handleInput('datalist'+i,e,getAllTempanyId[i])}
+                  //   value={itemMsg[i-1]} 
+                    autoHeight 
+                    style={{ paddingVertical: 5 ,backgroundColor:!dis?"#fffeee":"#cccfff"}} />
                     }
                   {v.IsConfirm==1?<View style={{flexDirection:'row'}}><Checkbox onChange={(e)=>this.onChangecoform('Checkbox'+i,e.target.checked)} disabled={dis}/><Text>是否已执行</Text></View>:<Text></Text>}
                   </View>:null
