@@ -60,7 +60,8 @@ export default class HistoryPlan extends React.Component{
                                             isqianfa:false,
                                             ticketstatusname:sss.ticketstatusname,//状态名字
                                             ticketbasicinfoid:sss.ticketbasicinfoid,//票基本信息id
-                                            canot:true
+                                            canot:true,
+                                            ishsitory:true
 })
 }
 
