@@ -1,6 +1,6 @@
 import React from 'react';
 import {InputItem,List,TextareaItem,ActivityIndicator} from 'antd-mobile-rn';
-import {View,Text,ScrollView,TouchableOpacity,Picker,TextInput,Alert,ToastAndroid,Dimensions} from 'react-native';
+import {View,Text,ScrollView,TouchableOpacity,Picker,TextInput,Alert,ToastAndroid,Dimensions,Image} from 'react-native';
 import ModalDropdown from 'react-native-modal-dropdown';
 import DropdownCheckbox from '../Component/DropdownCheckbox';
 import CheckBox from 'react-native-checkbox';
@@ -78,7 +78,13 @@ export default class Tdetail extends React.Component{
             newChecked:{},//是否选中
             ParaId:[],
             ischanges:false,
-            mengCard:true
+            mengCard:true,
+            moredata:{},
+            isadd:{},
+            additem:{},
+            showmore:true,
+            datamore:{}
+
         }
     }
     onBackClicked = () => {
@@ -191,11 +197,16 @@ export default class Tdetail extends React.Component{
             let dataPage = {};
             let getAllTempanyId=[];
             let dataid="";
+            let aas={};
           x.form.templateContents.map((v,index)=>{
                 dataid= v.TicketParaID
                 getAllTempanyId.push(dataid)
+                if(v.IsAdd==1){
+                    aas=Object.assign(this.state.isadd,{[v.TicketParaID]:1});
+               }
                 this.setState({
-                    getAllTempanyId:getAllTempanyId
+                    getAllTempanyId:getAllTempanyId,
+                    isadd:aas
                 })
         })
         this.getdefault(list);//获取默认值
@@ -765,27 +776,122 @@ export default class Tdetail extends React.Component{
  
     }
 
-    getchecked(getAllTempanyId){
+    getchecked(getAllTempanyId,defaltindex){
         let ggg = this.state.pagedata;
         let indexid = 0;
         let values = Object.values(ggg);
         let keys = Object.keys(ggg);
+        let gedefault="";
         const itemm =  keys.findIndex((item,index)=>{
             if(item==getAllTempanyId){
-                
                 indexid = index;
+                gedefault = values[indexid];
+                return true;
+            }else if(item==getAllTempanyId+"*1"){
+                gedefault = values[index].split("&$")[defaltindex];
                 return true;
             }else{
                 return false;
             }
         })
+        return gedefault ?gedefault:null
         
-        if(itemm!=-1){
-            return values[indexid]?values[indexid]:null
-        }else{
-            return null;
-        }
     }
+
+
+    add(v){
+        let varr=this.state.isadd;
+        let keys = Object.keys(varr);
+        let values = Object.values(varr);
+        
+        let index = keys.findIndex((item,i)=>{
+            if(item==v){
+                console.log(varr,"555555555")
+                itemsss =  values[i+1]+1;
+                let objects = Object.assign(this.state.isadd,{[item]:values[i]+1})
+                this.state.isadd=objects;
+                this.state.showmore=false;
+                this.forceUpdate();
+            }
+        })  
+    }
+    isnums(v){
+
+        let ggg = this.state.pagedata;
+        let values00 = Object.values(ggg);
+        let keys00 = Object.keys(ggg);
+        let textmore ="";
+        let varr=this.state.isadd;
+        let keys = Object.keys(varr);
+        let values = Object.values(varr);
+        let ss =0;
+        console.log("ggggggggg",varr)
+
+        keys00.findIndex((item,index)=>{
+            if(item.substr(item.length-2,item.length)=="*1"&&this.state.showmore){
+                textmore=values00[index];
+                textmore = textmore.split("&$").length;
+                let objects = Object.assign(this.state.isadd,{[v]:textmore})
+                this.state.isadd=objects;
+                this.state.showmore=false;
+                this.forceUpdate();
+            }else if(item==v){
+                    indexid = index;
+                    return true;  
+                }else{
+                    return false;
+             } 
+             })
+             
+             let index = keys.findIndex((item,i)=>{
+                 if(item==v){
+                     ss=i
+                 }
+             })
+
+         return textmore!=""?textmore:values[ss]
+            
+    }
+    delete(v){
+
+        let pagedata = this.state.pagedata;
+        let valuesmore = Object.values(pagedata);
+
+        let varr=this.state.isadd;
+        let keys = Object.keys(varr);
+        let values = Object.values(varr);
+        let index = keys.findIndex((item,i)=>{
+            if(item==v){
+                let objects = Object.assign(this.state.isadd,{[item]:values[i]-1<=1?1:values[i]-1});
+                let changedate=valuesmore.splice(valuesmore.length);
+                let newPageValue = Object.assign(this.state.pagedata,{[v+"*1"]:changedate});
+                console.log("valuesmore",newPageValue)
+                this.state.isadd=objects;
+                this.state.showmore=false;
+                this.forceUpdate();
+            }
+        })
+    }
+
+    handleInputmore( v,three,index){
+        let datamores = this.state.datamore;
+        let moredata = Object.values(datamores)
+        let s ={[v]:three};
+        let rt = {[v+index]:three}
+        let data = Object.assign(this.state.pagedata,s)
+        let datamore = Object.assign(this.state.datamore,rt)
+
+        let datas = Object.assign(this.state.newpagedata,{[v+"*1"]:moredata})
+        
+        this.setState({
+            pagedata: data,
+            newpagedata:datas,
+            datamore:datamore
+        });
+        console.log("fffffffff",datas)
+    }
+
+
     render(){
         return(<View style={{justifyContent:'center'}}>
                     <TicketTitle navigation={this.props.navigation} num={true} numns={true}
@@ -890,33 +996,47 @@ export default class Tdetail extends React.Component{
                                 onDateChange={(value)=>this.onChange(v.TicketParaID,value)}/>
                                 :v.ParaTypeID==6?
                                 <View>                        
-                                {v.IsConfirm==1 ?<View style={{flexDirection:'column',margin:5}}>
-                                <TextareaItem editable={dis} 
-                                                rows={4}
-                                                placeholder="请输入内容..." 
-                                                  defaultValue={this.getchecked(v.TicketParaID)}
-                                                  onChangeText={(values)=>this.handleInput(v.TicketParaID,values)}
-                                                  autoHeight 
-                                                  style={{ paddingVertical: 5,
-                                                    borderBottomWidth:2,
-                                                  backgroundColor:dis?"#fffeee":"#cccfff"}} />
-                                <CheckBox
+                                <View style={{flexDirection:'column',margin:5}}>
+                                {v.IsAdd==1&& <View style={{flexDirection:'row'}}>
+                         <TouchableOpacity onPress={()=>this.add(v.TicketParaID)}>
+                            <Image resizeMode="contain" style={{width:20}} source={require('../images/add.png')}/>  
+                        </TouchableOpacity>
+                        {/* <TouchableOpacity onPress={()=>this.delete(v.TicketParaID)}>
+                            <Image resizeMode="contain" style={{width:20}} source={require('../images/delete.png')}/>
+                        </TouchableOpacity> */}
+                    </View>}
+                    {
+                        v.IsAdd==1?
+                        new Array(this.isnums(v.TicketParaID)).fill(7).map((item, index) => <TextareaItem key={index} editable={dis} 
+                            rows={4}
+                            placeholder="请输入内容..." 
+                            defaultValue={this.getchecked(v.TicketParaID,index)}
+                            onChangeText={(values)=>this.handleInputmore(v.TicketParaID,values,index)}
+                            autoHeight 
+                            style={{paddingVertical: 5,
+                                    borderBottomWidth:2,
+                                    backgroundColor:!dis?"#fffeee":"#cccfff"}}
+                    />):
+                      <TextareaItem  editable={dis} 
+                        rows={4}
+                        placeholder="请输入内容..." 
+                        defaultValue={this.getchecked(v.TicketParaID)}
+                        onChangeText={(values)=>this.handleInput(v.TicketParaID,values)}
+                        autoHeight 
+                        style={{ paddingVertical: 5,
+                          borderBottomWidth:2,
+                        backgroundColor:dis?"#fffeee":"#cccfff"}} />
+                    }
+                    {v.IsConfirm==1&&<CheckBox
                                 label={'是否已执行'}
                                 checked={this.getddds(v.TicketParaID+'_1')}
                                 onChange={(e)=>dis&&this.onChangecoform(v.TicketParaID+'_1',e) }
                                 underlayColor={"transparent"}
-                                        ></CheckBox></View>:<TextareaItem editable={dis} 
-                                        rows={4}
-                                        placeholder="请输入内容..." 
-                                          defaultValue={this.getchecked(v.TicketParaID)}
-                                          onChangeText={(values)=>this.handleInput(v.TicketParaID,values)}
-                                          autoHeight 
-                                          style={{ paddingVertical: 5,
-                                            borderBottomWidth:2,
-                                          backgroundColor:dis?"#fffeee":"#cccfff"}} />}
-                                </View>:<Text></Text>
-                            }
-                                    </View>
+                                        >
+                                </CheckBox>}
+                                </View>
+                            </View>:null}
+                        </View>
                         })}
                         {this.props.navigation.state.params.isqianfa&&<View>
                             <View style={{backgroundColor:'white',marginTop:5,marginBottom:20}}>
