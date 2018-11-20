@@ -26,7 +26,7 @@ export default class HomeScreen extends React.Component {
    }
   render() {
       const { navigate } = this.props.navigation;
-      return (<View style={{alignItems:'center',position:'relative'}}>
+      return (<View style={{alignItems:'center',position:'relative',height:'100%'}}>
                <NavigationBar navigation={this.props.navigation} centertext={'两票管理'}/>
           {
             this.state.content.map((v,i)=><View key={i}>
@@ -74,7 +74,7 @@ export default class HomeScreen extends React.Component {
           </TouchableOpacity>
            </View> )
           }
-          <TouchableOpacity onPress={()=>this.show()} style={{position:'absolute',bottom:'-85%',left:'80%'}}>
+          <TouchableOpacity onPress={()=>this.show()} style={{position:'absolute',bottom:40,right:40}}>
               <Image source={require('../images/addd.png')} style={{width:50,height:50}}/>
           </TouchableOpacity>          
         </View> );
