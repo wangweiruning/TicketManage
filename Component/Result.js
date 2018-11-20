@@ -330,7 +330,8 @@ export default class Tdetail extends React.Component{
         });
         
       }
-      onChangecoform(value,dis){
+      onChangecoform(value,dis,disss){
+          console.log(disss,"gggggggggg")
           const listitem ={[value]:!dis==false?0:1}
           const newpagedata = Object.assign(this.state.newpagedata,listitem)
           const nes=Object.assign(this.state.newChecked,listitem)
@@ -756,7 +757,8 @@ export default class Tdetail extends React.Component{
     }
     
 
-    getddds=ddd=>{
+    getddds=(ddd,diss)=>{
+        console.log("diss",diss)
         let sdate = this.state.newChecked;
         let tt=0;
         let keys = Object.keys(sdate);
@@ -769,9 +771,8 @@ export default class Tdetail extends React.Component{
                     return 0
                 }
         })
-        if(index!=-1){
             return values[tt]==1?true:false;
-        }
+    
  
     }
 
@@ -936,7 +937,7 @@ export default class Tdetail extends React.Component{
                                 <Text style={{color:'#3f4044',left:5}}>{v.ParaName}</Text>
                                 {v.IsAdd==1&& <View style={{flexDirection:'row',left:5}}>
                          <TouchableOpacity onPress={()=>this.add(v.TicketParaID)}>
-                            <Image resizeMode="contain" style={{width:20,top:1}} source={require('../images/add.png')}/>  
+                            <Image resizeMode="contain" style={{width:20,top:1,height:20}} source={require('../images/add.png')}/>  
                         </TouchableOpacity>
                         {/* <TouchableOpacity onPress={()=>this.delete(v.TicketParaID)}>
                             <Image resizeMode="contain" style={{width:20}} source={require('../images/delete.png')}/>
@@ -977,8 +978,8 @@ export default class Tdetail extends React.Component{
                                     <View style={{flexDirection:'row',margin:5}}>
                                         <CheckBox
                                            label={'是否已执行'}
-                                           checked={this.getddds(v.TicketParaID+'_1')}
-                                           onChange={(e)=>dis&&this.onChangecoform(v.TicketParaID+'_1',e) }
+                                           checked={this.getddds(v.TicketParaID+'_1',dis)}
+                                           onChange={(e)=>dis&&this.onChangecoform(v.TicketParaID+'_1',e,dis) }
                                            underlayColor={"transparent"}
                                         ></CheckBox></View></View>:<TextInput  
                                         value={this.getchecked(v.TicketParaID)}
@@ -1025,8 +1026,8 @@ export default class Tdetail extends React.Component{
                     {v.IsConfirm==1&&<View style={{flexDirection:'row',margin:5}}>
                             <CheckBox
                                 label={'是否已执行'}
-                                checked={this.getddds(v.TicketParaID+'_1')}
-                                onChange={(e)=>dis&&this.onChangecoform(v.TicketParaID+'_1',e) }
+                                checked={this.getddds(v.TicketParaID+'_1',dis)}
+                                onChange={(e)=>dis&&this.onChangecoform(v.TicketParaID+'_1',e,dis) }
                                 underlayColor={"transparent"}
                                         >
                                 </CheckBox></View>}
