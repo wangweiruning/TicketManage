@@ -15,8 +15,8 @@ export default class Login extends React.Component{
          super(props);
         //  MySorage._getStorage(); 
          this.state={
-            user:'techlab',
-            pass:'Whu2008',
+            user:'',
+            pass:'',
             result:{},
             loading:false
         }
