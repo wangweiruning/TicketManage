@@ -89,7 +89,7 @@ const TabNavigatorConfigs = {
   header:null,
   tabBarOptions: {
      activeBackgroundColor:'#4c70b9',
-     inactiveBackgroundColor:'#c1c1c1',
+     inactiveBackgroundColor:'#aeb0bd',
      activeTintColor: 'white',
      inactiveTintColor:'black',
      labelStyle: { fontSize: 10, margin: 0 },
