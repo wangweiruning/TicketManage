@@ -90,32 +90,26 @@ export default class DropdownCheckbox extends React.Component{
 
     timeA(text){
      
-      if(this.time){
-        clearTimeout(this.time)
-      }
-      
-      this.time = setTimeout(()=>{
-        if (text==='') {
-              this.setState({
-                SelectData:this.props.SelectData,
+        if(this.time){
+            clearTimeout(this.time)
+          }
+    
+          if(!text){
+                this.setState({
+                    SelectData:this.props.SelectData,
                 });
-            return;
-        }else{
-            for (var i = 0; i < this.props.SelectData.length; i++) {
-               if (this.props.SelectData[i].realname===text ||this.props.SelectData[i].DepartmentName ===text) {
-                    this.setState({
-                        SelectData:[this.props.SelectData[i]],
-                    });
                 return;
-        }else{
-             this.setState({
-                SelectData:[]
-              });
-        }
-
-        }
-        }
-        });
+          }
+          let newData = [];
+          for (var i = 0; i < this.props.SelectData.length; i++) {
+              let ds = this.props.SelectData[i];
+              if((ds.realname && ds.realname.indexOf(text)!=-1) || (ds.DepartmentName && ds.DepartmentName.indexOf(text)!=-1)){
+                newData.push(ds);
+              }
+          }
+          this.setState({
+            SelectData:newData
+         });
         }
     
 
