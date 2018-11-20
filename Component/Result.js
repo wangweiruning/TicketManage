@@ -673,7 +673,8 @@ export default class Tdetail extends React.Component{
                     '提示','数据提交成功！',
                     [
                      {text:'是',onPress:()=>this.props.navigation.dispatch(resetAction)},
-                    ]
+                    ],
+                    { cancelable: false }
                 );
             } catch (error) {
                 ToastAndroid.show('数据填写错误',ToastAndroid.SHORT);
