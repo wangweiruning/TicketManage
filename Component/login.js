@@ -115,8 +115,8 @@ export default class Login extends React.Component{
         <View style={{position:'absolute',width:'100%',height:'100%'}}>
         <Image source={require('../images/cc.jpg')} style={{width:'100%',height:'100%'}}/>
         </View>
-          <View style={{marginTop:"25%",alignItems:'center'}}>
-          <Image source={require('../images/log.png')} style={{width:80,height:80}} resizeMode = 'contain'/>
+          <View style={{marginTop:"10%",alignItems:'center'}}>
+          <Image source={require('../images/log.png')} style={{width:80,height:80,marginBottom:10}} resizeMode = 'contain'/>
           <Text style={{fontWeight:'500',color:'white',fontSize:20}}>瑞智一体化两票管理系统</Text>
            <View style={{flexDirection:'row',alignItems:'flex-end',marginTop:15,height:60}}>
                <Image source={require('../images/login-username.png')} style={{width:25,top:10,marginRight:5}} resizeMode = 'contain'/>

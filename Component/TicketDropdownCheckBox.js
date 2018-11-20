@@ -41,7 +41,6 @@ this.state.ischanges=nextProps.ischanges
                 display.push(activeItem[i]);
             }
         }
-        console.log(display,'displaydisplaydisplay')
         if(display.length>0){
             return display.join(",");
         }else{
