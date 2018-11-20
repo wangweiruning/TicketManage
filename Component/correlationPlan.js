@@ -126,10 +126,10 @@ let result = this.state.result;
         <Title navigation={this.props.navigation} centerText={'相关流程'} />
         {/* 需要循环获取数据 */}
             <View style={{flex:1}}>
-            {this.state.mengCard&&<View style={{display:"flex",flexDirection:"column",zIndex:444,width:"100%",height:"100%",backgroundColor:"gray"}}>
-            <View style={{marginTop:"50%"}}>
-                <ActivityIndicator color="#ffffff"/>
-                <Text style={{color:"#ffffff",textAlign:"center",marginTop:10,fontSize:20}}>加载中</Text>
+            {this.state.mengCard&&<View style={{display:"flex",flexDirection:"column",zIndex:444,width:"100%",height:"100%",backgroundColor:"lightgray"}}>
+            <View style={{marginTop:"55%"}}>
+            <ActivityIndicator color="#03c1eb"/>
+            <Text style={{color:"#007aff",textAlign:"center",marginTop:10,fontSize:15}}>加载中...</Text>
                 </View></View>}
             <ScrollView>
               {result.length>0&&result.map((itemdata,index)=>{
