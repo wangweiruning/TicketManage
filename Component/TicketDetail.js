@@ -551,7 +551,7 @@ export default class Tdetail extends React.Component{
                   <TicketDropdownCheckBox isshow={dis}
                   open={this.openothers.bind(this)} style={{backgroundColor:'white'}} 
                   ischanges={this.state.ischanges}
-                  TextColor={{color:'black',fontSize:13,backgroundColor:dis?"#fffeee":"#cccfff"}} 
+                  TextColor={{color:'black',backgroundColor:dis?"#fffeee":"#cccfff"}} 
                   SelectData={v.ParaName=="班组"?this.state.Department:this.state.ParaId} 
                   banzu={v.ParaName}
                   leixin={getAllTempanyId[i]}/>: 
@@ -636,7 +636,7 @@ export default class Tdetail extends React.Component{
             </View>
             <View style={{width:'97%',display:'flex',justifyContent:'center',margin:5,backgroundColor:'white',elevation:2,padding:5}}>
                 <Text style={{color:'#3f4044'}}>流转目标</Text>
-                <TicketDropdownCheckBox open={this.open.bind(this)} style={{backgroundColor:'#fffeee'}} TextColor={{color:'black',fontSize:13}} SelectData={this.state.user}/>
+                <TicketDropdownCheckBox open={this.open.bind(this)} style={{backgroundColor:'#fffeee'}} TextColor={{color:'black'}} SelectData={this.state.user}/>
             </View>
             <View style={{width:'97%',display:'flex',justifyContent:'center',margin:5,backgroundColor:'white',elevation:2,padding:5}}>
                 <Text style={{color:'#3f4044'}}>详细意见</Text>

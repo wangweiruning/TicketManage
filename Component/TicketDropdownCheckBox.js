@@ -68,7 +68,6 @@ this.state.ischanges=nextProps.ischanges
       let newData = [];
       for (var i = 0; i < this.props.SelectData.length; i++) {
           let ds = this.props.SelectData[i];
-          console.log(ds,'dddddddddddddddddddd')
           if((ds.realname && ds.realname.indexOf(text)!=-1) || (ds.DepartmentName && ds.DepartmentName.indexOf(text)!=-1)){
             newData.push(ds);
           }
@@ -140,7 +139,6 @@ this.state.ischanges=nextProps.ischanges
                 <Checkbox checked={this.state.activeItem[item.userid || item.DepartmentID]}
                 onChange={(e)=>{
                         let s = e.target.checked;
-                        console.log(s,"fffffffffffffffffff")
                         if(this.props.ParaName!="班组"){
                             this.state.ischanges=false;
                         }
@@ -149,8 +147,6 @@ this.state.ischanges=nextProps.ischanges
                         }else{
                             this.state.activeItem=[]
                         }
-                        
-                        console.log(this.state.activeItem,"ffffffffffff")
                         this.forceUpdate();
                 }}>
                 <Text style={{width:'100%',left:5,color:color?color:'gray',fontSize:fontSize?fontSize:18}}>{item.realname || item.DepartmentName}</Text></Checkbox>
