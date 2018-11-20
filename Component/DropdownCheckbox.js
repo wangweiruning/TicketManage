@@ -126,7 +126,7 @@ export default class DropdownCheckbox extends React.Component{
             <View>
             <TouchableOpacity disabled={this.props.isshow} onPress={()=>this.setState({visible:true})}>
             <View style={{flexDirection:'row',alignItems:'center',...this.props.style}}>
-                        <Text style={{backgroundColor:this.props.isshow?'#cccfff':"#fffeee",padding:5,flex:1,flexDirection:'row',color:color?color:'gray',fontSize:fontSize?fontSize:18}}>{
+                        <Text style={{backgroundColor:this.props.isshow?'#cccfff':"#fffeee",padding:5,flex:1,flexDirection:'row',color:color?color:'black',fontSize:fontSize?fontSize:18}}>{
                            this.open()
                         }</Text>
                     </View>
