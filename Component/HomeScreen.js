@@ -26,11 +26,13 @@ export default class HomeScreen extends React.Component {
    }
   render() {
       const { navigate } = this.props.navigation;
-      return (<View style={{alignItems:'center',position:'relative'}}>
+     
+      return (<View style={{alignItems:'center',position:'relative',height:'100%'}}>
                <NavigationBar navigation={this.props.navigation} centertext={'两票管理'}/>
           {
             this.state.content.map((v,i)=><View key={i}>
             <TouchableOpacity 
+                
                   onPress={()=>navigate('waitPlan')} 
                   style={{height:88,width:'85%',borderRadius:10,backgroundColor:'#5b8ce2',top:10,display:'flex',alignItems:'center',flexDirection:'row'}} 
                   activeOpacity={.8}>
@@ -76,9 +78,7 @@ export default class HomeScreen extends React.Component {
           </TouchableOpacity>
            </View> )
           }
-          
-          <TouchableOpacity onPress={()=>this.show()} style={{position:'absolute',bottom:'-85%',left:'80%'}}>
-              <Image source={require('../images/addd.png')} style={{width:50,height:50}}/>
+          <TouchableOpacity onPress={()=>this.show()} style={{position:'absolute',bottom:40,right:40}}>              <Image source={require('../images/addd.png')} style={{width:50,height:50}}/>
          
           </TouchableOpacity>          
         </View> );
