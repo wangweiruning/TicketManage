@@ -24,7 +24,7 @@ import {
   StyleSheet,
   Text,
   View,
-  Image,BackHandler,ToastAndroid
+  Image,BackHandler,ToastAndroid,StatusBar
 } from 'react-native';
 import {islogin} from './api/api'
 MySorage._getStorage()
@@ -258,7 +258,8 @@ async getUserInfo () {
   }
 
   render() {
-    return (
+    return (<React.Fragment>
+      <StatusBar backgroundColor={'#4c70b9'} />
       <Navigators ref={(nav)=>{
         this.navigator = nav;
       }} configureScene={(route) => {
@@ -279,7 +280,7 @@ async getUserInfo () {
         }
     }} 
   />
-    );
+    </React.Fragment>);
   }
 }
 

@@ -68,7 +68,7 @@ export default class ToastExample extends React.Component {
 
   render() {
     const {navigate} = this.props.navigation;
-    return (<View style={{alignItems:'center'}}>
+    return (<View style={{alignItems:'center',backgroundColor:'#f5f5f5',height:'100%'}}>
       <NavigationBar navigation={this.props.navigation} centertext={'我的'}/>
       <Animatable.View style={{flexDirection:'row',width:'95%',borderRadius:10,height:80,backgroundColor:'lightgray',top:10,justifyContent:'center',alignItems:'center'}} useNativeDriver animation="fadeInDown" easing="ease-out-quart">
           <Text style={{fontSize:20,color:'black'}}>登录名：</Text>
