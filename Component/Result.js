@@ -877,12 +877,19 @@ export default class Tdetail extends React.Component{
     handleInputmore( v,three,index){
         let datamores = this.state.datamore;
         let moredata = Object.values(datamores)
+        let moredatakeys = Object.keys(datamores)
         let s ={[v]:three};
         let rt = {[v+index]:three}
+        let getarrs = [];
+        moredatakeys.findIndex((items,index)=>{
+            if(three==items.substring(0,items.length-1)){
+                getarrs.push(moredata[index])
+            }
+        })
         let data = Object.assign(this.state.pagedata,s)
         let datamore = Object.assign(this.state.datamore,rt)
 
-        let datas = Object.assign(this.state.newpagedata,{[v+"*1"]:moredata})
+        let datas = Object.assign(this.state.newpagedata,{[v+"*1"]:getarrs})
         
         this.setState({
             pagedata: data,
@@ -915,10 +922,10 @@ export default class Tdetail extends React.Component{
                     </View>:null}
                     {this.state.mengCard&&<View 
                     style={{display:"flex",flexDirection:"column",zIndex:444,
-                    width:width,height:height-60,backgroundColor:"#ffffff"}}>
-                        <View style={{marginTop:"50%",marginBottom:"50%"}}>
-                            <ActivityIndicator color="#ff4466"/>
-                            <Text style={{color:"#ff4466",textAlign:"center",marginTop:10,fontSize:20}}>加载中</Text>
+                    width:width,height:height-60,backgroundColor:"lightgray"}}>
+                        <View style={{marginTop:"55%",marginBottom:"50%"}}>
+                            <ActivityIndicator color="#03c1eb"/>
+                            <Text style={{color:"#007aff",textAlign:"center",marginTop:10,fontSize:15}}>加载中...</Text>
                         </View>
                     </View>}
                     <ScrollView style={{display:'flex'}}>

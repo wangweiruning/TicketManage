@@ -364,14 +364,22 @@ export default class Tdetail extends React.Component{
     }
     handleInputmore(k, v,three,index){
         let datamores = this.state.datamore;
-        let moredata = Object.values(datamores)
+        let moredata = Object.values(datamores);
+        let moredatakeys = Object.keys(datamores);
         let s ={[k]:v};
+        let getarrs = [];
+        moredatakeys.findIndex((items,index)=>{
+            if(three==items.substring(0,items.length-1)){
+                getarrs.push(moredata[index])
+            }
+        })
         let rt = {[three+index]:v}
-        console.log("rrr",k, v,three)
+        console.log("rrr",datamores)
         let data = Object.assign(this.state.pagedata,s)
         let datamore = Object.assign(this.state.datamore,rt)
+        
 
-        let datas = Object.assign(this.state.newpagedata,{[three+"*1"]:moredata})
+        let datas = Object.assign(this.state.newpagedata,{[three+"*1"]:getarrs})
         
         this.setState({
             pagedata: data,
