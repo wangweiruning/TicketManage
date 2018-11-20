@@ -194,7 +194,7 @@ const Navigators = StackNavigator(StackRouteConfigs,StackNavigatorConfigs);
 export default class App extends Component {
 
   async componentDidMount () {
-    await this.getUserInfo();
+    await this.getUserInfo()
   }
 
  async componentWillMount(){

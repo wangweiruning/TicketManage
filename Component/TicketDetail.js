@@ -533,18 +533,23 @@ export default class Tdetail extends React.Component{
            let itemMsg = this.isChacked(i);
            return <View key={i} style={{marginTop:5,elevation:3,borderRadius:3}}>
               <View style={{
-                  width:'96%',
+                  flexWrap:'wrap',
+                  width:'99%',
                   padding:5,
                   flexDirection:'row',
                   borderStyle:'solid',
                   alignItems:'center',
                   }}>
                   <Text style={{color:'#3f4044',left:5}}>{v.ParaName}</Text>
+                  {v.IsAdd==1&& <View style={{flexDirection:'row',padding:5,justifyContent:'center'}}>
+                         <TouchableOpacity onPress={()=>this.add(v.TicketParaID)}>
+                            <Image resizeMode="contain" style={{width:20,height:20}} source={require('../images/add.png')}/>  
+                        </TouchableOpacity></View>}
               </View>
                {      
                   v.ParaTypeID==4? 
                   <TicketDropdownCheckBox isshow={dis}
-                  open={this.openothers.bind(this)} style={{backgroundColor:'white',height:50}} 
+                  open={this.openothers.bind(this)} style={{backgroundColor:'white'}} 
                   ischanges={this.state.ischanges}
                   TextColor={{color:'black',fontSize:13,backgroundColor:dis?"#fffeee":"#cccfff"}} 
                   SelectData={v.ParaName=="班组"?this.state.Department:this.state.ParaId} 
@@ -563,7 +568,7 @@ export default class Tdetail extends React.Component{
                   <View>
                     <TextInput editable={!dis} placeholder="请输入内容..." underlineColorAndroid="transparent"
                     onChangeText={(v)=>this.handleInput('datalist'+i,v,getAllTempanyId[i])} style={{backgroundColor:'white',width:'100%',backgroundColor:!dis?"#fffeee":"#cccfff"}}/>
-                    {v.IsConfirm==1?<View style={{flexDirection:'row',margin:5}}>
+                    {v.IsConfirm==1?<View style={{flexDirection:'row',padding:5}}>
                     <Checkbox onChange={(e)=>this.onChangecoform(getAllTempanyId[i]+"_1",e.target.checked)}
                         disabled={!dis}
                     ><Text>是否已执行</Text></Checkbox></View>:null}
@@ -584,22 +589,22 @@ export default class Tdetail extends React.Component{
                     :
                     v.ParaTypeID==6?
                   <View>
-                    {v.IsAdd==1&& <View style={{flexDirection:'row'}}>
+                    {/* {v.IsAdd==1&& <View style={{flexDirection:'row',marginLeft:5}}>
                          <TouchableOpacity onPress={()=>this.add(v.TicketParaID)}>
-                            <Image resizeMode="contain" style={{width:20}} source={require('../images/add.png')}/>  
+                            <Image resizeMode="contain" style={{width:20,height:20}} source={require('../images/add.png')}/>  
                         </TouchableOpacity>
                         <TouchableOpacity onPress={()=>this.delete(v.TicketParaID)}>
                             <Image resizeMode="contain" style={{width:20}} source={require('../images/delete.png')}/>
                         </TouchableOpacity>
-                    </View>}
+                    </View>} */}
                     {
                       v.IsAdd==1?new Array(this.isnums(v.TicketParaID)).fill(7).map((item, index) => <TextareaItem key={index} editable={!dis} placeholder="请输入内容..."
                       onChange={(e)=>this.handleInputmore('datalist'+i,e,getAllTempanyId[i],index)}
                       autoHeight 
                       style={{ paddingVertical: 5 ,backgroundColor:!dis?"#fffeee":"#cccfff"}} />):<TextareaItem  editable={!dis} placeholder="请输入内容..."
                       onChange={(e)=>this.handleInput('datalist'+i,e,getAllTempanyId[i])}
-                    autoHeight 
-                    style={{ paddingVertical: 5 ,backgroundColor:!dis?"#fffeee":"#cccfff"}} />
+                      autoHeight 
+                      style={{ paddingVertical: 5 ,backgroundColor:!dis?"#fffeee":"#cccfff"}} />
                     }
                   {v.IsConfirm==1?<View style={{flexDirection:'row'}}><Checkbox onChange={(e)=>this.onChangecoform('Checkbox'+i,e.target.checked)} disabled={dis}/><Text>是否已执行</Text></View>:<Text></Text>}
                   </View>:null
@@ -616,24 +621,24 @@ export default class Tdetail extends React.Component{
                   }}>
                   <Text style={{color:'#3f4044',left:5}}>提交</Text>
               </View>
-            <View style={{width:'95%',display:'flex',justifyContent:'center',margin:5,backgroundColor:'white',elevation:2,padding:5}}>
+            <View style={{width:'97%',display:'flex',justifyContent:'center',margin:5,backgroundColor:'white',elevation:2,padding:5}}>
                 <Text style={{color:'#3f4044'}}>是否同意</Text>
-                <ModalDropdown dropdownTextStyle={{fontSize:15}} dropdownStyle={{height:50}} textStyle={{color:'black',fontSize:13,left:5}} 
+                <ModalDropdown dropdownTextStyle={{fontSize:15}} dropdownStyle={{height:50,width:'97%'}} textStyle={{color:'black',fontSize:13,left:5}} 
                 style={{backgroundColor:'#fffeee',width:'100%',height:29.3,justifyContent:'center'}} defaultValue={'同意'} options={['同意']} onSelect={(index,v)=>this.sssgo(index,v)}/>
             </View>
-            <View style={{width:'95%',display:'flex',justifyContent:'center',margin:5,backgroundColor:'white',elevation:2,padding:5}}>
+            <View style={{width:'97%',display:'flex',justifyContent:'center',margin:5,backgroundColor:'white',elevation:2,padding:5}}>
                 <Text style={{color:'#3f4044'}}>流转状态</Text>
                 {
                   this.state.status!="" &&
-                  <ModalDropdown dropdownTextStyle={{fontSize:15}} dropdownStyle={{height:50}} textStyle={{color:'black',fontSize:13,left:5}} 
+                  <ModalDropdown dropdownTextStyle={{fontSize:15}} dropdownStyle={{height:50,width:'97%'}} textStyle={{color:'black',fontSize:13,left:5}} 
                   style={{backgroundColor:'#fffeee',width:'100%',height:29.3,justifyContent:'center'}} defaultValue={'请选择'} options={this.state.status}/>
                 }
             </View>
-            <View style={{width:'95%',display:'flex',justifyContent:'center',margin:5,backgroundColor:'white',elevation:2,padding:5}}>
+            <View style={{width:'97%',display:'flex',justifyContent:'center',margin:5,backgroundColor:'white',elevation:2,padding:5}}>
                 <Text style={{color:'#3f4044'}}>流转目标</Text>
                 <TicketDropdownCheckBox open={this.open.bind(this)} style={{backgroundColor:'#fffeee'}} TextColor={{color:'black',fontSize:13}} SelectData={this.state.user}/>
             </View>
-            <View style={{width:'95%',display:'flex',justifyContent:'center',margin:5,backgroundColor:'white',elevation:2,padding:5}}>
+            <View style={{width:'97%',display:'flex',justifyContent:'center',margin:5,backgroundColor:'white',elevation:2,padding:5}}>
                 <Text style={{color:'#3f4044'}}>详细意见</Text>
                 <TextareaItem placeholder="请输入内容..." autoHeight onChangeText={(v)=>this.handleInputs('detailInfo',v)} style={{ paddingVertical: 5 ,backgroundColor:"#fffeee"}}/>
             </View>
