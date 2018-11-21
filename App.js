@@ -119,16 +119,32 @@ const StackRouteConfigs={
   },
   waitPlan:{
     screen: WaitPlan,
-    path:'app/waitPlan'
+    path:'app/waitPlan',
+    header: null,
+    navigationOptions: {
+            header: null,
+            gesturesEnabled: true
+        }
   },
   correlationPlan:{
     screen: CorrelationPlan,
-    path:'app/correlationPlan'
+    path:'app/correlationPlan',
+    header: null,
+    navigationOptions: {
+            header: null,
+            gesturesEnabled: true
+        }
   },
   historyPlan:{
     screen: HistoryPlan,
-    path:'app/historyPlan'
-  },  newticket:{
+    path:'app/historyPlan',
+    header: null,
+    navigationOptions: {
+            header: null,
+            gesturesEnabled: true
+        }
+  },  
+  newticket:{
     screen: Newticket,
     path:'app/newticket',
     header: null,
