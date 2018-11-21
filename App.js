@@ -24,7 +24,7 @@ import {
   StyleSheet,
   Text,
   View,
-  Image,BackHandler,ToastAndroid,StatusBar
+  Image,BackHandler,ToastAndroid,StatusBar,Easing,Animated
 } from 'react-native';
 import {islogin} from './api/api'
 MySorage._getStorage()
@@ -187,6 +187,29 @@ const StackRouteConfigs={
 const StackNavigatorConfigs={
   initialRouteName:'Tab',
   headerMode:'none',
+  transitionConfig: () => ({
+    transitionSpec: {
+        duration: 300,
+        easing: Easing.out(Easing.poly(4)),
+        timing: Animated.timing,
+    },
+    screenInterpolator: sceneProps => {
+        const {layout, position, scene} = sceneProps;
+        const {index} = scene;
+        const Width = layout.initWidth;
+        //沿X轴平移
+        const translateX = position.interpolate({
+            inputRange: [index - 1, index, index + 1],
+            outputRange: [Width, 0, -(Width - 10)],
+        });
+        //透明度
+        const opacity = position.interpolate({
+            inputRange: [index - 1, index - 0.99, index],
+            outputRange: [0, 1, 1],
+        });
+        return {opacity, transform: [{translateX}]};
+    }
+})
 };
 
 const Navigators = StackNavigator(StackRouteConfigs,StackNavigatorConfigs);
@@ -264,10 +287,7 @@ async getUserInfo () {
       <Navigators ref={(nav)=>{
         this.navigator = nav;
       }} configureScene={(route) => {
-        if (route.type == 'Bottom') {
-          return Navigator.SceneConfigs.PushFromRight; // 底部弹出
-        }
-        return Navigator.SceneConfigs.PushFromRight;
+          // return Navigator.SceneConfigs.VerticalDownSwipeJump; // 底部弹出
     }}
     onNavigationStateChange={(prevState, newState, action) => {//注册路由改变监听事件
       if (newState && newState.routes[newState.routes.length - 1].routeName == 'Tab') {//如果当前路由是Home页面，则需要处理安卓物理返回按键。

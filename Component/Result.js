@@ -1046,16 +1046,18 @@ export default class Tdetail extends React.Component{
                         </View>
                         })}
                         {this.props.navigation.state.params.isqianfa&&<View>
-                            <View style={{marginTop:5,marginBottom:20,width:'100%',alignItems:'center',backgroundColor:'white'}}>
                             <View style={{width:'100%',padding:5,justifyContent:'center'}}>
                                 <Text style={{color:'#3f4044',left:5}}>提交</Text>
                             </View>
-                            { this.aggreeall()}
+                            <View style={{marginTop:5,marginBottom:20,width:'100%',alignItems:'center'}}>
+                            <View style={{width:'96%',elevation:3,backgroundColor:'white',alignItems:'center'}}>
+                            {this.aggreeall()}
                             {this.getliuzhuan()}
                             {this.gotSubmit()}
-                            <View style={{width:'98%',borderBottomColor:'rgba(0,0,0,.2)',borderBottomWidth:1,borderStyle:'solid',padding:8}}>
+                            <View style={{width:'96%',borderBottomColor:'rgba(0,0,0,.2)',borderBottomWidth:1,borderStyle:'solid',padding:8}}>
                                 <Text style={{color:'#3f4044',left:5}}>详细意见</Text>
                                 <TextareaItem placeholder="请输入内容..." autoHeight onChangeText={(v)=>this.onChangeTextInput(v)} style={{minWidth:'95%'}}/>
+                            </View>
                             </View>
                             {/* <Text style={{color:'#3f4044'}}>详细意见</Text>
                             <TextareaItem   onChangeText={(v)=>this.onChangeTextInput(v)} 
@@ -1074,8 +1076,8 @@ export default class Tdetail extends React.Component{
                                                 elevation:2,
                                                 justifyContent:'center',
                                                 alignItems:'center',
-                                                width:'60%',
-                                                backgroundColor:'#3e5ed2',
+                                                width:'80%',
+                                                backgroundColor:'#4c70b9',
                                                 borderRadius:5,height:40}}>
                                         <Text style={{color:'white',fontSize:20}}>提交</Text>
                                 </TouchableOpacity>

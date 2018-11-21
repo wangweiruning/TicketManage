@@ -14,9 +14,10 @@ export default class NavigationBar extends React.Component{
 
         return(<View style={{
             width: '100%',
-            height: 50,
+            height: 43,
             backgroundColor: '#4c70b9',
             display:'flex',
+            elevation:4,
             flexDirection: 'row',
             justifyContent:'center',
             alignItems: 'center',
