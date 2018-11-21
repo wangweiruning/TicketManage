@@ -1,5 +1,5 @@
 import React from 'react';
-import {View,TouchableOpacity,Text,Alert,ToastAndroid,Platform,BackHandler,DeviceEventEmitter,Image,TextInput} from 'react-native';
+import {View,TouchableOpacity,Text,Alert,ToastAndroid,Platform,BackHandler,DeviceEventEmitter,Image,TextInput,StatusBar} from 'react-native';
 import {InputItem,ActivityIndicator,Toast} from 'antd-mobile-rn';
 import {login} from '../api/api';
 import MySorage from '../api/storage';
@@ -96,6 +96,9 @@ export default class Login extends React.Component{
         let username = this.state.user;
         let password = this.state.pass;
         return(<View style={{position:'relative',flex:1}}>
+        <StatusBar
+                 hidden={true}
+        />
         {this.state.loading?<View style={{alignItems:'center',top:'75%'}}>
         <View style={{borderRadius:4,
                       borderColor:'rgba(255,255,255,.5)',
@@ -137,7 +140,7 @@ export default class Login extends React.Component{
             </TextInputLayout>
            </View>
            <TouchableOpacity disabled={this.state.loading?true:false} onPress={()=>this.submitgo({username,password})} 
-               style={{elevation:3,marginTop:15,justifyContent:'center',alignItems:'center',width:'80%',backgroundColor:this.state.loading?'lightgray':'#00a6e7',borderRadius:5,height:40}}>
+               style={{elevation:3,marginTop:15,justifyContent:'center',alignItems:'center',width:'80%',backgroundColor:this.state.loading?'lightgray':'#4c70b9',borderRadius:5,height:40}}>
           <Text style={{color:'white',fontSize:20}}>登录</Text>
         </TouchableOpacity>
         </View>

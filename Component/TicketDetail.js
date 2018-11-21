@@ -650,10 +650,10 @@ export default class Tdetail extends React.Component{
                                 elevation:2,
                                 justifyContent:'center',
                                 alignItems:'center',
-                                width:'60%',
-                                backgroundColor:'#3e5ed2',
+                                width:'80%',
+                                backgroundColor:'#4c70b9',
                                 borderRadius:5,height:40}}>
-                        <Text style={{color:'white',fontSize:20}}>提交</Text>
+                        <Text style={{color:'white',fontSize:20,fontWeight:'500'}}>提交</Text>
                 </TouchableOpacity>
             </View>
         </ScrollView>

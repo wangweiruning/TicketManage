@@ -22,7 +22,7 @@ export default class NavigationBar extends React.Component{
             alignItems: 'center',
         }}>
             {/* <View style={{width:80,height:43}}></View> */}
-            <Text style={{fontSize:20,fontWeight:'500',color:'white',textAlign:'center',flex:1}}>{this.props.centertext}</Text>
+            <Text style={{fontSize:20,fontWeight:'500',color:'white'}}>{this.props.centertext}</Text>
             {/* <View style={{width:80,justifyContent:'center',alignItems:'center'}}>
                 {
                     this.props.centertext==='两票管理'?

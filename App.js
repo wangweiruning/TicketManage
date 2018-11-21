@@ -88,6 +88,7 @@ const TabNavigatorConfigs = {
   lazy: true, // 是否懒加载页�?
   header:null,
   tabBarOptions: {
+     style:{height:60},
      activeBackgroundColor:'#4c70b9',
      inactiveBackgroundColor:'#aeb0bd',
      activeTintColor: 'white',
@@ -263,7 +264,10 @@ async getUserInfo () {
       <Navigators ref={(nav)=>{
         this.navigator = nav;
       }} configureScene={(route) => {
-        return Navigator.SceneConfigs.HorizontalSwipeJumpFromRight;
+        if (route.type == 'Bottom') {
+          return Navigator.SceneConfigs.PushFromRight; // 底部弹出
+        }
+        return Navigator.SceneConfigs.PushFromRight;
     }}
     onNavigationStateChange={(prevState, newState, action) => {//注册路由改变监听事件
       if (newState && newState.routes[newState.routes.length - 1].routeName == 'Tab') {//如果当前路由是Home页面，则需要处理安卓物理返回按键。

@@ -89,12 +89,10 @@ export default class HistoryPlan extends React.Component{
                   <View><Text style={{marginTop:3,color:"#000000",marginLeft:16}}>内容：</Text></View>
                   <Text numberOfLines={10} style = {{marginLeft:16,width:'93%',marginTop:3,paddingBottom:15,borderColor:"#eeeeee",borderWidth:1,borderStyle:"solid",color:"#000000",padding:4}}>{itemdata.content}</Text>
                   <Text style={{marginTop:3,color:"#000000",marginBottom:5,marginLeft:16}}>开票时间：{itemdata.filltickettime}</Text>
-                  <View style={{width:'91%',elevation:3,marginLeft:18}}>
-                    <Button
-                  onPress={()=>this.gotoItem(itemdata)}
-                  title="查看详情"
-                  color="#406ea4"
-                  />
+                  <View style={{width:'100%',alignItems:'center'}}>
+                <TouchableOpacity onPress={()=> this.gotoItem(itemdata)} style={{elevation:2,justifyContent:'center',alignItems:'center',width:'80%',backgroundColor:'#4c70b9',borderRadius:5,height:40}}>
+                   <Text style={{color:'white',fontSize:20,fontWeight:'500'}}>查看详情</Text>
+                </TouchableOpacity>
                 </View>
                 </View>
                 })}
