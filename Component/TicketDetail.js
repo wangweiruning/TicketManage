@@ -342,14 +342,14 @@ export default class Tdetail extends React.Component{
       }
 
 
-    onChangecoform(value,dis){
-        console.log(dis,"fffffffffffffffff")
-        const listitem ={[value]:dis?1:0}
-        const sss=Object.assign(this.state.showChecked,listitem)
-      this.setState({
-          showChecked:sss
-      });
-      
+    onChangecoform(value,dis,index){
+   
+    let s = this.state.newpagedata[value];
+    if(!s)s = [];
+    s[index] = dis?"1":"0";
+
+    this.state.newpagedata[value] = s;
+    console.log("fffffffff-",this.state.newpagedata);
     }
 
     handleInput(k, v,three){
@@ -421,6 +421,7 @@ export default class Tdetail extends React.Component{
    async submitAll(){
     const {newpagedata,showChecked} = {...this.state};
     const tts = Object.assign(newpagedata,showChecked)
+    
     if (this.state.vvval.length<2) {
         Alert.alert("流转目标不能为空！")
     } else {
@@ -451,7 +452,8 @@ export default class Tdetail extends React.Component{
                 '提示',`${this.props.navigation.state.params.v}创建成功！`,
                 [
                  {text:'是',onPress:()=>this.props.navigation.dispatch(resetAction)},
-                ]
+                ],
+                { cancelable: false }
             );
         }
     }
@@ -526,6 +528,7 @@ export default class Tdetail extends React.Component{
         })
     }
     render(){
+        console.log(this.state.newpagedata,"jjjjjjjjjjjjjjjjj")
         let getAllTempanyId = this.state.getAllTempanyId
         return(<View style={{justifyContent:'center',flex:1}}>
             <TicketTitle navigation={this.props.navigation} num={this.state.num} centerText={this.props.navigation.state.params.v+' '+this.state.num}/>
@@ -599,16 +602,24 @@ export default class Tdetail extends React.Component{
                     :
                     v.ParaTypeID==6?
                   <View>
-                    {
-                      v.IsAdd==1?new Array(this.isnums(v.TicketParaID)).fill(7).map((item, index) => <TextareaItem key={index} editable={!dis} placeholder="请输入内容..."
+                      <View>
+                       {
+                      v.IsAdd==1?new Array(this.isnums(v.TicketParaID)).fill(7).map((item, index) =>{
+                      return (<View key={index}><TextareaItem  editable={!dis} placeholder="请输入内容..."
                       onChange={(e)=>this.handleInputmore('datalist'+i,e,getAllTempanyId[i],index)}
                       autoHeight 
-                      style={{ paddingVertical: 5,minWidth:'98%',backgroundColor:!dis?"white":"lightgray"}} />):<TextareaItem  editable={!dis} placeholder="请输入内容..."
+                      style={{ borderTopColor:'gray',borderTopWidth:1,borderStyle:'solid'
+                      ,paddingVertical: 5,minWidth:'98%',backgroundColor:!dis?"white":"lightgray"}} />
+                       {v.IsConfirm==1?<View style={{flexDirection:'row',backgroundColor:'white',padding:5}}>
+                       <Checkbox onChange={(e)=>this.onChangecoform(getAllTempanyId[i]+"_1",e.target.checked,index)} disabled={dis}/>
+                             <Text>是否已执行</Text></View>:null}</View>)}):<View><TextareaItem   editable={!dis} placeholder="请输入内容..."
                       onChange={(e)=>this.handleInput('datalist'+i,e,getAllTempanyId[i])}
-                    autoHeight 
-                    style={{ paddingVertical: 5 ,minWidth:'98%',backgroundColor:!dis?"white":"lightgray"}} />
-                    }
-                  {v.IsConfirm==1?<View style={{flexDirection:'row',backgroundColor:'white',padding:5}}><Checkbox onChange={(e)=>this.onChangecoform('Checkbox'+i,e.target.checked)} disabled={dis}/><Text>是否已执行</Text></View>:null}
+                       autoHeight 
+                      style={{paddingVertical: 5 ,minWidth:'98%',backgroundColor:!dis?"white":"lightgray"}} /><View style={{flexDirection:'row',backgroundColor:'white',padding:5}}>
+                    <Checkbox onChange={(e)=>this.onChangecoform(getAllTempanyId[i]+"_1",e.target.checked)} disabled={dis}/>
+                          <Text>是否已执行</Text></View></View>
+                        }
+                    </View>
                   </View>:null
                }
             </View>

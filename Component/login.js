@@ -61,17 +61,17 @@ export default class Login extends React.Component{
          let datas =`?form.user=${data.username}&form.pass=${data.password}&code=50ACD07A6C49F3B9E082EF40461AC6D1`;
          
          let result = await login(datas)
-         if(result.form.status == 0){
-             Alert.alert('',result.form.targetresult,[{text:'是',onPress:this.opntion2Selected}])
-             this.setState({
-                loading:false
-            })
+         if(result.form.status == 1){
+            window.jconfig.userinfo=result.form;
+            MySorage._sava("userinfo", JSON.stringify(result.form));
+            ToastAndroid.show(result.form.targetresult,ToastAndroid.SHORT)
+            this.props.navigation.dispatch(resetAction);
           }
          else{
-         window.jconfig.userinfo=result.form;
-         MySorage._sava("userinfo", JSON.stringify(result.form));
-         ToastAndroid.show(result.form.targetresult,ToastAndroid.SHORT)
-         this.props.navigation.dispatch(resetAction);
+            Alert.alert('',result.form.targetresult,[{text:'是',onPress:this.opntion2Selected}])
+            this.setState({
+               loading:false
+           })
         }
          this.setState({
               result:result,  //序列化：转换为一个 (字符串)JSON字符串
