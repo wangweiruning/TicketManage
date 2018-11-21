@@ -655,11 +655,7 @@ export default class Tdetail extends React.Component {
     async submitResult() {
 
         const { newpagedata } = { ...this.state };
-        // if(JSON.stringify(newpagedata).length<=2){
-        //     Alert.alert("提示",'请填写数据')
-        //     console.log(JSON.stringify(newpagedata).length,'sssssssssssssss')
-        //     return false;
-        // }
+        
         if (this.state.vvval || this.state.searchRole.length < 1) {
             let data = {
                 'form.basicInfoId': this.props.navigation.state.params.ticketbasicinfoid,
@@ -716,9 +712,6 @@ export default class Tdetail extends React.Component {
                     loading: false
                 })
             }
-
-
-
         } else {
             Alert.alert("提示", "流转目标不能为空")
         }
@@ -746,7 +739,6 @@ export default class Tdetail extends React.Component {
             return '请选择'
         }
     }
-
     getGzryName(getAllTempanyId) {
         let users = '';
         let ggg = this.state.pagedata;
@@ -768,25 +760,16 @@ export default class Tdetail extends React.Component {
                 users = pagename.realname
             }
         })
-
         if (itemm != -1) {
             return users ? users : '请选择';
         } else {
             return '请选择'
         }
     }
-
-
-
     BackpageUseName(datalist, ids) {
         let pageUseName = [];
-        /***
-         * searchRole
-         *chengyuanName
-         *  ***/
-
         this.state.chengyuanName.map(pagename => {
-            pageUseName.push(pagename.realname);//loginname登录名  realname权限名
+            pageUseName.push(pagename.realname);
         })
         return pageUseName
     }
