@@ -481,10 +481,10 @@ export default class Tdetail extends React.Component {
         return aa;
     }
     gotSubmit = () => {
-        return <View style={{ flexDirection: 'row', width: '95%', borderBottomColor: 'rgba(0,0,0,.2)', borderBottomWidth: 1, borderStyle: 'solid', alignItems: 'center', paddingBottom: 8, paddingRight: 8, paddingTop: 8 }}>
-            <Text style={{ color: '#3f4044', left: 2, width: 60 }}>流转目标</Text>
-            <DropdownCheckbox open={this.open.bind(this)} dropdownTextStyle={{ fontSize: 15 }} dropdownStyle={{ height: 50 }} TextColor={{ color: 'black', fontSize: 13, left: 5 }}
-                style={{ backgroundColor: 'white', width: '80%', height: 29.3, justifyContent: 'center' }} SelectData={this.state.searchRole} color="skyblue" />
+        return <View style={{ width: '95%', borderBottomColor: 'rgba(0,0,0,.2)', borderBottomWidth: 1, borderStyle: 'solid',  paddingBottom: 8, paddingRight: 8, paddingTop: 8 }}>
+            <Text style={{ color: '#3f4044', left:5}}>流转目标</Text>
+            <DropdownCheckbox open={this.open.bind(this)}  TextColor={{ color: 'black', fontSize: 13, left: 5 }}
+                style={{ backgroundColor: 'white', minWidth: '80%', height: 29.3, justifyContent: 'center' }} SelectData={this.state.searchRole} />
         </View>
     }
     getliuzhuan = () => {
@@ -687,7 +687,19 @@ export default class Tdetail extends React.Component {
             })
             try {
                 const tijiaodata = await tijiao(para)
-                console.log(tijiaodata)
+                if(tijiaodata.form.commitInfo!==null){
+                    this.setState({
+                        loading: false
+                    })
+                    Alert.alert(
+                        '提示', tijiaodata.form.commitInfo,
+                        [
+                            { text: '是', onPress: () => this.props.navigation.dispatch(resetAction) },
+                        ],
+                        { cancelable: false }
+                    );
+                    return false;
+                }
                 this.setState({
                     loading: false
                 })
