@@ -74,8 +74,8 @@ export default class HomeScreen extends React.Component {
           </TouchableOpacity>
            </View> )
           }
-          <TouchableOpacity onPress={()=>this.show()} style={{position:'absolute',bottom:40,right:40}}>
-              <Image source={require('../images/addd.png')} style={{width:50,height:50}}/>
+          <TouchableOpacity onPress={()=>this.show()} style={{position:'absolute',bottom:35,right:35}}>
+              <Image source={require('../images/addd.png')} style={{width:45,height:45}}/>
           </TouchableOpacity>          
         </View> );
     }

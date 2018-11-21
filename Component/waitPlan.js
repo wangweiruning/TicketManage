@@ -1,5 +1,5 @@
 import React from 'react';
-import {  Text, View ,Button,Alert,ScrollView} from 'react-native';
+import {  Text, View ,TouchableOpacity,Alert,ScrollView} from 'react-native';
 import Title from './Title'
 import {awaitdeteal,historys} from './../api/api'
 import {ActivityIndicator } from 'antd-mobile-rn';
@@ -173,12 +173,10 @@ export default class WaitPlan extends React.Component{
                 <Text numberOfLines={10} style = {{marginLeft:16,width:'93%',marginTop:3,paddingBottom:15,borderColor:"#eeeeee",borderWidth:1,borderStyle:"solid",color:"#000000",padding:4}}>{itemdata.content}</Text>
                 <Text style={{color:"orange",marginTop:3,marginLeft:16}}>等待时间：{this.awaitTime(itemdata.lastTime)}</Text>
                 <Text style={{color:"#000000",marginTop:3,marginBottom:5,marginLeft:16}}>流转时间：{itemdata.lastTime.replace(/T/,' ')}</Text>
-                <View style={{width:'91%',elevation:3,marginLeft:18}}>
-                  <Button
-                    onPress={()=>this.gotoItem(itemdata)}
-                    title="查看详情"
-                    color="#406ea4"
-                    />
+                <View style={{width:'100%',alignItems:'center'}}>
+                <TouchableOpacity onPress={()=> this.gotoItem(itemdata)} style={{elevation:2,justifyContent:'center',alignItems:'center',width:'80%',backgroundColor:'#4c70b9',borderRadius:5,height:40}}>
+                   <Text style={{color:'white',fontSize:20,fontWeight:'500'}}>查看详情</Text>
+                </TouchableOpacity>
                 </View>
                 </Animatable.View>
             </View>

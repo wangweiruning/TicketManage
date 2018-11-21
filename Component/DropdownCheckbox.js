@@ -145,7 +145,6 @@ export default class DropdownCheckbox extends React.Component{
                 data = {this.state.SelectData}
                 keyExtractor={(item, index) => index.toString()}
                 renderItem={({item,index}) =>
-                <Animatable.View useNativeDriver animation="fadeInRight" easing="ease-out-quart">
                     <View key={index} 
                           style={{marginLeft:10,marginTop:10,flexDirection:'row',padding:5,width:'95%',height:40,backgroundColor:'white',borderRadius:5}}>
                     <Checkbox   checked={this.state.activeItem[item.userid ||item.DepartmentID]}
@@ -160,7 +159,7 @@ export default class DropdownCheckbox extends React.Component{
                 <Text style={{width:'100%',left:5,color:color?color:'gray',fontSize:fontSize?fontSize:18}}>
                 {item.realname ||item.DepartmentName}</Text>
                 </Checkbox>
-                </View></Animatable.View>}
+                </View>}
                 />
                 <TouchableOpacity activeOpacity={.7} style={{justifyContent:'center',alignItems:'center',backgroundColor:'#00a6e7',height:50}} 
                     onPress={()=>{
