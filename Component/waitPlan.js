@@ -164,7 +164,7 @@ export default class WaitPlan extends React.Component{
               <View key={index}
                     onPress={()=>this.gotoItem(itemdata)}
                     style={{marginTop:6,marginBottom:6,paddingBottom:10,width:"95%",marginLeft:10,borderRadius:10,backgroundColor:'white'}}>
-                     <Animatable.View key={index} useNativeDriver animation="fadeInRight" easing="ease-out-expo">
+                   
                 <Text style={{color:"#000000",marginTop:20,marginLeft:16}}>两票类型：{itemdata.tickettypename}</Text>
                 <Text style={{color:"#000000",marginTop:3,marginLeft:16}}>负责人：{itemdata.headuser}</Text>
                 <Text style={{color:"#000000",marginTop:3,marginLeft:16}}>编号：{itemdata.ticketserialnum}</Text>
@@ -178,7 +178,6 @@ export default class WaitPlan extends React.Component{
                    <Text style={{color:'white',fontSize:20,fontWeight:'500'}}>查看详情</Text>
                 </TouchableOpacity>
                 </View>
-                </Animatable.View>
             </View>
             )
         })}
