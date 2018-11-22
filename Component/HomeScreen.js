@@ -26,8 +26,13 @@ export default class HomeScreen extends React.Component {
    }
   render() {
       const { navigate } = this.props.navigation;
-      return (<View style={{alignItems:'center',position:'relative',height:'100%',backgroundColor:'#f5f5f5'}}>
-               <NavigationBar navigation={this.props.navigation} centertext={'两票管理'}/>
+      return (<View style={{alignItems:'center',position:'relative',flex:1}}>
+               <View style={{position:'absolute',width:'100%',minHeight:'100%'}}>
+                 <Image source={require('../images/gffg.jpg')} resizeMode="cover"/>
+               </View>
+               {/* <NavigationBar navigation={this.props.navigation} centertext={'两票管理'}/> */}
+          <View style={{width:'96%',marginTop:38,alignItems:'center',borderRadius:6,backgroundColor:'rgba(255,255,255,.3)'}}>
+          <Text style={{fontSize:20,fontWeight:'500',color:'white',marginTop:10,marginBottom:10}}>两票管理</Text>
           {
             this.state.content.map((v,i)=><View key={i}>
             <TouchableOpacity 
@@ -73,7 +78,7 @@ export default class HomeScreen extends React.Component {
                     <Image source={v.img} style={{right:5,width:15,resizeMode:Image.resizeMode.contain}}/>
           </TouchableOpacity>
            </View> )
-          }
+          }</View>
           <TouchableOpacity onPress={()=>this.show()} style={{position:'absolute',bottom:35,right:35}}>
               <Image source={require('../images/addd.png')} style={{width:45,height:45}}/>
           </TouchableOpacity>          

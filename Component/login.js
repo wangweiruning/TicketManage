@@ -96,8 +96,7 @@ export default class Login extends React.Component{
         let username = this.state.user;
         let password = this.state.pass;
         return(<View style={{position:'relative',flex:1}}>
-        <StatusBar
-                 hidden={true}
+        <StatusBar backgroundColor={'transparent'} translucent={true}
         />
         {this.state.loading?<View style={{alignItems:'center',top:'75%'}}>
         <View style={{borderRadius:4,

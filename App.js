@@ -88,17 +88,18 @@ const TabNavigatorConfigs = {
   lazy: true, // 是否懒加载页�?
   header:null,
   tabBarOptions: {
+     tabBarUnderlineStyle: {backgroundColor: 'white'},
      style:{height:60},
-     activeBackgroundColor:'#4c70b9',
-     inactiveBackgroundColor:'#aeb0bd',
+     activeBackgroundColor:'rgba(1,13,27,.3)',
+     inactiveBackgroundColor:'rgba(1,13,27,.3)',
      activeTintColor: 'white',
-     inactiveTintColor:'black',
+     inactiveTintColor:'gray',
      labelStyle: { fontSize: 10, margin: 0 },
      IconStyle: { margin: 0 },
      showIcon: true,
      pressOpacity: 1,
      tabStyle: {
-          // backgroundColor: '#0C97E2',
+          // backgroundColor: 'rgba(1,13,27,.3)',
       },
   } // 在属性TabBarBottom与TabBarTop中有所不同
 };
@@ -299,7 +300,10 @@ async getUserInfo () {
 
   render() {
     return (<React.Fragment>
-      <StatusBar backgroundColor={'#4c70b9'} />
+      {/* <View style={{height:StatusBar.currentHeight,width:"100%",backgroundColor:"rgba(0,0,0,0)"}}>
+
+      </View> */}
+      <StatusBar backgroundColor={'transparent'} translucent={true}/>
       <Navigators ref={(nav)=>{
         this.navigator = nav;
       }} configureScene={(route) => {

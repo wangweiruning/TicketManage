@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text,View,Button} from 'react-native';
+import {Text,View,Button,StatusBar} from 'react-native';
 
 export default class NavigationBar extends React.Component{
     constructor(props){
@@ -12,9 +12,12 @@ export default class NavigationBar extends React.Component{
 
     render(){
 
-        return(<View style={{
+        return(
+            <React.Fragment>
+        <View style={{
             width: '100%',
-            height: 43,
+            paddingTop:StatusBar.currentHeight,
+            height: 45+StatusBar.currentHeight,
             backgroundColor: '#4c70b9',
             display:'flex',
             elevation:4,
@@ -30,6 +33,7 @@ export default class NavigationBar extends React.Component{
                     <Button color='#2185d5' title="新建两票" onPress={()=>this.show()}/>:null
                 }
             </View>     */}
-        </View>)
+        </View>
+        </React.Fragment>)
     }
 }

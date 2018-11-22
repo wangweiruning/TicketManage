@@ -1005,7 +1005,7 @@ export default class Tdetail extends React.Component {
                                         defaultValue={this.getDefaultMore(v.TicketParaID, v.ParaName)}
                                         style={{ minWidth: '98%' ,height:50}}
                                         ischanges={this.state.ischanges}
-                                        TextColor={{ color: 'black', fontSize: 13, backgroundColor: dis ? "white" : "lightgray" }}
+                                        TextColor={{ color:dis ? "black" : "gray", fontSize: 13 }}
                                         SelectData={v.ParaName == "班组" ? this.state.groupName : this.state.ParaId} canClick={dis} />
                                     : v.ParaTypeID == 3 ?
                                         <ModalDropdown
@@ -1043,8 +1043,7 @@ export default class Tdetail extends React.Component {
                                             </View> : v.ParaTypeID == 5
                                                 ?
                                                 <DatePicker
-                                                    style={{ width: '98%', backgroundColor: dis ? "white" : "lightgray" }}
-                                                    textStyle={{color:"grey"}}
+                                                    style={{color: dis ? "black" : "lightgray", width: '98%', backgroundColor: dis ? "white" : "lightgray" }}
                                                     date={this.getchecked(v.TicketParaID)}
                                                     mode="datetime"
                                                     format="YYYY-MM-DD HH:mm"

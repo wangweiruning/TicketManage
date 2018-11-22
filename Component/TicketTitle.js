@@ -1,6 +1,6 @@
 import React from 'react';
 import {ActivityIndicator, Button} from 'antd-mobile-rn';
-import {View,Text,TouchableOpacity,Image} from 'react-native';
+import {View,Text,TouchableOpacity,Image,StatusBar} from 'react-native';
 
 export default class TicketTitle extends React.Component{
     constructor(props) {
@@ -20,10 +20,14 @@ export default class TicketTitle extends React.Component{
             ishistory:this.props.navigation.state.params.ishistory})
     }
     render(){
-        return(<View style={{
+        return(
+        <React.Fragment>
+            
+        <View style={{
             width: '100%',
-            height: 43,
-            backgroundColor: '#4c70b9',
+            paddingTop:StatusBar.currentHeight,
+            height: 45+StatusBar.currentHeight,
+            backgroundColor: 'transparent',
             display:'flex',
             flexDirection: 'row',
             alignItems: 'center',
@@ -41,7 +45,9 @@ export default class TicketTitle extends React.Component{
             <TouchableOpacity style={{justifyContent:'center',width:60,height:43,right:5}}>
             {this.props.numns&&<Text onPress={()=>this.go()} style={{color:'#ffffff'}}>流程查看</Text>}
             </TouchableOpacity>
-        </View>)
+        </View>
+        </React.Fragment>
+        )
     }
 }
 

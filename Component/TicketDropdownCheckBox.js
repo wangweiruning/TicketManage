@@ -108,15 +108,14 @@ this.state.ischanges=nextProps.ischanges
         return(
             <View>
             <TouchableOpacity disabled={this.props.isshow} onPress={()=>this.setState({visible:true})}>
-            <View style={{flexDirection:'row',alignItems:'center',...this.props.style,backgroundColor:!this.props.isshow?"white":"lightgray"}}>
+            <View style={{flexDirection:'row',alignItems:'center',...this.props.style,backgroundColor:!this.props.isshow?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)"}}>
                         <Text style={{padding:5,flex:1,flexDirection:'row',color:color?color:'lightgray',fontSize:fontSize?fontSize:13}}>{
                             this.open()
                         }</Text>
                     </View>
             </TouchableOpacity>
             {
-            this.state.visible && 
-            <Modal animationType={'slide'} transparent={true} onRequestClose={()=>{this.setState({visible:false,SelectData:this.props.SelectData})
+            this.state.visible && <Modal animationType={'slide'} transparent={true} onRequestClose={()=>{this.setState({visible:false,SelectData:this.props.SelectData})
             this.props.open(this.state.activeItem,this.props.leixin,this.props.banzu)}}>
             <View style={{backgroundColor:'#ecf0f1',}}>
             <View style={{flexDirection:'row',alignItems:'center',borderBottomColor:'lightgray',borderStyle:'solid',borderBottomWidth:1}}>
@@ -149,7 +148,7 @@ this.state.ischanges=nextProps.ischanges
                         }
                         this.forceUpdate();
                 }}>
-                <Text style={{width:'100%',left:5,color:color?color:'gray',fontSize:fontSize?fontSize:18}}>{item.realname || item.DepartmentName}</Text></Checkbox>
+                <Text style={{width:'100%',left:5,color:'black',fontSize:fontSize?fontSize:18}}>{item.realname || item.DepartmentName}</Text></Checkbox>
                 </View>}
                 />
                 <TouchableOpacity activeOpacity={.7} style={{justifyContent:'center',alignItems:'center',backgroundColor:'#00a6e7',height:50}} 
