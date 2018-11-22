@@ -69,8 +69,7 @@ export default class TicketFlew extends React.Component{
                                 marginTop:5,
                                 paddingBottom:10,
                                 paddingTop:10,
-                                width:"90%",
-                                marginLeft:20,
+                                minWidth:"95%",
                                 backgroundColor:itemdata.ticketstatusname=="开票"
                                                 ?"#4c71c0":itemdata.ticketstatusname=="签发"
                                                 ?"#45b9bd":itemdata.ticketstatusname=="许可"
@@ -86,11 +85,11 @@ export default class TicketFlew extends React.Component{
                                                 ?"#6975a1":itemdata.ticketstatusname=="作废"
                                                 ?"#999999":"red"
                                 }}>
-                        <Text style={{color:"#000000"}}>  两票状态：{itemdata.ticketstatusname}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{itemdata.ticketrolename}</Text>
-                        <Text style={{color:"#000000"}}>  处理人：{itemdata.ManageTime==null?"":itemdata.RealName}</Text>
-                        <Text style={{color:"#000000"}}> {itemdata.ManageTime==null?" 等待时间":" 处理周期"}：{itemdata.ManageTime==null?this.awaitTime(awaitTime):itemdata.TimePeriod+"小时"}</Text>
-                        <Text style={{color:"#000000"}}>  处理意见：{itemdata.RecordOption==1?'同意':itemdata.RecordOption==""?"待处理":'不同意'}</Text>
-                        <Text style={{color:"#000000"}}>  处理时间：{itemdata.ManageTime!=null?itemdata.ManageTime.replace(/T/,' '):"待处理"}</Text>
+                        <Text style={{color:"white",fontSize:16}}>  两票状态：{itemdata.ticketstatusname}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{itemdata.ticketrolename}</Text>
+                        <Text style={{color:"white",fontSize:16}}>  处理人：{itemdata.ManageTime==null?"":itemdata.RealName}</Text>
+                        <Text style={{color:"white",fontSize:16}}> {itemdata.ManageTime==null?" 等待时间":" 处理周期"}：{itemdata.ManageTime==null?this.awaitTime(awaitTime):itemdata.TimePeriod+"小时"}</Text>
+                        <Text style={{color:"white",fontSize:16}}>  处理意见：{itemdata.RecordOption==1?'同意':itemdata.RecordOption==""?"待处理":'不同意'}</Text>
+                        <Text style={{color:"white",fontSize:16}}>  处理时间：{itemdata.ManageTime!=null?itemdata.ManageTime.replace(/T/,' '):"待处理"}</Text>
                     </View>
                     </Animatable.View>
             })
@@ -111,12 +110,12 @@ export default class TicketFlew extends React.Component{
   render() {
       console.log(this.props.navigation)
     return (
-      <View>
+      <View style={{backgroundColor:'#f5f5f5',height:'100%',alignItems:'center'}}>
         <Title navigation={this.props.navigation} centerText={this.props.navigation.state.params.name+"流程"} />
         {/* 需要循环获取数据 */}
         <ScrollView style={{marginBottom:50}}>
         {/* <TouchableOpacity> */}
-            <View style={{backgroundColor:"#ffffff",marginTop:10}}>
+            <View style={{marginTop:20}}>
                 {this.showpage()}
             </View>
             
