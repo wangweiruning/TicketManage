@@ -123,7 +123,6 @@ export default class DropdownCheckbox extends React.Component{
                         <Text style={{padding:5,flex:1,flexDirection:'row',color:color?color:'black',fontSize:fontSize?fontSize:18}}>{
                            this.open()
                         }</Text>
-                    </View>
             </TouchableOpacity>
             {
             this.state.visible && 
