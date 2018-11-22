@@ -22,6 +22,7 @@ import {
     ForDepartment
 } from './../api/api'
 import { StackActions, NavigationActions } from 'react-navigation';
+import { grey } from 'ansi-colors';
 let { width, height } = Dimensions.get('window');
 const resetAction = StackActions.reset({
     index: 0,
@@ -1010,7 +1011,7 @@ export default class Tdetail extends React.Component {
                                         <ModalDropdown
                                             disabled={!dis}
                                             dropdownTextStyle={{ fontSize: 15 }}
-                                            textStyle={{ color: 'black', fontSize: 13, left: 5 }}
+                                            textStyle={{ fontSize: 13, left: 5 }}
                                             style={{
                                                 backgroundColor: dis ? "white" : "lightgray",
                                                 height: 29.3, width: '98%', justifyContent: 'center'
@@ -1043,6 +1044,7 @@ export default class Tdetail extends React.Component {
                                                 ?
                                                 <DatePicker
                                                     style={{ width: '98%', backgroundColor: dis ? "white" : "lightgray" }}
+                                                    textStyle={{color:"grey"}}
                                                     date={this.getchecked(v.TicketParaID)}
                                                     mode="datetime"
                                                     format="YYYY-MM-DD HH:mm"

@@ -581,8 +581,8 @@ export default class Tdetail extends React.Component{
                     <TextInput editable={!dis} placeholder="请输入内容..." underlineColorAndroid="transparent"
                     onChangeText={(v)=>this.handleInput('datalist'+i,v,getAllTempanyId[i])} style={{minWidth:'98%',backgroundColor:!dis?"white":"lightgray"}}/>
                     {v.IsConfirm==1?<View style={{flexDirection:'row',padding:5,backgroundColor:'white'}}>
-                    <Checkbox onChange={(e)=>this.onChangecoform(getAllTempanyId[i]+"_1",e.target.checked)}
-                        disabled={!dis}
+                    <Checkbox onChange={(e)=>dis&&this.onChangecoform(getAllTempanyId[i]+"_1",e.target.checked)}
+                        disabled={dis}
                     ><Text>是否已执行</Text></Checkbox></View>:null}
                     </View>
                     :v.ParaTypeID==5?
@@ -610,12 +610,12 @@ export default class Tdetail extends React.Component{
                       style={{ borderTopColor:'gray',borderTopWidth:1,borderStyle:'solid'
                       ,paddingVertical: 5,minWidth:'98%',backgroundColor:!dis?"white":"lightgray"}} />
                        {v.IsConfirm==1?<View style={{flexDirection:'row',backgroundColor:'white',padding:5}}>
-                       <Checkbox onChange={(e)=>this.onChangecoform(getAllTempanyId[i]+"_1",e.target.checked,index)} disabled={dis}/>
+                       <Checkbox onChange={(e)=>dis&&this.onChangecoform(getAllTempanyId[i]+"_1",e.target.checked,index)} disabled={dis}/>
                              <Text>是否已执行</Text></View>:null}</View>)}):<View><TextareaItem   editable={!dis} placeholder="请输入内容..."
                       onChange={(e)=>this.handleInput('datalist'+i,e,getAllTempanyId[i])}
                        autoHeight 
                       style={{paddingVertical: 5 ,minWidth:'98%',backgroundColor:!dis?"white":"lightgray"}} /><View style={{flexDirection:'row',backgroundColor:'white',padding:5}}>
-                    <Checkbox onChange={(e)=>this.onChangecoform(getAllTempanyId[i]+"_1",e.target.checked)} disabled={dis}/>
+                    <Checkbox onChange={(e)=>dis&&this.onChangecoform(getAllTempanyId[i]+"_1",e.target.checked)} disabled={dis}/>
                           <Text>是否已执行</Text></View></View>
                         }
                     </View>
