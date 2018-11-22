@@ -45,7 +45,8 @@ export default class ToastExample extends React.Component {
       [
        {text:'是',onPress:()=>this.reset('login')},
        {text:'否',onPress:this.opntion2Selected}
-      ]
+      ],
+      {cancelable:false}
   );
   }
 
