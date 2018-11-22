@@ -1117,7 +1117,7 @@ console.log(gettrues,"llllllllllllllllllllll")
                             {this.gotSubmit()}
                            
                             <View style={{width:'96%',borderBottomColor:'rgba(0,0,0,.2)',borderBottomWidth:1,borderStyle:'solid',padding:8}}>
-                                <Text style={{color:'#3f4044',left:5}}>详细意见</Text>
+                                <Text style={{color:'#3f4044'}}>详细意见</Text>
                                 <TextareaItem placeholder="请输入内容..." autoHeight onChangeText={(v)=>this.onChangeTextInput(v)} style={{minWidth:'95%'}}/>
                             </View>
                             </View>
