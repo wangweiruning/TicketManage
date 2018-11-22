@@ -87,7 +87,10 @@ export default class Tdetail extends React.Component {
             showmore: true,
             datamore: {},
             getmoretextarea:{},
-            allFlowRole:[]
+            allFlowRole:[],
+            backStatusId:[],
+            backRoleId:[],
+            FlowRoleID:[]
 
         }
     }
@@ -99,7 +102,7 @@ export default class Tdetail extends React.Component {
         }
         return false; // 默认false  表示跳出RN
     }
-    async componentDidMount() {
+     componentDidMount() {
         this.getCanNotdata();
     }
 
@@ -198,8 +201,7 @@ export default class Tdetail extends React.Component {
             const list = TicketRecord.form.dataList;//获取到票数据内容，等待传入页面
 
             this.setState({
-                listdatas: list,
-                flowRoleId: flowRoleId
+                listdatas: list
             })
             let dataPage = {};
             let getAllTempanyId = [];
@@ -267,18 +269,20 @@ export default class Tdetail extends React.Component {
                 } else {
                     //设置流转状态及流转目标
                     var nextFlowId = ticketFlowrole[index + 1].ticketstatusid;//下一个流程id
-                    var nextFlow = ticketFlowrole[index + 1].ticketstatusname;//下一个流程状态
+                    var nextFlow = ticketFlowrole[index + 1].ticketstatusname;//
                     let arr = [nextFlow];
                     this.setState({
-                        nextFlowId: nextFlowId,
-                        nextFlow: arr
+                        nextFlow: arr,
+                        flowRoleId: flowRoleId
                     })
                     var nextRoleId = ticketFlowrole[index + 1].ticketroleid;
                     const dui = "?form.roleId=" + nextRoleId;
                     const searchRole = await searchUserForRole(dui);//获取提交对象
                     console.log(searchRole, "获取提交对象")
                     this.setState({
-                        searchRole: searchRole.form.dataList
+                        nextFlowId: nextRoleId,
+                        searchRole: searchRole.form.dataList,
+                        FlowRoleID:[nextRoleId]
                     })
                 }
 
@@ -301,7 +305,7 @@ export default class Tdetail extends React.Component {
                 }
             }
         }
-        console.log("这是最后的东西了")
+        setTimeout(()=>ToastAndroid.show("加载完毕", ToastAndroid.SHORT))
         this.setState({ mengCard: false })
     }
     getSelect(e, value, datalist) {
@@ -338,28 +342,41 @@ export default class Tdetail extends React.Component {
 
     }
     onChangecoform(value, dis,index) {
-        let values = Object.values(this.state.newChecked);
-        let keys = Object.keys(this.state.showChecked);
-        let getIndex = 0;
-            keys.findIndex((item,i)=>{
-                if(item==value){
-                    getIndex=i;
-                }
-            })
-           let  newval = values[getIndex].split("&$");
-                newval[index] = !dis == false ? "0" : "1";
+        let s = this.state.newpagedata[value] || [];
+        s[index] = dis?"1":"0";
 
-                console.log(newval, "gggggggggg");
+        this.state.newpagedata[value] = s;
+        this.state.showChecked=s.join("&$");
+        console.log(this.state.newpagedata,"111cccccccccccccccccc>>>>>>>>>>>>>>>>>>")
+        return;
+        let sdate = this.state.newChecked;
+         
+            let values = Object.values(this.state.newChecked);
+            let keys = Object.keys(this.state.showChecked);
+            let getIndex = 0;
+                keys.findIndex((item,i)=>{
+                    if(item==value){
+                        getIndex=i;
+                    }
+                })
 
-        const listitem = { [value]:newval.join("&$")}
-        const newpagedata = Object.assign(this.state.newpagedata, listitem)
-        console.log(newpagedata,"ffffffffff")
-        const nes = Object.assign(this.state.newChecked, listitem)
-        this.setState({
-            newChecked: nes,
-            newpagedata: newpagedata
-        });
+               let  newval = values[getIndex]?values[getIndex].split("&$"):[];
+                    newval[index] = !dis == false ? "0" : "1";
+    
+                    console.log(newval, "gggggggggg");
+    
+            const listitem = { [value]:newval.join("&$")}
+            const newpagedata = Object.assign(this.state.newpagedata, listitem)
+            console.log(newpagedata,"ffffffffff")
+            const nes = Object.assign(this.state.newChecked, listitem)
+            this.setState({
+                newChecked: nes,
+                newpagedata: newpagedata
+            });
 
+        console.log(newpagedata,"111cccccccccccccccccc>>>>>>>>>>>>>>>>>>")
+
+        
     }
     handleInput(k, v) {
         let s = { [k]: v };
@@ -509,19 +526,19 @@ export default class Tdetail extends React.Component {
     }
     async getNewSubdeta(index, isBack, ticketFlowRole, skipFlowId) {
         //设置回转状态及回转目标
-        console.log(index, isBack, ticketFlowRole, skipFlowId)
-
-        var backFlowNameArray = [];
-        var backRoleIdArray = [];
-        let NewArr = [];
+        console.log(index, isBack, ticketFlowRole, skipFlowId,">>>>>>>>>>>不同意")
+        var backStatusId = [];//状态id
+        var backRoleId = [];  //roleid
+        let NewArr = [];      //状态名字
+        let FlowRoleID = [];// FlowRoleID
         if (isBack == 1) {
             for (var i = 0; i < index; i++) {
                 if (ticketFlowRole[i].ticketrolerank == 1) {
-                    backFlowNameArray.push(ticketFlowRole[i].ticketstatusname);
-                    backRoleIdArray.push(ticketFlowRole[i].ticketroleid);
-
+                    backStatusId.push(ticketFlowRole[i].ticketstatusid);
                     let itemarr = '回转-' + ticketFlowRole[i].ticketstatusname;
+                    backRoleId.push(ticketFlowRole[i].ticketroleid)
                     NewArr.push(itemarr)
+                    FlowRoleID.push(ticketFlowRole[i].ticketflowid)
                 }
             } 
         }
@@ -531,20 +548,25 @@ export default class Tdetail extends React.Component {
             for (var i = 0; i < allFlowRole.length; i++) {
                 if (allFlowRole[i].ticketflowid == skipFlowId) {
                     NewArr.push('跳转-'+allFlowRole[i].ticketstatusname) 
-                    backRoleIdArray.push(ticketFlowRole[i].ticketroleid)
+                    backStatusId.push(allFlowRole[i].ticketstatusid)
+                    backRoleId.push(allFlowRole[i].ticketroleid)
+                    FlowRoleID.push(allFlowRole[i].ticketflowid)
                 };
             }
         }
         //获取提交对象
-        console.log(backRoleIdArray,"???????????????????")
-        const dui = "?form.roleId=" + backRoleIdArray[0];
+        const dui = "?form.roleId=" + backRoleId[0];
         const searchRole = await searchUserForRole(dui);//获取提交对象
-        console.log(searchRole,">>>>>>>>>>>>>>")
+        console.log(backRoleId[0],backStatusId[0],">>>>>>>>>>>>>>获取当前状态id")
         this.setState({
+            nextFlowId:FlowRoleID[0],
             nextFlow: NewArr,
-            searchRole: searchRole.form.dataList
+            searchRole: searchRole.form.dataList,
+            backStatusId:backStatusId,
+            backRoleId:backRoleId,
+            FlowRoleID:FlowRoleID
         })
-
+    
     }
 
     async getSubdata(index, ticketFlowrole) {
@@ -555,16 +577,17 @@ export default class Tdetail extends React.Component {
             var nextFlowId = ticketFlowrole[index + 1].ticketstatusid;//下一个流程id
             var nextFlow = ticketFlowrole[index + 1].ticketstatusname;//下一个流程状态
             let arr = [nextFlow];
-            this.setState({
-                nextFlowId: nextFlowId,
-                nextFlow: arr
-            })
             var nextRoleId = ticketFlowrole[index + 1].ticketroleid;
             const dui = "?form.roleId=" + nextRoleId;
             const searchRole = await searchUserForRole(dui);//获取提交对象
             console.log(searchRole, "获取提交对象")
             this.setState({
-                searchRole: searchRole.form.dataList
+                nextFlowId: nextFlowId,
+                nextFlow: arr,
+                searchRole: searchRole.form.dataList,
+                backStatusId:[nextFlowId],
+                backRoleId:[nextRoleId],
+                FlowRoleID:[nextRoleId]
             })
         }
     }
@@ -572,7 +595,8 @@ export default class Tdetail extends React.Component {
         console.log(index,value, "index")
         let arr = [];
         arr.push(value)
-        if (flag == 0) {
+        if (flag == 0) {//是否同意
+           
             if (index == 0) {//同意
                 this.setState({ agreeLiuzhuan: 1 })
                 this.getSubdata(this.state.index, this.state.ticketFlowrole)
@@ -580,20 +604,16 @@ export default class Tdetail extends React.Component {
                 this.setState({ agreeLiuzhuan: 2 })
                 this.getNewSubdeta(this.state.index, this.state.isBack, this.state.ticketFlowrole, this.state.skipFlowId);//获取新的流转对象和新的提交对象
             }
+            
+          
         }
         
-        if(flag==1){
-            const ticket = this.state.allFlowRole;
-            const searchRole = this.state.searchRole;
-            let roleid ="";
-            console.log(searchRole,ticket,"vvvvvvvvvvvvvvvvvvvvvv")
-            const tt = searchRole[0].substr(3,searchRole[0].length);
-            ticket.map((item,i)=>{
-                console.log(item.ticketstatusname==tt,"gggggggggggg")
-                if(item.ticketstatusname==tt){
-                    roleid=item.ticketroleid;
-                }
-            })
+        if(flag==1){//流转状态
+            this.state.searchRole=[];
+            let roleid =this.state.backRoleId[index];
+            
+                this.state.nextFlowId = this.state.FlowRoleID[index];
+           
             const dui = "?form.roleId=" + roleid;
             const searchRoles = await searchUserForRole(dui);
             this.setState({
@@ -637,6 +657,9 @@ export default class Tdetail extends React.Component {
                 if(item.TicketParaID.slice(item.TicketParaID.length - 2, item.TicketParaID.length)== "*1"){
                     gettextarea={[item.TicketParaID]:true}
                 }
+
+                console.log("QQQQQQQQQQQQ:::",data);
+
                 this.setState({
                     pagedata: data,
                     getmoretextarea:gettextarea
@@ -651,6 +674,10 @@ export default class Tdetail extends React.Component {
             }
         })
 
+
+        /////////////////////////////////
+     
+        ///////////////////////////////////////////////////
     }
 
     onChangeTextInput(v) {
@@ -674,11 +701,12 @@ export default class Tdetail extends React.Component {
                 'form.userId': this.props.navigation.state.params.userId,
                 'form.recordOption': this.state.agreeLiuzhuan,
                 'form.detailInfo': this.state.detailinfo,
-                'form.nextFlowId': this.state.nextFlowId,
+                'form.nextFlowId': this.state.nextFlowId,//-----------
                 'form.nextUserId': this.state.vvval,
                 "form.paraData": JSON.stringify(newpagedata)
             }
-            console.log(data, "111111111111111111")
+            console.log(data, "111111111111111111") 
+          
             var para = "";
             for (var a in data) {
                 para += ("&" + a + "=" + encodeURIComponent(data[a]));
@@ -720,7 +748,9 @@ export default class Tdetail extends React.Component {
                 })
             }
         } else {
-            Alert.alert("提示", "流转目标不能为空")
+            Alert.alert("提示", "流转目标不能为空", [
+                { text: '是'},
+            ], { cancelable: false })
         }
     }
 
@@ -784,7 +814,7 @@ export default class Tdetail extends React.Component {
 
     getddds = (ddd, indexss) => {
         let sdate = this.state.newChecked;
-       
+       console.log('>>>>>>>>>>>>>>',sdate)
         if (JSON.stringify(sdate)!="{}") {
             let tt = 0;
             let keys = Object.keys(sdate);
@@ -891,7 +921,7 @@ export default class Tdetail extends React.Component {
                 ss = i
             }
         })
-
+        console.log("QAZXSSSS:",textmore != "" ? textmore : values[ss]);
         return textmore != "" ? textmore : values[ss]
 
     }
@@ -1061,7 +1091,7 @@ export default class Tdetail extends React.Component {
 
                                                             {
                                                                 v.IsAdd == 1 ?
-                                                                    new Array(this.isnums(v.TicketParaID)).fill(7).map((item, index) => {
+                                                                new Array(this.isnums(v.TicketParaID)).fill(true).map((item, index) => {
                                                                     return (
                                                                    <View key={index}>     
                                                                     <TextareaItem  editable={dis}
@@ -1075,7 +1105,32 @@ export default class Tdetail extends React.Component {
                                                                     {v.IsConfirm == 1 && <View style={{ borderTopColor:'gray',borderTopWidth:1,borderStyle:'solid',flexDirection: 'row', backgroundColor:dis ? "white" : "lightgray" , padding: 5 }}>
                                                                 <CheckBox
                                                                     label={'是否已执行'}
-                                                                    checked={this.getddds(v.TicketParaID + '_1', index)}
+                                                                    // checked={this.getddds(v.TicketParaID + '_1', index)}
+                                                                    checked={(()=>{
+                                                                        let ss = this.state.newpagedata;
+                                                                        if(!ss["0840fc2a264f1244c428da286c83df7a_1"]){
+
+                                                                            let dss = {["0840fc2a264f1244c428da286c83df7a_1"]:"1&$1&$1"};
+                                                                            let newpagedata = this.state.newpagedata;
+                                                                            for(let i in dss){
+                                                                                let s = dss[i] || "";
+                                                                                let arr = s.split("&$");
+                                                                                // console.log("zzzzzzzzzzzzzzzzzzzzzzz::1",arr);
+                                                                                if(!newpagedata[i])newpagedata[i] = [];
+                                                                                for(let j = 0;j<arr.length;j++){
+                                                                                    newpagedata[i][j] = arr[j];
+                                                                                }
+                                                                                console.log("",s);
+                                                                            }
+                                                                            this.state.newpagedata = newpagedata;
+
+                                                                            ss = newpagedata;
+                                                                           
+                                                                        };
+                                                                        console.log("zzzzzzzzzzzzzzzzzzzzzzz:::",ss);
+                                                                        let ass = ss[v.TicketParaID + '_1'] || [];
+                                                                        return ass[index] == "0";
+                                                                    })}
                                                                     onChange={(e) => dis && this.onChangecoform(v.TicketParaID + '_1', e, index)}
                                                                     underlayColor={"transparent"}
                                                                 >
