@@ -1,5 +1,6 @@
 import React from 'react';
 import Title from './Title';
+import {ActivityIndicator} from 'antd-mobile-rn';
 import {moban,ttmsTickets,searchUserPower,userlist} from './../api/api';
 import * as Animatable from 'react-native-animatable';
 import {View,Text,TouchableOpacity,Image,Alert,ScrollView} from 'react-native';
@@ -67,9 +68,13 @@ export default class Newticket extends React.Component{
     }
     render(){
         return(
-            <View>
+            <View style={{flex:1,backgroundColor:'#f5f5f5'}}>
              <Title navigation={this.props.navigation} centerText={'选择模板'}/>
-             <ScrollView style={{paddingBottom:10}}>
+             {this.state.jay?null:<View style={{top:43,justifyContent:'center',alignItems:'center',position:'absolute',zIndex:1000,backgroundColor:'lightgray',width:'100%',height:'100%'}}>
+              <ActivityIndicator color="#03c1eb"/>
+              <Text style={{color:'#007aff',fontSize:15,marginTop:15}}>加载中...</Text>
+              </View>}
+             <ScrollView style={{paddingBottom:10,height:'100%'}}>
              {
                 this.state.jay.map((v,i)=>
                 <Animatable.View key={i} useNativeDriver animation="fadeInRight" easing="ease-out-expo">

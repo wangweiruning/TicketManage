@@ -108,8 +108,8 @@ this.state.ischanges=nextProps.ischanges
         return(
             <View>
             <TouchableOpacity disabled={this.props.isshow} onPress={()=>this.setState({visible:true})}>
-            <View style={{flexDirection:'row',alignItems:'center',...this.props.style}}>
-                        <Text style={{padding:5,flex:1,flexDirection:'row',color:color?color:'gray',fontSize:fontSize?fontSize:13,backgroundColor:!this.props.isshow?"white":"lightgray"}}>{
+            <View style={{flexDirection:'row',alignItems:'center',...this.props.style,backgroundColor:!this.props.isshow?"white":"lightgray"}}>
+                        <Text style={{padding:5,flex:1,flexDirection:'row',color:color?color:'lightgray',fontSize:fontSize?fontSize:13}}>{
                             this.open()
                         }</Text>
                     </View>

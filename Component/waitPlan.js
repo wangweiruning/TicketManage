@@ -139,12 +139,12 @@ export default class WaitPlan extends React.Component{
   }
   render() {
       let height = this.state.result.length * 100;
-      let dataLis = this.state.dataLis
+      let dataLis = this.state.dataLis;
     return (
-      <View style={{flex:1}}>
+      <View style={{flex:1,backgroundColor:'#f5f5f5'}}>
         <Title navigation={this.props.navigation} centerText={'待处理流程'} />
         {/* 需要循环获取数据 */}
-            <View style={{flex:1,marginTop:0}}>
+            <View style={{flex:1}}>
             {/* {jconfig.userinfo.status?<PageListView
                 height={height}
                 pageLen={15}
@@ -153,28 +153,25 @@ export default class WaitPlan extends React.Component{
                 loadMore={this._loadMore.bind(this)}
             />:<Text style={{textAlign:"center",marginTop:20}}>还没有任何数据</Text>
             } */}
-            {this.state.mengCard&&<View style={{display:"flex",flexDirection:"column",zIndex:444,width:"100%",height:"100%",backgroundColor:"lightgray"}}>
-                <View style={{marginTop:"55%"}}>
+            {this.state.mengCard&&<View style={{justifyContent:'center',alignItems:'center', zIndex:444,width:"100%",height:"100%",backgroundColor:"lightgray"}}>
                 <ActivityIndicator color="#03c1eb"/>
                 <Text style={{color:"#007aff",textAlign:"center",marginTop:10,fontSize:15}}>加载中...</Text>
-                </View>
                 </View>}
             <ScrollView>
          {  dataLis.length>0&&dataLis.map((itemdata,index)=>{
              return (
               <View key={index}
                     onPress={()=>this.gotoItem(itemdata)}
-                    style={{marginTop:6,marginBottom:6,paddingBottom:10,width:"95%",marginLeft:10,borderRadius:10,backgroundColor:'white'}}>
-                   
-                <Text style={{color:"#000000",marginTop:20,marginLeft:16}}>两票类型：{itemdata.tickettypename}</Text>
-                <Text style={{color:"#000000",marginTop:3,marginLeft:16}}>负责人：{itemdata.headuser}</Text>
-                <Text style={{color:"#000000",marginTop:3,marginLeft:16}}>编号：{itemdata.ticketserialnum}</Text>
-                <Text style={{color:"#000000",marginTop:3,marginLeft:16}}>流转人：{itemdata.manageuser}</Text>
-                <View><Text style={{color:"#000000",marginTop:3,marginLeft:16}}>内容：</Text></View>
-                <Text numberOfLines={10} style = {{marginLeft:16,width:'93%',marginTop:3,paddingBottom:15,borderColor:"#eeeeee",borderWidth:1,borderStyle:"solid",color:"#000000",padding:4}}>{itemdata.content}</Text>
-                <Text style={{color:"#ff8800",marginTop:3,marginLeft:16}}>等待时间：{this.awaitTime(itemdata.lastTime)}</Text>
-                <Text style={{color:"#000000",marginTop:3,marginBottom:5,marginLeft:16}}>流转时间：{itemdata.lastTime.replace(/T/,' ')}</Text>
-                <View style={{width:'100%',alignItems:'center'}}>
+                    style={{marginTop:8,marginBottom:8,paddingBottom:15,width:"95%",borderRadius:10,backgroundColor:'white',marginLeft:11}}>
+                <Text numberOfLines={10} style = {{marginLeft:16,width:'93%',marginTop:20,paddingBottom:15,borderColor:"#eeeeee",borderWidth:1,borderStyle:"solid",color:"#000000",padding:4,fontSize:16}}>{itemdata.content==""?'暂无内容':itemdata.content}</Text>  
+                <Text style={{color:"#000000",marginTop:5,marginLeft:16,fontSize:16}}>两票类型：{itemdata.tickettypename}</Text>
+                <Text style={{color:"#000000",marginTop:5,marginLeft:16,fontSize:16}}>负责人：{itemdata.headuser}</Text>
+                <Text style={{color:"#000000",marginTop:5,marginLeft:16,fontSize:16}}>编号：{itemdata.ticketserialnum}</Text>
+                <Text style={{color:"#000000",marginTop:5,marginLeft:16,fontSize:16}}>流转人：{itemdata.manageuser}</Text>
+                {/* <View><Text style={{color:"#000000",marginTop:3,marginLeft:16,fontSize:16}}>内容：</Text></View> */}
+                <Text style={{color:"#ff8800",marginTop:5,marginLeft:16,fontSize:16}}>等待时间：{this.awaitTime(itemdata.lastTime)}</Text>
+                <Text style={{color:"#000000",marginTop:5,marginBottom:7,marginLeft:16,fontSize:16}}>流转时间：{itemdata.lastTime.replace(/T/,' ')}</Text>
+                <View style={{width:'100%',alignItems:'center',marginTop:7}}>
                 <TouchableOpacity onPress={()=> this.gotoItem(itemdata)} style={{elevation:2,justifyContent:'center',alignItems:'center',width:'80%',backgroundColor:'#4c70b9',borderRadius:5,height:40}}>
                    <Text style={{color:'white',fontSize:20,fontWeight:'500'}}>查看详情</Text>
                 </TouchableOpacity>
@@ -182,7 +179,7 @@ export default class WaitPlan extends React.Component{
             </View>
             )
         })}
-        {this.state.havenotdate&&<View style={{marginVertical:20}}><Text style={{textAlign:"center"}}>暂时没有数据！</Text></View>}
+        {this.state.havenotdate&&<View style={{marginVertical:20}}><Text style={{textAlign:"center",fontSize:16}}>暂时没有数据！</Text></View>}
             </ScrollView>
             </View>
       </View>

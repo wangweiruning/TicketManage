@@ -529,9 +529,8 @@ export default class Tdetail extends React.Component{
         })
     }
     render(){
-        console.log(this.state.newpagedata,"jjjjjjjjjjjjjjjjj")
         let getAllTempanyId = this.state.getAllTempanyId
-        return(<View style={{justifyContent:'center',flex:1}}>
+        return(<View style={{justifyContent:'center',flex:1,backgroundColor:'#f5f5f5'}}>
             <TicketTitle navigation={this.props.navigation} num={this.state.num} centerText={this.props.navigation.state.params.v+' '+this.state.num}/>
             {this.state.num?null:<View style={{top:43,justifyContent:'center',alignItems:'center',position:'absolute',zIndex:1000,backgroundColor:'lightgray',width:'100%',height:'100%'}}>
               <ActivityIndicator color="#03c1eb"/>
@@ -563,7 +562,7 @@ export default class Tdetail extends React.Component{
                {      
                   v.ParaTypeID==4? 
                   <TicketDropdownCheckBox isshow={dis}
-                  open={this.openothers.bind(this)} style={{minWidth:'98%'}} 
+                  open={this.openothers.bind(this)} style={{minWidth:'98%',height:50}} 
                   ischanges={this.state.ischanges}
                   TextColor={{color:'black',fontSize:13,backgroundColor:dis?"white":"lightgray"}} 
                   SelectData={v.ParaName=="班组"?this.state.Department:this.state.ParaId} 
@@ -645,11 +644,11 @@ export default class Tdetail extends React.Component{
                   style={{width:'80%',justifyContent:'center',left:10}} defaultValue={'请选择'} options={this.state.status}/>
                  }
                 </View>
-                <View style={{width:'98%',borderBottomColor:'rgba(0,0,0,.2)',borderBottomWidth:1,borderStyle:'solid',padding:8}}>
+                <View style={{width:'98%',borderBottomColor:'rgba(0,0,0,.2)',borderBottomWidth:1,borderStyle:'solid',padding:6}}>
                   <Text style={{color:'#3f4044'}}>流转目标</Text>
                   <TicketDropdownCheckBox style={{minWidth:'95%'}} open={this.open.bind(this)} TextColor={{color:'black',fontSize:13}} SelectData={this.state.user}/>
                 </View>
-                <View style={{width:'98%',borderBottomColor:'rgba(0,0,0,.2)',borderBottomWidth:1,borderStyle:'solid',padding:8}}>
+                <View style={{width:'98%',borderBottomColor:'rgba(0,0,0,.2)',borderBottomWidth:1,borderStyle:'solid',padding:6}}>
                   <Text style={{color:'#3f4044'}}>详细意见</Text>
                   <TextareaItem style={{minWidth:'95%'}} placeholder="请输入内容..." autoHeight onChangeText={(v)=>this.handleInputs('detailInfo',v)}/>
                 </View>

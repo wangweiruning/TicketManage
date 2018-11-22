@@ -972,7 +972,7 @@ export default class Tdetail extends React.Component {
 
 
     render(){
-        return(<View style={{justifyContent:'center'}}>
+        return(<View style={{justifyContent:'center',backgroundColor:'#f5f5f5'}}>
                     <TicketTitle navigation={this.props.navigation} num={true} numns={true} ishistory={this.props.navigation.state.params.ishistory}
                         centerText={this.props.navigation.state.params.typeName}/>    
                     {this.state.loading?<View style={{alignItems:'center',top:'45%'}}>
@@ -1005,7 +1005,7 @@ export default class Tdetail extends React.Component {
                             this.state.templateContents.map((v,i)=>{
                                 let dis = this.ischacked(v.TicketParaID);
                                 
-                            return <View  key={i} style={{marginTop:5,padding:5,alignItems:'center',width:'100%'}}>
+                            return <View  key={i} style={{marginTop:5,padding:5,alignItems:'center',width:'100%',marginBottom:8}}>
                             <View style={{
                                 width:'98%',
                                 backgroundColor:'white',
@@ -1033,7 +1033,7 @@ export default class Tdetail extends React.Component {
                                         ParaName={v.ParaName}
                                         getDefaultValue={v.ParaName == "班组" ? false : true}
                                         defaultValue={this.getDefaultMore(v.TicketParaID, v.ParaName)}
-                                        style={{ minWidth: '98%' }}
+                                        style={{ minWidth: '98%' ,height:50}}
                                         ischanges={this.state.ischanges}
                                         TextColor={{ color: 'black', fontSize: 13, backgroundColor: dis ? "white" : "lightgray" }}
                                         SelectData={v.ParaName == "班组" ? this.state.groupName : this.state.ParaId} canClick={dis} />
@@ -1051,15 +1051,15 @@ export default class Tdetail extends React.Component {
                                             options={this.BackpageUseName()} />
                                         : v.ParaTypeID == 2 ?
                                             <View>
-                                                {v.IsConfirm == 1 ? <View style={{ flexDirection: 'column', margin: 5 }}>
+                                                {v.IsConfirm == 1 ? <View style={{ flexDirection: 'column'}}>
                                                     <TextInput
                                                         value={this.getchecked(v.TicketParaID)}
                                                         editable={dis} placeholder="请输入内容..."
                                                         underlineColorAndroid="transparent"
                                                         onChangeText={(values) => this.handleInput(v.TicketParaID, values)}
-                                                        style={{ minWidth: '98%', backgroundColor: dis ? "white" : "lightgray" }} />
-                                                    <View style={{ flexDirection: 'row', margin: 5 }}>
-                                                        <CheckBox
+                                                        style={{ minWidth:'98%', backgroundColor: dis ? "white" : "lightgray" }} />
+                                                    <View style={{ flexDirection: 'row', padding: 5 ,backgroundColor:'white',minWidth:'98%'}}>
+                                                        <CheckBox checkboxStyle={{width:18,height:18}}
                                                             label={'是否已执行'}
                                                             checked={this.getddds(v.TicketParaID + '_1')}
                                                             onChange={(e) => dis && this.onChangecoform(v.TicketParaID + '_1', e, dis)}
