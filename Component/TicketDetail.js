@@ -349,7 +349,7 @@ export default class Tdetail extends React.Component{
     s[index] = dis?"1":"0";
 
     this.state.newpagedata[value] = s;
-    this.state.showChecked=s.join("&$");
+    this.state.showChecked=s;
     console.log("fffffffff-",this.state.showChecked);
     }
 
