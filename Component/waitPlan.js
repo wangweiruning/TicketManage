@@ -172,7 +172,7 @@ export default class WaitPlan extends React.Component{
                 <Text style={{color:"#000000",marginTop:3,marginLeft:16}}>流转人：{itemdata.manageuser}</Text>
                 <View><Text style={{color:"#000000",marginTop:3,marginLeft:16}}>内容：</Text></View>
                 <Text numberOfLines={10} style = {{marginLeft:16,width:'93%',marginTop:3,paddingBottom:15,borderColor:"#eeeeee",borderWidth:1,borderStyle:"solid",color:"#000000",padding:4}}>{itemdata.content}</Text>
-                <Text style={{color:"orange",marginTop:3,marginLeft:16}}>等待时间：{this.awaitTime(itemdata.lastTime)}</Text>
+                <Text style={{color:"#ff8800",marginTop:3,marginLeft:16}}>等待时间：{this.awaitTime(itemdata.lastTime)}</Text>
                 <Text style={{color:"#000000",marginTop:3,marginBottom:5,marginLeft:16}}>流转时间：{itemdata.lastTime.replace(/T/,' ')}</Text>
                 <View style={{width:'100%',alignItems:'center'}}>
                 <TouchableOpacity onPress={()=> this.gotoItem(itemdata)} style={{elevation:2,justifyContent:'center',alignItems:'center',width:'80%',backgroundColor:'#4c70b9',borderRadius:5,height:40}}>
@@ -186,6 +186,6 @@ export default class WaitPlan extends React.Component{
             </ScrollView>
             </View>
       </View>
-    );
+    )
   }
 }
