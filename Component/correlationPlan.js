@@ -19,14 +19,16 @@ export default class CorrelationPlan extends React.Component{
       }
     async  componentWillMount(){
          const {navigate} = this.props.navigation
-    if(!jconfig.userinfo.status) return Alert.alert(
+    if(!jconfig.userinfo.status){
+       return Alert.alert(
         "登录验证",
         "你还没有登录哦，请先登录再来吧",
         [
-          {text: '返回', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
           {text: '去登陆', onPress: () => navigate('login')},
         ],
+        {cancelable:false}
       );
+    }else{
         const histo = await historys("?form.tree_node_operation="+0);
         const datas = "?form.userId="+histo.form.userId+"&pageSize=10&curPage=0";
                 const result = await correation(datas);
@@ -43,6 +45,7 @@ export default class CorrelationPlan extends React.Component{
                         havenotdate:true
                     })
                   }
+                }
      }
     
      // 20180730 刷新

@@ -85,7 +85,8 @@ export default class Tdetail extends React.Component {
             additem: {},
             showmore: true,
             datamore: {},
-            getmoretextarea:{}
+            getmoretextarea:{},
+            allFlowRole:[]
 
         }
     }
@@ -97,7 +98,7 @@ export default class Tdetail extends React.Component {
         }
         return false; // 默认false  表示跳出RN
     }
-    async componentWillMount() {
+    async componentDidMount() {
         this.getCanNotdata();
     }
 
@@ -148,22 +149,25 @@ export default class Tdetail extends React.Component {
 
         //当前类型两票流程
         //根据类型名称查询流程状态角色并排序显示
-        let data = '?form.ticketTypeName=' + typeName;
+        let data = `?form.ticketTypeName=${typeName}`;
         let liucheng = await searchTicketFlow(data);
-        console.log(liucheng, "当前类型两票流程 ")
-
+        console.log(await searchTicketFlow(data), "当前类型两票流程===1 ")
+        console.log(liucheng, "当前类型两票流程===2 ")
+        // return;
         ticketFlowrole = liucheng.form.dataList;//该流程所属类型的所有状态角色
         //去除作废流程
         ticketFlowrole.map((item, i) => {
-            if (item.ticketstatusname == "作废") {
-                ticketFlowrole.splice(i, 1);
-            }
+            // if (item.ticketstatusname == "作废") {
+            //     ticketFlowrole.splice(i, 1);
+            // }
+           
             // if(item.ticketstatusname==this.props.navigation.state.params.ticketstatusname){
             //     this.setState({ticketstatusid:item.ticketstatusid})
             // }
         })
         this.setState({
-            ticketFlowrole: ticketFlowrole
+            ticketFlowrole: ticketFlowrole,
+            allFlowRole: liucheng.form.dataList
         })
         console.log(ticketFlowrole, "该流程所属类型的所有状态角色")
         if (searchs.form.dataList.length > 0) {//数据库中已有记录
@@ -509,7 +513,7 @@ export default class Tdetail extends React.Component {
         var backFlowNameArray = [];
         var backRoleIdArray = [];
         let NewArr = [];
-        if (isBack == 1 && ticketFlowRole.length > 0) {
+        if (isBack == 1) {
             for (var i = 0; i < index; i++) {
                 if (ticketFlowRole[i].ticketrolerank == 1) {
                     backFlowNameArray.push(ticketFlowRole[i].ticketstatusname);
@@ -518,42 +522,27 @@ export default class Tdetail extends React.Component {
                     let itemarr = '回转-' + ticketFlowRole[i].ticketstatusname;
                     NewArr.push(itemarr)
                 }
-            }
-            this.setState({
-                nextFlow: NewArr
-            })
-
-            const dui = "?form.roleId=" + backRoleIdArray.join();
-            const searchRole = await searchUserForRole(dui);//获取提交对象
-            this.setState({
-                searchRole: searchRole.form.dataList
-            })
-        } else {
-            //设置跳转状态及跳转目标
-            var skipFlowName = "";
-            var skipRoleIdArray = [];
-            var aar = [];
-            if (skipFlowId != 0 && ticketFlowRole.length > 0) {
-                for (var i = 0; i < ticketFlowRole.length; i++) {
-                    if (ticketFlowRole[i].ticketstatusid == skipFlowId) {
-                        skipFlowName = ticketFlowRole[i].ticketstatusname;
-                        skipRoleIdArray.push(ticketFlowRole[i].ticketroleid);
-
-                    };
-                    aar.push(skipFlowName);
-                }
-
-                //跳转id  skipFlowId
-                this.setState({ nextFlow: aar })
-                const dui = "?form.roleId=" + skipRoleIdArray.join();
-                const searchRole = await searchUserForRole(dui);//获取提交对象
-                this.setState({
-                    searchRole: searchRole.form.dataList,
-                    nextFlow: aar
-                })
+            } 
+        }
+  
+        let allFlowRole = this.state.ticketFlowrole;
+        if (skipFlowId != 0) {
+            for (var i = 0; i < allFlowRole.length; i++) {
+                if (allFlowRole[i].ticketflowid == skipFlowId) {
+                    NewArr.push('跳转-'+allFlowRole[i].ticketstatusname) 
+                    backRoleIdArray.push(ticketFlowRole[i].ticketroleid)
+                };
             }
         }
-
+        //获取提交对象
+        console.log(backRoleIdArray,"???????????????????")
+        const dui = "?form.roleId=" + backRoleIdArray[0];
+        const searchRole = await searchUserForRole(dui);//获取提交对象
+        console.log(searchRole,">>>>>>>>>>>>>>")
+        this.setState({
+            nextFlow: NewArr,
+            searchRole: searchRole.form.dataList
+        })
 
     }
 
@@ -578,23 +567,40 @@ export default class Tdetail extends React.Component {
             })
         }
     }
-    changeAgree = (index, flag, value) => {
-        console.log(index, "index")
+    changeAgree = async(index, flag, value) => {
+        console.log(index,value, "index")
         let arr = [];
         arr.push(value)
         if (flag == 0) {
-            if (index == 0) {
+            if (index == 0) {//同意
                 this.setState({ agreeLiuzhuan: 1 })
                 this.getSubdata(this.state.index, this.state.ticketFlowrole)
-            } else {
+            } else {//不同意
                 this.setState({ agreeLiuzhuan: 2 })
                 this.getNewSubdeta(this.state.index, this.state.isBack, this.state.ticketFlowrole, this.state.skipFlowId);//获取新的流转对象和新的提交对象
             }
-            this.forceUpdate();
-        } else {
-            this.state.showPage.isflew = value;
-            this.forceUpdate();
         }
+        
+        if(flag==1){
+            const ticket = this.state.allFlowRole;
+            const searchRole = this.state.searchRole;
+            let roleid ="";
+            console.log(searchRole,ticket,"vvvvvvvvvvvvvvvvvvvvvv")
+            const tt = searchRole[0].substr(3,searchRole[0].length);
+            ticket.map((item,i)=>{
+                console.log(item.ticketstatusname==tt,"gggggggggggg")
+                if(item.ticketstatusname==tt){
+                    roleid=item.ticketroleid;
+                }
+            })
+            const dui = "?form.roleId=" + roleid;
+            const searchRoles = await searchUserForRole(dui);
+            this.setState({
+                searchRole: searchRoles.form.dataList
+            })
+           
+        }
+
 
     }
     aggreeall = () => {
@@ -791,10 +797,7 @@ export default class Tdetail extends React.Component {
                     return 0
                 }
             })
-            console.log('valuesssssssssssss',values,tt)
             let newvalue = values[tt].split('&$');
-           
-
             return newvalue[indexss] == 1 ? true : false;
         } else {
             return false;
@@ -849,7 +852,6 @@ export default class Tdetail extends React.Component {
         let getareaValue = Object.values(getarea);
         let getareakeys  = Object.keys(getarea);
         let gettrues = false;
-        console.log(getarea,"hhhhhhhhhhhhhhhhhh")
         getareakeys.findIndex((keyItem,index)=>{
             
             if(keyItem == v+"*1"){
@@ -866,9 +868,6 @@ export default class Tdetail extends React.Component {
         let values = Object.values(varr);
         let ss = 0;
       
-
-
-console.log(gettrues,"llllllllllllllllllllll")
         keys00.findIndex((item, index) => {
             if (item.substr(item.length - 2, item.length) == "*1" && gettrues) {
                 textmore = values00[index];
@@ -877,7 +876,6 @@ console.log(gettrues,"llllllllllllllllllllll")
                 this.state.isadd = objects;
                 let getores = Object.assign(this.state.getmoretextarea,{[v+"*1"]:false})
                 this.state.getmoretextarea = getores;
-                console.log('vvvvvvvvvvv',item)
                 this.forceUpdate();
             } else if (item == v) {
                 indexid = index;
@@ -909,7 +907,6 @@ console.log(gettrues,"llllllllllllllllllllll")
                 let objects = Object.assign(this.state.isadd,{[item]:values[i]-1<=1?1:values[i]-1});
                 let changedate=valuesmore.splice(valuesmore.length);
                 let newPageValue = Object.assign(this.state.pagedata,{[v+"*1"]:changedate});
-                console.log("valuesmore",newPageValue)
                 this.state.isadd=objects;
                 this.state.showmore=false;
                 this.forceUpdate();
@@ -921,25 +918,25 @@ console.log(gettrues,"llllllllllllllllllllll")
         let datamores = this.state.datamore;
         let moredata = Object.values(datamores)
         let moredatakeys = Object.keys(datamores)
-        let s ={[v]:three};
+        
         let rt = {[v+index]:three}
         let getarrs = [];
         moredatakeys.findIndex((items,index)=>{
-            if(three==items.substring(0,items.length-1)){
+            if(v==items.substring(0,items.length-1)){
                 getarrs.push(moredata[index])
             }
         })
-        let data = Object.assign(this.state.pagedata,s)
+        let s ={[v]:getarrs.join("&$")};
+        // let data = Object.assign(this.state.pagedata,s)
         let datamore = Object.assign(this.state.datamore,rt)
 
         let datas = Object.assign(this.state.newpagedata,{[v+"*1"]:getarrs})
-        
+        console.log(datas,"ddddddddddddd")
         this.setState({
-            pagedata: data,
+            // pagedata: data,
             newpagedata:datas,
             datamore:datamore
         });
-        console.log("fffffffff",datas)
     }
 
 
