@@ -26,11 +26,12 @@ export default class WaitPlan extends React.Component{
             "登录验证",
             "你还没有登录哦，请先登录再来吧",
             [
-              {text: '返回', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
               {text: '去登陆', onPress: () => navigate('login')},
             ],
+            {cancelable:false}
           );
-        }
+          return 
+        }else{
         const histo = await historys("?form.tree_node_operation="+0);
         const datas = "?form.userId="+histo.form.userId;
     const result = await awaitdeteal(datas);
@@ -45,7 +46,7 @@ export default class WaitPlan extends React.Component{
             havenotdate:true
         })
         }
-       
+      }
 
     }
 

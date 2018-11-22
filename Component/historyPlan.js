@@ -21,9 +21,9 @@ export default class HistoryPlan extends React.Component{
         "登录验证",
         "你还没有登录哦，请先登录再来吧",
         [
-          {text: '返回', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
           {text: '去登陆', onPress: () => navigate('login')},
         ],
+        {cancelable:false}
       );
       const datas = "?form.tree_node_operation="+0+"&form.page.pageSize=100&form.page.curPageNo=1";
       const result = await historys(datas);
