@@ -31,7 +31,7 @@ export default class HomeScreen extends React.Component {
                  <Image source={require('../images/gffg.jpg')} resizeMode="cover"/>
                </View>
                {/* <NavigationBar navigation={this.props.navigation} centertext={'两票管理'}/> */}
-          <View style={{width:'96%',marginTop:38,alignItems:'center',borderRadius:6,backgroundColor:'rgba(255,255,255,.3)'}}>
+          <View style={{width:'96%',marginTop:38,alignItems:'center',borderRadius:6,backgroundColor:'rgba(255,255,255,.2)'}}>
           <Text style={{fontSize:20,fontWeight:'500',color:'white',marginTop:10,marginBottom:10}}>两票管理</Text>
           {
             this.state.content.map((v,i)=><View key={i}>
