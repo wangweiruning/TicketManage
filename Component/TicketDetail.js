@@ -630,10 +630,13 @@ export default class Tdetail extends React.Component{
                  
                        <Checkbox onChange={(e)=>this.onChangecoform(getAllTempanyId[i]+"_1",e.target.checked,index)} disabled={dis}/>
                           
-                             <Text style={{color:'#f5f5f5'}}>是否已执行</Text></View>:null}</View>)}):<View><TextareaItem placeholderTextColor="#f5f5f5" editable={!dis} placeholder="请输入内容..."
+                             <Text style={{color:'#f5f5f5'}}>是否已执行</Text></View>:null}</View>)}):<View>
+                                 <TextareaItem placeholderTextColor="#f5f5f5" editable={!dis} placeholder="请输入内容..."
                       onChange={(e)=>this.handleInput('datalist'+i,e,getAllTempanyId[i])}
-                       autoHeight 
-                        }
+                       autoHeight
+                         style={{paddingVertical: 5 ,minWidth:'98%',backgroundColor:!dis?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)"}} /><View style={{flexDirection:'row',backgroundColor:'white',padding:5}}>
+                    <Checkbox onChange={(e)=>this.onChangecoform(getAllTempanyId[i]+"_1",e.target.checked)} disabled={dis}/>
+                          <Text>是否已执行</Text></View></View>}
                     </View>
                   </View>:null
                }
