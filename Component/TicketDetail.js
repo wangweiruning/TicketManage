@@ -496,7 +496,6 @@ export default class Tdetail extends React.Component{
         
         let index = keys.findIndex((item,i)=>{
             if(item==v){
-                console.log(varr,"555555555")
                 itemsss =  values[i+1]+1;
                 let objects = Object.assign(this.state.isadd,{[item]:values[i]+1})
                 this.state.isadd=objects;
@@ -516,7 +515,8 @@ export default class Tdetail extends React.Component{
         })
         return values[ss];  
     }
-    delete(v){
+    delete(v,inde){
+        console.log(inde,'index')
         let varr=this.state.isadd;
         let keys = Object.keys(varr);
         let values = Object.values(varr);
@@ -525,7 +525,9 @@ export default class Tdetail extends React.Component{
                 let objects = Object.assign(this.state.isadd,{[item]:values[i]-1<=1?1:values[i]-1})
                 this.state.isadd=objects;
                 this.forceUpdate();
+                console.log(objects,'this.state.isadd')
             }
+            
         })
     }
     
@@ -561,9 +563,9 @@ export default class Tdetail extends React.Component{
                          <TouchableOpacity onPress={()=>this.add(v.TicketParaID)}>
                             <Image resizeMode="contain" style={{width:20,top:1,height:20}} source={require('../images/add.png')}/>  
                         </TouchableOpacity>
-                        <TouchableOpacity onPress={()=>this.delete(v.TicketParaID)}>
+                        {/* <TouchableOpacity onPress={()=>this.delete(v.TicketParaID)}>
                             <Image resizeMode="contain" style={{width:20,top:1,height:20}} source={require('../images/delete.png')}/>  
-                        </TouchableOpacity>
+                        </TouchableOpacity> */}
                         </View>}
               </View>
                {      
@@ -612,13 +614,16 @@ export default class Tdetail extends React.Component{
                     :
                     v.ParaTypeID==6?
                   <View style={{width:'98%'}}>
-                      <View>
                        {
                       v.IsAdd==1?new Array(this.isnums(v.TicketParaID)).fill(7).map((item, index) =>{
-                      return (<View key={index}><TextareaItem  editable={!dis} placeholder="请输入内容..." placeholderTextColor="white"
+                      return (<View style={{alignItems:'center',flexDirection:'row',backgroundColor:!dis?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)",width:'100%'}} key={index}>
+                      <TextareaItem editable={!dis} placeholder="请输入内容..." placeholderTextColor="white"
                       onChange={(e)=>this.handleInputmore('datalist'+i,e,getAllTempanyId[i],index)}
                       autoHeight 
-                      style={{paddingVertical: 5,minWidth:'98%',backgroundColor:!dis?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)",color:'white'}} />
+                      style={{paddingVertical: 5,backgroundColor:!dis?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)",color:'white',width:300}} />
+                      <TouchableOpacity onPress={(e,i)=>this.delete(v.TicketParaID,i)} style={{width:'10%',alignItems:'center'}}>
+                            <Image resizeMode="contain" style={{width:20,top:1,height:20}} source={require('../images/delete.png')}/>  
+                      </TouchableOpacity>
                        {v.IsConfirm==1?<View style={{flexDirection:'row',backgroundColor:'rgba(255,255,255,.2)',padding:5}}>
                        <Checkbox onChange={(e)=>this.onChangecoform(getAllTempanyId[i]+"_1",e.target.checked,index)} disabled={dis}/>
                              <Text style={{color:'#f5f5f5'}}>是否已执行</Text></View>:null}</View>)}):<View>
@@ -628,8 +633,8 @@ export default class Tdetail extends React.Component{
                          style={{paddingVertical: 5 ,minWidth:'98%',backgroundColor:!dis?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)"}} />
                          <View style={{flexDirection:'row',backgroundColor:'rgba(255,255,255,.4)',padding:5}}>
                        <Checkbox onChange={(e)=>this.onChangecoform(getAllTempanyId[i]+"_1",e.target.checked)} disabled={dis}/>
-                          <Text style={{color:'#f5f5f5'}}>是否已执行</Text></View></View>}
-                    </View>
+                          <Text style={{color:'#f5f5f5'}}>是否已执行</Text></View></View>
+                        }
                   </View>:null
                }
             </View>
@@ -661,7 +666,7 @@ export default class Tdetail extends React.Component{
                 </View>
                 <View style={{width:'98%',padding:6}}>
                   <Text style={{color:'white'}}>详细意见</Text>
-                  <TextareaItem  placeholderTextColor="#f5f5f5" style={{minWidth:'95%',backgroundColor:'rgba(255,255,255,.2)'}} placeholder="请输入内容..." autoHeight onChangeText={(v)=>this.handleInputs('detailInfo',v)}/>
+                  <TextareaItem  placeholderTextColor="#f5f5f5" style={{color:"#F5F5F5",minWidth:'95%',backgroundColor:'rgba(255,255,255,.2)'}} placeholder="请输入内容..." autoHeight onChangeText={(v)=>this.handleInputs('detailInfo',v)}/>
                 </View>
                </View>
             </View>

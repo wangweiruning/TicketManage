@@ -89,14 +89,14 @@ export default class CorrelationPlan extends React.Component{
       <View 
             onPress={()=>this.gotoItem(itemdata)}
             style={{marginTop:5,paddingBottom:10,paddingTop:10,width:"90%",marginLeft:20,height:220}}>
-        <Text style={{color:"#000000"}}>两票类型：{itemdata.tickettypename}</Text>
-        <Text style={{color:"#000000"}}>负责人：{itemdata.headuser}</Text>
-        <Text style={{color:"#000000"}}>编号：{itemdata.ticketserialnum}</Text>
-        <Text style={{color:"#000000"}}>流转人：{itemdata.manageuser}</Text>
-        <View><Text style={{color:"#000000"}}>内容：</Text></View>
-        <Text numberOfLines={10} style = {{paddingBottom:15,borderColor:"#eeeeee",borderWidth:1,borderStyle:"solid",color:"#000000"}}>{itemdata.content}</Text>
-        <Text style={{color:"#000000"}}>等待时间：{itemdata.manageTime}</Text>
-        <Text style={{color:"#000000"}}>流转时间：{itemdata.lastTime}</Text>
+        <Text style={{color:"#fff"}}>两票类型：{itemdata.tickettypename}</Text>
+        <Text style={{color:"#fff"}}>负责人：{itemdata.headuser}</Text>
+        <Text style={{color:"#fff"}}>编号：{itemdata.ticketserialnum}</Text>
+        <Text style={{color:"#fff"}}>流转人：{itemdata.manageuser}</Text>
+        <View><Text style={{color:"#fff"}}>内容：</Text></View>
+        <Text numberOfLines={10} style = {{paddingBottom:15,borderColor:"#eeeeee",borderWidth:1,borderStyle:"solid",color:"#fff"}}>{itemdata.content}</Text>
+        <Text style={{color:"#fff"}}>等待时间：{itemdata.manageTime}</Text>
+        <Text style={{color:"#fff"}}>流转时间：{itemdata.lastTime}</Text>
         <Button
             onPress={()=>this.gotoItem(itemdata)}
             title="查看详情"
@@ -142,13 +142,13 @@ let result = this.state.result;
                   <View 
                         key={index}
                         onPress={()=>this.gotoItem(itemdata)}
-                        style={{marginBottom:8,marginTop:8,paddingBottom:15,width:"95%",marginLeft:11,borderRadius:10,backgroundColor:'white'}}>
-                    <Text numberOfLines={10} style = {{marginLeft:16,width:'93%',marginTop:20,paddingBottom:20,borderColor:"#eeeeee",borderWidth:1,borderStyle:"solid",color:"#000000",padding:4,fontSize:16}}>{itemdata.content==""?'暂无内容':itemdata.content}</Text>
-                    <Text style={{marginTop:5,color:"#000000",marginLeft:16,fontSize:16}}>两票类型：{itemdata.tickettypename}</Text>
-                    <Text style={{marginTop:5,color:"#000000",marginLeft:16,fontSize:16}}>负责人：{itemdata.headuser}</Text>
-                    <Text style={{marginTop:5,color:"#000000",marginLeft:16,fontSize:16}}>编号：{itemdata.ticketserialnum}</Text>
-                    <Text style={{marginTop:5,color:"#000000",marginLeft:16,fontSize:16}}>流转人：{itemdata.manageuser}</Text>
-                    <Text style={{marginTop:5,color:"#000000",marginBottom:7,marginLeft:16,fontSize:16}}>处理时间：{itemdata.managetime.replace(/T/,' ')}</Text>
+                        style={{marginBottom:8,marginTop:8,paddingBottom:15,width:"95%",marginLeft:11,borderRadius:10,backgroundColor:'rgba(255,255,255,.2)'}}>
+                    <Text numberOfLines={10} style = {{marginLeft:16,width:'91%',marginTop:20,paddingBottom:20,borderColor:"#eeeeee",borderWidth:1,borderStyle:"solid",color:"#fff",padding:4,fontSize:16}}>{itemdata.content==""?'暂无内容':itemdata.content}</Text>
+                    <Text style={{marginTop:5,color:"#fff",marginLeft:16,fontSize:16}}>两票类型：{itemdata.tickettypename}</Text>
+                    <Text style={{marginTop:5,color:"#fff",marginLeft:16,fontSize:16}}>负责人：{itemdata.headuser}</Text>
+                    <Text style={{marginTop:5,color:"#fff",marginLeft:16,fontSize:16}}>编号：{itemdata.ticketserialnum}</Text>
+                    <Text style={{marginTop:5,color:"#fff",marginLeft:16,fontSize:16}}>流转人：{itemdata.manageuser}</Text>
+                    <Text style={{marginTop:5,color:"#fff",marginBottom:7,marginLeft:16,fontSize:16}}>处理时间：{itemdata.managetime.replace(/T/,' ')}</Text>
                     <View style={{width:'100%',alignItems:'center',marginTop:7}}>
                      <TouchableOpacity onPress={()=> this.gotoItem(itemdata)} style={{elevation:2,justifyContent:'center',alignItems:'center',width:'80%',backgroundColor:'#4c70b9',borderRadius:5,height:40}}>
                      <Text style={{color:'white',fontSize:20,fontWeight:'500'}}>查看详情</Text>
