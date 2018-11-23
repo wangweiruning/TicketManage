@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View,TouchableOpacity ,ScrollView,Button,Alert,ToastAndroid} from 'react-native';
+import { StyleSheet, Text, View,TouchableOpacity ,ScrollView,Button,Alert,ToastAndroid,Image} from 'react-native';
 import Title from './Title'
 import {searchFlowRecord} from './../api/api'
 import MySorage from '../api/storage';
@@ -110,7 +110,10 @@ export default class TicketFlew extends React.Component{
   render() {
       console.log(this.props.navigation)
     return (
-      <View style={{backgroundColor:'#f5f5f5',height:'100%',alignItems:'center'}}>
+      <View style={{height:'100%',alignItems:'center'}}>
+        <View style={{position:'absolute',width:'100%',minHeight:'100%'}}>
+            <Image source={require('../images/gffg.jpg')} resizeMode="stretch"/>
+        </View>
         <Title navigation={this.props.navigation} centerText={this.props.navigation.state.params.name+"流程"} />
         {/* 需要循环获取数据 */}
         <ScrollView style={{marginBottom:50}}>

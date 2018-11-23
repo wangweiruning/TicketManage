@@ -90,7 +90,8 @@ export default class Tdetail extends React.Component {
             allFlowRole:[],
             backStatusId:[],
             backRoleId:[],
-            FlowRoleID:[]
+            FlowRoleID:[],
+            ticketFlowList:[] ,//已经经过的流程
 
         }
     }
@@ -160,15 +161,16 @@ export default class Tdetail extends React.Component {
         // return;
         ticketFlowrole = liucheng.form.dataList;//该流程所属类型的所有状态角色
         //去除作废流程
-        ticketFlowrole.map((item, i) => {
-            // if (item.ticketstatusname == "作废") {
-            //     ticketFlowrole.splice(i, 1);
-            // }
-           
-            // if(item.ticketstatusname==this.props.navigation.state.params.ticketstatusname){
-            //     this.setState({ticketstatusid:item.ticketstatusid})
-            // }
-        })
+        let newTicket =[];
+        // ticketFlowrole.map((item, i) => {
+        //     if (item.ticketstatusname != "作废") {
+        //          newTicket.push(item)
+        //      }
+
+        //     // if(item.ticketstatusname==this.props.navigation.state.params.ticketstatusname){
+        //     //     this.setState({ticketstatusid:item.ticketstatusid})
+        //     // }
+        // })
         this.setState({
             ticketFlowrole: ticketFlowrole,
             allFlowRole: liucheng.form.dataList
@@ -192,8 +194,10 @@ export default class Tdetail extends React.Component {
             ticketFlowList = FlowList.form.dataList;//获取当前流程所有状态
             if (ticketFlowList[0].ManageTime) {
                 flowRoleId = ticketFlowList[ticketFlowList.length - 1].FlowRoleID;	//按时间顺序排序，当两票完结或作废时为最后一条
+                console.log("<<<<<<<<<<<<<<<<<<<:111",flowRoleId)
             } else {
                 flowRoleId = ticketFlowList[0].FlowRoleID;	//按时间顺序排序，两票未完成时处理时间为空，排在第一条
+                console.log("<<<<<<<<<<<<<<<<<<<:222",flowRoleId)
             }
             //将已填写的参数值填入页面
             const TicketRecord = await searchTicketRecord(flewFrom);
@@ -201,7 +205,8 @@ export default class Tdetail extends React.Component {
             const list = TicketRecord.form.dataList;//获取到票数据内容，等待传入页面
 
             this.setState({
-                listdatas: list
+                listdatas: list,
+                ticketFlowList:ticketFlowList,//已经经过的流程
             })
             let dataPage = {};
             let getAllTempanyId = [];
@@ -268,7 +273,7 @@ export default class Tdetail extends React.Component {
                     return false;
                 } else {
                     //设置流转状态及流转目标
-                    var nextFlowId = ticketFlowrole[index + 1].ticketstatusid;//下一个流程id
+                    var nextFlowId = ticketFlowrole[index + 1].ticketflowid;//下一个流程id
                     var nextFlow = ticketFlowrole[index + 1].ticketstatusname;//
                     let arr = [nextFlow];
                     this.setState({
@@ -280,15 +285,15 @@ export default class Tdetail extends React.Component {
                     const searchRole = await searchUserForRole(dui);//获取提交对象
                     console.log(searchRole, "获取提交对象")
                     this.setState({
-                        nextFlowId: nextRoleId,
+                        nextFlowId: nextFlowId,
                         searchRole: searchRole.form.dataList,
-                        FlowRoleID:[nextRoleId]
+                        FlowRoleID:[nextFlowId]
                     })
                 }
 
                 skipFlowId = ticketFlowrole[index].skipflowid;
                 isBack = ticketFlowrole[index].isback;
-
+                console.log('>>>>>>>>>>>>>??????',skipFlowId)
                 this.setState({
                     isBack: isBack,
                     skipFlowId: skipFlowId
@@ -503,21 +508,24 @@ export default class Tdetail extends React.Component {
         return aa;
     }
     gotSubmit = () => {
-        return <View style={{ width: '95%', borderBottomColor: 'rgba(0,0,0,.2)', borderBottomWidth: 1, borderStyle: 'solid',  paddingBottom: 8, paddingRight: 8, paddingTop: 8 }}>
-            <Text style={{ color: '#3f4044', left:5}}>流转目标</Text>
-            <DropdownCheckbox open={this.open.bind(this)}  TextColor={{ color: 'black', fontSize: 13, left: 5 }}
-                style={{ backgroundColor: 'white', minWidth: '80%', height: 29.3, justifyContent: 'center' }} SelectData={this.state.searchRole} />
+        return <View style={{ width: '96%', 
+                        borderBottomColor:'rgba(255,255,255,.2)',borderBottomWidth:1,borderStyle:'solid',  paddingBottom: 8, paddingTop: 8 }}>
+                    <Text style={{ color: 'white', left:5}}>流转目标</Text>
+                    <DropdownCheckbox open={this.open.bind(this)}  TextColor={{ color: 'white', fontSize: 13, left: 5 }}
+                        style={{  minWidth: '98%', height: 29.3, justifyContent: 'center'}} SelectData={this.state.searchRole} />
         </View>
     }
     getliuzhuan = () => {
         let arr = this.state.nextFlow;
         this.state.showPage.isflew = arr[0];
-        return <View style={{ flexDirection: 'row', width: '95%', borderBottomColor: 'rgba(0,0,0,.2)', borderBottomWidth: 1, borderStyle: 'solid', alignItems: 'center', paddingBottom: 8, paddingRight: 8, paddingTop: 8 }}>
-            <Text style={{ left: 5, color: '#3f4044' }}>流转状态</Text>
+        return <View style={{ flexDirection: 'row', width: '96%',
+        borderBottomColor:'rgba(255,255,255,.2)', borderBottomWidth: 1, borderStyle: 'solid', 
+        alignItems: 'center', paddingBottom: 8, paddingRight: 8, paddingTop: 8 }}>
+            <Text style={{ left: 5, color: 'white' }}>流转状态</Text>
             <ModalDropdown dropdownTextStyle={{ fontSize: 15 }}
                 dropdownStyle={{}}
-                textStyle={{ color: 'black', fontSize: 13 }}
-                style={{ width: '80%', justifyContent: 'center', left: 10 }}
+                textStyle={{ color: 'white', fontSize: 13 }}
+                style={{ width: '98%', justifyContent: 'center', left: 10 }}
                 defaultValue={arr[0] ? arr[0] : "请选择"}
                 onSelect={(index, value) => this.changeAgree(index, 1, value)}
                 options={arr} />
@@ -557,7 +565,7 @@ export default class Tdetail extends React.Component {
         //获取提交对象
         const dui = "?form.roleId=" + backRoleId[0];
         const searchRole = await searchUserForRole(dui);//获取提交对象
-        console.log(backRoleId[0],backStatusId[0],">>>>>>>>>>>>>>获取当前状态id")
+        console.log(FlowRoleID[0],"<<<<<<<<<<<<<<<<<<<<<获取当前状态id")
         this.setState({
             nextFlowId:FlowRoleID[0],
             nextFlow: NewArr,
@@ -570,24 +578,30 @@ export default class Tdetail extends React.Component {
     }
 
     async getSubdata(index, ticketFlowrole) {
+
+
+        let ticketFlowList = this.state.ticketFlowList;//获取经过的流程
+        let flowRoleId = '';
+        if (ticketFlowList[0].ManageTime) {
+            flowRoleId = ticketFlowList[ticketFlowList.length - 1].FlowRoleID;	//按时间顺序排序，当两票完结或作废时为最后一条
+        } else {
+            flowRoleId = ticketFlowList[0].FlowRoleID;	//按时间顺序排序，两票未完成时处理时间为空，排在第一条
+        }
+
+        this.state.flowRoleId = flowRoleId;//设置新的流程
+
         if (index > ticketFlowrole.length - 2) { //最后两个状态为验收和作废，均为终结流程
             console.log(ticketFlowrole, "终结流程!")
         } else {
-            //设置流转状态及流转目标
-            var nextFlowId = ticketFlowrole[index + 1].ticketstatusid;//下一个流程id
+         
             var nextFlow = ticketFlowrole[index + 1].ticketstatusname;//下一个流程状态
             let arr = [nextFlow];
             var nextRoleId = ticketFlowrole[index + 1].ticketroleid;
             const dui = "?form.roleId=" + nextRoleId;
             const searchRole = await searchUserForRole(dui);//获取提交对象
-            console.log(searchRole, "获取提交对象")
             this.setState({
-                nextFlowId: nextFlowId,
                 nextFlow: arr,
-                searchRole: searchRole.form.dataList,
-                backStatusId:[nextFlowId],
-                backRoleId:[nextRoleId],
-                FlowRoleID:[nextRoleId]
+                searchRole: searchRole.form.dataList
             })
         }
     }
@@ -596,7 +610,7 @@ export default class Tdetail extends React.Component {
         let arr = [];
         arr.push(value)
         if (flag == 0) {//是否同意
-           
+            
             if (index == 0) {//同意
                 this.setState({ agreeLiuzhuan: 1 })
                 this.getSubdata(this.state.index, this.state.ticketFlowrole)
@@ -608,18 +622,18 @@ export default class Tdetail extends React.Component {
           
         }
         
-        if(flag==1){//流转状态
+        if(flag==1&&this.state.agreeLiuzhuan!=1){//流转状态
             this.state.searchRole=[];
             let roleid =this.state.backRoleId[index];
-            
                 this.state.nextFlowId = this.state.FlowRoleID[index];
-           
+           console.log(this.state.nextFlowId, this.state.FlowRoleID[index],"<<<<<<<<<<<<<<<<<<<<<<<")
             const dui = "?form.roleId=" + roleid;
             const searchRoles = await searchUserForRole(dui);
             this.setState({
                 searchRole: searchRoles.form.dataList
             })
-           
+        }else{
+            this.getSubdata(this.state.index, this.state.ticketFlowrole)
         }
 
 
@@ -632,11 +646,12 @@ export default class Tdetail extends React.Component {
         } else {
             arr.push("不同意")
         }
-        return <View style={{ flexDirection: 'row', width: '95%', borderBottomColor: 'rgba(0,0,0,.2)', borderBottomWidth: 1, borderStyle: 'solid', alignItems: 'center', paddingBottom: 8, paddingRight: 8, paddingTop: 8 }}>
-            <Text style={{ left: 5, color: '#3f4044' }}>是否同意</Text>
+        return <View style={{ flexDirection: 'row', width: '96%', borderBottomColor:'rgba(255,255,255,.2)', 
+        borderBottomWidth: 1, borderStyle: 'solid', alignItems: 'center', paddingBottom: 8, paddingRight: 8, paddingTop: 8 }}>
+            <Text style={{ left: 5, color: 'white' }}>是否同意</Text>
             <ModalDropdown
-                dropdownTextStyle={{ fontSize: 15 }} dropdownStyle={{}} textStyle={{ color: 'black', fontSize: 13, left: 5 }}
-                style={{ width: '80%', justifyContent: 'center', left: 10 }}
+                dropdownTextStyle={{ fontSize: 15 }} dropdownStyle={{}} textStyle={{ color: 'white', fontSize: 13, left: 5 }}
+                style={{ width: '98%', justifyContent: 'center', left: 10 }}
                 defaultValue={arr[0]}
                 onSelect={(index, value) => this.changeAgree(index, 0, value)}
                 options={arr} />
@@ -658,8 +673,6 @@ export default class Tdetail extends React.Component {
                     gettextarea={[item.TicketParaID]:true}
                 }
 
-                console.log("QQQQQQQQQQQQ:::",data);
-
                 this.setState({
                     pagedata: data,
                     getmoretextarea:gettextarea
@@ -673,11 +686,6 @@ export default class Tdetail extends React.Component {
                 });
             }
         })
-
-
-        /////////////////////////////////
-     
-        ///////////////////////////////////////////////////
     }
 
     onChangeTextInput(v) {
@@ -706,7 +714,7 @@ export default class Tdetail extends React.Component {
                 "form.paraData": JSON.stringify(newpagedata)
             }
             console.log(data, "111111111111111111") 
-          
+          return;
             var para = "";
             for (var a in data) {
                 para += ("&" + a + "=" + encodeURIComponent(data[a]));
@@ -921,7 +929,6 @@ export default class Tdetail extends React.Component {
                 ss = i
             }
         })
-        console.log("QAZXSSSS:",textmore != "" ? textmore : values[ss]);
         return textmore != "" ? textmore : values[ss]
 
     }
@@ -972,35 +979,44 @@ export default class Tdetail extends React.Component {
 
 
     render(){
-        return(<View style={{justifyContent:'center',backgroundColor:'#f5f5f5'}}>
-                    <TicketTitle navigation={this.props.navigation} num={true} numns={true} ishistory={this.props.navigation.state.params.ishistory}
-                        centerText={this.props.navigation.state.params.typeName}/>    
-                    {this.state.loading?<View style={{alignItems:'center',top:'45%'}}>
-                    <View style={{borderRadius:4,
-                                borderColor:'rgba(255,255,255,.3)',
-                                borderWidth:1,
-                                borderStyle:'solid',
-                                position:'absolute',
-                                width:100,
-                                height:80,
-                                alignItems:'center',
-                                backgroundColor:'rgba(0,0,0,.3)',
-                                paddingTop:10,
-                                zIndex:10000000000}}>
-                        <ActivityIndicator color="#00bbf0"/>
-                        <Text style={{color:'white',fontSize:15,marginTop:15}}>数据提交中...</Text>
-                    </View>
-                    </View>:null}
-                    {this.state.mengCard&&<View 
-                    style={{display:"flex",flexDirection:"column",zIndex:444,
-                    width:width,height:height-60,backgroundColor:"lightgray"}}>
-                        <View style={{marginTop:"55%",marginBottom:"50%"}}>
-                            <ActivityIndicator color="#03c1eb"/>
-                            <Text style={{color:"#007aff",textAlign:"center",marginTop:10,fontSize:15}}>加载中...</Text>
+        return(<View style={{justifyContent:'center'}}>
+                        <View style={{position:'absolute',width:'100%',minHeight:'100%'}}>
+                            <Image source={require('../images/gffg.jpg')} resizeMode="stretch"/>
                         </View>
-                    </View>}
-                    <ScrollView style={{display:'flex'}}>
-                        <View style={{marginBottom:20}}>
+                    <TicketTitle navigation={this.props.navigation} num={true} numns={true} ishistory={this.props.navigation.state.params.ishistory}
+                        centerText={this.props.navigation.state.params.typeName}/> 
+
+                    {this.state.loading?<View style={{alignItems:'center',top:'45%'}}>
+                        <View style={{borderRadius:4,
+                                    borderColor:'rgba(255,255,255,.3)',
+                                    borderWidth:1,
+                                    borderStyle:'solid',
+                                    position:'absolute',
+                                    width:100,
+                                    height:80,
+                                    alignItems:'center',
+                                    backgroundColor:'rgba(0,0,0,.3)',
+                                    paddingTop:10,
+                                    zIndex:10000000000}}>
+                            <ActivityIndicator color="#00bbf0"/>
+                            <Text style={{color:'white',fontSize:15,marginTop:15}}>数据提交中...</Text>
+                        </View>
+                        </View>:null}
+
+                    {
+                        this.state.mengCard&&<View 
+                            style={{display:"flex",flexDirection:"column",zIndex:444,
+                            width:width,height:height}}>
+                                <View style={{marginTop:"55%",marginBottom:"50%"}}>
+                                    <ActivityIndicator color="#ffffff"/>
+                                    <Text style={{color:"#ffffff",textAlign:"center",marginTop:10,fontSize:15}}>加载中...</Text>
+                                </View>
+                            </View>
+                    }
+
+
+                    <ScrollView >
+                        <View style={{marginBottom:20,display:'flex'}}>
                         {
                             this.state.templateContents.map((v,i)=>{
                                 let dis = this.ischacked(v.TicketParaID);
@@ -1008,15 +1024,12 @@ export default class Tdetail extends React.Component {
                             return <View  key={i} style={{marginTop:5,padding:5,alignItems:'center',width:'100%',marginBottom:8}}>
                             <View style={{
                                 width:'98%',
-                                backgroundColor:'white',
+                                backgroundColor:'rgba(255,255,255,.3)',
                                 padding:5,
                                 flexDirection:'row',
-                                borderBottomWidth:1,
-                                borderBottomColor:'rgba(0,0,0,.2)',
-                                borderStyle:'solid',
                                 alignItems:'center',
                                 }}>
-                                <Text style={{color:'#3f4044',left:2}}>{v.ParaName}</Text>
+                                <Text style={{color:'white',left:2}}>{v.ParaName}</Text>
                                 {v.IsAdd==1&&dis&& <View style={{flexDirection:'row',left:5}}>
                          <TouchableOpacity onPress={()=>this.add(v.TicketParaID)}>
                             <Image resizeMode="contain" style={{width:20,top:1,height:20}} source={require('../images/add.png')}/>  
@@ -1035,17 +1048,15 @@ export default class Tdetail extends React.Component {
                                         defaultValue={this.getDefaultMore(v.TicketParaID, v.ParaName)}
                                         style={{ minWidth: '98%' ,height:50}}
                                         ischanges={this.state.ischanges}
-                                        TextColor={{ color:dis ? "black" : "gray", fontSize: 13 }}
+                                        TextColor={{color:'#f5f5f5',fontSize:13,backgroundColor:dis?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)"}}
                                         SelectData={v.ParaName == "班组" ? this.state.groupName : this.state.ParaId} canClick={dis} />
                                     : v.ParaTypeID == 3 ?
                                         <ModalDropdown
                                             disabled={!dis}
                                             dropdownTextStyle={{ fontSize: 15 }}
-                                            textStyle={{ fontSize: 13, left: 5 }}
-                                            style={{
-                                                backgroundColor: dis ? "white" : "lightgray",
-                                                height: 29.3, width: '98%', justifyContent: 'center'
-                                            }}
+                                            textStyle={{color:'white', fontSize: 13, left: 5 }}
+                                            style={{backgroundColor:dis?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)",
+                                                    height:50,width:'98%',justifyContent:'center'}} 
                                             defaultValue={this.getGzryName(v.TicketParaID)}
                                             onSelect={(e, value) => this.getSelect(e, value, v.TicketParaID)}
                                             options={this.BackpageUseName()} />
@@ -1056,24 +1067,31 @@ export default class Tdetail extends React.Component {
                                                         value={this.getchecked(v.TicketParaID)}
                                                         editable={dis} placeholder="请输入内容..."
                                                         underlineColorAndroid="transparent"
+                                                        placeholderTextColor="#f5f5f5"
                                                         onChangeText={(values) => this.handleInput(v.TicketParaID, values)}
-                                                        style={{ minWidth:'98%', backgroundColor: dis ? "white" : "lightgray" }} />
-                                                    <View style={{ flexDirection: 'row', padding: 5 ,backgroundColor:'white',minWidth:'98%'}}>
-                                                        <CheckBox checkboxStyle={{width:18,height:18}}
-                                                            label={'是否已执行'}
+                                                        style={{minWidth:'98%',backgroundColor:dis?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)",color:'white'}} />
+                                                    <View style={{ flexDirection: 'row', padding: 5 ,backgroundColor:dis?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)",minWidth:'98%'}}>
+                                                        <CheckBox checkboxStyle={{width:18,height:18,backgroundColor:'rgba(255,255,255,.2)',}}
+                                                            label={'是否已执行'} labelStyle={{color:'#f5f5f5'}}
                                                             checked={this.getddds(v.TicketParaID + '_1')}
                                                             onChange={(e) => dis && this.onChangecoform(v.TicketParaID + '_1', e, dis)}
                                                             underlayColor={"transparent"}
-                                                        ></CheckBox></View></View> : <TextInput
+                                                        ></CheckBox></View></View> : 
+                                                        <TextInput
                                                         value={this.getchecked(v.TicketParaID)}
                                                         underlineColorAndroid="transparent"
                                                         editable={dis} placeholder="请输入内容..."
+                                                        placeholderTextColor="#f5f5f5"
                                                         onChangeText={(values) => this.handleInput(v.TicketParaID, values)}
-                                                        style={{ minWidth: '98%', backgroundColor: dis ? "white" : "lightgray" }} />}
+                                                        style={{minWidth:'98%',backgroundColor:dis?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)",color:'white'}} />}
                                             </View> : v.ParaTypeID == 5
                                                 ?
                                                 <DatePicker
-                                                    style={{color: dis ? "black" : "lightgray", width: '98%', backgroundColor: dis ? "white" : "lightgray" }}
+                                                    customStyles={{dateInput: {
+                                                        backgroundColor:'transparent',
+                                                        borderWidth:0
+                                                    }}}  
+                                                    style={{width:'98%',backgroundColor:dis?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)"}}   
                                                     date={this.getchecked(v.TicketParaID)}
                                                     mode="datetime"
                                                     format="YYYY-MM-DD HH:mm"
@@ -1099,37 +1117,39 @@ export default class Tdetail extends React.Component {
                                                                         defaultValue={this.getchecked(v.TicketParaID, index)}
                                                                         onChangeText={(values) => this.handleInputmore(v.TicketParaID, values, index)}
                                                                         autoHeight
-                                                                        style={{ borderTopColor:'gray',borderTopWidth:1,borderStyle:'solid',paddingVertical: 5, minWidth: '98%', backgroundColor: dis ? "white" : "lightgray" }}
+                                                                        placeholderTextColor="#f5f5f5"
+                                                                        style={{paddingVertical: 5,minWidth:'98%',backgroundColor:dis?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)",color:'white'}}
                                                                     />
-                                                                    {v.IsConfirm == 1 && <View style={{ borderTopColor:'gray',borderTopWidth:1,borderStyle:'solid',flexDirection: 'row', backgroundColor:dis ? "white" : "lightgray" , padding: 5 }}>
-                                                                <CheckBox
+                                                                    {v.IsConfirm == 1 &&  <View style={{ borderTopColor:'gray',borderTopWidth:1,borderStyle:'solid',flexDirection: 'row', 
+                                                                    backgroundColor:dis ?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)" , padding: 5 }}>
+                                                                <CheckBox labelStyle={{color:'#f5f5f5'}} checkboxStyle={{width:18,height:18}}
                                                                     label={'是否已执行'}
-                                                                    // checked={this.getddds(v.TicketParaID + '_1', index)}
-                                                                    checked={(()=>{
-                                                                        let ss = this.state.newpagedata;
-                                                                        if(!ss["0840fc2a264f1244c428da286c83df7a_1"]){
+                                                                    style={{backgroundColor:'rgba(255,255,255,.2)'}}
+                                                                    checked={this.getddds(v.TicketParaID + '_1', index)}
+                                                                    // checked={(()=>{
+                                                                    //     let ss = this.state.newChecked;
+                                                                    //     console.log('ssss>>>>>>>>>>>>>',ss)
+                                                                    //     if(!ss[v.TicketParaID + '_1']){
 
-                                                                            let dss = {["0840fc2a264f1244c428da286c83df7a_1"]:"1&$1&$1"};
-                                                                            let newpagedata = this.state.newpagedata;
-                                                                            for(let i in dss){
-                                                                                let s = dss[i] || "";
-                                                                                let arr = s.split("&$");
-                                                                                // console.log("zzzzzzzzzzzzzzzzzzzzzzz::1",arr);
-                                                                                if(!newpagedata[i])newpagedata[i] = [];
-                                                                                for(let j = 0;j<arr.length;j++){
-                                                                                    newpagedata[i][j] = arr[j];
-                                                                                }
-                                                                                console.log("",s);
-                                                                            }
-                                                                            this.state.newpagedata = newpagedata;
+                                                                    //         let dss = {[v.TicketParaID + '_1']:"0"};
+                                                                    //         let newChecked = this.state.newChecked;
+                                                                    //         for(let i in dss){
+                                                                    //             let s = dss[i] || "";
+                                                                    //             let arr = s.split("&$");
+                                                                    //             if(!newChecked[i])newChecked[i] = [];
+                                                                    //             for(let j = 0;j<arr.length;j++){
+                                                                    //                 newChecked[i][j] = arr[j];
+                                                                    //             }
+                                                                    //         }
+                                                                    //         this.state.newChecked = newChecked;
 
-                                                                            ss = newpagedata;
+                                                                    //         ss = newChecked;
                                                                            
-                                                                        };
-                                                                        console.log("zzzzzzzzzzzzzzzzzzzzzzz:::",ss);
-                                                                        let ass = ss[v.TicketParaID + '_1'] || [];
-                                                                        return ass[index] == "0";
-                                                                    })}
+                                                                    //     };
+                                                                    //     console.log("zzzzzzzzzzzzzzzzzzzzzzz:::",ss);
+                                                                    //     let ass = ss[v.TicketParaID + '_1'] || [];
+                                                                    //     return ass[index] == "0";
+                                                                    // })}
                                                                     onChange={(e) => dis && this.onChangecoform(v.TicketParaID + '_1', e, index)}
                                                                     underlayColor={"transparent"}
                                                                 >
@@ -1138,21 +1158,22 @@ export default class Tdetail extends React.Component {
                                                                 }) :
                                                                     <TextareaItem editable={dis}
                                                                         rows={4}
+                                                                        placeholderTextColor="#f5f5f5"
                                                                         placeholder="请输入内容..."
                                                                         defaultValue={this.getchecked(v.TicketParaID)}
                                                                         onChangeText={(values) => this.handleInput(v.TicketParaID, values)}
                                                                         autoHeight
-                                                                        style={{ paddingVertical: 5, minWidth: '98%', backgroundColor: dis ? "white" : "lightgray" }} />
+                                                                        style={{paddingVertical: 5,minWidth:'98%',backgroundColor:dis?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)",color:'white'}} />
                                                             }
-                                                            {v.IsConfirm == 1 && <View style={{ flexDirection: 'row', backgroundColor: 'white', padding: 5 }}>
-                                                                {/* <CheckBox
-                                                                    label={'是否已执行'}
+                                                            {/* {v.IsConfirm == 1 && <View style={{ flexDirection: 'row', backgroundColor: 'rgba(255,255,255,.2)', padding: 5 }}>
+                                                                <CheckBox
+                                                                    label={'是否已执行'} labelStyle={{color:'#f5f5f5'}}
                                                                     checked={this.getddds(v.TicketParaID + '_1')}
                                                                     onChange={(e) => dis && this.onChangecoform(v.TicketParaID + '_1', e, dis)}
                                                                     underlayColor={"transparent"}
                                                                 >
-                                                                </CheckBox> */}
-                                                                </View>}
+                                                                </CheckBox>
+                                                                </View>} */}
                                                         </View>
                                                     </View> : null}
                         </View>
@@ -1160,29 +1181,21 @@ export default class Tdetail extends React.Component {
                         
                         {this.props.navigation.state.params.isqianfa&&<View>
                             <View style={{width:'100%',padding:5,justifyContent:'center'}}>
-                                <Text style={{color:'#3f4044',left:5}}>提交</Text>
+                                <Text style={{color:'#f5f5f5',left:5}}>提交</Text>
                             </View>
                             
                             <View style={{marginTop:5,marginBottom:20,width:'100%',alignItems:'center'}}>
-                            <View style={{width:'96%',elevation:3,backgroundColor:'white',alignItems:'center'}}>
-                            {this.aggreeall()}
-                            {this.getliuzhuan()}
-                            {this.gotSubmit()}
+                            <View style={{width:'96%',elevation:3,backgroundColor:'rgba(255,255,255,.3)',alignItems:'center'}}>
+                                {this.aggreeall()}
+                                {this.getliuzhuan()}
+                                {this.gotSubmit()}
                            
-                            <View style={{width:'96%',borderBottomColor:'rgba(0,0,0,.2)',borderBottomWidth:1,borderStyle:'solid',padding:8}}>
-                                <Text style={{color:'#3f4044'}}>详细意见</Text>
-                                <TextareaItem placeholder="请输入内容..." autoHeight onChangeText={(v)=>this.onChangeTextInput(v)} style={{minWidth:'95%'}}/>
+                            <View style={{width:'96%',borderBottomColor:'rgba(255,255,255,.2)',borderBottomWidth:1,borderStyle:'solid',padding:6}}>
+                                <Text style={{color:'white'}}>详细意见</Text>
+                                <TextareaItem placeholder="请输入内容..."  placeholderTextColor="#f5f5f5" autoHeight onChangeText={(v)=>this.onChangeTextInput(v)} 
+                                style={{paddingVertical: 5,minWidth:'98%',backgroundColor:"rgba(255,255,255,.2)",color:'white'}}/>
                             </View>
                             </View>
-                            {/* <Text style={{color:'#3f4044'}}>详细意见</Text>
-                            <TextareaItem   onChangeText={(v)=>this.onChangeTextInput(v)} 
-                                            autoHeight 
-                                            rows={4}
-                                            placeholder="请输入内容..."
-                                            style={{ paddingVertical: 5,
-                                                     borderBottomWidth:2,
-                                                     backgroundColor:"#fffeee" }}/> */}
-                            
                             </View> 
                             
                             <View style={{marginBottom:50,width:'100%',display:'flex',justifyContent:'center',alignItems:'center'}}>

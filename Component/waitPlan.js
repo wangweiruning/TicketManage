@@ -1,5 +1,5 @@
 import React from 'react';
-import {  Text, View ,TouchableOpacity,Alert,ScrollView} from 'react-native';
+import {  Text, View ,TouchableOpacity,Alert,ScrollView,Image} from 'react-native';
 import Title from './Title'
 import {awaitdeteal,historys} from './../api/api'
 import {ActivityIndicator } from 'antd-mobile-rn';
@@ -141,7 +141,10 @@ export default class WaitPlan extends React.Component{
       let height = this.state.result.length * 100;
       let dataLis = this.state.dataLis;
     return (
-      <View style={{flex:1,backgroundColor:'#f5f5f5'}}>
+      <View style={{flex:1}}>
+       <View style={{position:'absolute',width:'100%',minHeight:'100%'}}>
+            <Image source={require('../images/gffg.jpg')} resizeMode="stretch"/>
+        </View>
         <Title navigation={this.props.navigation} centerText={'待处理流程'} />
         {/* 需要循环获取数据 */}
             <View style={{flex:1}}>
@@ -153,9 +156,9 @@ export default class WaitPlan extends React.Component{
                 loadMore={this._loadMore.bind(this)}
             />:<Text style={{textAlign:"center",marginTop:20}}>还没有任何数据</Text>
             } */}
-            {this.state.mengCard&&<View style={{justifyContent:'center',alignItems:'center', zIndex:444,width:"100%",height:"100%",backgroundColor:"lightgray"}}>
-                <ActivityIndicator color="#03c1eb"/>
-                <Text style={{color:"#007aff",textAlign:"center",marginTop:10,fontSize:15}}>加载中...</Text>
+            {this.state.mengCard&&<View style={{justifyContent:'center',alignItems:'center', zIndex:444,width:"100%",height:"100%"}}>
+                <ActivityIndicator color="#ffffff"/>
+                <Text style={{color:"#ffffff",textAlign:"center",marginTop:10,fontSize:15}}>加载中...</Text>
                 </View>}
             <ScrollView>
          {  dataLis.length>0&&dataLis.map((itemdata,index)=>{

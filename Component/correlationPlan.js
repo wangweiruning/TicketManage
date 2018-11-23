@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View,TouchableOpacity,ScrollView,Button,ToastAndroid,Alert} from 'react-native';
+import { StyleSheet, Text, View,TouchableOpacity,ScrollView,Button,ToastAndroid,Alert,Image} from 'react-native';
 import Title from './Title'
 import {correation,historys} from './../api/api'
 import MySorage from '../api/storage';
@@ -125,13 +125,16 @@ export default class CorrelationPlan extends React.Component{
 let height = this.state.result.length * 100;
 let result = this.state.result;
     return (
-        <View style={{flex:1,backgroundColor:'#f5f5f5'}}>
+        <View style={{flex:1}}>
+        <View style={{position:'absolute',width:'100%',minHeight:'100%'}}>
+            <Image source={require('../images/gffg.jpg')} resizeMode="stretch"/>
+        </View>
         <Title navigation={this.props.navigation} centerText={'相关流程'} />
         {/* 需要循环获取数据 */}
             <View style={{flex:1}}>
-            {this.state.mengCard&&<View style={{justifyContent:'center',alignItems:'center',zIndex:444,width:"100%",height:"100%",backgroundColor:"lightgray"}}>
-            <ActivityIndicator color="#03c1eb"/>
-            <Text style={{color:"#007aff",textAlign:"center",marginTop:10,fontSize:15}}>加载中...</Text>
+            {this.state.mengCard&&<View style={{justifyContent:'center',alignItems:'center',zIndex:444,width:"100%",height:"100%"}}>
+            <ActivityIndicator color="#ffffff"/>
+            <Text style={{color:"#ffffff",textAlign:"center",marginTop:10,fontSize:15}}>加载中...</Text>
             </View>}
             <ScrollView>
               {result.length>0&&result.map((itemdata,index)=>{
