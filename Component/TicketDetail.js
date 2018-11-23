@@ -516,7 +516,6 @@ export default class Tdetail extends React.Component{
         return values[ss];  
     }
     delete(v,inde){
-        console.log(inde,'index')
         let varr=this.state.isadd;
         let keys = Object.keys(varr);
         let values = Object.values(varr);
