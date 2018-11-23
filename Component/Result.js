@@ -162,15 +162,15 @@ export default class Tdetail extends React.Component {
         ticketFlowrole = liucheng.form.dataList;//该流程所属类型的所有状态角色
         //去除作废流程
         let newTicket =[];
-        // ticketFlowrole.map((item, i) => {
-        //     if (item.ticketstatusname != "作废") {
-        //          newTicket.push(item)
-        //      }
+        ticketFlowrole.map((item, i) => {
+            if (item.ticketstatusname != "作废") {
+                 newTicket.push(item)
+             }
 
         //     // if(item.ticketstatusname==this.props.navigation.state.params.ticketstatusname){
         //     //     this.setState({ticketstatusid:item.ticketstatusid})
         //     // }
-        // })
+        })
         this.setState({
             ticketFlowrole: ticketFlowrole,
             allFlowRole: liucheng.form.dataList
@@ -248,14 +248,14 @@ export default class Tdetail extends React.Component {
             })
 
             //设置提交目标
-            for (var i = 0; i < ticketFlowrole.length; i++) {
-                console.log(index, ticketFlowrole.length, "======================")
-                let ticketrolerank = ticketFlowrole[i].ticketrolerank;
-                if (ticketFlowrole[i].FlowRoleID == flowRoleId) {
+            for (var i = 0; i < newTicket.length; i++) {
+                console.log(index, newTicket.length, "======================")
+                let ticketrolerank = newTicket[i].ticketrolerank;
+                if (newTicket[i].FlowRoleID == flowRoleId) {
                     index = i;
                     break;
                 }
-                // if (ticketFlowrole[i].ticketstatusid == statusId) {
+                // if (newTicket[i].ticketstatusid == statusId) {
                 //     index = i;
                 //     console.log(111111)
                 //     break;
@@ -264,23 +264,23 @@ export default class Tdetail extends React.Component {
             this.setState({
                 index: index
             })
-            console.log(index, ticketFlowrole.length, "======================")
+            console.log(index, newTicket.length, "======================")
 
             if (this.props.navigation.state.params.isqianfa) {
-                if (index > ticketFlowrole.length - 2) { //最后两个状态为验收和作废，均为终结流程
+                if (index > newTicket.length - 2) { //最后两个状态为验收和作废，均为终结流程
                     Alert.alert("提示", `${this.props.navigation.state.params.typeName}已终结！！！`);
-                    this.setState({ mengCard: false })
+                    this.setState({ mengCard: false,flowRoleId: flowRoleId })
                     return false;
                 } else {
                     //设置流转状态及流转目标
-                    var nextFlowId = ticketFlowrole[index + 1].ticketflowid;//下一个流程id
-                    var nextFlow = ticketFlowrole[index + 1].ticketstatusname;//
+                    var nextFlowId = newTicket[index + 1].ticketflowid;//下一个流程id
+                    var nextFlow = newTicket[index + 1].ticketstatusname;//
                     let arr = [nextFlow];
                     this.setState({
                         nextFlow: arr,
                         flowRoleId: flowRoleId
                     })
-                    var nextRoleId = ticketFlowrole[index + 1].ticketroleid;
+                    var nextRoleId = newTicket[index + 1].ticketroleid;
                     const dui = "?form.roleId=" + nextRoleId;
                     const searchRole = await searchUserForRole(dui);//获取提交对象
                     console.log(searchRole, "获取提交对象")
@@ -291,8 +291,8 @@ export default class Tdetail extends React.Component {
                     })
                 }
 
-                skipFlowId = ticketFlowrole[index].skipflowid;
-                isBack = ticketFlowrole[index].isback;
+                skipFlowId = newTicket[index].skipflowid;
+                isBack = newTicket[index].isback;
                 console.log('>>>>>>>>>>>>>??????',skipFlowId)
                 this.setState({
                     isBack: isBack,
@@ -598,10 +598,15 @@ export default class Tdetail extends React.Component {
             let arr = [nextFlow];
             var nextRoleId = ticketFlowrole[index + 1].ticketroleid;
             const dui = "?form.roleId=" + nextRoleId;
+            let tt = ticketFlowrole[index + 1].ticketflowid;
+          
+            this.state.nextFlowId = tt;
             const searchRole = await searchUserForRole(dui);//获取提交对象
             this.setState({
                 nextFlow: arr,
-                searchRole: searchRole.form.dataList
+                searchRole: searchRole.form.dataList,
+                FlowRoleID:[tt],
+                backRoleId:[nextRoleId],
             })
         }
     }
@@ -623,17 +628,15 @@ export default class Tdetail extends React.Component {
         }
         
         if(flag==1&&this.state.agreeLiuzhuan!=1){//流转状态
+            console.log("gogogogoggogo")
             this.state.searchRole=[];
             let roleid =this.state.backRoleId[index];
                 this.state.nextFlowId = this.state.FlowRoleID[index];
-           console.log(this.state.nextFlowId, this.state.FlowRoleID[index],"<<<<<<<<<<<<<<<<<<<<<<<")
             const dui = "?form.roleId=" + roleid;
             const searchRoles = await searchUserForRole(dui);
             this.setState({
                 searchRole: searchRoles.form.dataList
             })
-        }else{
-            this.getSubdata(this.state.index, this.state.ticketFlowrole)
         }
 
 
@@ -714,7 +717,7 @@ export default class Tdetail extends React.Component {
                 "form.paraData": JSON.stringify(newpagedata)
             }
             console.log(data, "111111111111111111") 
-          return;
+        //   return;
             var para = "";
             for (var a in data) {
                 para += ("&" + a + "=" + encodeURIComponent(data[a]));
@@ -932,8 +935,8 @@ export default class Tdetail extends React.Component {
         return textmore != "" ? textmore : values[ss]
 
     }
-    delete(v){
-
+    delete(v,index){
+console.log('iiiiiiiiiiiiiiiiiiiiiii',index)
         let pagedata = this.state.pagedata;
         let valuesmore = Object.values(pagedata);
 
@@ -1004,18 +1007,18 @@ export default class Tdetail extends React.Component {
                         </View>:null}
 
                     {
-                        this.state.mengCard&&<View 
-                            style={{display:"flex",flexDirection:"column",zIndex:444,
-                            width:width,height:height}}>
-                                <View style={{marginTop:"55%",marginBottom:"50%"}}>
-                                    <ActivityIndicator color="#ffffff"/>
-                                    <Text style={{color:"#ffffff",textAlign:"center",marginTop:10,fontSize:15}}>加载中...</Text>
-                                </View>
-                            </View>
-                    }
+                        this.state.mengCard?<View 
+                                                style={{flexDirection:"column",zIndex:444,display:'flex',
+                                                width:width,height:height-68}}>
+                                            <View style={{top:60,justifyContent:'center',alignItems:'center',position:'absolute',zIndex:1000,width:'100%',height:'100%'}}>
+                                                <ActivityIndicator color="white"/>
+                                                <Text style={{color:'white',fontSize:15,marginTop:15,zIndex:1000000}}>加载中...</Text>
+                                            </View>
+                                                </View>
+                    // }
 
 
-                    <ScrollView >
+                    :<ScrollView >
                         <View style={{marginBottom:20,display:'flex'}}>
                         {
                             this.state.templateContents.map((v,i)=>{
@@ -1034,9 +1037,7 @@ export default class Tdetail extends React.Component {
                          <TouchableOpacity onPress={()=>this.add(v.TicketParaID)}>
                             <Image resizeMode="contain" style={{width:20,top:1,height:20}} source={require('../images/add.png')}/>  
                         </TouchableOpacity>
-                        {/* <TouchableOpacity onPress={()=>this.delete(v.TicketParaID)}>
-                            <Image resizeMode="contain" style={{width:20}} source={require('../images/delete.png')}/>
-                        </TouchableOpacity> */}
+                        
                     </View>}
                             </View>
                             {v.ParaTypeID == 4 ?
@@ -1120,6 +1121,9 @@ export default class Tdetail extends React.Component {
                                                                         placeholderTextColor="#f5f5f5"
                                                                         style={{paddingVertical: 5,minWidth:'98%',backgroundColor:dis?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)",color:'white'}}
                                                                     />
+                                                                    <TouchableOpacity onPress={()=>this.delete(v.TicketParaID,index)}>
+                                                                        <Image resizeMode="contain" style={{width:20}} source={require('../images/delete.png')}/>
+                                                                    </TouchableOpacity>
                                                                     {v.IsConfirm == 1 &&  <View style={{ borderTopColor:'gray',borderTopWidth:1,borderStyle:'solid',flexDirection: 'row', 
                                                                     backgroundColor:dis ?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)" , padding: 5 }}>
                                                                 <CheckBox labelStyle={{color:'#f5f5f5'}} checkboxStyle={{width:18,height:18}}
@@ -1179,7 +1183,7 @@ export default class Tdetail extends React.Component {
                         </View>
                         })}
                         
-                        {this.props.navigation.state.params.isqianfa&&<View>
+                        {this.props.navigation.state.params.isqianfa&&!this.state.mengCard&&<View>
                             <View style={{width:'100%',padding:5,justifyContent:'center'}}>
                                 <Text style={{color:'#f5f5f5',left:5}}>提交</Text>
                             </View>
@@ -1213,7 +1217,7 @@ export default class Tdetail extends React.Component {
                             </View>
                             </View>}
                             </View>
-                  </ScrollView>
+                  </ScrollView>}
               </View>)
     }
 }
