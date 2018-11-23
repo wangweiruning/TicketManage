@@ -935,8 +935,8 @@ export default class Tdetail extends React.Component {
         return textmore != "" ? textmore : values[ss]
 
     }
-    delete(v,index){
-console.log('iiiiiiiiiiiiiiiiiiiiiii',index)
+    delete(v,inde){
+console.log('iiiiiiiiiiiiiiiiiiiiiii',inde)
         let pagedata = this.state.pagedata;
         let valuesmore = Object.values(pagedata);
 

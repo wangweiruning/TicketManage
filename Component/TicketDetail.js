@@ -1,7 +1,7 @@
 import React from 'react';
 import TicketTitle from './TicketTitle';
 import {List,Checkbox,TextareaItem,ActivityIndicator} from 'antd-mobile-rn';
-import {View,Text,ScrollView,TouchableOpacity,TextInput,ToastAndroid,Alert,Image,ImageBackground} from 'react-native';
+import {View,Text,ScrollView,TouchableOpacity,TextInput,ToastAndroid,Alert,Image,ImageBackground,Dimensions} from 'react-native';
 import ModalDropdown from 'react-native-modal-dropdown';
 import DatePicker from 'react-native-datepicker'
 import {newTiceketNum,
@@ -24,6 +24,8 @@ const resetAction = StackActions.reset({
     index: 0,
     actions: [NavigationActions.navigate({ routeName: 'Tab' })],
     });
+
+    const{width} = Dimensions.get('window');
 export default class Tdetail extends React.Component{
     constructor(props){
         super(props)
@@ -65,7 +67,9 @@ export default class Tdetail extends React.Component{
             jcnum:1,
             isadd:{},
             additem:{},
-            datamore:{}
+            datamore:{},
+
+            arrs:[]
         }
     }
 
@@ -490,18 +494,31 @@ export default class Tdetail extends React.Component{
         }
     }
     add(v){
-        let varr=this.state.isadd;
-        let keys = Object.keys(varr);
-        let values = Object.values(varr);
+        // this.setState(({arrs})=>{
+        //    arrs.push();
+        // });
+
+        // let varr=this.state.isadd;
+        // let keys = Object.keys(varr);
+        // let values = Object.values(varr);
         
-        let index = keys.findIndex((item,i)=>{
-            if(item==v){
-                itemsss =  values[i+1]+1;
-                let objects = Object.assign(this.state.isadd,{[item]:values[i]+1})
-                this.state.isadd=objects;
-                this.forceUpdate();
-            }
-        })  
+        // let index = keys.findIndex((item,i)=>{
+        //     if(item==v){
+        //         // itemsss =  values[i+1]+1;
+        //         let objects = Object.assign(this.state.isadd,{[item]:values[i]+1})
+        //         this.state.isadd=objects;
+        //         this.forceUpdate();
+        //     }
+        // })  
+  
+        this.setState(({newpagedata})=>{
+            let newpagedata2 = this.state.newpagedata;
+            let vaaaa = newpagedata2[v+"*1"];
+            vaaaa.push(1);
+            newpagedata2[v+"*1"] = vaaaa;
+            return newpagedata2;
+       });
+        // console.log("++++++++++++>>>>>,", this.state.isadd);
     }
     isnums(v){
         let varr=this.state.isadd;
@@ -516,24 +533,88 @@ export default class Tdetail extends React.Component{
         return values[ss];  
     }
     delete(v,inde){
-        let varr=this.state.isadd;
-        let keys = Object.keys(varr);
-        let values = Object.values(varr);
-        let index = keys.findIndex((item,i)=>{
-            if(item==v){
-                let objects = Object.assign(this.state.isadd,{[item]:values[i]-1<=1?1:values[i]-1})
-                this.state.isadd=objects;
-                this.forceUpdate();
-                console.log(objects,'this.state.isadd')
-            }
-            
-        })
+        
+        // let isadd = this.state.isadd[v];
+        // let is = this.state.newpagedata[v+"*1"];
+        // if(!is)return alert("1111");
+        // console.log("QQQQQQQQQQQQQQQQQQ:::1111",isadd,is);
+
+        // is.splice(inde,1);
+        // this.forceUpdate();
+        console.log("QQQQQQQQQQQQQQQQQQ:::",this.state.newpagedata);
+
+        this.setState(({isadd,newpagedata})=>{
+            let vAdd = isadd[v];
+            let vNewpagedata = newpagedata[v+"*1"];
+            if(!vNewpagedata){
+                alert("qqq");
+                return {};
+            };
+            newpagedata[v+"*1"] = vNewpagedata.splice(inde,1);
+            isadd = vAdd-1;
+            return{isadd,newpagedata}
+        });
+        
+        console.log("QQQQQQQQQQQQQQQQQQ:::111",this.state.newpagedata);
+
+
+        
+        
+        // console.log("Ggggggggg",inde)
+        // let varr=this.state.isadd;
+        // let keys = Object.keys(varr);
+        // let values = Object.values(varr);
+        // console.log(this.state.isadd,"llllllllllllllllllllllllll")
+
+
+
+        // let objects = Object.assign(this.state.isadd,{[v]:values.splice(inde,1) })
+        //         this.state.isadd=objects;
+        //         this.forceUpdate();
+        //         console.log(objects,'this.state.isadd')
     }
-    
+    getValueByID(v,qIndex){
+        if(!this.state.newpagedata[v]){
+            this.state.newpagedata[v] = [1];
+        }
+        return this.state.newpagedata[v][qIndex];
+    }
+    getTextareaItemByID(v,dis){
+        let ds = this.state.newpagedata[v.TicketParaID+"*1"] || [true];
+        return ds.map((item,qIndex)=>{
+            return (<View style={{alignItems:'center',flexDirection:'row',backgroundColor:!dis?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)",width:"100%",flex:1}} key={qIndex}>
+            <TextareaItem value={this.getValueByID(v.TicketParaID+"*1",qIndex)} editable={!dis} placeholder="请输入内容..." placeholderTextColor="white"
+                             onChange={(e)=>{
+                                 this.state.newpagedata[v.TicketParaID+"*1"][qIndex] = e;
+                             }}
+                             autoHeight 
+                             style={{paddingVertical: 5,backgroundColor:!dis?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)",color:'white',width:"100%",flex:1}} />
+
+                             <TouchableOpacity onPress={()=>{
+                                //  index
+                                console.log("newpagedataID++++++++++++++::::",qIndex);
+                                this.setState(({newpagedata})=>{
+                                    let newpagedataID = this.state.newpagedata[v.TicketParaID+"*1"];
+                                    if(!newpagedataID || newpagedataID.length<2)return;
+                                    console.log("newpagedataID++++++++++++++::::",newpagedataID,qIndex);
+                                    newpagedataID.splice(qIndex,1);
+                                    console.log("newpagedataID++++++++++++++::::q",newpagedataID,qIndex);
+                                    return newpagedata;
+                                })
+                                
+                            }} style={{width:'10%',alignItems:'center'}}>
+                                    <Image resizeMode="contain" style={{width:20,top:1,height:20}} source={require('../images/delete.png')}/>  
+                            </TouchableOpacity>
+
+            {v.IsConfirm==1?<View style={{flexDirection:'row',backgroundColor:'rgba(255,255,255,.2)',padding:5}}>
+            <Checkbox onChange={(e)=>this.onChangecoform(getAllTempanyId[i]+"_1",e.target.checked,qIndex)} disabled={dis}/>
+                  <Text style={{color:'#f5f5f5'}}>是否已执行</Text></View>:null}</View>);
+        })
+
+    }
     render(){
         let getAllTempanyId = this.state.getAllTempanyId;
         return(<ImageBackground source={require('../images/gffg.jpg')} style={{alignItems:'center',width: '100%', height: '100%'}}>
-        {/* <View style={{justifyContent:'center',flex:1,position:"relative"}}> */}
         
         <View style={{position:'absolute',width:'100%',height:'100%'}}>
          <Image source={require('../images/gffg.jpg')} style={{width:'100%',height:'100%'}}/>
@@ -562,9 +643,7 @@ export default class Tdetail extends React.Component{
                          <TouchableOpacity onPress={()=>this.add(v.TicketParaID)}>
                             <Image resizeMode="contain" style={{width:20,top:1,height:20}} source={require('../images/add.png')}/>  
                         </TouchableOpacity>
-                        {/* <TouchableOpacity onPress={()=>this.delete(v.TicketParaID)}>
-                            <Image resizeMode="contain" style={{width:20,top:1,height:20}} source={require('../images/delete.png')}/>  
-                        </TouchableOpacity> */}
+                       
                         </View>}
               </View>
                {      
@@ -614,18 +693,7 @@ export default class Tdetail extends React.Component{
                     v.ParaTypeID==6?
                   <View style={{width:'98%'}}>
                        {
-                      v.IsAdd==1?new Array(this.isnums(v.TicketParaID)).fill(7).map((item, index) =>{
-                      return (<View style={{alignItems:'center',flexDirection:'row',backgroundColor:!dis?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)",width:'100%'}} key={index}>
-                      <TextareaItem editable={!dis} placeholder="请输入内容..." placeholderTextColor="white"
-                      onChange={(e)=>this.handleInputmore('datalist'+i,e,getAllTempanyId[i],index)}
-                      autoHeight 
-                      style={{paddingVertical: 5,backgroundColor:!dis?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)",color:'white',width:300}} />
-                      <TouchableOpacity onPress={(e,i)=>this.delete(v.TicketParaID,i)} style={{width:'10%',alignItems:'center'}}>
-                            <Image resizeMode="contain" style={{width:20,top:1,height:20}} source={require('../images/delete.png')}/>  
-                      </TouchableOpacity>
-                       {v.IsConfirm==1?<View style={{flexDirection:'row',backgroundColor:'rgba(255,255,255,.2)',padding:5}}>
-                       <Checkbox onChange={(e)=>this.onChangecoform(getAllTempanyId[i]+"_1",e.target.checked,index)} disabled={dis}/>
-                             <Text style={{color:'#f5f5f5'}}>是否已执行</Text></View>:null}</View>)}):<View>
+                      v.IsAdd==1?this.getTextareaItemByID(v,dis):<View>
                                  <TextareaItem placeholderTextColor="#f5f5f5" editable={!dis} placeholder="请输入内容..."
                       onChange={(e)=>this.handleInput('datalist'+i,e,getAllTempanyId[i])}
                        autoHeight
@@ -636,6 +704,8 @@ export default class Tdetail extends React.Component{
                         }
                   </View>:null
                }
+
+
             </View>
             }
             )
