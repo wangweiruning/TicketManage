@@ -105,8 +105,7 @@ this.state.ischanges=nextProps.ischanges
     render(){
         if(!this.props){console.log('dsfgdfsֵ')}
         let {color,fontSize} = {...this.props.TextColor}
-        return(
-            <View>
+        return(<View>
             <TouchableOpacity disabled={this.props.isshow} onPress={()=>this.setState({visible:true})}>
             <View style={{flexDirection:'row',alignItems:'center',...this.props.style,backgroundColor:!this.props.isshow?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)"}}>
                         <Text style={{padding:5,flex:1,flexDirection:'row',color:color?color:'lightgray',fontSize:fontSize?fontSize:13}}>{

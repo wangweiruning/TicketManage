@@ -116,9 +116,10 @@ export default class DropdownCheckbox extends React.Component{
     render(){
         if(!this.props){console.log('dsfgdfsֵ')}
         let {color,fontSize} = {...this.props.TextColor}
-        return(
-            <View>
-            <TouchableOpacity disabled={this.props.isshow} onPress={()=>this.setState({visible:true})}>
+     
+        return(<View>
+            <TouchableOpacity disabled={this.props.isshow} onPress={()=>this.setState({visible:true,SelectData:this.props.SelectData})}>
+                   
                     <View style={{flexDirection:'row',alignItems:'center',...this.props.style,backgroundColor:!this.props.isshow?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)"}}>
                         <Text style={{padding:5,flex:1,flexDirection:'row',color:color?color:'lightgray',fontSize:fontSize?fontSize:13}}>{
                            this.open()
@@ -126,8 +127,8 @@ export default class DropdownCheckbox extends React.Component{
                     </View>
             </TouchableOpacity>
             {
-            this.state.visible && 
-            <Modal animationType={'slide'} transparent={true} onRequestClose={()=>console.log('关闭')}>
+            
+            this.state.visible && <Modal animationType={'slide'} transparent={true} onRequestClose={()=>console.log('关闭')}>
             <View style={{backgroundColor:'#ecf0f1',}}>
             <View style={{flexDirection:'row',alignItems:'center',borderBottomColor:'lightgray',borderStyle:'solid',borderBottomWidth:1}}>
             <Image style={{left:5,width:16, height:16}}  source={require('../images/serch.png')}/>
@@ -156,6 +157,7 @@ export default class DropdownCheckbox extends React.Component{
                                         this.state.activeItem[item.userid||item.DepartmentID] = s?(item.realname||item.DepartmentName):"";
                                         this.forceUpdate();
                                 }}>
+               
                 <Text style={{width:'100%',left:5,color:'black',fontSize:fontSize?fontSize:18}}>
                 {item.realname ||item.DepartmentName}</Text>
                 </Checkbox>
