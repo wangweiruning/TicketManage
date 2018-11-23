@@ -84,13 +84,13 @@ export default class HistoryPlan extends React.Component{
               <ScrollView>
                 {result.length>0&&result.map((itemdata,index)=>{
                   return <View key={index}
-                  style={{marginTop:8,marginBottom:8,paddingBottom:15,width:"95%",marginLeft:11,backgroundColor:'white',borderRadius:10}}>
-                  <Text numberOfLines={10} style = {{marginLeft:16,width:'93%',marginTop:20,paddingBottom:15,borderColor:"#eeeeee",borderWidth:1,borderStyle:"solid",color:"#000000",padding:4,fontSize:16}}>{itemdata.content==""?'暂无内容':itemdata.content}</Text>
-                  <Text style={{marginTop:5,color:"#000000",marginLeft:16,fontSize:16}}>两票类型：{itemdata.tickettypename}</Text>
-                  <Text style={{marginTop:5,color:"#000000",marginLeft:16,fontSize:16}}>两票编号：{itemdata.ticketserialnum}</Text>
-                  <Text style={{marginTop:5,color:"#000000",marginLeft:16,fontSize:16}}>工作负责人：{itemdata.realname==null?'暂无工作负责人':itemdata.realname}</Text>
-                  {/* <View><Text style={{marginTop:3,color:"#000000",marginLeft:16}}>内容：</Text></View> */}
-                  <Text style={{marginTop:5,color:"#000000",marginBottom:7,marginLeft:16,fontSize:16}}>开票时间：{itemdata.filltickettime}</Text>
+                  style={{marginTop:8,marginBottom:8,paddingBottom:15,width:"95%",marginLeft:11,backgroundColor:'rgba(255,255,255,.2)',borderRadius:10}}>
+                  <Text numberOfLines={10} style = {{marginLeft:16,width:'91%',marginTop:20,paddingBottom:15,borderColor:"#eeeeee",borderWidth:1,borderStyle:"solid",color:"#fff",padding:4,fontSize:16}}>{itemdata.content==""?'暂无内容':itemdata.content}</Text>
+                  <Text style={{marginTop:5,color:"#fff",marginLeft:16,fontSize:16}}>两票类型：{itemdata.tickettypename}</Text>
+                  <Text style={{marginTop:5,color:"#fff",marginLeft:16,fontSize:16}}>两票编号：{itemdata.ticketserialnum}</Text>
+                  <Text style={{marginTop:5,color:"#fff",marginLeft:16,fontSize:16}}>工作负责人：{itemdata.realname==null?'暂无工作负责人':itemdata.realname}</Text>
+                  {/* <View><Text style={{marginTop:3,color:"#fff",marginLeft:16}}>内容：</Text></View> */}
+                  <Text style={{marginTop:5,color:"#fff",marginBottom:7,marginLeft:16,fontSize:16}}>开票时间：{itemdata.filltickettime}</Text>
                   <View style={{width:'100%',alignItems:'center',marginTop:7}}>
                 <TouchableOpacity onPress={()=> this.gotoItem(itemdata)} style={{elevation:2,justifyContent:'center',alignItems:'center',width:'80%',backgroundColor:'#4c70b9',borderRadius:5,height:40}}>
                    <Text style={{color:'white',fontSize:20,fontWeight:'500'}}>查看详情</Text>
