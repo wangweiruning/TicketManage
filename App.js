@@ -18,7 +18,7 @@ import MySorage from './api/storage';
 import TicketModel from './Component/TicketModel';
 import TicketFlew from './Component/TicketFlew';
 import Result from './Component/Result';
-import {StackNavigator, TabBarBottom, TabNavigator,StackActions, NavigationActions} from "react-navigation";
+import {StackNavigator, TabBarBottom,TabBarTop, TabNavigator,StackActions, NavigationActions} from "react-navigation";
 import {
   Platform,
   StyleSheet,
@@ -45,7 +45,7 @@ const TabRouteConfigs = { // 表示各个页面路由配置,让导航器知道�
       navigationOptions: ({ navigation }) => ({
           tabBarLabel: '管理',
           tabBarIcon: ({ focused }) => ( 
-              <Image resizeMode = 'contain' source = { focused ? require('./images/whome.png') : require('./images/home.png') } style = { { width: 20, height: 20 } }
+              <Image resizeMode = 'contain' source = { focused ? require('./images/whome.png') : require('./images/home.png') } style = { { width: 25, height: 25 } }
               />
           )
       }),
@@ -65,7 +65,7 @@ const TabRouteConfigs = { // 表示各个页面路由配置,让导航器知道�
       navigationOptions: { // 指定路由页面的配置选项
           tabBarLabel: '我的', // 可用作头部标�?headerTitle ，或者Tab标题 tabBarLabel
           tabBarIcon: ({ focused }) => ( 
-              <Image resizeMode = 'contain' source = { focused ? require('./images/wmy.png') : require('./images/my.png') } style = { { width: 20, height: 20 } }
+              <Image resizeMode = 'contain' source = { focused ? require('./images/wmy.png') : require('./images/my.png') } style = { { width: 25, height: 25 } }
               />
           )
       },
@@ -83,24 +83,26 @@ const TabRouteConfigs = { // 表示各个页面路由配置,让导航器知道�
 };
 const TabNavigatorConfigs = {
   initialRouteName: 'Home', // 初始显示的Tab对应的页面路由名�?
-  tabBarComponent: TabBarBottom, // Tab选项卡组件，�?TabBarBottom �?TabBarTop 两个值，在iOS中默认为 TabBarBottom ，在Android中默认为 TabBarTop �?
+  tabBarComponent: TabBarTop, // Tab选项卡组件，�?TabBarBottom �?TabBarTop 两个值，在iOS中默认为 TabBarBottom ，在Android中默认为 TabBarTop �?
   tabBarPosition: 'bottom', // 设置选项卡的位置，在顶部或是底部，有'top'�?bottom'可�?
   lazy: true, // 是否懒加载页�?
   header:null,
   tabBarOptions: {
-     style:{height:60},
-     activeBackgroundColor:'#4c70b9',
-     inactiveBackgroundColor:'#aeb0bd',
-     activeTintColor: 'white',
-     inactiveTintColor:'black',
-     labelStyle: { fontSize: 10, margin: 0 },
-     IconStyle: { margin: 0 },
-     showIcon: true,
-     pressOpacity: 1,
-     tabStyle: {
-          // backgroundColor: '#0C97E2',
-      },
-  } // 在属性TabBarBottom与TabBarTop中有所不同
+    indicatorStyle:{backgroundColor:'white'},
+    activeTintColor: "white",
+    inactiveTintColor: "white",
+    style: {
+      backgroundColor: '#0b1b34',
+        height:60,
+    },
+    labelStyle: {fontSize: 10, marginTop:10},
+    IconStyle: {margin: 0},
+    showIcon: true,
+    pressOpacity: 1,
+    tabStyle: {
+        
+    }
+} // 在属性TabBarBottom与TabBarTop中有所不同
 };
 const Tab = TabNavigator(TabRouteConfigs, TabNavigatorConfigs);
 
@@ -311,7 +313,7 @@ async getUserInfo () {
       } else {
           current = false;
       }
-}}        
+    }}        
     renderScene={(route, navigator) => {
         let Component = route.component;
         Component.navigator = navigator;

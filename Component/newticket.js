@@ -3,7 +3,7 @@ import Title from './Title';
 import {ActivityIndicator} from 'antd-mobile-rn';
 import {moban,ttmsTickets,searchUserPower,userlist} from './../api/api';
 import * as Animatable from 'react-native-animatable';
-import {View,Text,TouchableOpacity,Image,Alert,ScrollView} from 'react-native';
+import {View,Text,TouchableOpacity,Image,Alert,ScrollView,ImageBackground,StatusBar} from 'react-native';
 
 export default class Newticket extends React.Component{
     constructor(props){
@@ -67,29 +67,26 @@ export default class Newticket extends React.Component{
         }
     }
     render(){
-        return(<View style={{alignItems:'center',position:'relative'}}>
-               <View style={{position:'absolute',width:'100%',minHeight:'100%'}}>
-                 <Image source={require('../images/gffg.jpg')} resizeMode="contain"/>
-               </View>
-             <Title navigation={this.props.navigation} centerText={'选择模板'}/>
+        return(<ImageBackground source={require('../images/gffg.jpg')} style={{alignItems:'center',width: '100%', height: '100%'}}>
+                <Title navigation={this.props.navigation} centerText={'选择模板'}/>
              {/* {this.state.jay?null:<View style={{top:43,justifyContent:'center',alignItems:'center',position:'absolute',zIndex:1000,backgroundColor:'lightgray',width:'100%',height:'100%'}}>
               <ActivityIndicator color="#03c1eb"/>
               <Text style={{color:'#007aff',fontSize:15,marginTop:15}}>加载中...</Text>
               </View>} */}
-             <ScrollView style={{paddingBottom:30,marginBottom:10,width:'95%',backgroundColor:'rgba(255,255,255,.2)',borderRadius:4}}>
+             <ScrollView style={{position:'absolute',top:45+StatusBar.currentHeight,paddingBottom:30,marginBottom:10,width:'95%',backgroundColor:'rgba(255,255,255,.2)',borderRadius:4}}>
              {
                 this.state.jay.map((v,i)=>
                 <Animatable.View key={i} style={{alignItems:'center'}} useNativeDriver animation="fadeInRight" easing="ease-out-expo">
                     <TouchableOpacity key={i} 
                     onPress={()=>this.goticket(v.attr.tree_id.substring(2),v.data.title)}
                     style={{width:'93%',flexDirection:'row',alignItems:'center',marginTop:2,borderBottomColor:'rgba(255,255,255,.5)',borderStyle:'solid',borderBottomWidth:1}}>
-                            <Image source={require('../images/company_tree.png')} style={{width:25,left:8,resizeMode:Image.resizeMode.contain}}/>
+                            <Image source={require('../images/company_tree.png')} style={{width:35,left:5,resizeMode:Image.resizeMode.contain}}/>
                             <Text style={{fontSize:18,color:'#f5f5f5',left:14,flex:1}}>{v.data.title}</Text>
                         <Image source={require('../images/go1.png')} style={{right:5,width:15,resizeMode:Image.resizeMode.contain}}/>
                     </TouchableOpacity>
                     </Animatable.View>)
              }
              </ScrollView>
-        </View>)
+        </ImageBackground>)
     }
 }
