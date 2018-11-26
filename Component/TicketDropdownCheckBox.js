@@ -1,6 +1,5 @@
 import React from 'react';
 import {Checkbox} from 'antd-mobile-rn';
-import * as Animatable from 'react-native-animatable';
 import {View,Text,Image,TouchableOpacity,Modal,TextInput,FlatList} from 'react-native';
 
 
@@ -22,12 +21,12 @@ export default class TicketDropdownCheckBox extends React.Component{
     
     
     componentWillReceiveProps(nextProps){
-this.state.ischanges=nextProps.ischanges
+        this.state.ischanges=nextProps.ischanges
         this.state.SelectData=nextProps.SelectData;
         if(this.props.banzu!="班组"&&this.state.ischanges){
             this.state.activeItem=[]
         }       
- this.forceUpdate()  
+        this.forceUpdate()  
   }
 
     open(){
@@ -77,29 +76,7 @@ this.state.ischanges=nextProps.ischanges
      });
 
       return;
-      
-      this.time = setTimeout(()=>{
-        if (text==='') {
-              this.setState({
-                SelectData:this.props.SelectData,
-                });
-            return;
-        }else{
-            for (var i = 0; i < this.props.SelectData.length; i++) {
-               if (this.props.SelectData[i].realname.indexOf(text)!=-1 ||this.props.SelectData[i].departmentName.indexOf(text)!=-1) {
-                    this.setState({
-                        SelectData:[this.props.SelectData[i]],
-                    });
-                return;
-        }else{
-             this.setState({
-                SelectData:[]
-              });
-        }
-        }
-        }
-        });
-        }
+    }
     
 
     render(){
@@ -116,14 +93,10 @@ this.state.ischanges=nextProps.ischanges
             {
             this.state.visible && <Modal animationType={'slide'} transparent={true} onRequestClose={()=>{this.setState({visible:false,SelectData:this.props.SelectData})
             this.props.open(this.state.activeItem,this.props.leixin,this.props.banzu)}}>
-            <View style={{backgroundColor:'#ecf0f1',}}>
+            <View style={{backgroundColor:'#ecf0f1'}}>
             <View style={{flexDirection:'row',alignItems:'center',borderBottomColor:'lightgray',borderStyle:'solid',borderBottomWidth:1}}>
             <Image style={{left:5,width:16, height:16}}  source={require('../images/serch.png')}/>
-            <TextInput 
-                maxLength={20}
-                multiline={true}
-                autoFocus={false}
-                onChangeText={this.onChanegeTextKeyword.bind(this)}
+            <TextInput maxLength={20} multiline={true} autoFocus={false} onChangeText={this.onChanegeTextKeyword.bind(this)}
                 style={{fontSize:13, color: '#999',overflow:'hidden',width:'95%',left:5}}
                 placeholder={"请输入"}
             />

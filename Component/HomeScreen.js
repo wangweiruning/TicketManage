@@ -1,5 +1,4 @@
 import React from 'react';
-import NavigationBar from './NavigationBar';
 import {Text,View,Image,TouchableOpacity,ImageBackground} from 'react-native';
 
 
@@ -27,8 +26,6 @@ export default class HomeScreen extends React.Component {
   render() {
       const { navigate } = this.props.navigation;
       return (<ImageBackground source={require('../images/gffg.jpg')} style={{alignItems:'center',width: '100%', height: '100%'}}>
-      {/* <View style={{alignItems:'center',position:'relative',flex:1}}> */}
-               {/* <NavigationBar navigation={this.props.navigation} centertext={'两票管理'}/> */}
           <View style={{width:'96%',height:'92%',marginTop:38,alignItems:'center',borderRadius:6,backgroundColor:'rgba(255,255,255,.2)'}}>
           <Text style={{fontSize:20,fontWeight:'500',color:'white',marginTop:10,marginBottom:10}}>两票管理</Text>
           {
@@ -76,7 +73,8 @@ export default class HomeScreen extends React.Component {
                     <Image source={v.img} style={{right:5,width:20,resizeMode:Image.resizeMode.contain}}/>
           </TouchableOpacity>
            </View> )
-          }</View>
+          }
+          </View>
           <TouchableOpacity onPress={()=>this.show()} style={{position:'absolute',bottom:35,right:35}}>
               <Image source={require('../images/addd.png')} style={{width:45,height:45}}/>
           </TouchableOpacity>          
