@@ -444,6 +444,7 @@ export default class Tdetail extends React.Component{
             "form.nextFlowId": this.state.roleid,
             "form.nextUserId": this.state.vvval,
         }
+
         var para = "";
         for(var a in data){
         para +=("&"+a+"="+encodeURIComponent(data[a]));
@@ -579,43 +580,31 @@ export default class Tdetail extends React.Component{
         }
         return this.state.newpagedata[v][qIndex];
     }
-    getTextareaItemByID(v,dis){
+    getTextareaItemByID(v,dis,i){
         let ds = this.state.newpagedata[v.TicketParaID+"*1"] || [true];
         return ds.map((item,qIndex)=>{
-            return (<View style={{alignItems:'center',flexDirection:'row',backgroundColor:!dis?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)",width:"100%",flex:1}} key={qIndex}>
+            return (<View style={{backgroundColor:!dis?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)",width:"100%"}} key={qIndex}>
             <TextareaItem value={this.getValueByID(v.TicketParaID+"*1",qIndex)} editable={!dis} placeholder="请输入内容..." placeholderTextColor="white"
-                             onChange={(e)=>{
-                                 this.state.newpagedata[v.TicketParaID+"*1"][qIndex] = e;
-                             }}
-                             autoHeight 
-                             style={{paddingVertical: 5,backgroundColor:!dis?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)",color:'white',width:"100%",flex:1}} />
-
-                             <TouchableOpacity onPress={()=>{
-                                //  index
-                                console.log("newpagedataID++++++++++++++::::",qIndex);
+                             onChange={(e)=>{this.state.newpagedata[v.TicketParaID+"*1"][qIndex] = e}} autoHeight 
+                             style={{borderBottomWidth:0,paddingVertical: 5,backgroundColor:!dis?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)",color:'white',width:"100%"}} />
+            {v.IsConfirm==1?<View style={{flexDirection:'row',padding:5,alignItems:'center'}}>
+            <TouchableOpacity onPress={()=>{
                                 this.setState(({newpagedata})=>{
                                     let newpagedataID = this.state.newpagedata[v.TicketParaID+"*1"];
                                     if(!newpagedataID || newpagedataID.length<2)return;
-                                    console.log("newpagedataID++++++++++++++::::",newpagedataID,qIndex);
                                     newpagedataID.splice(qIndex,1);
-                                    console.log("newpagedataID++++++++++++++::::q",newpagedataID,qIndex);
-                                    return newpagedata;
+                                    return newpagedata
                                 })
-                                
-                            }} style={{width:'10%',alignItems:'center'}}>
-                                    <Image resizeMode="contain" style={{width:20,top:1,height:20}} source={require('../images/delete.png')}/>  
+                            }} style={{padding:10,width:'10%',alignItems:'center',marginRight:20}}>
+                            <Image resizeMode="contain" style={{width:20,top:1,height:20}} source={require('../images/delete.png')}/>  
                             </TouchableOpacity>
-
-            {v.IsConfirm==1?<View style={{flexDirection:'row',backgroundColor:'rgba(255,255,255,.2)',padding:5}}>
-            <Checkbox onChange={(e)=>this.onChangecoform(getAllTempanyId[i]+"_1",e.target.checked,qIndex)} disabled={dis}/>
-                  <Text style={{color:'#f5f5f5'}}>是否已执行</Text></View>:null}</View>);
+            <Checkbox onChange={(e)=>this.onChangecoform(v.TicketParaID+"_1",e.target.checked,qIndex)} disabled={dis}/>
+                  <Text style={{color:'#f5f5f5'}}>是否已执行</Text></View>:null}</View>)
         })
-
     }
     render(){
         let getAllTempanyId = this.state.getAllTempanyId;
         return(<ImageBackground source={require('../images/gffg.jpg')} style={{alignItems:'center',width: '100%', height: '100%'}}>
-        
         <View style={{position:'absolute',width:'100%',height:'100%'}}>
          <Image source={require('../images/gffg.jpg')} style={{width:'100%',height:'100%'}}/>
         </View>
@@ -643,7 +632,6 @@ export default class Tdetail extends React.Component{
                          <TouchableOpacity onPress={()=>this.add(v.TicketParaID)}>
                             <Image resizeMode="contain" style={{width:20,top:1,height:20}} source={require('../images/add.png')}/>  
                         </TouchableOpacity>
-                       
                         </View>}
               </View>
                {      
@@ -693,7 +681,7 @@ export default class Tdetail extends React.Component{
                     v.ParaTypeID==6?
                   <View style={{width:'98%'}}>
                        {
-                      v.IsAdd==1?this.getTextareaItemByID(v,dis):<View>
+                      v.IsAdd==1?this.getTextareaItemByID(v,dis,i):<View>
                                  <TextareaItem placeholderTextColor="#f5f5f5" editable={!dis} placeholder="请输入内容..."
                       onChange={(e)=>this.handleInput('datalist'+i,e,getAllTempanyId[i])}
                        autoHeight
@@ -704,8 +692,6 @@ export default class Tdetail extends React.Component{
                         }
                   </View>:null
                }
-
-
             </View>
             }
             )
