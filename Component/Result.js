@@ -1,6 +1,6 @@
 import React from 'react';
 import { InputItem, List, TextareaItem, ActivityIndicator } from 'antd-mobile-rn';
-import { View, Text, ScrollView, TouchableOpacity, Picker, TextInput, Alert, ToastAndroid, Dimensions, Image } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, Picker, TextInput, Alert, ToastAndroid, Dimensions, Image,ImageBackground } from 'react-native';
 import ModalDropdown from 'react-native-modal-dropdown';
 import DropdownCheckbox from '../Component/DropdownCheckbox';
 import CheckBox from 'react-native-checkbox';
@@ -347,12 +347,21 @@ export default class Tdetail extends React.Component {
 
     }
     onChangecoform(value, dis,index) {
-        let s = this.state.newpagedata[value] || [];
+        let checkeds = this.state.newChecked[value];
+        let s=checkeds!=undefined? checkeds.split("&$"):["0"];
+        s[index] = !dis?"1":"0";
+        this.state.newpagedata[value]=s;
+        this.state.newChecked[value] =s.join("&$");
+        this.setState(this.state)
+
+return;
         s[index] = dis?"1":"0";
 
-        this.state.newpagedata[value] = s;
-        this.state.showChecked=s.join("&$");
-        console.log(this.state.newpagedata,"111cccccccccccccccccc>>>>>>>>>>>>>>>>>>")
+        this.state.showChecked[value]=s.join("&$");
+        console.log(s,"2222222222222")
+        this.state.newpagedata[value]=s;
+        console.log(this.state.showChecked,"111cccccccccccccccccc>>>>>>>>>>>>>>>>>>")
+        this.setState(this.state)
         return;
         let sdate = this.state.newChecked;
          
@@ -458,11 +467,6 @@ export default class Tdetail extends React.Component {
         tts.map(item => {
             params.push(Object.keys(item)[0])
         })
-        // this.state.chengyuanName.map(item=>{
-        //     if(alljsitem.indexOf(item.userid) != -1){
-        //         datas.push(item.userid)  
-        //     }
-        // })
 
         if (ParaName == "班组") {
             this.state.groupName.map(pagename => {
@@ -476,6 +480,7 @@ export default class Tdetail extends React.Component {
             this.setState({ ParaId: [] }, () => {
                 this.state.ischanges = true;
                 this.state.ParaId = Team.form.dataList;
+                console.log('this.state.ParaId--->',this.state.ParaId)
                 this.forceUpdate()
             })
         } else {
@@ -699,8 +704,7 @@ export default class Tdetail extends React.Component {
 
     async submitResult() {
 
-        const { newpagedata } = { ...this.state };
-        
+        const { newpagedata} = { ...this.state };
         if (this.state.vvval || this.state.searchRole.length < 1) {
             let data = {
                 'form.basicInfoId': this.props.navigation.state.params.ticketbasicinfoid,
@@ -717,7 +721,7 @@ export default class Tdetail extends React.Component {
                 "form.paraData": JSON.stringify(newpagedata)
             }
             console.log(data, "111111111111111111") 
-        //   return;
+            // return;
             var para = "";
             for (var a in data) {
                 para += ("&" + a + "=" + encodeURIComponent(data[a]));
@@ -768,24 +772,18 @@ export default class Tdetail extends React.Component {
     getDefaultMore(getAllTempanyId, ParaName) {
 
         let ggg = this.state.pagedata;
+        console.log(ggg,"dddddddddddddddddddddd")
         let indexid = 0;
         let values = Object.values(ggg);
         let keys = Object.keys(ggg);
-        const itemm = keys.findIndex((item, index) => {
+        keys.findIndex((item, index) => {
             if (item == getAllTempanyId) {
                 indexid = index;
-                return true;
-            } else {
-                return false;
             }
         })
         let defat = values[indexid];//获取部门/成员id
-
-        if (itemm != -1) {
             return defat ? defat : '请选择';
-        } else {
-            return '请选择'
-        }
+        
     }
     getGzryName(getAllTempanyId) {
         let users = '';
@@ -858,7 +856,7 @@ export default class Tdetail extends React.Component {
                 gedefault = values[indexid];
                 return true;
             } else if (item == getAllTempanyId + "*1") {
-                gedefault = values[index].split("&$")[defaltindex];
+                gedefault = values[index].split(",")[defaltindex];
                 return true;
             } else {
                 return false;
@@ -870,20 +868,42 @@ export default class Tdetail extends React.Component {
 
 
     add(v) {
-        let varr = this.state.isadd;
-        let keys = Object.keys(varr);
-        let values = Object.values(varr);
 
-        let index = keys.findIndex((item, i) => {
-            if (item == v) {
-                console.log(varr, "555555555")
-                itemsss = values[i + 1] + 1;
-                let objects = Object.assign(this.state.isadd, { [item]: values[i] + 1 })
-                this.state.isadd = objects;
-                this.state.showmore = false;
-                this.forceUpdate();
-            }
-        })
+        this.setState(({newpagedata})=>{
+            let newChecked = this.state.newChecked;
+            let newpagedata2 = this.state.pagedata;
+            let vaaaa = this.state.pagedata[v.TicketParaID+"*1"];
+
+             vaaaa = newpagedata2[v+"*1"];
+            let nesadds = newChecked[v+"_1"]||[];
+            vaaaa = vaaaa.split("&$");
+            nesadds = nesadds.split("&$");
+            console.log(newpagedata2,"rrrrrrrrrrrrrrrrrrrrrrrrrr")
+            vaaaa.push("");
+            nesadds.push("0");
+            newpagedata2[v+"*1"] = vaaaa.join("&$");
+            this.state.newChecked[v+"_1"] = nesadds.join("&$");
+            this.state.newpagedata[v+"_1"] = nesadds;
+            this.state.newpagedata[v+"*1"] = vaaaa;
+            return newpagedata2;
+       });
+
+
+
+        // let varr = this.state.isadd;
+        // let keys = Object.keys(varr);
+        // let values = Object.values(varr);
+
+        // let index = keys.findIndex((item, i) => {
+        //     if (item == v) {
+        //         console.log(varr, "555555555")
+        //         itemsss = values[i + 1] + 1;
+        //         let objects = Object.assign(this.state.isadd, { [item]: values[i] + 1 })
+        //         this.state.isadd = objects;
+        //         this.state.showmore = false;
+        //         this.forceUpdate();
+        //     }
+        // })
     }
     isnums(v) {
 
@@ -913,7 +933,7 @@ export default class Tdetail extends React.Component {
         keys00.findIndex((item, index) => {
             if (item.substr(item.length - 2, item.length) == "*1" && gettrues) {
                 textmore = values00[index];
-                textmore = textmore.split("&$").length;
+                textmore = textmore.split(",").length;
                 let objects = Object.assign(this.state.isadd, { [v]: textmore })
                 this.state.isadd = objects;
                 let getores = Object.assign(this.state.getmoretextarea,{[v+"*1"]:false})
@@ -936,7 +956,6 @@ export default class Tdetail extends React.Component {
 
     }
     delete(v,inde){
-console.log('iiiiiiiiiiiiiiiiiiiiiii',inde)
         let pagedata = this.state.pagedata;
         let valuesmore = Object.values(pagedata);
 
@@ -967,7 +986,7 @@ console.log('iiiiiiiiiiiiiiiiiiiiiii',inde)
                 getarrs.push(moredata[index])
             }
         })
-        let s ={[v]:getarrs.join("&$")};
+        let s ={[v]:getarrs.join(",")};
         // let data = Object.assign(this.state.pagedata,s)
         let datamore = Object.assign(this.state.datamore,rt)
 
@@ -980,12 +999,73 @@ console.log('iiiiiiiiiiiiiiiiiiiiiii',inde)
         });
     }
 
+    getValueByID(v,qIndex){
+        if(!this.state.pagedata[v]){
+            this.state.pagedata[v] = [1];
+        }
+        let dss = this.state.pagedata[v].split('&$');
+        console.log(dss,"ddddddd")
+        return dss[qIndex];
+    }
+    getTextareaItemByID(v,dis){
+        let ds = this.state.pagedata[v.TicketParaID+"*1"];
+        let checkeds = this.state.newChecked[v.TicketParaID+"_1"];
+            checkeds=checkeds!=undefined? checkeds.split("&$"):["0"];
+        console.log(checkeds,"oooooooooooooooooooooooooooooooo")
+        let newds = ds!=undefined? ds.split('&$'):[true];
+        console.log(this.state.pagedata,newds,"...................")
+
+        return newds.map((item,qIndex)=>{
+            return (<View style={{width:"100%"}} key={qIndex}>
+            <TextareaItem defaultValue={item} editable={dis} placeholder="请输入内容..." placeholderTextColor="white"
+                             onChange={(e)=>{
+                                 newds[qIndex] = e;
+                                console.log(newds,"gggggggggggggggggggg")
+                                 this.state.pagedata[v.TicketParaID+"*1"] = newds.join("&$");
+                                 this.state.newpagedata[v.TicketParaID+"*1"]=newds;
+                             }}
+                             autoHeight 
+                             style={{paddingVertical: 5,backgroundColor:dis?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)",color:'white',width:"100%"}} />
+
+            {v.IsConfirm==1?<View style={{ borderTopColor:'gray',borderTopWidth:1,borderStyle:'solid',flexDirection: 'row', 
+                                                                    backgroundColor:dis ?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)" , padding: 5 }}>
+                    {dis&&<TouchableOpacity onPress={()=>{
+                                //  index
+                                console.log("pagedataID++++++++++++++::::",qIndex);
+                                this.setState(({pagedata})=>{
+                                    let pagedataID = this.state.pagedata[v.TicketParaID+"*1"];
+                                     pagedataID = pagedataID!=undefined ?pagedataID.split('&$'):[true];
+                                    if(!pagedataID || pagedataID.length<2)return;
+                                    console.log("pagedataID++++++++++++++::::",pagedataID,qIndex);
+                                    pagedataID.splice(qIndex,1);
+                                    console.log("pagedataID++++++++++++++::::q",pagedataID,qIndex);
+                                    this.state.pagedata[v.TicketParaID+"*1"] =pagedataID.join("&$"); 
+                                    this.state.newpagedata[v.TicketParaID+"*1"] =pagedataID;
+                                    return pagedata;
+                                })
+                                
+                            }} style={{width:'10%',alignItems:'center'}}>
+                                    <Image resizeMode="contain" style={{width:20,top:1,height:20}} source={require('../images/delete.png')}/>  
+                            </TouchableOpacity>}
+                                <CheckBox labelStyle={{color:'#f5f5f5'}} checkboxStyle={{width:18,height:18}}
+                                    label={'是否已执行'}
+                                    style={{backgroundColor:'rgba(255,255,255,.2)'}}
+                                    checked={checkeds[qIndex]=="1"}
+                                    // checked={this.getddds(v.TicketParaID + '_1', qIndex)}
+                                    onChange={(e) => dis&&this.onChangecoform(v.TicketParaID + '_1', e, qIndex)}
+                                    underlayColor={"transparent"}
+                                >
+                                </CheckBox></View>:null}
+                  </View>);
+        })
+
+    }
+
+
 
     render(){
-        return(<View style={{justifyContent:'center'}}>
-                        <View style={{position:'absolute',width:'100%',minHeight:'100%'}}>
-                            <Image source={require('../images/gffg.jpg')} resizeMode="stretch"/>
-                        </View>
+        return(<ImageBackground source={require('../images/gffg.jpg')} style={{width: '100%', height: '100%'}}>
+                
                     <TicketTitle navigation={this.props.navigation} num={true} numns={true} ishistory={this.props.navigation.state.params.ishistory}
                         centerText={this.props.navigation.state.params.typeName}/> 
 
@@ -1015,10 +1095,10 @@ console.log('iiiiiiiiiiiiiiiiiiiiiii',inde)
                                                 <Text style={{color:'white',fontSize:15,marginTop:15,zIndex:1000000}}>加载中...</Text>
                                             </View>
                                                 </View>
-                    // }
 
 
-                    :<ScrollView >
+                    :null}
+                    <ScrollView >
                         <View style={{marginBottom:20,display:'flex'}}>
                         {
                             this.state.templateContents.map((v,i)=>{
@@ -1049,6 +1129,7 @@ console.log('iiiiiiiiiiiiiiiiiiiiiii',inde)
                                         defaultValue={this.getDefaultMore(v.TicketParaID, v.ParaName)}
                                         style={{ minWidth: '98%' ,height:50}}
                                         ischanges={this.state.ischanges}
+                                        banzu={v.ParaName == "班组"?v.ParaName:" "}
                                         TextColor={{color:'#f5f5f5',fontSize:13,backgroundColor:dis?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)"}}
                                         SelectData={v.ParaName == "班组" ? this.state.groupName : this.state.ParaId} canClick={dis} />
                                     : v.ParaTypeID == 3 ?
@@ -1077,7 +1158,8 @@ console.log('iiiiiiiiiiiiiiiiiiiiiii',inde)
                                                             checked={this.getddds(v.TicketParaID + '_1')}
                                                             onChange={(e) => dis && this.onChangecoform(v.TicketParaID + '_1', e, dis)}
                                                             underlayColor={"transparent"}
-                                                        ></CheckBox></View></View> : 
+                                                        ></CheckBox></View></View>
+                                                         : 
                                                         <TextInput
                                                         value={this.getchecked(v.TicketParaID)}
                                                         underlineColorAndroid="transparent"
@@ -1104,62 +1186,39 @@ console.log('iiiiiiiiiiiiiiiiiiiiiii',inde)
                                                     placeholder="请选择时间"
                                                     onDateChange={(value) => this.onChange(v.TicketParaID, value)} />
                                                 : v.ParaTypeID == 6 ?
-                                                    <View>
-                                                        <View>
+                                                    <View style={{width:"98%"}}>
 
                                                             {
-                                                                v.IsAdd == 1 ?
-                                                                new Array(this.isnums(v.TicketParaID)).fill(true).map((item, index) => {
-                                                                    return (
-                                                                   <View key={index}>     
-                                                                    <TextareaItem  editable={dis}
-                                                                        rows={4}
-                                                                        placeholder="请输入内容..."
-                                                                        defaultValue={this.getchecked(v.TicketParaID, index)}
-                                                                        onChangeText={(values) => this.handleInputmore(v.TicketParaID, values, index)}
-                                                                        autoHeight
-                                                                        placeholderTextColor="#f5f5f5"
-                                                                        style={{paddingVertical: 5,minWidth:'98%',backgroundColor:dis?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)",color:'white'}}
-                                                                    />
-                                                                    <TouchableOpacity onPress={()=>this.delete(v.TicketParaID,index)}>
-                                                                        <Image resizeMode="contain" style={{width:20}} source={require('../images/delete.png')}/>
-                                                                    </TouchableOpacity>
-                                                                    {v.IsConfirm == 1 &&  <View style={{ borderTopColor:'gray',borderTopWidth:1,borderStyle:'solid',flexDirection: 'row', 
-                                                                    backgroundColor:dis ?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)" , padding: 5 }}>
-                                                                <CheckBox labelStyle={{color:'#f5f5f5'}} checkboxStyle={{width:18,height:18}}
-                                                                    label={'是否已执行'}
-                                                                    style={{backgroundColor:'rgba(255,255,255,.2)'}}
-                                                                    checked={this.getddds(v.TicketParaID + '_1', index)}
-                                                                    // checked={(()=>{
-                                                                    //     let ss = this.state.newChecked;
-                                                                    //     console.log('ssss>>>>>>>>>>>>>',ss)
-                                                                    //     if(!ss[v.TicketParaID + '_1']){
+                                                                v.IsAdd == 1 ?this.getTextareaItemByID(v,dis)
 
-                                                                    //         let dss = {[v.TicketParaID + '_1']:"0"};
-                                                                    //         let newChecked = this.state.newChecked;
-                                                                    //         for(let i in dss){
-                                                                    //             let s = dss[i] || "";
-                                                                    //             let arr = s.split("&$");
-                                                                    //             if(!newChecked[i])newChecked[i] = [];
-                                                                    //             for(let j = 0;j<arr.length;j++){
-                                                                    //                 newChecked[i][j] = arr[j];
-                                                                    //             }
-                                                                    //         }
-                                                                    //         this.state.newChecked = newChecked;
-
-                                                                    //         ss = newChecked;
-                                                                           
-                                                                    //     };
-                                                                    //     console.log("zzzzzzzzzzzzzzzzzzzzzzz:::",ss);
-                                                                    //     let ass = ss[v.TicketParaID + '_1'] || [];
-                                                                    //     return ass[index] == "0";
-                                                                    // })}
-                                                                    onChange={(e) => dis && this.onChangecoform(v.TicketParaID + '_1', e, index)}
-                                                                    underlayColor={"transparent"}
-                                                                >
-                                                                </CheckBox></View>}
-                                                                    </View>)
-                                                                }) :
+                                                                // new Array(this.isnums(v.TicketParaID)).fill(true).map((item, index) => {
+                                                                //     return (
+                                                                //    <View key={index}>     
+                                                                //     <TextareaItem  editable={dis}
+                                                                //         rows={4}
+                                                                //         placeholder="请输入内容..."
+                                                                //         defaultValue={this.getchecked(v.TicketParaID, index)}
+                                                                //         onChangeText={(values) => this.handleInputmore(v.TicketParaID, values, index)}
+                                                                //         autoHeight
+                                                                //         placeholderTextColor="#f5f5f5"
+                                                                //         style={{paddingVertical: 5,minWidth:'98%',backgroundColor:dis?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)",color:'white'}}
+                                                                //     />
+                                                                //     <TouchableOpacity onPress={()=>this.delete(v.TicketParaID,index)}>
+                                                                //         <Image resizeMode="contain" style={{width:20}} source={require('../images/delete.png')}/>
+                                                                //     </TouchableOpacity>
+                                                                //     {v.IsConfirm == 1 &&  <View style={{ borderTopColor:'gray',borderTopWidth:1,borderStyle:'solid',flexDirection: 'row', 
+                                                                //     backgroundColor:dis ?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)" , padding: 5 }}>
+                                                                // <CheckBox labelStyle={{color:'#f5f5f5'}} checkboxStyle={{width:18,height:18}}
+                                                                //     label={'是否已执行'}
+                                                                //     style={{backgroundColor:'rgba(255,255,255,.2)'}}
+                                                                //     checked={this.getddds(v.TicketParaID + '_1', index)}
+                                                                //     onChange={(e) => dis && this.onChangecoform(v.TicketParaID + '_1', e, index)}
+                                                                //     underlayColor={"transparent"}
+                                                                // >
+                                                                // </CheckBox></View>}
+                                                                //     </View>)
+                                                                // })
+                                                                 :
                                                                     <TextareaItem editable={dis}
                                                                         rows={4}
                                                                         placeholderTextColor="#f5f5f5"
@@ -1178,7 +1237,6 @@ console.log('iiiiiiiiiiiiiiiiiiiiiii',inde)
                                                                 >
                                                                 </CheckBox>
                                                                 </View>} */}
-                                                        </View>
                                                     </View> : null}
                         </View>
                         })}
@@ -1217,7 +1275,8 @@ console.log('iiiiiiiiiiiiiiiiiiiiiii',inde)
                             </View>
                             </View>}
                             </View>
-                  </ScrollView>}
-              </View>)
+                  </ScrollView>
+                  {/* } */}
+              </ImageBackground>)
     }
 }

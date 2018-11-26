@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View,TouchableOpacity ,ScrollView,Button,Alert,ToastAndroid,Image} from 'react-native';
+import { StyleSheet, Text, View,TouchableOpacity ,ScrollView,Button,Alert,ToastAndroid,Image,ImageBackground} from 'react-native';
 import Title from './Title'
 import {searchFlowRecord} from './../api/api'
 import MySorage from '../api/storage';
@@ -64,12 +64,12 @@ export default class TicketFlew extends React.Component{
             let awaitTime = itemdatas[itemdatas.length-2].ManageTime;
             return  itemdatas.map((itemdata,i)=>{
                 
-                return <Animatable.View key={i} useNativeDriver animation="fadeInRight" easing="ease-out-expo">
+                return <Animatable.View key={i} style={{alignItems:'center'}} useNativeDriver animation="fadeInRight" easing="ease-out-expo">
                 <View  style={{
                                 marginTop:5,
                                 paddingBottom:10,
                                 paddingTop:10,
-                                minWidth:"95%",
+                                width:"95%",
                                 backgroundColor:itemdata.ticketstatusname=="开票"
                                                 ?"#4c71c0":itemdata.ticketstatusname=="签发"
                                                 ?"#45b9bd":itemdata.ticketstatusname=="许可"
@@ -85,12 +85,13 @@ export default class TicketFlew extends React.Component{
                                                 ?"#6975a1":itemdata.ticketstatusname=="作废"
                                                 ?"#999999":"red"
                                 }}>
+                                <View>
                         <Text style={{color:"white",fontSize:16}}>  两票状态：{itemdata.ticketstatusname}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{itemdata.ticketrolename}</Text>
                         <Text style={{color:"white",fontSize:16}}>  处理人：{itemdata.ManageTime==null?"":itemdata.RealName}</Text>
                         <Text style={{color:"white",fontSize:16}}> {itemdata.ManageTime==null?" 等待时间":" 处理周期"}：{itemdata.ManageTime==null?this.awaitTime(awaitTime):itemdata.TimePeriod+"小时"}</Text>
                         <Text style={{color:"white",fontSize:16}}>  处理意见：{itemdata.RecordOption==1?'同意':itemdata.RecordOption==""?"待处理":'不同意'}</Text>
                         <Text style={{color:"white",fontSize:16}}>  处理时间：{itemdata.ManageTime!=null?itemdata.ManageTime.replace(/T/,' '):"待处理"}</Text>
-                    </View>
+                    </View></View>
                     </Animatable.View>
             })
         } 
@@ -110,21 +111,16 @@ export default class TicketFlew extends React.Component{
   render() {
       console.log(this.props.navigation)
     return (
-      <View style={{height:'100%',alignItems:'center'}}>
-        <View style={{position:'absolute',width:'100%',minHeight:'100%'}}>
-            <Image source={require('../images/gffg.jpg')} resizeMode="stretch"/>
-        </View>
+        <ImageBackground source={require('../images/gffg.jpg')} style={{width: '100%', height: '100%'}}>
+        
         <Title navigation={this.props.navigation} centerText={this.props.navigation.state.params.name+"流程"} />
         {/* 需要循环获取数据 */}
-        <ScrollView style={{marginBottom:50}}>
+        <ScrollView style={{marginBottom:5,width:'100%'}}>
         {/* <TouchableOpacity> */}
-            <View style={{marginTop:20}}>
                 {this.showpage()}
-            </View>
-            
         {/* </TouchableOpacity> */}
         </ScrollView>
-      </View>
+      </ImageBackground>
     );
   }
 }
