@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View,TouchableOpacity,ScrollView,Button,ToastAndroid,Alert,Image} from 'react-native';
+import { StyleSheet, Text, View,TouchableOpacity,ScrollView,Button,ToastAndroid,Alert,Image,ImageBackground} from 'react-native';
 import Title from './Title'
 import {correation,historys} from './../api/api'
 import MySorage from '../api/storage';
@@ -125,10 +125,8 @@ export default class CorrelationPlan extends React.Component{
 let height = this.state.result.length * 100;
 let result = this.state.result;
     return (
-        <View style={{flex:1}}>
-        <View style={{position:'absolute',width:'100%',minHeight:'100%'}}>
-            <Image source={require('../images/gffg.jpg')} resizeMode="stretch"/>
-        </View>
+      <ImageBackground source={require('../images/gffg.jpg')} style={{width: '100%', height: '100%'}}>
+       
         <Title navigation={this.props.navigation} centerText={'相关流程'} />
         {/* 需要循环获取数据 */}
             <View style={{flex:1}}>
@@ -160,7 +158,7 @@ let result = this.state.result;
               {this.state.havenotdate&&<View style={{marginVertical:20}}><Text style={{textAlign:"center",fontSize:16}}>暂时没有数据！</Text></View>}
             </ScrollView>
             </View>
-      </View>
+      </ImageBackground>
     );
   }
 }

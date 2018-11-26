@@ -354,6 +354,7 @@ export default class Tdetail extends React.Component{
 
     this.state.newpagedata[value] = s;
     this.state.showChecked=s;
+    this.setState(this.state);
     console.log("fffffffff-",this.state.showChecked);
     }
 
@@ -515,8 +516,11 @@ export default class Tdetail extends React.Component{
         this.setState(({newpagedata})=>{
             let newpagedata2 = this.state.newpagedata;
             let vaaaa = newpagedata2[v+"*1"];
+            let nesadds = newpagedata2[v+"_1"]||[];
             vaaaa.push(1);
+            nesadds.push(0);
             newpagedata2[v+"*1"] = vaaaa;
+            this.state.newpagedata[v+"_1"] = nesadds;
             return newpagedata2;
        });
         // console.log("++++++++++++>>>>>,", this.state.isadd);
@@ -581,25 +585,32 @@ export default class Tdetail extends React.Component{
         return this.state.newpagedata[v][qIndex];
     }
     getTextareaItemByID(v,dis,i){
-        let ds = this.state.newpagedata[v.TicketParaID+"*1"] || [true];
+        let ds = this.state.newpagedata[v.TicketParaID+"*1"] || ["0"];
+        let checkeds = this.state.newpagedata[v.TicketParaID+"_1"]||["0"];
+        console.log(checkeds,">>>>>>>>>>")
         return ds.map((item,qIndex)=>{
             return (<View style={{backgroundColor:!dis?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)",width:"100%"}} key={qIndex}>
             <TextareaItem value={this.getValueByID(v.TicketParaID+"*1",qIndex)} editable={!dis} placeholder="请输入内容..." placeholderTextColor="white"
                              onChange={(e)=>{this.state.newpagedata[v.TicketParaID+"*1"][qIndex] = e}} autoHeight 
                              style={{borderBottomWidth:0,paddingVertical: 5,backgroundColor:!dis?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)",color:'white',width:"100%"}} />
-            {v.IsConfirm==1?<View style={{flexDirection:'row',padding:5,alignItems:'center'}}>
+            <View style={{flexDirection:'row',padding:5,alignItems:'center'}}>
             <TouchableOpacity onPress={()=>{
                                 this.setState(({newpagedata})=>{
                                     let newpagedataID = this.state.newpagedata[v.TicketParaID+"*1"];
+                                    let newpagedataChecked = this.state.newpagedata[v.TicketParaID+"_1"];                          
                                     if(!newpagedataID || newpagedataID.length<2)return;
                                     newpagedataID.splice(qIndex,1);
+                                    if(newpagedataChecked.length)newpagedataChecked.splice(qIndex,1);
+                                    this.state.newpagedata[v.TicketParaID+"*1"]=newpagedataID;
+                                    this.state.newpagedata[v.TicketParaID+"_1"]=newpagedataChecked;
                                     return newpagedata
                                 })
                             }} style={{padding:10,width:'10%',alignItems:'center',marginRight:20}}>
                             <Image resizeMode="contain" style={{width:20,top:1,height:20}} source={require('../images/delete.png')}/>  
                             </TouchableOpacity>
-            <Checkbox onChange={(e)=>this.onChangecoform(v.TicketParaID+"_1",e.target.checked,qIndex)} disabled={dis}/>
-                  <Text style={{color:'#f5f5f5'}}>是否已执行</Text></View>:null}</View>)
+                  {v.IsConfirm==1?<View style={{flexDirection:'row'}}><Checkbox 
+                  onChange={(e)=>this.onChangecoform(v.TicketParaID+"_1",e.target.checked,qIndex)}  checked={checkeds[qIndex]=="1"} disabled={dis}/>
+                  <Text style={{color:'#f5f5f5'}}>是否已执行</Text></View>:null}</View></View>)
         })
     }
     render(){

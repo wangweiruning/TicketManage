@@ -1,5 +1,5 @@
 import React from 'react';
-import {  Text, View ,TouchableOpacity,Alert,ScrollView,Image} from 'react-native';
+import {  Text, View ,TouchableOpacity,Alert,ScrollView,Image,ImageBackground} from 'react-native';
 import Title from './Title'
 import {awaitdeteal,historys} from './../api/api'
 import {ActivityIndicator } from 'antd-mobile-rn';
@@ -141,10 +141,7 @@ export default class WaitPlan extends React.Component{
       let height = this.state.result.length * 100;
       let dataLis = this.state.dataLis;
     return (
-      <View style={{flex:1}}>
-       <View style={{position:'absolute',width:'100%',minHeight:'100%'}}>
-            <Image source={require('../images/gffg.jpg')} resizeMode="stretch"/>
-        </View>
+      <ImageBackground source={require('../images/gffg.jpg')} style={{width: '100%', height: '100%'}}>
         <Title navigation={this.props.navigation} centerText={'待处理流程'} />
         {/* 需要循环获取数据 */}
             <View style={{flex:1}}>
@@ -185,7 +182,7 @@ export default class WaitPlan extends React.Component{
         {this.state.havenotdate&&<View style={{marginVertical:20}}><Text style={{textAlign:"center",fontSize:16}}>暂时没有数据！</Text></View>}
             </ScrollView>
             </View>
-      </View>
+      </ImageBackground>
     )
   }
 }
