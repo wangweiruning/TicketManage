@@ -116,11 +116,9 @@ export default class TicketFlew extends React.Component{
         </View>
         <Title navigation={this.props.navigation} centerText={this.props.navigation.state.params.name+"流程"} />
         {/* 需要循环获取数据 */}
-        <ScrollView style={{marginBottom:50}}>
+        <ScrollView style={{marginBottom:5}}>
         {/* <TouchableOpacity> */}
-            <View style={{marginTop:20}}>
                 {this.showpage()}
-            </View>
             
         {/* </TouchableOpacity> */}
         </ScrollView>

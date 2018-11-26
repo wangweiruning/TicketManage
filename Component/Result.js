@@ -347,12 +347,13 @@ export default class Tdetail extends React.Component {
 
     }
     onChangecoform(value, dis,index) {
-        let s = this.state.newpagedata[value] || [];
+        let s = this.state.pagedata[value] || [];
         s[index] = dis?"1":"0";
 
-        this.state.newpagedata[value] = s;
-        this.state.showChecked=s.join("&$");
-        console.log(this.state.newpagedata,"111cccccccccccccccccc>>>>>>>>>>>>>>>>>>")
+        this.state.pagedata[value] = s;
+        this.state.showChecked=s.join(",&$");
+        this.state.newpagedata[value]=s;
+        console.log(this.state.pagedata,"111cccccccccccccccccc>>>>>>>>>>>>>>>>>>")
         return;
         let sdate = this.state.newChecked;
          
@@ -699,8 +700,7 @@ export default class Tdetail extends React.Component {
 
     async submitResult() {
 
-        const { newpagedata } = { ...this.state };
-        
+        const { newpagedata} = { ...this.state };
         if (this.state.vvval || this.state.searchRole.length < 1) {
             let data = {
                 'form.basicInfoId': this.props.navigation.state.params.ticketbasicinfoid,
@@ -717,7 +717,7 @@ export default class Tdetail extends React.Component {
                 "form.paraData": JSON.stringify(newpagedata)
             }
             console.log(data, "111111111111111111") 
-        //   return;
+            // return;
             var para = "";
             for (var a in data) {
                 para += ("&" + a + "=" + encodeURIComponent(data[a]));
@@ -858,7 +858,7 @@ export default class Tdetail extends React.Component {
                 gedefault = values[indexid];
                 return true;
             } else if (item == getAllTempanyId + "*1") {
-                gedefault = values[index].split("&$")[defaltindex];
+                gedefault = values[index].split(",")[defaltindex];
                 return true;
             } else {
                 return false;
@@ -913,7 +913,7 @@ export default class Tdetail extends React.Component {
         keys00.findIndex((item, index) => {
             if (item.substr(item.length - 2, item.length) == "*1" && gettrues) {
                 textmore = values00[index];
-                textmore = textmore.split("&$").length;
+                textmore = textmore.split(",").length;
                 let objects = Object.assign(this.state.isadd, { [v]: textmore })
                 this.state.isadd = objects;
                 let getores = Object.assign(this.state.getmoretextarea,{[v+"*1"]:false})
@@ -967,7 +967,7 @@ console.log('iiiiiiiiiiiiiiiiiiiiiii',inde)
                 getarrs.push(moredata[index])
             }
         })
-        let s ={[v]:getarrs.join("&$")};
+        let s ={[v]:getarrs.join(",")};
         // let data = Object.assign(this.state.pagedata,s)
         let datamore = Object.assign(this.state.datamore,rt)
 
@@ -979,6 +979,67 @@ console.log('iiiiiiiiiiiiiiiiiiiiiii',inde)
             datamore:datamore
         });
     }
+
+    getValueByID(v,qIndex){
+        if(!this.state.pagedata[v]){
+            this.state.pagedata[v] = [1];
+        }
+        let dss = this.state.pagedata[v].replace(/\"/g,"").split('&$');
+        console.log(dss,"ddddddd")
+        return dss[qIndex];
+    }
+    getTextareaItemByID(v,dis){
+        let ds = this.state.pagedata[v.TicketParaID+"*1"];
+        console.log(ds,"oooooooooooooooooooooooooooooooo")
+        let newds = ds!=undefined? ds.replace(/\"/g,"").split('&$'):[true];
+        console.log(this.state.pagedata,newds,"...................")
+
+        return newds.map((item,qIndex)=>{
+            return (<View style={{alignItems:'center',width:"100%"}} key={qIndex}>
+            <TextareaItem defaultValue={item} editable={dis} placeholder="请输入内容..." placeholderTextColor="white"
+                             onChange={(e)=>{
+                                 newds[qIndex] = e;
+                                console.log(newds,"gggggggggggggggggggg")
+                                 this.state.pagedata[v.TicketParaID+"*1"] = newds.join("&$");
+                                 this.state.newpagedata[v.TicketParaID+"*1"]=newds;
+                             }}
+                             autoHeight 
+                             style={{paddingVertical: 5,backgroundColor:dis?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)",color:'white',width:200,height:50}} />
+
+                             {dis&&<TouchableOpacity onPress={()=>{
+                                //  index
+                                console.log("pagedataID++++++++++++++::::",qIndex);
+                                this.setState(({pagedata})=>{
+                                    let pagedataID = this.state.pagedata[v.TicketParaID+"*1"];
+                                     pagedataID = pagedataID!=undefined ?pagedataID.replace(/\"/g,"").split('&$'):[true];
+                                    if(!pagedataID || pagedataID.length<2)return;
+                                    console.log("pagedataID++++++++++++++::::",pagedataID,qIndex);
+                                    pagedataID.splice(qIndex,1);
+                                    console.log("pagedataID++++++++++++++::::q",pagedataID,qIndex);
+                                    this.state.pagedata[v.TicketParaID+"*1"] =pagedataID.join("&$"); 
+                                    this.state.newpagedata[v.TicketParaID+"*1"] =pagedataID;
+                                    return pagedata;
+                                })
+                                
+                            }} style={{width:'10%',alignItems:'center'}}>
+                                    <Image resizeMode="contain" style={{width:20,top:1,height:20}} source={require('../images/delete.png')}/>  
+                            </TouchableOpacity>}
+
+            {v.IsConfirm==1?<View style={{ borderTopColor:'gray',borderTopWidth:1,borderStyle:'solid',flexDirection: 'row', 
+                                                                    backgroundColor:dis ?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)" , padding: 5 }}>
+                                                                <CheckBox labelStyle={{color:'#f5f5f5'}} checkboxStyle={{width:18,height:18}}
+                                                                    label={'是否已执行'}
+                                                                    style={{backgroundColor:'rgba(255,255,255,.2)'}}
+                                                                    checked={this.getddds(v.TicketParaID + '_1', qIndex)}
+                                                                    onChange={(e) => dis && this.onChangecoform(v.TicketParaID + '_1', e, qIndex)}
+                                                                    underlayColor={"transparent"}
+                                                                >
+                                                                </CheckBox></View>:null}
+                  </View>);
+        })
+
+    }
+
 
 
     render(){
@@ -1077,7 +1138,8 @@ console.log('iiiiiiiiiiiiiiiiiiiiiii',inde)
                                                             checked={this.getddds(v.TicketParaID + '_1')}
                                                             onChange={(e) => dis && this.onChangecoform(v.TicketParaID + '_1', e, dis)}
                                                             underlayColor={"transparent"}
-                                                        ></CheckBox></View></View> : 
+                                                        ></CheckBox></View></View>
+                                                         : 
                                                         <TextInput
                                                         value={this.getchecked(v.TicketParaID)}
                                                         underlineColorAndroid="transparent"
@@ -1105,61 +1167,38 @@ console.log('iiiiiiiiiiiiiiiiiiiiiii',inde)
                                                     onDateChange={(value) => this.onChange(v.TicketParaID, value)} />
                                                 : v.ParaTypeID == 6 ?
                                                     <View>
-                                                        <View>
 
                                                             {
-                                                                v.IsAdd == 1 ?
-                                                                new Array(this.isnums(v.TicketParaID)).fill(true).map((item, index) => {
-                                                                    return (
-                                                                   <View key={index}>     
-                                                                    <TextareaItem  editable={dis}
-                                                                        rows={4}
-                                                                        placeholder="请输入内容..."
-                                                                        defaultValue={this.getchecked(v.TicketParaID, index)}
-                                                                        onChangeText={(values) => this.handleInputmore(v.TicketParaID, values, index)}
-                                                                        autoHeight
-                                                                        placeholderTextColor="#f5f5f5"
-                                                                        style={{paddingVertical: 5,minWidth:'98%',backgroundColor:dis?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)",color:'white'}}
-                                                                    />
-                                                                    <TouchableOpacity onPress={()=>this.delete(v.TicketParaID,index)}>
-                                                                        <Image resizeMode="contain" style={{width:20}} source={require('../images/delete.png')}/>
-                                                                    </TouchableOpacity>
-                                                                    {v.IsConfirm == 1 &&  <View style={{ borderTopColor:'gray',borderTopWidth:1,borderStyle:'solid',flexDirection: 'row', 
-                                                                    backgroundColor:dis ?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)" , padding: 5 }}>
-                                                                <CheckBox labelStyle={{color:'#f5f5f5'}} checkboxStyle={{width:18,height:18}}
-                                                                    label={'是否已执行'}
-                                                                    style={{backgroundColor:'rgba(255,255,255,.2)'}}
-                                                                    checked={this.getddds(v.TicketParaID + '_1', index)}
-                                                                    // checked={(()=>{
-                                                                    //     let ss = this.state.newChecked;
-                                                                    //     console.log('ssss>>>>>>>>>>>>>',ss)
-                                                                    //     if(!ss[v.TicketParaID + '_1']){
+                                                                v.IsAdd == 1 ?this.getTextareaItemByID(v,dis)
 
-                                                                    //         let dss = {[v.TicketParaID + '_1']:"0"};
-                                                                    //         let newChecked = this.state.newChecked;
-                                                                    //         for(let i in dss){
-                                                                    //             let s = dss[i] || "";
-                                                                    //             let arr = s.split("&$");
-                                                                    //             if(!newChecked[i])newChecked[i] = [];
-                                                                    //             for(let j = 0;j<arr.length;j++){
-                                                                    //                 newChecked[i][j] = arr[j];
-                                                                    //             }
-                                                                    //         }
-                                                                    //         this.state.newChecked = newChecked;
-
-                                                                    //         ss = newChecked;
-                                                                           
-                                                                    //     };
-                                                                    //     console.log("zzzzzzzzzzzzzzzzzzzzzzz:::",ss);
-                                                                    //     let ass = ss[v.TicketParaID + '_1'] || [];
-                                                                    //     return ass[index] == "0";
-                                                                    // })}
-                                                                    onChange={(e) => dis && this.onChangecoform(v.TicketParaID + '_1', e, index)}
-                                                                    underlayColor={"transparent"}
-                                                                >
-                                                                </CheckBox></View>}
-                                                                    </View>)
-                                                                }) :
+                                                                // new Array(this.isnums(v.TicketParaID)).fill(true).map((item, index) => {
+                                                                //     return (
+                                                                //    <View key={index}>     
+                                                                //     <TextareaItem  editable={dis}
+                                                                //         rows={4}
+                                                                //         placeholder="请输入内容..."
+                                                                //         defaultValue={this.getchecked(v.TicketParaID, index)}
+                                                                //         onChangeText={(values) => this.handleInputmore(v.TicketParaID, values, index)}
+                                                                //         autoHeight
+                                                                //         placeholderTextColor="#f5f5f5"
+                                                                //         style={{paddingVertical: 5,minWidth:'98%',backgroundColor:dis?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)",color:'white'}}
+                                                                //     />
+                                                                //     <TouchableOpacity onPress={()=>this.delete(v.TicketParaID,index)}>
+                                                                //         <Image resizeMode="contain" style={{width:20}} source={require('../images/delete.png')}/>
+                                                                //     </TouchableOpacity>
+                                                                //     {v.IsConfirm == 1 &&  <View style={{ borderTopColor:'gray',borderTopWidth:1,borderStyle:'solid',flexDirection: 'row', 
+                                                                //     backgroundColor:dis ?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)" , padding: 5 }}>
+                                                                // <CheckBox labelStyle={{color:'#f5f5f5'}} checkboxStyle={{width:18,height:18}}
+                                                                //     label={'是否已执行'}
+                                                                //     style={{backgroundColor:'rgba(255,255,255,.2)'}}
+                                                                //     checked={this.getddds(v.TicketParaID + '_1', index)}
+                                                                //     onChange={(e) => dis && this.onChangecoform(v.TicketParaID + '_1', e, index)}
+                                                                //     underlayColor={"transparent"}
+                                                                // >
+                                                                // </CheckBox></View>}
+                                                                //     </View>)
+                                                                // })
+                                                                 :
                                                                     <TextareaItem editable={dis}
                                                                         rows={4}
                                                                         placeholderTextColor="#f5f5f5"
@@ -1178,7 +1217,6 @@ console.log('iiiiiiiiiiiiiiiiiiiiiii',inde)
                                                                 >
                                                                 </CheckBox>
                                                                 </View>} */}
-                                                        </View>
                                                     </View> : null}
                         </View>
                         })}
