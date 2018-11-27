@@ -487,8 +487,8 @@ export default class Tdetail extends React.Component {
         return aa;
     }
     gotSubmit = () => {
-        return <View style={{ width: '96%',paddingBottom: 8, paddingTop: 8 }}>
-                    <Text style={{ color: 'white', left:5}}>流转目标</Text>
+        return <View style={{ width: '92.5%',paddingBottom: 8, paddingTop: 8 }}>
+                    <Text style={{ color: 'white'}}>流转目标</Text>
                     <DropdownCheckbox open={this.open.bind(this)}  TextColor={{ color: 'white', fontSize: 13, left: 5 }}
                         style={{  height: 29.3, justifyContent: 'center'}} SelectData={this.state.searchRole} />
                         
@@ -992,7 +992,7 @@ export default class Tdetail extends React.Component {
 
         return newds.map((item,qIndex)=>{
             return (<View style={{width:"100%",}} key={qIndex}>
-            <TextareaItem defaultValue={item} editable={dis} placeholder="请输入内容..." placeholderTextColor="white"
+            <TextareaItem defaultValue={item} editable={dis} placeholder={"请输入内容..."} placeholderTextColor="white"
                              onChange={(e)=>{
                                  newds[qIndex] = e;
                                  this.state.pagedata[v.TicketParaID+"*1"] = newds.join("&$");
