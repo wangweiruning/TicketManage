@@ -20,7 +20,7 @@ export default class MySorage extends Component {
                 // 如果不指定则数据只会保存在内存中，重启后即丢失
                 storageBackend: AsyncStorage,
                 // 数据过期时间，默认一整天（1000 * 3600 * 24 毫秒），设为null则永不过期
-                defaultExpires: null,
+                defaultExpires: defaultExpires,
 
                 // 读写时在内存中缓存数据。默认启用。
                 enableCache: true,
