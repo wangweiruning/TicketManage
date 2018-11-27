@@ -364,7 +364,6 @@ export default class Tdetail extends React.Component {
         console.log(s,"ssssssssssssssssssssssssssssss")
         this.state.newpagedata[value]=s;
         this.state.newChecked[value] =s.join("&$");
-        
         this.setState(this.state)  
     }
     handleInput(k, v) {
@@ -488,11 +487,9 @@ export default class Tdetail extends React.Component {
         return aa;
     }
     gotSubmit = () => {
-   
         return <View style={{ width: '96%',paddingBottom: 8, paddingTop: 8 }}>
                     <Text style={{ color: 'white', left:5}}>流转目标</Text>
                     <DropdownCheckbox open={this.open.bind(this)}  TextColor={{ color: 'white', fontSize: 13, left: 5 }}
-                   
                         style={{  height: 29.3, justifyContent: 'center'}} SelectData={this.state.searchRole} />
                         
         </View>
@@ -501,14 +498,11 @@ export default class Tdetail extends React.Component {
         let arr = this.state.nextFlow;
         this.state.showPage.isflew = arr[0];
         return <View style={{ flexDirection: 'row', width: '96%',
-     
         alignItems: 'center', paddingBottom: 8, paddingRight: 8, paddingTop: 8 }}>
-            
             <Text style={{ left: 5, color: 'white',flex:1 }}>流转状态</Text>
             <ModalDropdown dropdownTextStyle={{ fontSize: 15 }}
                 dropdownStyle={{}}
                 textStyle={{ color: 'white', fontSize: 13 }}
-         
                 style={{ justifyContent: 'center' }}
                 defaultValue={arr[0] ? arr[0] : "请选择"}
                 onSelect={(index, value) => this.changeAgree(index, 1, value)}
@@ -634,12 +628,10 @@ export default class Tdetail extends React.Component {
         } else {
             arr.push("不同意")
         }
-      
         return <View style={{ flexDirection: 'row', width: '96%',
         alignItems: 'center', paddingBottom: 8, paddingRight: 8, paddingTop: 8 }}>
             <Text style={{ left: 5, color: 'white',flex:1 }}>是否同意</Text>
             <ModalDropdown
-       
                 dropdownTextStyle={{ fontSize: 15 }} dropdownStyle={{}} textStyle={{ color: 'white', fontSize: 13,}}
                 style={{justifyContent: 'center', }}
                 defaultValue={arr[0]}
@@ -812,7 +804,6 @@ export default class Tdetail extends React.Component {
     }
 
 
-
     // getddds = (ddd, indexss) => {
     //     let sdate = this.state.newChecked;
     //    console.log('>>>>>>>>>>>>>>',sdate)
@@ -821,7 +812,6 @@ export default class Tdetail extends React.Component {
     //         let keys = Object.keys(sdate);
     //         let values = Object.values(sdate);
            
-
     //          keys.findIndex((item, i) => {
     //             if (ddd == item) {
     //                 tt = i;
@@ -868,7 +858,6 @@ export default class Tdetail extends React.Component {
     add(v) {
     // isadd--->>是否已执行
         this.setState(({newpagedata})=>{
-        
             if(v.IsAdd==1){
                 let newChecked = this.state.newChecked;
                 let nesadds = newChecked[v+"_1"]||[];
@@ -881,15 +870,12 @@ export default class Tdetail extends React.Component {
             let newpagedata2 = this.state.pagedata;
             let vaaaa = this.state.pagedata[v.TicketParaID+"*1"];
 
-       
             vaaaa = newpagedata2[v+"*1"];
             vaaaa = vaaaa?vaaaa.split("&$"):[];
             if(vaaaa.length==0)return ToastAndroid.show('第一个数据不能为空!', ToastAndroid.SHORT);
             console.log(newpagedata2,vaaaa,"rrrrrrrrrrrrrrrrrrrrrrrrrr")
             vaaaa.push("");
-       
             newpagedata2[v+"*1"] = vaaaa.join("&$");
-           
             this.state.newpagedata[v+"*1"] = vaaaa;
             return newpagedata2;
        });
@@ -911,19 +897,16 @@ export default class Tdetail extends React.Component {
         //     }
         // })
     }
-
     // isnums(v) {
     //     let ggg = this.state.pagedata;
     //     let getarea = this.state.getmoretextarea;
     //     if(JSON.stringify(ggg)=="{}")return "";
         
-
     //     let getareaValue = Object.values(getarea);
     //     let getareakeys  = Object.keys(getarea);
     //     let gettrues = false;
     //     getareakeys.findIndex((keyItem,index)=>{
             
-
     //         if(keyItem == v+"*1"){
     //             gettrues= getareaValue[index];
     //             return ;
@@ -932,14 +915,12 @@ export default class Tdetail extends React.Component {
     //     let values00 = Object.values(ggg);
     //     let keys00 = Object.keys(ggg);
 
-
     //     let textmore = "";
     //     let varr = this.state.isadd;
     //     let keys = Object.keys(varr);
     //     let values = Object.values(varr);
     //     let ss = 0;
       
-        
     //     keys00.findIndex((item, index) => {
     //         if (item.substr(item.length - 2, item.length) == "*1" && gettrues) {
     //             textmore = values00[index];
@@ -957,14 +938,12 @@ export default class Tdetail extends React.Component {
     //         }
     //     })
 
-       
     //     let index = keys.findIndex((item, i) => {
     //         if (item == v) {
     //             ss = i
     //         }
     //     })
     //     return textmore != "" ? textmore : values[ss]
-
 
     // }
 
@@ -990,7 +969,6 @@ export default class Tdetail extends React.Component {
         })
     }
 
-
     // getValueByID(v,qIndex){
     //     if(!this.state.pagedata[v]){
     //         this.state.pagedata[v] = [1];
@@ -1000,36 +978,28 @@ export default class Tdetail extends React.Component {
     // }
 
 
-
-
     /**
      * 
      *动态创建多行文本+ 是否已执行+添加删除+（有默认值和无默认值情况） 
      * ** */
     getTextareaItemByID(v,dis){
-  
        
         let ds00 = this.state.pagedata[v.TicketParaID];
         let ds = this.state.pagedata[v.TicketParaID+"*1"]||ds00;
         let checkeds = this.state.newChecked[v.TicketParaID+"_1"];
             checkeds=checkeds!=undefined? checkeds.split("&$"):["0"];
- 
         let newds = ds!=undefined? ds.split('&$'):[true];
-  
 
         return newds.map((item,qIndex)=>{
-         
             return (<View style={{width:"100%",}} key={qIndex}>
-            <TextareaItem defaultValue={item} editable={dis} placeholder="请输入内容..." placeholderTextColor="white"
+            <TextareaItem defaultValue={item} editable={dis} placeholder={"请输入内容..."} placeholderTextColor="white"
                              onChange={(e)=>{
                                  newds[qIndex] = e;
-                           
                                  this.state.pagedata[v.TicketParaID+"*1"] = newds.join("&$");
                                  this.state.newpagedata[v.TicketParaID+"*1"]=newds;
                              }}
                              autoHeight 
                              style={{paddingVertical: 5,backgroundColor:dis?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)",color:'white',width:"100%"}} />
-
                             {dis?
                             <View style={{flexDirection: 'row',backgroundColor:dis ?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)" , padding: 5 }}>
                              {dis&& <TouchableOpacity onPress={()=>{
@@ -1037,29 +1007,23 @@ export default class Tdetail extends React.Component {
                                     let pagedataID = this.state.pagedata[v.TicketParaID+"*1"];
                                      pagedataID = pagedataID!=undefined ?pagedataID.split('&$'):[true];
                                     if(!pagedataID || pagedataID.length<2)return;
-                               
                                     pagedataID.splice(qIndex,1);
-                           
                                     this.state.pagedata[v.TicketParaID+"*1"] =pagedataID.join("&$"); 
                                     this.state.newpagedata[v.TicketParaID+"*1"] =pagedataID;
                                     return pagedata;
                                 })
                                 
-                          
                             }} style={{width:'10%',alignItems:'center',}}>
                                     <Image resizeMode="contain" style={{width:20,top:1,height:20}} source={require('../images/delete.png')}/>  
-                          
                             </TouchableOpacity>
                             }
             {v.IsConfirm==1?<CheckBox labelStyle={{color:'#f5f5f5'}} checkboxStyle={{width:18,height:18}}
                                     label={'是否已执行'}
                                     style={{backgroundColor:'rgba(255,255,255,.2)'}}
                                     checked={checkeds[qIndex]=="1"}
-                                 
                                     onChange={(e) => dis&&this.onChangecoform(v.TicketParaID + '_1', e, qIndex)}
                                     underlayColor={"transparent"}
                                 >
-                              
                                 </CheckBox>:null}
                                 </View>:null}
                                 
@@ -1092,13 +1056,12 @@ export default class Tdetail extends React.Component {
                             <Text style={{color:'white',fontSize:15,marginTop:15}}>数据提交中...</Text>
                         </View>
                         </View>:null}
-
                     {
-                        
-this.state.mengCard&&<View style={{justifyContent:'center',alignItems:'center', zIndex:444,width:"100%",height:"100%"}}>
+                        this.state.mengCard&&<View style={{justifyContent:'center',alignItems:'center', zIndex:444,width:"100%",height:"100%"}}>
                         <ActivityIndicator color="#ffffff"/>
                         <Text style={{color:"#ffffff",textAlign:"center",marginTop:10,fontSize:15}}>加载中...</Text>
-                        </View>}                    <ScrollView >
+                        </View>}
+                    <ScrollView >
                         <View style={{marginBottom:20,display:'flex'}}>
                         {
                             this.state.templateContents.map((v,i)=>{
@@ -1112,7 +1075,6 @@ this.state.mengCard&&<View style={{justifyContent:'center',alignItems:'center', 
                                 flexDirection:'row',
                                 alignItems:'center',
                                 }}>
-                                
                                 <Text style={{color:'white',left:2,width:"80%"}}>{v.ParaName}</Text>
                                 {v.IsAdd==1&&dis&&v.ParaTypeID ==6&& <View style={{flexDirection:'row',left:5}}>
                          <TouchableOpacity onPress={()=>this.add(v.TicketParaID)}>
@@ -1154,7 +1116,6 @@ this.state.mengCard&&<View style={{justifyContent:'center',alignItems:'center', 
                                                         onChangeText={(values) => this.handleInput(v.TicketParaID, values)}
                                                         style={{minWidth:'98%',backgroundColor:dis?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)",color:'white'}} />
                                                     <View style={{ flexDirection: 'row', padding: 5 ,backgroundColor:dis?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)",minWidth:'98%'}}>
-                                                        
                                                         <CheckBox labelStyle={{color:'#f5f5f5'}} checkboxStyle={{width:18,height:18}}
                                                             label={'是否已执行'}
                                                             style={{backgroundColor:'rgba(255,255,255,.2)'}}
@@ -1173,7 +1134,6 @@ this.state.mengCard&&<View style={{justifyContent:'center',alignItems:'center', 
                                             </View> : v.ParaTypeID == 5
                                                 ?
                                                 <DatePicker
-                                                    
                                                     customStyles={{
                                                         dateInput: {
                                                                 // backgroundColor:dis?'transparent':'rgba(255,255,255,.2)',
@@ -1196,7 +1156,6 @@ this.state.mengCard&&<View style={{justifyContent:'center',alignItems:'center', 
 
                                                             {
                                                                 v.IsAdd == 1 ?this.getTextareaItemByID(v,dis)
-
                                                                  :<View>
                                                                  <TextareaItem editable={dis}
                                                                         rows={4}
@@ -1205,12 +1164,10 @@ this.state.mengCard&&<View style={{justifyContent:'center',alignItems:'center', 
                                                                         defaultValue={this.getchecked(v.TicketParaID)}
                                                                         onChangeText={(values) => this.handleInput(v.TicketParaID, values)}
                                                                         autoHeight
-                                                                    
                                                                         style={{paddingVertical: 5,minWidth:'98%',
                                                                             backgroundColor:dis?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)",color:'white'}} />
                                                                     {v.IsConfirm == 1 && <View style={{ flexDirection: 'row', backgroundColor: 'rgba(255,255,255,.2)', padding: 5 }}>
                                                                 <CheckBox
-                                                                  
                                                                     labelStyle={{color:'#f5f5f5'}} checkboxStyle={{width:18,height:18}}
                                                                     label={'是否已执行'}
                                                                     style={{backgroundColor:'rgba(255,255,255,.2)'}}
@@ -1219,7 +1176,6 @@ this.state.mengCard&&<View style={{justifyContent:'center',alignItems:'center', 
                                                                     underlayColor={"transparent"}
                                                                 >
                                                                 </CheckBox>
-                                                               
                                                                 </View>}
                                                                 </View>
                                                             }
