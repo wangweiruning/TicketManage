@@ -1166,7 +1166,7 @@ export default class Tdetail extends React.Component {
                                                                         autoHeight
                                                                         style={{paddingVertical: 5,minWidth:'98%',
                                                                             backgroundColor:dis?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)",color:'white'}} />
-                                                                    {v.IsConfirm == 1 && <View style={{ flexDirection: 'row', backgroundColor: 'rgba(255,255,255,.2)', padding: 5 }}>
+                                                                    {v.IsConfirm == 1 && <View style={{ flexDirection: 'row', backgroundColor: dis?'rgba(255,255,255,.2)':"rgba(255,255,255,.4)", padding: 5 }}>
                                                                 <CheckBox
                                                                     labelStyle={{color:'#f5f5f5'}} checkboxStyle={{width:18,height:18}}
                                                                     label={'是否已执行'}
