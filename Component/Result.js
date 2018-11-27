@@ -487,27 +487,27 @@ export default class Tdetail extends React.Component {
         return aa;
     }
     gotSubmit = () => {
-        return <View style={{ width: '96%', 
-                        borderBottomColor:'rgba(255,255,255,.2)',borderBottomWidth:1,borderStyle:'solid',  paddingBottom: 8, paddingTop: 8 }}>
+        return <View style={{ width: '96%',paddingBottom: 8, paddingTop: 8 }}>
                     <Text style={{ color: 'white', left:5}}>流转目标</Text>
                     <DropdownCheckbox open={this.open.bind(this)}  TextColor={{ color: 'white', fontSize: 13, left: 5 }}
-                        style={{  minWidth: '98%', height: 29.3, justifyContent: 'center'}} SelectData={this.state.searchRole} />
+                        style={{  height: 29.3, justifyContent: 'center'}} SelectData={this.state.searchRole} />
+                        
         </View>
     }
     getliuzhuan = () => {
         let arr = this.state.nextFlow;
         this.state.showPage.isflew = arr[0];
         return <View style={{ flexDirection: 'row', width: '96%',
-        borderBottomColor:'rgba(255,255,255,.2)', borderBottomWidth: 1, borderStyle: 'solid', 
         alignItems: 'center', paddingBottom: 8, paddingRight: 8, paddingTop: 8 }}>
-            <Text style={{ left: 5, color: 'white' }}>流转状态</Text>
+            <Text style={{ left: 5, color: 'white',flex:1 }}>流转状态</Text>
             <ModalDropdown dropdownTextStyle={{ fontSize: 15 }}
                 dropdownStyle={{}}
                 textStyle={{ color: 'white', fontSize: 13 }}
-                style={{ width: '98%', justifyContent: 'center', left: 10 }}
+                style={{ justifyContent: 'center' }}
                 defaultValue={arr[0] ? arr[0] : "请选择"}
                 onSelect={(index, value) => this.changeAgree(index, 1, value)}
                 options={arr} />
+                <Image source={require('../images/tj.png')} style={{left:5,width:15,height:15,resizeMode:Image.resizeMode.contain}}/>
         </View>
 
     }
@@ -628,15 +628,16 @@ export default class Tdetail extends React.Component {
         } else {
             arr.push("不同意")
         }
-        return <View style={{ flexDirection: 'row', width: '96%', borderBottomColor:'rgba(255,255,255,.2)', 
-        borderBottomWidth: 1, borderStyle: 'solid', alignItems: 'center', paddingBottom: 8, paddingRight: 8, paddingTop: 8 }}>
-            <Text style={{ left: 5, color: 'white' }}>是否同意</Text>
+        return <View style={{ flexDirection: 'row', width: '96%',
+        alignItems: 'center', paddingBottom: 8, paddingRight: 8, paddingTop: 8 }}>
+            <Text style={{ left: 5, color: 'white',flex:1 }}>是否同意</Text>
             <ModalDropdown
-                dropdownTextStyle={{ fontSize: 15 }} dropdownStyle={{}} textStyle={{ color: 'white', fontSize: 13, left: 5 }}
-                style={{ width: '98%', justifyContent: 'center', left: 10 }}
+                dropdownTextStyle={{ fontSize: 15 }} dropdownStyle={{}} textStyle={{ color: 'white', fontSize: 13,}}
+                style={{justifyContent: 'center', }}
                 defaultValue={arr[0]}
                 onSelect={(index, value) => this.changeAgree(index, 0, value)}
                 options={arr} />
+                <Image source={require('../images/tj.png')} style={{left:5,width:15,height:15,resizeMode:Image.resizeMode.contain}}/>
         </View>
     }
 
@@ -1141,11 +1142,13 @@ export default class Tdetail extends React.Component {
                                             </View> : v.ParaTypeID == 5
                                                 ?
                                                 <DatePicker
-                                                    customStyles={{dateInput: {
-                                                        backgroundColor:'transparent',
-                                                        borderWidth:0
-                                                    }}}  
-                                                    style={{color:'white',width:'98%',backgroundColor:dis?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)"}}   
+                                                    customStyles={{
+                                                        dateInput: {
+                                                                // backgroundColor:dis?'transparent':'rgba(255,255,255,.2)',
+                                                                borderWidth:0,
+                                                            },
+                                                }}  
+                                                    style={{width:'98%',backgroundColor:dis?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)"}}   
                                                     date={this.getchecked(v.TicketParaID)}
                                                     mode="datetime"
                                                     format="YYYY-MM-DD HH:mm"
@@ -1197,7 +1200,9 @@ export default class Tdetail extends React.Component {
                             <View style={{marginTop:5,marginBottom:20,width:'100%',alignItems:'center'}}>
                             <View style={{width:'96%',elevation:3,backgroundColor:'rgba(255,255,255,.3)',alignItems:'center'}}>
                                 {this.aggreeall()}
+                                <Image source={require('../images/line.png')} style={{width:'90%',height:2,resizeMode:Image.resizeMode.contain}}/>
                                 {this.getliuzhuan()}
+                                <Image source={require('../images/line.png')} style={{width:'90%',height:2,resizeMode:Image.resizeMode.contain}}/>
                                 {this.gotSubmit()}
                            
                             <View style={{width:'96%',borderBottomColor:'rgba(255,255,255,.2)',borderBottomWidth:1,borderStyle:'solid',padding:6}}>
