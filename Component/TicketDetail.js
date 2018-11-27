@@ -608,9 +608,9 @@ export default class Tdetail extends React.Component{
                             }} style={{padding:10,width:'10%',alignItems:'center',marginRight:20}}>
                             <Image resizeMode="contain" style={{width:20,top:1,height:20}} source={require('../images/delete.png')}/>  
                             </TouchableOpacity>
-                  {v.IsConfirm==1?<View style={{flexDirection:'row'}}><Checkbox 
+                  {v.IsConfirm==1?<View style={{flexDirection:'row',alignItems:'center'}}><Checkbox 
                   onChange={(e)=>this.onChangecoform(v.TicketParaID+"_1",e.target.checked,qIndex)}  checked={checkeds[qIndex]=="1"} disabled={dis}/>
-                  <Text style={{color:'#f5f5f5'}}>是否已执行</Text></View>:null}</View></View>)
+                  <Text style={{marginLeft:5,color:'#f5f5f5'}}>是否已执行</Text></View>:null}</View></View>)
         })
     }
     render(){
@@ -742,6 +742,7 @@ export default class Tdetail extends React.Component{
                 {this.state.num?<TouchableOpacity 
                             onPress={()=>this.submitAll()}
                             style={{
+                                elevation:2,
                                 justifyContent:'center',
                                 alignItems:'center',
                                 width:'80%',
