@@ -1145,7 +1145,7 @@ export default class Tdetail extends React.Component {
                                                         backgroundColor:'transparent',
                                                         borderWidth:0
                                                     }}}  
-                                                    style={{width:'98%',backgroundColor:dis?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)"}}   
+                                                    style={{color:'white',width:'98%',backgroundColor:dis?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)"}}   
                                                     date={this.getchecked(v.TicketParaID)}
                                                     mode="datetime"
                                                     format="YYYY-MM-DD HH:mm"

@@ -181,7 +181,7 @@ export default class WaitPlan extends React.Component{
                 <Text style={{color:"#ff8800",marginTop:5,marginLeft:16,fontSize:16}}>等待时间：{this.awaitTime(itemdata.lastTime)}</Text>
                 <Text style={{color:"#fff",marginTop:5,marginBottom:7,marginLeft:16,fontSize:16}}>流转时间：{itemdata.lastTime.replace(/T/,' ')}</Text>
                 <View style={{width:'100%',alignItems:'center',marginTop:7}}>
-                <TouchableOpacity onPress={()=> this.gotoItem(itemdata)} style={{justifyContent:'center',alignItems:'center',width:'80%',backgroundColor:'#365793',borderRadius:5,height:40}}>
+                <TouchableOpacity onPress={()=> this.gotoItem(itemdata)} style={{elevation:2,justifyContent:'center',alignItems:'center',width:'80%',backgroundColor:'#365793',borderRadius:5,height:40}}>
                    <Text style={{color:'white',fontSize:20,fontWeight:'500'}}>查看详情</Text>
                 </TouchableOpacity>
                 </View>
