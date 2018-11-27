@@ -110,7 +110,7 @@ export default class Login extends React.Component{
                       backgroundColor:'rgba(0,0,0,.6)',
                       paddingTop:10,
                       zIndex:10000000000}}>
-              <ActivityIndicator color="#03c1eb"/>
+              <ActivityIndicator color="white"/>
               <Text style={{color:'white',fontSize:15,marginTop:20}}>登录中...</Text>
         </View>
         </View>:null}

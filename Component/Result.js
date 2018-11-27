@@ -1056,19 +1056,11 @@ export default class Tdetail extends React.Component {
                             <Text style={{color:'white',fontSize:15,marginTop:15}}>数据提交中...</Text>
                         </View>
                         </View>:null}
-
                     {
-                        this.state.mengCard?<View 
-                                                style={{flexDirection:"column",zIndex:444,display:'flex',
-                                                width:width,height:height-68}}>
-                                            <View style={{top:"0%",justifyContent:'center',alignItems:'center',position:'absolute',zIndex:1000,width:'100%',height:'100%'}}>
-                                                <ActivityIndicator color="white"/>
-                                                <Text style={{color:'white',fontSize:15,marginTop:15,zIndex:1000000}}>加载中...</Text>
-                                            </View>
-                                                </View>
-
-
-                    :null}
+                        this.state.mengCard&&<View style={{justifyContent:'center',alignItems:'center', zIndex:444,width:"100%",height:"100%"}}>
+                        <ActivityIndicator color="#ffffff"/>
+                        <Text style={{color:"#ffffff",textAlign:"center",marginTop:10,fontSize:15}}>加载中...</Text>
+                        </View>}
                     <ScrollView >
                         <View style={{marginBottom:20,display:'flex'}}>
                         {
