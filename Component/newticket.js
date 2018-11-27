@@ -77,13 +77,14 @@ export default class Newticket extends React.Component{
              {
                 this.state.jay.map((v,i)=>
                 <Animatable.View key={i} style={{alignItems:'center'}} useNativeDriver animation="fadeInRight" easing="ease-out-expo">
-                    <TouchableOpacity key={i} 
+                    <TouchableOpacity
                     onPress={()=>this.goticket(v.attr.tree_id.substring(2),v.data.title)}
-                    style={{width:'93%',flexDirection:'row',alignItems:'center',marginTop:2,borderBottomColor:'rgba(255,255,255,.5)',borderStyle:'solid',borderBottomWidth:1}}>
-                            <Image source={require('../images/company_tree.png')} style={{width:35,left:5,resizeMode:Image.resizeMode.contain}}/>
+                    style={{width:'93%',padding:4,flexDirection:'row',alignItems:'center',marginTop:2}}>
+                            <Image source={require('../images/company_tree.png')} style={{width:35,resizeMode:Image.resizeMode.contain}}/>
                             <Text style={{fontSize:18,color:'#f5f5f5',left:14,flex:1}}>{v.data.title}</Text>
                         <Image source={require('../images/go1.png')} style={{right:5,width:15,resizeMode:Image.resizeMode.contain}}/>
                     </TouchableOpacity>
+                    <Image source={require('../images/line.png')} style={{width:'90%',height:2,resizeMode:Image.resizeMode.contain,left:10}}/>
                     </Animatable.View>)
              }
              </ScrollView>
