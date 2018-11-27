@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text,View,Image,TouchableOpacity,ImageBackground} from 'react-native';
+import {Text,View,Image,TouchableOpacity,ImageBackground,StatusBar} from 'react-native';
 
 
 export default class HomeScreen extends React.Component {
@@ -24,7 +24,7 @@ export default class HomeScreen extends React.Component {
   render() {
       const { navigate } = this.props.navigation;
       return (<ImageBackground source={require('../images/gffg.jpg')} style={{alignItems:'center',width: '100%', height: '100%'}}>
-          <View style={{width:'94.5%',height:'92%',marginTop:38,alignItems:'center',borderRadius:6,backgroundColor:'rgba(255,255,255,.2)'}}>
+          <View style={{width:'94.5%',height:'92%',marginTop:10+StatusBar.currentHeight,alignItems:'center',borderRadius:6,backgroundColor:'rgba(255,255,255,.2)'}}>
           <Text style={{fontSize:20,fontWeight:'500',color:'white',marginTop:10,marginBottom:10}}>两票管理</Text>
           {
           this.state.content.map((v,i)=><View key={i}>

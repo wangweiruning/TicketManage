@@ -1,11 +1,10 @@
 import React from 'react';
 import TicketTitle from './TicketTitle';
-import {List,Checkbox,TextareaItem,ActivityIndicator} from 'antd-mobile-rn';
-import {View,Text,ScrollView,TouchableOpacity,TextInput,ToastAndroid,Alert,Image,ImageBackground,Dimensions} from 'react-native';
+import {Checkbox,TextareaItem,ActivityIndicator} from 'antd-mobile-rn';
+import {View,Text,ScrollView,TouchableOpacity,TextInput,ToastAndroid,Alert,Image,ImageBackground} from 'react-native';
 import ModalDropdown from 'react-native-modal-dropdown';
 import DatePicker from 'react-native-datepicker'
 import {newTiceketNum,
-        searchTicketBasicInfo,
         TicketBasicInfo,
         searchTicketFlow,
         editquanxian,
@@ -14,8 +13,6 @@ import {newTiceketNum,
         tijiao,
         historys,
         userlist,
-        findbumen,
-        findgroup,
         AllMangerUser,AllDepartment,ForDepartment} from './../api/api';
 
 import TicketDropdownCheckBox from './TicketDropdownCheckBox';
@@ -25,7 +22,6 @@ const resetAction = StackActions.reset({
     actions: [NavigationActions.navigate({ routeName: 'Tab' })],
     });
 
-    const{width} = Dimensions.get('window');
 export default class Tdetail extends React.Component{
     constructor(props){
         super(props)
@@ -616,11 +612,8 @@ export default class Tdetail extends React.Component{
     render(){
         let getAllTempanyId = this.state.getAllTempanyId;
         return(<ImageBackground source={require('../images/gffg.jpg')} style={{alignItems:'center',width: '100%', height: '100%'}}>
-        <View style={{position:'absolute',width:'100%',height:'100%'}}>
-         <Image source={require('../images/gffg.jpg')} style={{width:'100%',height:'100%'}}/>
-        </View>
         <TicketTitle navigation={this.props.navigation} num={this.state.num} centerText={this.props.navigation.state.params.v+' '+this.state.num}/>
-        {this.state.num?null:<View style={{top:60,justifyContent:'center',alignItems:'center',position:'absolute',zIndex:1000,width:'100%',height:'100%'}}>
+        {this.state.num?null:<View style={{top:'40%',justifyContent:'center',alignItems:'center',position:'absolute',zIndex:1000,width:'100%',height:'100%'}}>
               <ActivityIndicator color="white"/>
               <Text style={{color:'white',fontSize:15,marginTop:15,zIndex:1000000}}>加载中...</Text>
         </View>}

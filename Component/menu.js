@@ -1,6 +1,6 @@
 import React from 'react';
 import NavigationBar from './NavigationBar';
-import {View,Text,TouchableOpacity,Alert,Image,ImageBackground} from 'react-native';
+import {View,Text,TouchableOpacity,Alert,Image,ImageBackground,StatusBar} from 'react-native';
 import MySorage from '../api/storage';
 import {userlist,historys} from '../api/api';
 import {StackActions, NavigationActions} from 'react-navigation';
@@ -67,24 +67,17 @@ export default class ToastExample extends React.Component {
 }
 
   render() {
-    const {navigate} = this.props.navigation;
     return (<ImageBackground source={require('../images/gffg.jpg')} style={{alignItems:'center',width: '100%', height: '100%'}}>
-    {/* <View style={{alignItems:'center',position:'relative',flex:1}}> */}
-                <View style={{position:'absolute',width:'100%',height:'100%'}}>
-                 <Image source={require('../images/gffg.jpg')} style={{width:'100%',height:'100%'}}/>
-               </View>
-      {/* <NavigationBar navigation={this.props.navigation} centertext={'我的'}/> */}
-          <View style={{marginTop:38,width:'95%',borderRadius:10,height:120,backgroundColor:'rgba(255,255,255,.2)',alignItems:'center'}}>
-           <Text style={{color:'#f5f5f5',fontSize:20,fontWeight:'500',marginTop:10,marginBottom:10}}>我的</Text>
-          <View style={{flexDirection:'row',width:'95%',borderRadius:10,justifyContent:'center',alignItems:'center'}}>
-          <Text style={{fontSize:20,color:'#f5f5f5'}}>登录名：</Text>
-          <Text style={{fontSize:20,color:'#f5f5f5',fontWeight:'500'}}>{jconfig.userinfo.user?this.state.realname:'暂无'}</Text>
-          </View>
-         </View>
-        <TouchableOpacity onPress={()=> this.out()} style={{position:'absolute',elevation:2,bottom:30,justifyContent:'center',alignItems:'center',width:'80%',backgroundColor:'#365793',borderRadius:5,height:40}}>
-          <Text style={{color:'white',fontSize:20,fontWeight:'500'}}>退出系统</Text>
-        </TouchableOpacity>
-      {/* </View> */}
-      </ImageBackground>)
+                <View style={{marginTop:10+StatusBar.currentHeight,width:'95%',borderRadius:10,height:120,backgroundColor:'rgba(255,255,255,.2)',alignItems:'center'}}>
+                  <Text style={{color:'#f5f5f5',fontSize:20,fontWeight:'500',marginTop:10,marginBottom:10}}>我的</Text>
+                  <View style={{flexDirection:'row',width:'95%',marginTop:10,justifyContent:'center',alignItems:'center'}}>
+                     <Text style={{fontSize:20,color:'#f5f5f5'}}>登录名：</Text>
+                     <Text style={{fontSize:20,color:'#f5f5f5',fontWeight:'500'}}>{jconfig.userinfo.user?this.state.realname:'暂无'}</Text>
+                  </View>
+                </View>
+             <TouchableOpacity onPress={()=> this.out()} style={{position:'absolute',elevation:2,bottom:30,justifyContent:'center',alignItems:'center',width:'80%',backgroundColor:'#365793',borderRadius:5,height:40}}>
+             <Text style={{color:'white',fontSize:20,fontWeight:'500'}}>退出系统</Text>
+            </TouchableOpacity>
+            </ImageBackground>)
   }
 }
