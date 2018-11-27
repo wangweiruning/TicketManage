@@ -3,7 +3,6 @@ import {Text, View,ScrollView ,Alert,TouchableOpacity,Image,ImageBackground} fro
 import {historys,gethistory} from './../api/api'
 import Title from './Title'
 import {ActivityIndicator } from 'antd-mobile-rn';
-import PageListView from './PageListView'
 export default class HistoryPlan extends React.Component{
   constructor(props) {
     super(props);
@@ -16,7 +15,17 @@ export default class HistoryPlan extends React.Component{
   }
 
    async componentDidMount(){
-    const {navigate} = this.props.navigation
+    const {navigate} = this.props.navigation;
+    if(!jconfig.userinfo.user){
+      return Alert.alert(
+        "登录超时",
+        "登录状态已过期，请重新登录",
+        [
+          {text: '去登陆', onPress: () => navigate('login')},
+        ],
+        {cancelable:false}
+      );
+    }
     if(!jconfig.userinfo.status) return Alert.alert(
         "登录验证",
         "你还没有登录哦，请先登录再来吧",

@@ -4,8 +4,6 @@ import Title from './Title'
 import {awaitdeteal,historys} from './../api/api'
 import {ActivityIndicator } from 'antd-mobile-rn';
 import MySorage from '../api/storage';
-import PageListView from './PageListView'
-import * as Animatable from 'react-native-animatable';
 export default class WaitPlan extends React.Component{
   constructor(props) {
     MySorage._getStorage()
@@ -21,6 +19,17 @@ export default class WaitPlan extends React.Component{
   }
     async componentWillMount(){
         const {navigate} = this.props.navigation
+        console.log(jconfig.userinfo.user,"1111111111111111")
+        if(!jconfig.userinfo.user){
+          return Alert.alert(
+            "登录超时",
+            "登录状态已过期，请重新登录",
+            [
+              {text: '去登陆', onPress: () => navigate('login')},
+            ],
+            {cancelable:false}
+          );
+        }
         if(!jconfig.userinfo.status) {
            Alert.alert(
             "登录验证",
@@ -35,7 +44,7 @@ export default class WaitPlan extends React.Component{
         const histo = await historys("?form.tree_node_operation="+0);
         const datas = "?form.userId="+histo.form.userId;
     const result = await awaitdeteal(datas);
-    console.log(result.form.dataList,"1111111111111111")
+    
         this.setState({
             userId:histo.form.userId,
             dataLis:result.form.dataList.reverse(),
