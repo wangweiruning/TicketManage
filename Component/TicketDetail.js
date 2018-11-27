@@ -631,8 +631,8 @@ export default class Tdetail extends React.Component{
                   flexDirection:'row',
                   alignItems:'center',
                   }}>
-                  <Text style={{color:'white',left:2}}>{v.ParaName}</Text>
-                  {v.IsAdd==1&& <View style={{flexDirection:'row',left:5}}>
+                  <Text style={{color:'white',left:2,width:'80%'}}>{v.ParaName}</Text>
+                  {v.IsAdd==1&&!dis&& <View style={{flexDirection:'row',left:5}}>
                          <TouchableOpacity onPress={()=>this.add(v.TicketParaID)}>
                             <Image resizeMode="contain" style={{width:20,top:1,height:20}} source={require('../images/add.png')}/>  
                         </TouchableOpacity>

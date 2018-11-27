@@ -4,7 +4,6 @@ import Title from './Title'
 import {correation,historys} from './../api/api'
 import MySorage from '../api/storage';
 import {ActivityIndicator } from 'antd-mobile-rn';
-import PageListView from './PageListView'
 export default class CorrelationPlan extends React.Component{
   constructor(props) {
     MySorage._getStorage()
@@ -18,7 +17,17 @@ export default class CorrelationPlan extends React.Component{
         };
       }
     async  componentWillMount(){
-         const {navigate} = this.props.navigation
+         const {navigate} = this.props.navigation;
+         if(!jconfig.userinfo.user){
+          return Alert.alert(
+            "登录超时",
+            "登录状态已过期，请重新登录",
+            [
+              {text: '去登陆', onPress: () => navigate('login')},
+            ],
+            {cancelable:false}
+          );
+        }
     if(!jconfig.userinfo.status){
        return Alert.alert(
         "登录验证",
