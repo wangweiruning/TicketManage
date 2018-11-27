@@ -720,7 +720,7 @@ export default class Tdetail extends React.Component{
                    style={{justifyContent:'center'}} defaultValue={'同意'} options={['同意']} onSelect={(index,v)=>this.sssgo(index,v)}/>
                   <Image source={require('../images/tj.png')} style={{width:15,height:15,resizeMode:Image.resizeMode.contain}}/>
                 </View>
-                <Image source={require('../images/line.png')} style={{width:'90%',height:2,resizeMode:Image.resizeMode.contain,left:10}}/>
+                <Image source={require('../images/line.png')} style={{width:'90%',height:2,resizeMode:Image.resizeMode.contain}}/>
                 <View style={{flexDirection:'row',width:'95%',alignItems:'center',paddingBottom:8,paddingRight:8,paddingTop:8}}>
                   <Text style={{color:'white',flex:1}}>流转状态</Text>
                  {
@@ -729,12 +729,12 @@ export default class Tdetail extends React.Component{
                  }
                  <Image source={require('../images/tj.png')} style={{width:15,height:15,resizeMode:Image.resizeMode.contain}}/>
                 </View>
-                <Image source={require('../images/line.png')} style={{width:'90%',height:2,resizeMode:Image.resizeMode.contain,left:10}}/>
+                <Image source={require('../images/line.png')} style={{width:'90%',height:2,resizeMode:Image.resizeMode.contain}}/>
                 <View style={{width:'98%',padding:6}}>
                   <Text style={{color:'white'}}>流转目标</Text>
                   <TicketDropdownCheckBox style={{minWidth:'95%'}} open={this.open.bind(this)} TextColor={{color:'#f5f5f5',fontSize:13}} SelectData={this.state.user}/>
                 </View>
-                <Image source={require('../images/line.png')} style={{width:'90%',height:2,resizeMode:Image.resizeMode.contain,left:10}}/>
+                <Image source={require('../images/line.png')} style={{width:'90%',height:2,resizeMode:Image.resizeMode.contain}}/>
                 <View style={{width:'98%',padding:6}}>
                   <Text style={{color:'white'}}>详细意见</Text>
                   <TextareaItem  placeholderTextColor="#f5f5f5" style={{color:"#F5F5F5",minWidth:'95%',backgroundColor:'rgba(255,255,255,.2)'}} placeholder="请输入内容..." autoHeight onChangeText={(v)=>this.handleInputs('detailInfo',v)}/>
