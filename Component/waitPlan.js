@@ -19,7 +19,6 @@ export default class WaitPlan extends React.Component{
   }
     async componentWillMount(){
         const {navigate} = this.props.navigation
-        console.log(jconfig.userinfo.user,"1111111111111111")
         if(!jconfig.userinfo.user){
           return Alert.alert(
             "登录超时",
@@ -83,10 +82,8 @@ export default class WaitPlan extends React.Component{
     // 20181107 刷新
  async _refresh(callBack){
     const histo = await historys("?form.tree_node_operation="+0);
-     console.log(this.state.userId,"this.state.userId")
     const datas = "?form.userId="+histo.form.userId+"&pageSize=10&curPage=0";
     const result = await awaitdeteal(datas);
-    console.log(result.form.dataList,"1111111111111111")
     callBack(result.form.dataList.reverse());
            if(result&&result.form.dataList.length>0){
           this.setState({
@@ -99,10 +96,8 @@ export default class WaitPlan extends React.Component{
   // 20181107 加载更多
   async _loadMore(page,callBack){
     const histo = await historys("?form.tree_node_operation="+0);
-     console.log(this.state.userId,"this.state.userId")
     const datas = "?form.userId="+histo.form.userId+"&pageSize=10&curPage="+page;
     const result = await awaitdeteal(datas);
-    console.log(result.form.dataList,"222222222222222222")
     callBack(result.form.dataList);
            if(result&&result.form.dataList.length>0){
           this.setState({
@@ -139,7 +134,6 @@ export default class WaitPlan extends React.Component{
     var endTime = new Date(Times).getTime() + 1000;
     let tian="",shi="",fen="";
     var syhm = Date.now() -endTime ; // 剩余毫秒
-   console.log(syhm,"syhmsyhmsyhmsyhm")
     tian = Math.floor(syhm / 1000 / 60 / 60 / 24)+"天";
     shi = Math.floor(syhm / 1000 / 60 / 60 % 24)+"时";
     fen = Math.floor(syhm / 1000 / 60 % 60)+"分";

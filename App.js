@@ -296,7 +296,7 @@ async getUserInfo () {
    })
   }
    catch(e){
-      console.log(e,'ghhhggg')
+      return
    }
    
   }

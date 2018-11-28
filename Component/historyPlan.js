@@ -36,7 +36,6 @@ export default class HistoryPlan extends React.Component{
       );
       const datas = "?form.tree_node_operation="+0+"&form.page.pageSize=100&form.page.curPageNo=1";
       const result = await historys(datas);
-      console.log(result.form.page.dataRows,"获取历史流程")
 
       if(result){
       this.setState({
@@ -57,7 +56,6 @@ export default class HistoryPlan extends React.Component{
     let getLIshi = await gethistory(items);
     let ttt = JSON.parse(getLIshi.form.dataJson);
     let sss= ttt.sendParameterList[0];
-    console.log(sss)
     //跳转时传递参数 typeName：票名称 ticketNum:编号  templateID：工作票模板id（tickettemplateid） isAlter 常量1   _： 当前时间戳  departmentid部门id
     this.props.navigation.navigate('Result',{
                                             typeName:sss.tickettypename,
