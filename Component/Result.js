@@ -992,7 +992,7 @@ export default class Tdetail extends React.Component {
 
         return newds.map((item,qIndex)=>{
             return (<View style={{width:"100%",}} key={qIndex}>
-            <TextareaItem defaultValue={item} editable={dis} placeholder={"请输入内容..."} placeholderTextColor="white"
+            <TextareaItem value={item} editable={dis} placeholder={"请输入内容..."} placeholderTextColor="white"
                              onChange={(e)=>{
                                  newds[qIndex] = e;
                                  this.state.pagedata[v.TicketParaID+"*1"] = newds.join("&$");
@@ -1057,7 +1057,7 @@ export default class Tdetail extends React.Component {
                         </View>
                         </View>:null}
                     {
-                        this.state.mengCard&&<View style={{justifyContent:'center',alignItems:'center', zIndex:444,width:"100%",height:"100%"}}>
+                        this.state.mengCard&&<View style={{top:"-6%",justifyContent:'center',alignItems:'center', zIndex:444,width:"100%",height:"100%"}}>
                         <ActivityIndicator color="#ffffff"/>
                         <Text style={{color:"#ffffff",textAlign:"center",marginTop:10,fontSize:15}}>加载中...</Text>
                         </View>}
