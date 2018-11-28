@@ -149,7 +149,7 @@ let result = this.state.result;
                   <View 
                         key={index}
                         onPress={()=>this.gotoItem(itemdata)}
-                        style={{marginBottom:8,marginTop:8,paddingBottom:15,width:"95%",marginLeft:11,borderRadius:10,backgroundColor:'rgba(255,255,255,.2)'}}>
+                        style={{marginBottom:8,marginTop:8,paddingBottom:15,width:"95%",marginLeft:10.3,borderRadius:10,backgroundColor:'rgba(255,255,255,.2)'}}>
                     <Text numberOfLines={10} style = {{marginLeft:16,width:'91%',marginTop:20,paddingBottom:20,borderColor:"#eeeeee",borderWidth:1,borderStyle:"solid",color:"#fff",padding:4,fontSize:16}}>{itemdata.content==""?'暂无内容':itemdata.content}</Text>
                     <Text style={{marginTop:5,color:"#fff",marginLeft:16,fontSize:16}}>两票类型：{itemdata.tickettypename}</Text>
                     <Text style={{marginTop:5,color:"#fff",marginLeft:16,fontSize:16}}>负责人：{itemdata.headuser}</Text>

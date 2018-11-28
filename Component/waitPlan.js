@@ -171,13 +171,12 @@ export default class WaitPlan extends React.Component{
              return (
               <View key={index}
                     onPress={()=>this.gotoItem(itemdata)}
-                    style={{marginTop:8,marginBottom:8,paddingBottom:15,width:"95%",borderRadius:10,backgroundColor:'rgba(255,255,255,.2)',marginLeft:11}}>
+                    style={{marginTop:8,marginBottom:8,paddingBottom:15,width:"95%",borderRadius:10,backgroundColor:'rgba(255,255,255,.2)',marginLeft:10.3}}>
                 <Text numberOfLines={10} style = {{marginLeft:16,width:'91%',marginTop:20,paddingBottom:15,borderColor:"#eeeeee",borderWidth:1,borderStyle:"solid",color:"#fff",padding:4,fontSize:16}}>{itemdata.content==""?'暂无内容':itemdata.content}</Text>  
                 <Text style={{color:"#fff",marginTop:5,marginLeft:16,fontSize:16}}>两票类型：{itemdata.tickettypename}</Text>
                 <Text style={{color:"#fff",marginTop:5,marginLeft:16,fontSize:16}}>负责人：{itemdata.headuser}</Text>
                 <Text style={{color:"#fff",marginTop:5,marginLeft:16,fontSize:16}}>编号：{itemdata.ticketserialnum}</Text>
                 <Text style={{color:"#fff",marginTop:5,marginLeft:16,fontSize:16}}>流转人：{itemdata.manageuser}</Text>
-                {/* <View><Text style={{color:"#000000",marginTop:3,marginLeft:16,fontSize:16}}>内容：</Text></View> */}
                 <Text style={{color:"#ff8800",marginTop:5,marginLeft:16,fontSize:16}}>等待时间：{this.awaitTime(itemdata.lastTime)}</Text>
                 <Text style={{color:"#fff",marginTop:5,marginBottom:7,marginLeft:16,fontSize:16}}>流转时间：{itemdata.lastTime.replace(/T/,' ')}</Text>
                 <View style={{width:'100%',alignItems:'center',marginTop:7}}>
