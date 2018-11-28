@@ -1,9 +1,8 @@
 import React from 'react';
 import Title from './Title';
-import {ActivityIndicator} from 'antd-mobile-rn';
 import {moban,ttmsTickets,searchUserPower,userlist} from './../api/api';
 import * as Animatable from 'react-native-animatable';
-import {View,Text,TouchableOpacity,Image,Alert,ScrollView,ImageBackground,StatusBar} from 'react-native';
+import {Text,TouchableOpacity,Image,Alert,ScrollView,ImageBackground,StatusBar} from 'react-native';
 
 export default class Newticket extends React.Component{
     constructor(props){
@@ -18,22 +17,16 @@ export default class Newticket extends React.Component{
     async componentDidMount(){
         let op = '?form.tree_node_id=0&form.tree_node_operation=0'
         let e = await moban(op)
-        
-        console.log(e.form.tree_data[0].children,'jj',e)
         this.setState({
             jay:e.form.tree_data[0].children
         })
     }
      
    async goticket(names,v){
-    let j = `?form.tree_node_id=${names}`
-    let h = await ttmsTickets(j);
-    let name= h.form.dataList[0].TicketTemplateID;
-  
+        let j = `?form.tree_node_id=${names}`
+        let h = await ttmsTickets(j);
+        let name= h.form.dataList[0].TicketTemplateID;
         let list = await userlist();
-    console.log(h,"gggggg")
-        
-        
         this.xunahn(name,v,list.form.paramAllList,names)
     } 
 
@@ -69,10 +62,6 @@ export default class Newticket extends React.Component{
     render(){
         return(<ImageBackground source={require('../images/gffg.jpg')} style={{alignItems:'center',width: '100%', height: '100%'}}>
                 <Title navigation={this.props.navigation} centerText={'选择模板'}/>
-             {/* {this.state.jay?null:<View style={{top:43,justifyContent:'center',alignItems:'center',position:'absolute',zIndex:1000,backgroundColor:'lightgray',width:'100%',height:'100%'}}>
-              <ActivityIndicator color="#03c1eb"/>
-              <Text style={{color:'#007aff',fontSize:15,marginTop:15}}>加载中...</Text>
-              </View>} */}
              <ScrollView style={{position:'absolute',top:45+StatusBar.currentHeight,paddingBottom:30,marginBottom:10,width:'95%',backgroundColor:'rgba(255,255,255,.2)',borderRadius:4}}>
              {
                 this.state.jay.map((v,i)=>
