@@ -659,7 +659,7 @@ export default class Tdetail extends React.Component{
                   onSelect={(e,value)=>this.getSelect(value,'datalist'+i,getAllTempanyId[i])}
                   options={this.BackpageUseName()}/>:v.ParaTypeID==2 ?
                   <View style={{width:'98%'}}>
-                    <TextInput editable={!dis} placeholder="请输入内容..." underlineColorAndroid="transparent" placeholderTextColor="#f5f5f5"
+                    <TextInput editable={!dis} placeholder="请输入内容..." underlineColorAndroid="transparent" placeholderTextColor="#eee"
                     onChangeText={(v)=>this.handleInput('datalist'+i,v,getAllTempanyId[i])} style={{minWidth:'98%',backgroundColor:!dis?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)",color:'white'}}/>
                     {v.IsConfirm==1?<View style={{borderTopColor:'white',borderStyle:'solid',borderTopWidth:1,flexDirection:'row',padding:5,backgroundColor:!dis?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)"}}>
                     <Checkbox onChange={(e)=>this.onChangecoform(getAllTempanyId[i]+"_1",e.target.checked)}
@@ -687,7 +687,7 @@ export default class Tdetail extends React.Component{
                   <View style={{width:'98%'}}>
                        {
                       v.IsAdd==1?this.getTextareaItemByID(v,dis,i):<View>
-                                 <TextareaItem placeholderTextColor="#f5f5f5" editable={!dis} placeholder="请输入内容..."
+                                 <TextareaItem placeholderTextColor="#eee" editable={!dis} placeholder="请输入内容..."
                       onChange={(e)=>this.handleInput('datalist'+i,e,getAllTempanyId[i])}
                        autoHeight
                          style={{paddingVertical: 5 ,minWidth:'98%',backgroundColor:!dis?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)"}} />
