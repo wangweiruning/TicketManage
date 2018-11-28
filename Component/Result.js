@@ -999,7 +999,7 @@ export default class Tdetail extends React.Component {
                                  this.state.newpagedata[v.TicketParaID+"*1"]=newds;
                              }}
                              autoHeight 
-                             style={{paddingVertical: 5,backgroundColor:dis?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)",color:'white',width:"100%"}} />
+                             style={{paddingVertical: 5,backgroundColor:dis?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)",color:'white',minWidth:'98%'}} />
                             {dis?
                             <View style={{flexDirection: 'row',backgroundColor:dis ?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)" , padding: 5 }}>
                              {dis&& <TouchableOpacity onPress={()=>{
@@ -1078,7 +1078,7 @@ export default class Tdetail extends React.Component {
                                 <Text style={{color:'white',left:2,width:"80%"}}>{v.ParaName}</Text>
                                 {v.IsAdd==1&&dis&&v.ParaTypeID ==6&& <View style={{flexDirection:'row',left:5}}>
                          <TouchableOpacity onPress={()=>this.add(v.TicketParaID)}>
-                            <Image resizeMode="contain" style={{width:20,top:1,height:20}} source={require('../images/add.png')}/>  
+                            <Image resizeMode="contain" style={{width:25,top:1,height:25}} source={require('../images/add.png')}/>  
                         </TouchableOpacity>
                         
                     </View>}
@@ -1093,20 +1093,20 @@ export default class Tdetail extends React.Component {
                                         style={{ minWidth: '98%' ,height:50}}
                                         ischanges={this.state.ischanges}
                                         banzu={v.ParaName == "班组"?v.ParaName:" "}
-                                        TextColor={{color:'#f5f5f5',fontSize:13,backgroundColor:dis?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)"}}
+                                        TextColor={{color:'#eee',fontSize:13,backgroundColor:dis?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)"}}
                                         SelectData={v.ParaName == "班组" ? this.state.groupName : this.state.ParaId} canClick={dis} />
                                     : v.ParaTypeID == 3 ?
                                         <ModalDropdown
                                             disabled={!dis}
                                             dropdownTextStyle={{ fontSize: 15 }}
-                                            textStyle={{color:'white', fontSize: 13, left: 5 }}
+                                            textStyle={{color:'#eee', fontSize: 13, left: 5 }}
                                             style={{backgroundColor:dis?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)",
                                                     height:50,width:'98%',justifyContent:'center'}} 
                                             defaultValue={this.getGzryName(v.TicketParaID)}
                                             onSelect={(e, value) => this.getSelect(e, value, v.TicketParaID)}
                                             options={this.BackpageUseName()} />
                                         : v.ParaTypeID == 2 ?
-                                            <View>
+                                            <View style={{width:'98%'}}>
                                                 {v.IsConfirm == 1 ? <View style={{ flexDirection: 'column'}}>
                                                     <TextInput
                                                         value={this.getchecked(v.TicketParaID)}
@@ -1114,7 +1114,7 @@ export default class Tdetail extends React.Component {
                                                         underlineColorAndroid="transparent"
                                                         placeholderTextColor="#f5f5f5"
                                                         onChangeText={(values) => this.handleInput(v.TicketParaID, values)}
-                                                        style={{minWidth:'98%',backgroundColor:dis?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)",color:'white'}} />
+                                                        style={{minWidth:'100%',backgroundColor:dis?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)",color:'#eee'}} />
                                                     <View style={{ flexDirection: 'row', padding: 5 ,backgroundColor:dis?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)",minWidth:'98%'}}>
                                                         <CheckBox labelStyle={{color:'#f5f5f5'}} checkboxStyle={{width:18,height:18}}
                                                             label={'是否已执行'}
@@ -1130,7 +1130,7 @@ export default class Tdetail extends React.Component {
                                                         editable={dis} placeholder="请输入内容..."
                                                         placeholderTextColor="#f5f5f5"
                                                         onChangeText={(values) => this.handleInput(v.TicketParaID, values)}
-                                                        style={{minWidth:'98%',backgroundColor:dis?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)",color:'white'}} />}
+                                                        style={{minWidth:'98%',backgroundColor:dis?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)",color:'#eee'}} />}
                                             </View> : v.ParaTypeID == 5
                                                 ?
                                                 <DatePicker
@@ -1165,7 +1165,7 @@ export default class Tdetail extends React.Component {
                                                                         onChangeText={(values) => this.handleInput(v.TicketParaID, values)}
                                                                         autoHeight
                                                                         style={{paddingVertical: 5,minWidth:'98%',
-                                                                            backgroundColor:dis?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)",color:'white'}} />
+                                                                            backgroundColor:dis?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)",color:'#eee'}} />
                                                                     {v.IsConfirm == 1 && <View style={{ flexDirection: 'row', backgroundColor: dis?'rgba(255,255,255,.2)':"rgba(255,255,255,.4)", padding: 5 }}>
                                                                 <CheckBox
                                                                     labelStyle={{color:'#f5f5f5'}} checkboxStyle={{width:18,height:18}}
