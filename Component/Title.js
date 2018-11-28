@@ -34,7 +34,7 @@ export default class Title extends React.Component{
             <View style={{flex:1,alignItems:'center'}}>
                 <Text style={{color:'white',fontSize:20,fontWeight:'500'}}>{this.props.centerText}</Text>
             </View>
-            <View style={{right:7,alignItems:"center",justifyContent:'center',width:60,height:27}}><Text 
+            <View style={{right:7,alignItems:"center",justifyContent:'center',width:this.props.centerText=='待处理流程'?60:30,height:27}}><Text 
                        style={{color: 'white',fontWeight:'500'}}>{this.props.rightText}
                   </Text> 
             </View>
