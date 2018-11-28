@@ -447,9 +447,7 @@ export default class Tdetail extends React.Component{
         para +=("&"+a+"="+encodeURIComponent(data[a]));
         }
         para ='?'+para.substr(1,para.length);
-        console.log(newpagedata,para,'daaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaad')
         let all = await tijiao(para);
-        console.log(all,'daaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaad')
         if(all.form.paraData.length>2){
             Alert.alert(
                 '提示',`${this.props.navigation.state.params.v}创建成功！`,

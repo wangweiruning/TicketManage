@@ -41,7 +41,6 @@ export default class CorrelationPlan extends React.Component{
         const histo = await historys("?form.tree_node_operation="+0);
         const datas = "?form.userId="+histo.form.userId+"&pageSize=10&curPage=0";
                 const result = await correation(datas);
-                console.log(result)
                        if(result&&result.form.dataList.length>0){
                       this.setState({
                           userId:histo.form.userId,
@@ -60,12 +59,12 @@ export default class CorrelationPlan extends React.Component{
      // 20180730 刷新
  async _refresh(callBack){
     const histo = await historys("?form.tree_node_operation="+0);
-     console.log(this.state.userId,"this.state.userId")
+    
     const datas = "?form.userId="+histo.form.userId+"&pageSize=10&curPage=0";
     // const datas = "?form.userId="+histo.form.userId;
             const result = await correation(datas);
             callBack(result.form.dataList);
-            console.log(result.form.dataList,"获取相关流程")
+           
                    if(result&&result.form.dataList.length>0){
                   this.setState({
                       result:result.form.dataList,//序列化：转换为一个 (字符串)JSON字符串
@@ -77,12 +76,12 @@ export default class CorrelationPlan extends React.Component{
   // 20180730 加载更多
   async _loadMore(page,callBack){
     const histo = await historys("?form.tree_node_operation="+0);
-     console.log(this.state.userId,"this.state.userId")
+    
     const datas = "?form.userId="+histo.form.userId+"&pageSize=10&curPage="+page;
     // const datas = "?form.userId="+histo.form.userId;
             const result = await correation(datas);
             callBack(result.form.dataList);
-            console.log(result.form.dataList,"获取相关流程")
+            
                    if(result&&result.form.dataList.length>0){
                   this.setState({
                       result:result.form.dataList.reverse(),//序列化：转换为一个 (字符串)JSON字符串

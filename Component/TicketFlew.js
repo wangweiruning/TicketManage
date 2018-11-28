@@ -17,22 +17,17 @@ export default class TicketFlew extends React.Component{
        await this.submitgo()
         this.showpage()
     }
-    getDate(item){
-        console.log("获取数据")
    
-    }
     async submitgo(){
         if(!jconfig.userinfo) return ToastAndroid.show('请登录',ToastAndroid.SHORT);
         let ghr = `?form.basicInfoId=${this.props.navigation.state.params.basicInfoId}`;
         let result = await searchFlowRecord(ghr);
-        console.log(this.props,"0000000000000000000000")
         let arr0 = result.form.dataList[0];
         let arrs =result.form.dataList;
         if(this.props.navigation.state.params.ishistory){
             arrs = result.form.dataList.slice(1,result.form.dataList.length);
             arrs = arrs.concat(arr0)
         }
-        console.log(11111111111111,arrs)
                if(result&&arrs.length>0){
               this.setState({
                   result:arrs,//序列化：转换为一个 (字符串)JSON字符串
@@ -109,7 +104,6 @@ export default class TicketFlew extends React.Component{
                                                 _:Date.parse(new Date())})
     }
   render() {
-      console.log(this.props.navigation)
     return (
         <ImageBackground source={require('../images/gffg.jpg')} style={{width: '100%', height: '100%'}}>
         
