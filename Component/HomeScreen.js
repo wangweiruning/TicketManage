@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text,View,Image,TouchableOpacity,ImageBackground,StatusBar} from 'react-native';
+import {Text,View,Image,TouchableOpacity,ImageBackground,StatusBar,Alert} from 'react-native';
 
 
 export default class HomeScreen extends React.Component {
@@ -18,7 +18,29 @@ export default class HomeScreen extends React.Component {
     }
   }
 
-  show(){ 
+  show(){
+    const {navigate} = this.props.navigation
+    if(jconfig.userinfo.user==null){
+      return Alert.alert(
+        "登录超时",
+        "登录状态已过期，请重新登录",
+        [
+          {text: '去登陆', onPress: () => navigate('login')},
+        ],
+        {cancelable:false}
+      );
+    }
+    if(jconfig.userinfo.status==0) {
+       Alert.alert(
+        "登录验证",
+        "你还没有登录哦，请先登录再来吧",
+        [
+          {text: '去登陆', onPress: () => navigate('login')},
+        ],
+        {cancelable:false}
+      );
+      return 
+    } 
     this.props.navigation.navigate('newticket')
    }
   render() {

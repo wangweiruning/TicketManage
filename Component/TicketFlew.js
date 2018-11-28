@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View,TouchableOpacity ,ScrollView,Button,Alert,ToastAndroid,Image,ImageBackground} from 'react-native';
 import Title from './Title'
+import TicketTitle from './TicketTitle'
 import {searchFlowRecord} from './../api/api'
 import MySorage from '../api/storage';
 import * as Animatable from 'react-native-animatable';
@@ -107,7 +108,8 @@ export default class TicketFlew extends React.Component{
     return (
         <ImageBackground source={require('../images/gffg.jpg')} style={{width: '100%', height: '100%'}}>
         
-        <Title navigation={this.props.navigation} centerText={this.props.navigation.state.params.name+"流程"} />
+        {/* <Title navigation={this.props.navigation} centerText={this.props.navigation.state.params.name+"流程"} /> */}
+        <TicketTitle navigation={this.props.navigation}  centerText={this.props.navigation.state.params.name+"流程"}/> 
         {/* 需要循环获取数据 */}
         <ScrollView style={{marginBottom:5,width:'100%'}}>
         {/* <TouchableOpacity> */}
