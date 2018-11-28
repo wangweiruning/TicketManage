@@ -241,7 +241,9 @@ export default class App extends Component {
 
  async componentWillMount(){
     let d="?code=50ACD07A6C49F3B9E082EF40461AC6D1";
-    await islogin(d);
+    let isloging = await islogin(d);
+    if(isloging.form.status==0)return this.navigator.dispatch(resetAction);
+  
     BackHandler.addEventListener('hardwareBackPress', this.onBackAndroid);
 }
 
