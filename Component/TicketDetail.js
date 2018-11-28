@@ -601,7 +601,7 @@ export default class Tdetail extends React.Component{
                                     this.state.newpagedata[v.TicketParaID+"_1"]=newpagedataChecked;
                                     return newpagedata
                                 })
-                            }} style={{width:'12%',justifyContent:'center',alignItems:'center'}}>
+                            }} style={{width:'12%',justifyContent:'center',alignItems:'center',borderBottomColor:'#ddd',borderBottomWidth:.5,borderStyle:'solid'}}>
                             <Image resizeMode="contain" style={{width:20,top:1,height:20}} source={require('../images/delete.png')}/>  
                             </TouchableOpacity>
             </View>
@@ -659,7 +659,7 @@ export default class Tdetail extends React.Component{
                   onSelect={(e,value)=>this.getSelect(value,'datalist'+i,getAllTempanyId[i])}
                   options={this.BackpageUseName()}/>:v.ParaTypeID==2 ?
                   <View style={{width:'98%'}}>
-                    <TextInput editable={!dis} placeholder="请输入内容..." underlineColorAndroid="transparent" placeholderTextColor="#eee"
+                    <TextInput multiline={true} editable={!dis} placeholder="请输入内容..." underlineColorAndroid="transparent" placeholderTextColor="#eee"
                     onChangeText={(v)=>this.handleInput('datalist'+i,v,getAllTempanyId[i])} style={{minWidth:'98%',backgroundColor:!dis?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)",color:'white'}}/>
                     {v.IsConfirm==1?<View style={{borderTopColor:'white',borderStyle:'solid',borderTopWidth:1,flexDirection:'row',padding:5,backgroundColor:!dis?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)"}}>
                     <Checkbox onChange={(e)=>this.onChangecoform(getAllTempanyId[i]+"_1",e.target.checked)}
