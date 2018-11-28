@@ -15,8 +15,8 @@ export default class Login extends React.Component{
          super(props);
         //  MySorage._getStorage(); 
          this.state={
-            user:'techlab',
-            pass:'Whu2008',
+            user:'',
+            pass:'',
             result:{},
             loading:false
         }
@@ -124,7 +124,7 @@ export default class Login extends React.Component{
                <Image source={require('../images/login-username.png')} style={{width:25,top:10,marginRight:5}} resizeMode = 'contain'/>
                {/* <InputItem placeholder="账号" defaultValue={this.state.user} onChange={(e)=>this.handleInput('user',e)} style={{width:'85%'}}/> */}
             <TextInputLayout focusColor='white' style={{width:'82%'}}> 
-                    <TextInput style={{fontSize:16,height:40,color:'white',fontSize:18}} defaultValue={this.state.user}
+                    <TextInput style={{fontSize:16,height:40,color:'white',fontSize:18}}
                         placeholder={'账号'} onChangeText={(e)=>this.handleInput('user',e)}
                     />
             </TextInputLayout>
@@ -133,7 +133,7 @@ export default class Login extends React.Component{
                <Image source={require('../images/login-password.png')} style={{width:25,top:10,marginRight:5}} resizeMode = 'contain'/>
                {/* <InputItem type="password" defaultValue={this.state.pass} placeholder="密码" onChange={(e)=>this.handleInput('pass',e)} style={{width:'85%'}}/> */}
             <TextInputLayout focusColor='white' style={{width:'82%'}}> 
-                    <TextInput style={{fontSize:16,height:40,color:'white',fontSize:18}} defaultValue={this.state.pass}
+                    <TextInput style={{fontSize:16,height:40,color:'white',fontSize:18}}
                         placeholder={'密码'} secureTextEntry={true} onChangeText={(e)=>this.handleInput('pass',e)}
                     />
             </TextInputLayout>
