@@ -89,6 +89,7 @@ export default class HistoryPlan extends React.Component{
               <ScrollView>
                 {result.length>0&&result.map((itemdata,index)=>{
                   return <TouchableOpacity key={index}
+                  onPress={()=>this.gotoItem(itemdata)}
                   style={{marginTop:8,marginBottom:8,paddingBottom:15,width:"95%",marginLeft:10.3,backgroundColor:'rgba(255,255,255,.2)',borderRadius:10}}>
                   <Text numberOfLines={10} 
                   style = {{marginLeft:16,width:'91%',marginTop:10,paddingBottom:10,borderBottomColor:"rgba(255,255,255,.3)",
