@@ -72,14 +72,9 @@ export default class TicketFlew extends React.Component{
                                                 ?"#60a1a9":itemdata.ticketstatusname=="执行"
                                                 ?"#d58364":itemdata.ticketstatusname=="终结"
                                                 ?"#91c7af":itemdata.ticketstatusname=="延期"
-                                                ?"#886900":itemdata.ticketstatusname=="负责人变动"
-                                                ?"#88ff00":itemdata.ticketstatusname=="人员变动"
-                                                ?"#08aabc":itemdata.ticketstatusname=="开收工时间"
-                                                ?"#3a6a45":itemdata.ticketstatusname=="工作终结"
-                                                ?"#a900a1":itemdata.ticketstatusname=="作废"
-                                                ?"#0880bc":itemdata.ticketstatusname=="验收"
+                                                ?"#886900":itemdata.ticketstatusname=="验收"
                                                 ?"#75a084":itemdata.ticketstatusname=="作废"
-                                                ?"#cb8722":"#ccddee"
+                                                ?"#cb8722":"#445577"
                                 }}>
                                
 	
