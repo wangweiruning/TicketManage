@@ -971,14 +971,15 @@ export default class Tdetail extends React.Component {
         let ds = this.state.pagedata[v.TicketParaID+"*1"]||ds00;
         let checkeds = this.state.newChecked[v.TicketParaID+"_1"];
             checkeds=checkeds!=undefined? checkeds.split("&$"):["0"];
-        let newds = ds!=undefined? ds.split('&$'):[true];
+        let newds = ds!=undefined? ds.split('&$'):[""];
 
         return newds.map((item,qIndex)=>{
+           
             return (<View style={{width:"100%",}} key={qIndex}>
             <View style={{width:"100%",flexDirection:"row",backgroundColor:dis?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)",}}>
             <View style={{width:v.IsAdd==1&&dis&&v.ParaTypeID ==6?
                                 "88%":"100%"}}>
-            <TextareaItem defaultValue={item} editable={dis} placeholder={"请输入内容..."} placeholderTextColor="white"
+            <TextareaItem defaultValue={item?item:''} editable={dis} placeholder={"请输入内容..."} placeholderTextColor="white"
                              onChange={(e)=>{
                                  newds[qIndex] = e;
                                  this.state.pagedata[v.TicketParaID+"*1"] = newds.join("&$");

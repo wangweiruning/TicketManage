@@ -67,20 +67,22 @@ export default class TicketFlew extends React.Component{
                                 paddingTop:10,
                                 width:"95%",
                                 backgroundColor:itemdata.ticketstatusname=="开票"
-                                                ?"#4c71c0":itemdata.ticketstatusname=="签发"
-                                                ?"#45b9bd":itemdata.ticketstatusname=="许可"
-                                                ?"#09a9ec":itemdata.ticketstatusname=="执行"
-                                                ?"#af69aa":itemdata.ticketstatusname=="终结"
-                                                ?"#af6900":itemdata.ticketstatusname=="延期"
+                                                ?"#c33430":itemdata.ticketstatusname=="签发"
+                                                ?"#2e4454":itemdata.ticketstatusname=="许可"
+                                                ?"#60a1a9":itemdata.ticketstatusname=="执行"
+                                                ?"#d58364":itemdata.ticketstatusname=="终结"
+                                                ?"#91c7af":itemdata.ticketstatusname=="延期"
                                                 ?"#886900":itemdata.ticketstatusname=="负责人变动"
                                                 ?"#88ff00":itemdata.ticketstatusname=="人员变动"
                                                 ?"#08aabc":itemdata.ticketstatusname=="开收工时间"
                                                 ?"#3a6a45":itemdata.ticketstatusname=="工作终结"
                                                 ?"#a900a1":itemdata.ticketstatusname=="作废"
                                                 ?"#0880bc":itemdata.ticketstatusname=="验收"
-                                                ?"#6975a1":itemdata.ticketstatusname=="作废"
-                                                ?"#999999":"red"
+                                                ?"#75a084":itemdata.ticketstatusname=="作废"
+                                                ?"#cb8722":"#ccddee"
                                 }}>
+                               
+	
                                 <View>
                         <Text style={{color:"white",fontSize:16}}>  两票状态：{itemdata.ticketstatusname}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{itemdata.ticketrolename}</Text>
                         <Text style={{color:"white",fontSize:16}}>  处理人：{itemdata.ManageTime==null?"":itemdata.RealName}</Text>

@@ -509,7 +509,7 @@ export default class Tdetail extends React.Component{
 
     getValueByID(v,qIndex){
         if(!this.state.newpagedata[v]){
-            this.state.newpagedata[v] = [1];
+            this.state.newpagedata[v] = [""];
         }
         return this.state.newpagedata[v][qIndex];
     }
