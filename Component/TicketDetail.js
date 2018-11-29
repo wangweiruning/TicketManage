@@ -545,8 +545,8 @@ export default class Tdetail extends React.Component{
                             </TouchableOpacity>}
             </View>
                   {v.IsConfirm==1?<View style={{flexDirection:'row',alignItems:'center',padding:5}}><Checkbox 
-                  onChange={(e)=>this.onChangecoform(v.TicketParaID+"_1",e.target.checked,qIndex)}  checked={checkeds[qIndex]=="1"} disabled={dis}/>
-                  <Text style={{marginLeft:5,color:'#f5f5f5'}}>是否已执行</Text></View>:null}</View>)
+                  onChange={(e)=>this.onChangecoform(v.TicketParaID+"_1",e.target.checked,qIndex)}  checked={checkeds[qIndex]=="1"} disabled={dis}>
+                  <Text style={{marginLeft:5,color:'#f5f5f5'}}>是否已执行</Text></Checkbox></View>:null}</View>)
         })
     }
     render(){
@@ -630,8 +630,8 @@ export default class Tdetail extends React.Component{
                        autoHeight
                          style={{paddingVertical: 5 ,minWidth:'98%',backgroundColor:!dis?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)"}} />
                          <View style={{flexDirection:'row',backgroundColor:'rgba(255,255,255,.4)',padding:5}}>
-                       <Checkbox onChange={(e)=>this.onChangecoform(getAllTempanyId[i]+"_1",e.target.checked)} disabled={dis}/>
-                          <Text style={{color:'#f5f5f5'}}>是否已执行</Text></View></View>
+                       <Checkbox onChange={(e)=>this.onChangecoform(getAllTempanyId[i]+"_1",e.target.checked)} disabled={dis}>
+                          <Text style={{color:'#f5f5f5'}}>是否已执行</Text></Checkbox></View></View>
                         }
                   </View>:null
                }
