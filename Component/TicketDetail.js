@@ -591,9 +591,9 @@ export default class Tdetail extends React.Component{
                   <ModalDropdown 
                   dropdownTextStyle={{fontSize:15}}
                   disabled={dis}
-                  textStyle={{color:'white',fontSize:13,left:5}} 
+                  textStyle={{color:'white',fontSize:13}} 
                   style={{backgroundColor:!dis?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)",
-                  height:50,width:'98%',justifyContent:'center'}}  
+                  height:50,width:'98%',justifyContent:'center',paddingLeft:6}}  
                   defaultValue={v.ParaName=="工作负责人"?this.state.isgzfzr?this.state.isgzfzr:"请选择":"请选择"}
                   onSelect={(e,value)=>this.getSelect(value,'datalist'+i,getAllTempanyId[i])}
                   options={this.BackpageUseName()}/>:v.ParaTypeID==2 ?

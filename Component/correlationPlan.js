@@ -151,11 +151,11 @@ let result = this.state.result;
                     <Text numberOfLines={10} 
                     style = {{marginLeft:16,width:'91%',marginTop:20,
                               paddingBottom:10,borderBottomColor:"rgba(255,255,255,.3)",borderBottomWidth:1,borderStyle:"solid",color:"#fff",fontSize:18,flexWrap:'wrap'}}>{itemdata.content==""?'暂无内容':itemdata.content}</Text>
-                    <Text style={{paddingTop:9,color:"#fff",marginLeft:16,fontSize:16}}>两票类型：{itemdata.tickettypename}</Text>
-                    <Text style={{marginTop:5,color:"#fff",marginLeft:16,fontSize:16}}>负责人：{itemdata.headuser}</Text>
-                    <Text style={{marginTop:5,color:"#fff",marginLeft:16,fontSize:16}}>编号：{itemdata.ticketserialnum}</Text>
-                    <Text style={{marginTop:5,color:"#fff",marginLeft:16,fontSize:16}}>流转人：{itemdata.manageuser}</Text>
-                    <Text style={{marginTop:5,color:"#fff",marginBottom:7,marginLeft:16,fontSize:16}}>处理时间：{itemdata.managetime.replace(/T/,' ')}</Text>
+                    <Text style={{paddingTop:10,color:"#fff",marginLeft:16,fontSize:16}}>两票类型：{itemdata.tickettypename}</Text>
+                    <Text style={{marginTop:6,color:"#fff",marginLeft:16,fontSize:16}}>负责人：{itemdata.headuser}</Text>
+                    <Text style={{marginTop:6,color:"#fff",marginLeft:16,fontSize:16}}>编号：{itemdata.ticketserialnum}</Text>
+                    <Text style={{marginTop:6,color:"#fff",marginLeft:16,fontSize:16}}>流转人：{itemdata.manageuser}</Text>
+                    <Text style={{marginTop:6,color:"#fff",marginBottom:7,marginLeft:16,fontSize:16}}>处理时间：{itemdata.managetime.replace(/T/,' ')}</Text>
                 </TouchableOpacity>
                 )
               })}

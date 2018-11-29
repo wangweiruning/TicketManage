@@ -93,10 +93,10 @@ export default class HistoryPlan extends React.Component{
                   <Text numberOfLines={10} 
                   style = {{marginLeft:16,width:'91%',marginTop:10,paddingBottom:10,borderBottomColor:"rgba(255,255,255,.3)",
                             borderBottomWidth:1,borderStyle:"solid",color:"#fff",fontSize:18,flexWrap:'wrap'}}>{itemdata.content==""?'暂无内容':itemdata.content}</Text>
-                  <Text style={{paddingTop:9,color:"#fff",marginLeft:16,fontSize:16}}>两票类型：{itemdata.tickettypename}</Text>
-                  <Text style={{marginTop:5,color:"#fff",marginLeft:16,fontSize:16}}>两票编号：{itemdata.ticketserialnum}</Text>
-                  <Text style={{marginTop:5,color:"#fff",marginLeft:16,fontSize:16}}>工作负责人：{itemdata.realname==null?'暂无工作负责人':itemdata.realname}</Text>
-                  <Text style={{marginTop:5,color:"#fff",marginBottom:7,marginLeft:16,fontSize:16}}>开票时间：{itemdata.filltickettime}</Text>
+                  <Text style={{paddingTop:10,color:"#fff",marginLeft:16,fontSize:16}}>两票类型：{itemdata.tickettypename}</Text>
+                  <Text style={{marginTop:6,color:"#fff",marginLeft:16,fontSize:16}}>两票编号：{itemdata.ticketserialnum}</Text>
+                  <Text style={{marginTop:6,color:"#fff",marginLeft:16,fontSize:16}}>工作负责人：{itemdata.realname==null?'暂无工作负责人':itemdata.realname}</Text>
+                  <Text style={{marginTop:6,color:"#fff",marginBottom:7,marginLeft:16,fontSize:16}}>开票时间：{itemdata.filltickettime}</Text>
                 </TouchableOpacity>
                 })}
                 {this.state.havenotdate&&<View style={{marginVertical:20}}><Text style={{textAlign:"center",fontSize:16}}>暂时没有数据！</Text></View>}

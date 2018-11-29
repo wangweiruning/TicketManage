@@ -1058,7 +1058,7 @@ export default class Tdetail extends React.Component {
                             this.state.templateContents.map((v,i)=>{
                                 let dis = this.ischacked(v.TicketParaID);
                                 
-                            return <View  key={i} style={{marginTop:5,padding:5,alignItems:'center',width:'100%',marginBottom:8}}>
+                            return <View  key={i} style={{marginTop:5,padding:5,alignItems:'center',width:'100%'}}>
                             <View style={{
                                 width:'98%',
                                 backgroundColor:'rgba(255,255,255,.3)',
