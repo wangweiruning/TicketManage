@@ -631,8 +631,8 @@ export default class Tdetail extends React.Component{
                                  <TextareaItem placeholderTextColor="#eee" editable={!dis} placeholder="请输入内容..."
                       onChange={(e)=>this.handleInput('datalist'+i,e,getAllTempanyId[i])}
                        autoHeight
-                         style={{fontSize:14,paddingHorizontal:6,minWidth:'98%',backgroundColor:!dis?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)"}} />
-                         <View style={{flexDirection:'row',backgroundColor:'rgba(255,255,255,.4)',padding:5}}>
+                         style={{color:'white',fontSize:14,paddingHorizontal:6,minWidth:'98%',backgroundColor:!dis?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)"}} />
+                         <View style={{flexDirection:'row',backgroundColor:!dis?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)",padding:5}}>
                        <Checkbox onChange={(e)=>this.onChangecoform(getAllTempanyId[i]+"_1",e.target.checked)} disabled={dis}>
                           <Text style={{color:'#f5f5f5'}}>是否已执行</Text></Checkbox></View></View>
                         }
@@ -648,7 +648,7 @@ export default class Tdetail extends React.Component{
                 <Text style={{color:'#f5f5f5',left:5}}>提交</Text>
             </View>
             <View style={{marginTop:5,marginBottom:20,width:'100%',alignItems:'center'}}>
-               <View style={{width:'96%',elevation:3,backgroundColor:'rgba(255,255,255,.3)',alignItems:'center'}}>
+               <View style={{width:'95.5%',elevation:3,backgroundColor:'rgba(255,255,255,.3)',alignItems:'center'}}>
                 <View style={{flexDirection:'row',width:'95%',alignItems:'center',paddingBottom:8,paddingRight:8,paddingTop:8}}>
                   <Text style={{color:'white',flex:1}}>是否同意</Text>
                   <ModalDropdown dropdownTextStyle={{fontSize:15}} dropdownStyle={{height:50}} textStyle={{color:'#f5f5f5',fontSize:13}} 
