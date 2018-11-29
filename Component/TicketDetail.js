@@ -472,7 +472,7 @@ export default class Tdetail extends React.Component{
             let newpagedata2 = this.state.newpagedata;
             let vaaaa = newpagedata2[v+"*1"];
             let nesadds = newpagedata2[v+"_1"]||[];
-            vaaaa.push(1);
+            vaaaa.push("");
             nesadds.push(0);
             newpagedata2[v+"*1"] = vaaaa;
             this.state.newpagedata[v+"_1"] = nesadds;
@@ -511,11 +511,11 @@ export default class Tdetail extends React.Component{
         if(!this.state.newpagedata[v]){
             this.state.newpagedata[v] = [""];
         }
-        return this.state.newpagedata[v][qIndex];
+        return this.state.newpagedata[v][qIndex]+"";
     }
     
     getTextareaItemByID(v,dis,i){
-        let ds = this.state.newpagedata[v.TicketParaID+"*1"] || ["0"];
+        let ds = this.state.newpagedata[v.TicketParaID+"*1"] || [""];
         let checkeds = this.state.newpagedata[v.TicketParaID+"_1"]||["0"];
         return ds.map((item,qIndex)=>{
             return (<View style={{backgroundColor:!dis?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)"}} key={qIndex}>
@@ -523,7 +523,7 @@ export default class Tdetail extends React.Component{
             <View style={{width:v.IsAdd==1 && !dis?"88%":"100%"}}>
             <TextareaItem value={this.getValueByID(v.TicketParaID+"*1",qIndex)} editable={!dis} placeholder="请输入内容..." placeholderTextColor="white"
                              onChange={(e)=>{this.state.newpagedata[v.TicketParaID+"*1"][qIndex] = e}} autoHeight 
-                             style={{borderBottomWidth:0,paddingVertical: 5,backgroundColor:!dis?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)",color:'white',minWidth:"100%"}} />
+                             style={{borderBottomWidth:0,paddingVertical: 5,backgroundColor:'transparent',color:'white',minWidth:"100%"}} />
             </View>
             {v.IsAdd==1&&!dis&&<TouchableOpacity onPress={()=>{
                                 this.setState(({newpagedata})=>{
