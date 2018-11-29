@@ -520,12 +520,12 @@ export default class Tdetail extends React.Component{
         return ds.map((item,qIndex)=>{
             return (<View style={{backgroundColor:!dis?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)"}} key={qIndex}>
             <View style={{flexDirection:'row'}}>
-            <View style={{width:"88%"}}>
+            <View style={{width:v.IsAdd==1 && !dis?"88%":"100%"}}>
             <TextareaItem value={this.getValueByID(v.TicketParaID+"*1",qIndex)} editable={!dis} placeholder="请输入内容..." placeholderTextColor="white"
                              onChange={(e)=>{this.state.newpagedata[v.TicketParaID+"*1"][qIndex] = e}} autoHeight 
                              style={{borderBottomWidth:0,paddingVertical: 5,backgroundColor:!dis?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)",color:'white',minWidth:"100%"}} />
             </View>
-            <TouchableOpacity onPress={()=>{
+            {v.IsAdd==1&&!dis&&<TouchableOpacity onPress={()=>{
                                 this.setState(({newpagedata})=>{
                                     let newpagedataID = this.state.newpagedata[v.TicketParaID+"*1"];
                                     let newpagedataChecked = this.state.newpagedata[v.TicketParaID+"_1"];                          
@@ -538,7 +538,7 @@ export default class Tdetail extends React.Component{
                                 })
                             }} style={{width:'12%',justifyContent:'center',alignItems:'center',borderBottomColor:'#ddd',borderBottomWidth:.5,borderStyle:'solid'}}>
                             <Image style={{width:25,top:1,height:25,resizeMode:Image.resizeMode.contain}} source={require('../images/delete.png')}/>  
-                            </TouchableOpacity>
+                            </TouchableOpacity>}
             </View>
                   {v.IsConfirm==1?<View style={{flexDirection:'row',alignItems:'center',padding:5}}><Checkbox 
                   onChange={(e)=>this.onChangecoform(v.TicketParaID+"_1",e.target.checked,qIndex)}  checked={checkeds[qIndex]=="1"} disabled={dis}/>
@@ -568,7 +568,7 @@ export default class Tdetail extends React.Component{
                   flexDirection:'row',
                   alignItems:'center',
                   }}>
-                  <Text style={{color:'white',left:2,width:'87.5%',flex:1,flexWrap:'wrap'}}>{v.ParaName}</Text>
+                  <Text style={{color:'white',left:2,width:'87.5%',flex:1,flexWrap:'wrap',paddingRight:5}}>{v.ParaName}</Text>
                   {v.IsAdd==1&&!dis&&<TouchableOpacity onPress={()=>this.add(v.TicketParaID)} style={{width:'12%',justifyContent:'center',alignItems:'center'}}>
                             <Image style={{width:25,top:1,height:25,resizeMode:Image.resizeMode.contain}} source={require('../images/add.png')}/>  
                         </TouchableOpacity>}
