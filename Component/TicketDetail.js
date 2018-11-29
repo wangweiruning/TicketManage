@@ -648,7 +648,7 @@ export default class Tdetail extends React.Component{
                 <Text style={{color:'#f5f5f5',left:5}}>提交</Text>
             </View>
             <View style={{marginTop:5,marginBottom:20,width:'100%',alignItems:'center'}}>
-               <View style={{width:'96%',elevation:3,backgroundColor:'rgba(255,255,255,.3)',alignItems:'center'}}>
+               <View style={{width:'95.5%',elevation:3,backgroundColor:'rgba(255,255,255,.3)',alignItems:'center'}}>
                 <View style={{flexDirection:'row',width:'95%',alignItems:'center',paddingBottom:8,paddingRight:8,paddingTop:8}}>
                   <Text style={{color:'white',flex:1}}>是否同意</Text>
                   <ModalDropdown dropdownTextStyle={{fontSize:15}} dropdownStyle={{height:50}} textStyle={{color:'#f5f5f5',fontSize:13}} 
