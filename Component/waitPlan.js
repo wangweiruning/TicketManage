@@ -171,12 +171,12 @@ export default class WaitPlan extends React.Component{
                               paddingBottom:10,borderBottomColor:"rgba(255,255,255,.3)",
                               borderBottomWidth:1,borderStyle:"solid",color:"#fff",
                               fontSize:18,flexWrap:'wrap'}}>{itemdata.content==""?'暂无内容':itemdata.content}</Text>  
-                <Text style={{color:"#fff",paddingTop:9,marginLeft:16,fontSize:16}}>两票类型：{itemdata.tickettypename}</Text>
-                <Text style={{color:"#fff",marginTop:5,marginLeft:16,fontSize:16}}>负责人：{itemdata.headuser}</Text>
-                <Text style={{color:"#fff",marginTop:5,marginLeft:16,fontSize:16}}>编号：{itemdata.ticketserialnum}</Text>
-                <Text style={{color:"#fff",marginTop:5,marginLeft:16,fontSize:16}}>流转人：{itemdata.manageuser}</Text>
-                <Text style={{color:"#ff8800",marginTop:5,marginLeft:16,fontSize:16}}>等待时间：{this.awaitTime(itemdata.lastTime)}</Text>
-                <Text style={{color:"#fff",marginTop:5,marginBottom:7,marginLeft:16,fontSize:16}}>流转时间：{itemdata.lastTime.replace(/T/,' ')}</Text>
+                <Text style={{color:"#fff",paddingTop:10,marginLeft:16,fontSize:16}}>两票类型：{itemdata.tickettypename}</Text>
+                <Text style={{color:"#fff",marginTop:6,marginLeft:16,fontSize:16}}>负责人：{itemdata.headuser}</Text>
+                <Text style={{color:"#fff",marginTop:6,marginLeft:16,fontSize:16}}>编号：{itemdata.ticketserialnum}</Text>
+                <Text style={{color:"#fff",marginTop:6,marginLeft:16,fontSize:16}}>流转人：{itemdata.manageuser}</Text>
+                <Text style={{color:"#ff8800",marginTop:6,marginLeft:16,fontSize:16}}>等待时间：{this.awaitTime(itemdata.lastTime)}</Text>
+                <Text style={{color:"#fff",marginTop:6,marginBottom:7,marginLeft:16,fontSize:16}}>流转时间：{itemdata.lastTime.replace(/T/,' ')}</Text>
             </TouchableOpacity>
             )
         })}
