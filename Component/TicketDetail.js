@@ -548,7 +548,7 @@ export default class Tdetail extends React.Component{
     render(){
         let getAllTempanyId = this.state.getAllTempanyId;
         return(<ImageBackground source={require('../images/gffg.jpg')} style={{alignItems:'center',width: '100%', height: '100%'}}>
-        <TicketTitle navigation={this.props.navigation} num={this.state.num} centerText={this.props.navigation.state.params.v+' '+this.state.num}/>
+        <TicketTitle navigation={this.props.navigation} num={this.state.num} centerText={this.props.navigation.state.params.v}/>
         {this.state.num?null:<View style={{top:60,justifyContent:'center',alignItems:'center',position:'absolute',zIndex:1000,width:'100%',height:'100%'}}>
               <ActivityIndicator color="white"/>
               <Text style={{color:'white',fontSize:15,marginTop:15,zIndex:1000000}}>加载中...</Text>
