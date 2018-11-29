@@ -975,7 +975,7 @@ export default class Tdetail extends React.Component {
 
         return newds.map((item,qIndex)=>{
             return (<View style={{width:"100%",}} key={qIndex}>
-            <View style={{width:"100%",flexDirection:"row",alignItems:"center",backgroundColor:dis?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)",}}>
+            <View style={{width:"100%",flexDirection:"row",backgroundColor:dis?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)",}}>
             <View style={{width:v.IsAdd==1&&dis&&v.ParaTypeID ==6?
                                 "88%":"100%"}}>
             <TextareaItem defaultValue={item} editable={dis} placeholder={"请输入内容..."} placeholderTextColor="white"
@@ -1000,8 +1000,8 @@ export default class Tdetail extends React.Component {
                                     return pagedata;
                                 })
                                 
-                            }} style={{justifyContent:'center',width:'10%',alignItems:'center',borderBottomColor:"#ddd",borderBottomWidth:0.5,borderStyle:"solid"}}>
-                                    <Image style={{width:20,top:1,height:20,resizeMode:Image.resizeMode.contain}} source={require('../images/delete.png')}/>  
+                            }} style={{justifyContent:'center',width:'12%',alignItems:'center',borderBottomColor:"#ddd",borderBottomWidth:0.5,borderStyle:"solid"}}>
+                                    <Image style={{width:25,top:1,height:25,resizeMode:Image.resizeMode.contain}} source={require('../images/delete.png')}/>  
                             </TouchableOpacity>
                             }
                             </View>
@@ -1062,13 +1062,14 @@ export default class Tdetail extends React.Component {
                                 width:'98%',
                                 backgroundColor:'rgba(255,255,255,.3)',
                                 padding:5,
+                                paddingRight:0,
                                 flexDirection:'row',
                                 alignItems:'center',
                                 }}>
                                 <Text style={{color:'white',left:2,width:"87%",flex:1,flexWrap:'wrap'}}>{v.ParaName}</Text>
                                 {v.IsAdd==1&&dis&&v.ParaTypeID ==6&& 
                          <TouchableOpacity onPress={()=>this.add(v.TicketParaID)} style={{width:'12%',justifyContent:'center',alignItems:'center'}}>
-                            <Image style={{width:20,top:1,height:20,resizeMode:Image.resizeMode.contain}} source={require('../images/add.png')}/>  
+                            <Image style={{width:25,top:1,height:25,resizeMode:Image.resizeMode.contain}} source={require('../images/add.png')}/>  
                         </TouchableOpacity>}
                             </View>
                             {v.ParaTypeID == 4 ?
