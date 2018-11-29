@@ -517,9 +517,10 @@ export default class Tdetail extends React.Component{
     getTextareaItemByID(v,dis,i){
         let ds = this.state.newpagedata[v.TicketParaID+"*1"] || [""];
         let checkeds = this.state.newpagedata[v.TicketParaID+"_1"]||["0"];
+        let newpagedataID = this.state.newpagedata[v.TicketParaID+"*1"];
         return ds.map((item,qIndex)=>{
             return (<View style={{backgroundColor:!dis?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)"}} key={qIndex}>
-            <View style={{flexDirection:'row'}}>
+            <View style={{flexDirection:'row',borderTopColor:'#ddd',borderTopWidth:.5,borderStyle:'solid'}}>
             <View style={{width:v.IsAdd==1 && !dis?"88%":"100%"}}>
             <TextareaItem value={this.getValueByID(v.TicketParaID+"*1",qIndex)} editable={!dis} placeholder="请输入内容..." placeholderTextColor="white"
                              onChange={(e)=>{
@@ -527,7 +528,7 @@ export default class Tdetail extends React.Component{
                                 this.setState(this.state)
                                 }} 
                                 autoHeight 
-                             style={{borderBottomWidth:0,paddingVertical: 5,backgroundColor:'transparent',color:'white',minWidth:"100%"}} />
+                             style={{borderBottomWidth:0,paddingHorizontal:6,backgroundColor:'transparent',color:'white',minWidth:"100%",fontSize:14}} />
             </View>
             {v.IsAdd==1&&!dis&&<TouchableOpacity onPress={()=>{
                                 this.setState(({newpagedata})=>{
@@ -541,7 +542,7 @@ export default class Tdetail extends React.Component{
                                     return newpagedata
                                 })
                             }} style={{width:'12%',justifyContent:'center',alignItems:'center',borderBottomColor:'#ddd',borderBottomWidth:.5,borderStyle:'solid'}}>
-                            <Image style={{width:25,top:1,height:25,resizeMode:Image.resizeMode.contain}} source={require('../images/delete.png')}/>  
+                            {!newpagedataID || newpagedataID.length<2?null:<Image style={{width:25,top:1,height:25,resizeMode:Image.resizeMode.contain}} source={require('../images/delete.png')}/>}
                             </TouchableOpacity>}
             </View>
                   {v.IsConfirm==1?<View style={{flexDirection:'row',alignItems:'center',padding:5}}><Checkbox 
@@ -552,7 +553,7 @@ export default class Tdetail extends React.Component{
     render(){
         let getAllTempanyId = this.state.getAllTempanyId;
         return(<ImageBackground source={require('../images/gffg.jpg')} style={{alignItems:'center',width: '100%', height: '100%'}}>
-        <TicketTitle navigation={this.props.navigation} num={this.state.num} centerText={this.props.navigation.state.params.v+' '+this.state.num}/>
+        <TicketTitle navigation={this.props.navigation} num={this.state.num} centerText={this.props.navigation.state.params.v}/>
         {this.state.num?null:<View style={{top:60,justifyContent:'center',alignItems:'center',position:'absolute',zIndex:1000,width:'100%',height:'100%'}}>
               <ActivityIndicator color="white"/>
               <Text style={{color:'white',fontSize:15,marginTop:15,zIndex:1000000}}>加载中...</Text>
@@ -598,7 +599,7 @@ export default class Tdetail extends React.Component{
                   options={this.BackpageUseName()}/>:v.ParaTypeID==2 ?
                   <View style={{width:'98%'}}>
                     <TextInput multiline={true} editable={!dis} placeholder="请输入内容..." underlineColorAndroid="transparent" placeholderTextColor="#eee"
-                    onChangeText={(v)=>this.handleInput('datalist'+i,v,getAllTempanyId[i])} style={{minWidth:'98%',backgroundColor:!dis?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)",color:'white'}}/>
+                    onChangeText={(v)=>this.handleInput('datalist'+i,v,getAllTempanyId[i])} style={{paddingHorizontal:6,minWidth:'98%',backgroundColor:!dis?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)",color:'white'}}/>
                     {v.IsConfirm==1?<View style={{borderTopColor:'white',borderStyle:'solid',borderTopWidth:1,flexDirection:'row',padding:5,backgroundColor:!dis?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)"}}>
                     <Checkbox onChange={(e)=>this.onChangecoform(getAllTempanyId[i]+"_1",e.target.checked)}
                         disabled={dis}
@@ -607,6 +608,8 @@ export default class Tdetail extends React.Component{
                     :v.ParaTypeID==5?
                     <DatePicker    
                     customStyles={{dateInput: {
+                        left:6,
+                        justifyContent:'center',
                         borderWidth:0
                       }}}  
                     style={{width:'98%',backgroundColor:dis?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)"}}        
@@ -628,7 +631,7 @@ export default class Tdetail extends React.Component{
                                  <TextareaItem placeholderTextColor="#eee" editable={!dis} placeholder="请输入内容..."
                       onChange={(e)=>this.handleInput('datalist'+i,e,getAllTempanyId[i])}
                        autoHeight
-                         style={{paddingVertical: 5 ,minWidth:'98%',backgroundColor:!dis?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)"}} />
+                         style={{fontSize:14,paddingHorizontal:6,minWidth:'98%',backgroundColor:!dis?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)"}} />
                          <View style={{flexDirection:'row',backgroundColor:'rgba(255,255,255,.4)',padding:5}}>
                        <Checkbox onChange={(e)=>this.onChangecoform(getAllTempanyId[i]+"_1",e.target.checked)} disabled={dis}/>
                           <Text style={{color:'#f5f5f5'}}>是否已执行</Text></View></View>
@@ -669,7 +672,7 @@ export default class Tdetail extends React.Component{
                 <Image source={require('../images/line.png')} style={{width:'90%',height:2,resizeMode:Image.resizeMode.contain}}/>
                 <View style={{width:'98%',padding:6}}>
                   <Text style={{color:'white'}}>详细意见</Text>
-                  <TextareaItem  placeholderTextColor="#f5f5f5" style={{color:"#F5F5F5",minWidth:'95%',backgroundColor:'rgba(255,255,255,.2)'}} placeholder="请输入内容..." autoHeight onChangeText={(v)=>this.handleInputs('detailInfo',v)}/>
+                  <TextareaItem  placeholderTextColor="#f5f5f5" style={{paddingHorizontal:5,color:"#F5F5F5",fontSize:14,minWidth:'95%',backgroundColor:'rgba(255,255,255,.2)'}} placeholder="请输入内容..." autoHeight onChangeText={(v)=>this.handleInputs('detailInfo',v)}/>
                 </View>
                </View>
             </View>
