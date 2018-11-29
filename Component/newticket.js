@@ -51,12 +51,18 @@ export default class Newticket extends React.Component{
                 if (flag) {
                     navigate('TicketDetail',{name,v,treeid})
                 } else {
-                    Alert.alert("提示","你没有权限创建此模板")
+                    Alert.alert("提示","你没有权限创建此模板", [
+                        { text: '是' },
+                    ],
+                    { cancelable: false })
                 }
             }
         }
         if(!p){
-            Alert.alert("提示","你没有权限创建此模板")
+            Alert.alert("提示","你没有权限创建此模板", [
+                { text: '是'},
+            ],
+            { cancelable: false })
         }
     }
     render(){

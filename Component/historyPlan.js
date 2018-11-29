@@ -90,8 +90,8 @@ export default class HistoryPlan extends React.Component{
                 {result.length>0&&result.map((itemdata,index)=>{
                   return <View key={index}
                   style={{marginTop:8,marginBottom:8,paddingBottom:15,width:"95%",marginLeft:10.3,backgroundColor:'rgba(255,255,255,.2)',borderRadius:10}}>
-                  <Text numberOfLines={10} style = {{marginLeft:16,width:'91%',marginTop:20,paddingBottom:15,borderBottomColor:"#eeeeee",borderBottomWidth:1,borderStyle:"solid",color:"#fff",padding:4,fontSize:18,flexWrap:'wrap'}}>{itemdata.content==""?'暂无内容':itemdata.content}</Text>
-                  <Text style={{marginTop:5,color:"#fff",marginLeft:16,fontSize:16}}>两票类型：{itemdata.tickettypename}</Text>
+                  <Text numberOfLines={10} style = {{marginLeft:16,width:'91%',marginTop:10,paddingBottom:15,borderBottomColor:"rgba(255,255,255,.4)",borderBottomWidth:1,borderStyle:"solid",color:"#fff",fontSize:18,flexWrap:'wrap'}}>{itemdata.content==""?'暂无内容':itemdata.content}</Text>
+                  <Text style={{paddingTop:9,color:"#fff",marginLeft:16,fontSize:16}}>两票类型：{itemdata.tickettypename}</Text>
                   <Text style={{marginTop:5,color:"#fff",marginLeft:16,fontSize:16}}>两票编号：{itemdata.ticketserialnum}</Text>
                   <Text style={{marginTop:5,color:"#fff",marginLeft:16,fontSize:16}}>工作负责人：{itemdata.realname==null?'暂无工作负责人':itemdata.realname}</Text>
                   <Text style={{marginTop:5,color:"#fff",marginBottom:7,marginLeft:16,fontSize:16}}>开票时间：{itemdata.filltickettime}</Text>

@@ -149,8 +149,10 @@ let result = this.state.result;
                         key={index}
                         onPress={()=>this.gotoItem(itemdata)}
                         style={{marginBottom:8,marginTop:8,paddingBottom:15,width:"95%",marginLeft:10.3,borderRadius:10,backgroundColor:'rgba(255,255,255,.2)'}}>
-                    <Text numberOfLines={10} style = {{marginLeft:16,width:'91%',marginTop:20,paddingBottom:20,borderBottomColor:"#eeeeee",borderBottomWidth:1,borderStyle:"solid",color:"#fff",padding:4,fontSize:18,flexWrap:'wrap'}}>{itemdata.content==""?'暂无内容':itemdata.content}</Text>
-                    <Text style={{marginTop:5,color:"#fff",marginLeft:16,fontSize:16}}>两票类型：{itemdata.tickettypename}</Text>
+                    <Text numberOfLines={10} 
+                    style = {{marginLeft:16,width:'91%',marginTop:20,
+                              paddingBottom:10,borderBottomColor:"rgba(255,255,255,.4)",borderBottomWidth:1,borderStyle:"solid",color:"#fff",fontSize:18,flexWrap:'wrap'}}>{itemdata.content==""?'暂无内容':itemdata.content}</Text>
+                    <Text style={{paddingTop:9,color:"#fff",marginLeft:16,fontSize:16}}>两票类型：{itemdata.tickettypename}</Text>
                     <Text style={{marginTop:5,color:"#fff",marginLeft:16,fontSize:16}}>负责人：{itemdata.headuser}</Text>
                     <Text style={{marginTop:5,color:"#fff",marginLeft:16,fontSize:16}}>编号：{itemdata.ticketserialnum}</Text>
                     <Text style={{marginTop:5,color:"#fff",marginLeft:16,fontSize:16}}>流转人：{itemdata.manageuser}</Text>

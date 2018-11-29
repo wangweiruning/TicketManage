@@ -166,8 +166,12 @@ export default class WaitPlan extends React.Component{
               <View key={index}
                     onPress={()=>this.gotoItem(itemdata)}
                     style={{marginTop:8,marginBottom:8,paddingBottom:15,width:"95%",borderRadius:10,backgroundColor:'rgba(255,255,255,.2)',marginLeft:10.3}}>
-                <Text numberOfLines={10} style = {{marginLeft:16,width:'91%',marginTop:20,paddingBottom:15,borderBottomColor:"#eeeeee",borderBottomWidth:1,borderStyle:"solid",color:"#fff",padding:4,fontSize:18,flexWrap:'wrap'}}>{itemdata.content==""?'暂无内容':itemdata.content}</Text>  
-                <Text style={{color:"#fff",marginTop:5,marginLeft:16,fontSize:16}}>两票类型：{itemdata.tickettypename}</Text>
+                <Text numberOfLines={10} 
+                    style = {{marginLeft:16,width:'91%',marginTop:20,
+                              paddingBottom:10,borderBottomColor:"rgba(255,255,255,.4)",
+                              borderBottomWidth:1,borderStyle:"solid",color:"#fff",
+                              fontSize:18,flexWrap:'wrap'}}>{itemdata.content==""?'暂无内容':itemdata.content}</Text>  
+                <Text style={{color:"#fff",paddingTop:9,marginLeft:16,fontSize:16}}>两票类型：{itemdata.tickettypename}</Text>
                 <Text style={{color:"#fff",marginTop:5,marginLeft:16,fontSize:16}}>负责人：{itemdata.headuser}</Text>
                 <Text style={{color:"#fff",marginTop:5,marginLeft:16,fontSize:16}}>编号：{itemdata.ticketserialnum}</Text>
                 <Text style={{color:"#fff",marginTop:5,marginLeft:16,fontSize:16}}>流转人：{itemdata.manageuser}</Text>

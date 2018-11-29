@@ -1000,8 +1000,8 @@ export default class Tdetail extends React.Component {
                                     return pagedata;
                                 })
                                 
-                            }} style={{width:'10%',alignItems:'center',}}>
-                                    <Image resizeMode="contain" style={{width:20,top:1,height:20}} source={require('../images/delete.png')}/>  
+                            }} style={{justifyContent:'center',width:'10%',alignItems:'center',borderBottomColor:"#ddd",borderBottomWidth:0.5,borderStyle:"solid"}}>
+                                    <Image style={{width:20,top:1,height:20,resizeMode:Image.resizeMode.contain}} source={require('../images/delete.png')}/>  
                             </TouchableOpacity>
                             }
                             </View>
@@ -1065,13 +1065,11 @@ export default class Tdetail extends React.Component {
                                 flexDirection:'row',
                                 alignItems:'center',
                                 }}>
-                                <Text style={{color:'white',left:2,width:"80%"}}>{v.ParaName}</Text>
-                                {v.IsAdd==1&&dis&&v.ParaTypeID ==6&& <View style={{flexDirection:'row',left:5}}>
-                         <TouchableOpacity onPress={()=>this.add(v.TicketParaID)}>
-                            <Image resizeMode="contain" style={{width:20,top:1,height:20}} source={require('../images/add.png')}/>  
-                        </TouchableOpacity>
-                        
-                    </View>}
+                                <Text style={{color:'white',left:2,width:"87%",flex:1,flexWrap:'wrap'}}>{v.ParaName}</Text>
+                                {v.IsAdd==1&&dis&&v.ParaTypeID ==6&& 
+                         <TouchableOpacity onPress={()=>this.add(v.TicketParaID)} style={{width:'12%',justifyContent:'center',alignItems:'center'}}>
+                            <Image style={{width:20,top:1,height:20,resizeMode:Image.resizeMode.contain}} source={require('../images/add.png')}/>  
+                        </TouchableOpacity>}
                             </View>
                             {v.ParaTypeID == 4 ?
                                     <DropdownCheckbox open={this.openothers.bind(this)}
