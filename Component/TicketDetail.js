@@ -468,10 +468,10 @@ export default class Tdetail extends React.Component{
     }
 
     add(v){
-        this.setState(({newpagedata})=>{
+         this.setState(({newpagedata})=>{
             let newpagedata2 = this.state.newpagedata;
             let vaaaa = newpagedata2[v+"*1"];
-            let nesadds = newpagedata2[v+"_1"]||[];
+            let nesadds = newpagedata2[v+"_1"]||[""];
             vaaaa.push("");
             nesadds.push(0);
             newpagedata2[v+"*1"] = vaaaa;
@@ -511,7 +511,7 @@ export default class Tdetail extends React.Component{
         if(!this.state.newpagedata[v]){
             this.state.newpagedata[v] = [""];
         }
-        return this.state.newpagedata[v][qIndex]+"";
+        return this.state.newpagedata[v][qIndex];
     }
     
     getTextareaItemByID(v,dis,i){
@@ -522,7 +522,11 @@ export default class Tdetail extends React.Component{
             <View style={{flexDirection:'row'}}>
             <View style={{width:v.IsAdd==1 && !dis?"88%":"100%"}}>
             <TextareaItem value={this.getValueByID(v.TicketParaID+"*1",qIndex)} editable={!dis} placeholder="请输入内容..." placeholderTextColor="white"
-                             onChange={(e)=>{this.state.newpagedata[v.TicketParaID+"*1"][qIndex] = e}} autoHeight 
+                             onChange={(e)=>{
+                                 this.state.newpagedata[v.TicketParaID+"*1"][qIndex] = e
+                                this.setState(this.state)
+                                }} 
+                                autoHeight 
                              style={{borderBottomWidth:0,paddingVertical: 5,backgroundColor:'transparent',color:'white',minWidth:"100%"}} />
             </View>
             {v.IsAdd==1&&!dis&&<TouchableOpacity onPress={()=>{
@@ -548,7 +552,7 @@ export default class Tdetail extends React.Component{
     render(){
         let getAllTempanyId = this.state.getAllTempanyId;
         return(<ImageBackground source={require('../images/gffg.jpg')} style={{alignItems:'center',width: '100%', height: '100%'}}>
-        <TicketTitle navigation={this.props.navigation} num={this.state.num} centerText={this.props.navigation.state.params.v}/>
+        <TicketTitle navigation={this.props.navigation} num={this.state.num} centerText={this.props.navigation.state.params.v+' '+this.state.num}/>
         {this.state.num?null:<View style={{top:60,justifyContent:'center',alignItems:'center',position:'absolute',zIndex:1000,width:'100%',height:'100%'}}>
               <ActivityIndicator color="white"/>
               <Text style={{color:'white',fontSize:15,marginTop:15,zIndex:1000000}}>加载中...</Text>
