@@ -1128,7 +1128,8 @@ export default class Tdetail extends React.Component {
                                                 <DatePicker
                                                     customStyles={{
                                                         dateInput: {
-                                                                // backgroundColor:dis?'transparent':'rgba(255,255,255,.2)',
+                                                            left:6,
+                                                            justifyContent:'center',
                                                                 borderWidth:0,
                                                             },
                                                 }}  

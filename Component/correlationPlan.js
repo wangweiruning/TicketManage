@@ -145,24 +145,18 @@ let result = this.state.result;
             <ScrollView>
               {result.length>0&&result.map((itemdata,index)=>{
                  return (
-                  <View 
-                        key={index}
+                  <TouchableOpacity key={index}
                         onPress={()=>this.gotoItem(itemdata)}
                         style={{marginBottom:8,marginTop:8,paddingBottom:15,width:"95%",marginLeft:10.3,borderRadius:10,backgroundColor:'rgba(255,255,255,.2)'}}>
                     <Text numberOfLines={10} 
                     style = {{marginLeft:16,width:'91%',marginTop:20,
-                              paddingBottom:10,borderBottomColor:"rgba(255,255,255,.4)",borderBottomWidth:1,borderStyle:"solid",color:"#fff",fontSize:18,flexWrap:'wrap'}}>{itemdata.content==""?'暂无内容':itemdata.content}</Text>
+                              paddingBottom:10,borderBottomColor:"rgba(255,255,255,.3)",borderBottomWidth:1,borderStyle:"solid",color:"#fff",fontSize:18,flexWrap:'wrap'}}>{itemdata.content==""?'暂无内容':itemdata.content}</Text>
                     <Text style={{paddingTop:9,color:"#fff",marginLeft:16,fontSize:16}}>两票类型：{itemdata.tickettypename}</Text>
                     <Text style={{marginTop:5,color:"#fff",marginLeft:16,fontSize:16}}>负责人：{itemdata.headuser}</Text>
                     <Text style={{marginTop:5,color:"#fff",marginLeft:16,fontSize:16}}>编号：{itemdata.ticketserialnum}</Text>
                     <Text style={{marginTop:5,color:"#fff",marginLeft:16,fontSize:16}}>流转人：{itemdata.manageuser}</Text>
                     <Text style={{marginTop:5,color:"#fff",marginBottom:7,marginLeft:16,fontSize:16}}>处理时间：{itemdata.managetime.replace(/T/,' ')}</Text>
-                    <View style={{width:'100%',alignItems:'center',marginTop:7}}>
-                     <TouchableOpacity onPress={()=> this.gotoItem(itemdata)} style={{elevation:2,justifyContent:'center',alignItems:'center',width:'80%',backgroundColor:'#365793',borderRadius:5,height:40}}>
-                     <Text style={{color:'white',fontSize:20,fontWeight:'500'}}>查看详情</Text>
-                     </TouchableOpacity>
-                </View>
-                </View>
+                </TouchableOpacity>
                 )
               })}
               {this.state.havenotdate&&<View style={{marginVertical:20}}><Text style={{textAlign:"center",fontSize:16}}>暂时没有数据！</Text></View>}

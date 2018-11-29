@@ -163,12 +163,12 @@ export default class WaitPlan extends React.Component{
             <ScrollView>
          {  dataLis.length>0&&dataLis.map((itemdata,index)=>{
              return (
-              <View key={index}
+              <TouchableOpacity key={index}
                     onPress={()=>this.gotoItem(itemdata)}
                     style={{marginTop:8,marginBottom:8,paddingBottom:15,width:"95%",borderRadius:10,backgroundColor:'rgba(255,255,255,.2)',marginLeft:10.3}}>
                 <Text numberOfLines={10} 
                     style = {{marginLeft:16,width:'91%',marginTop:20,
-                              paddingBottom:10,borderBottomColor:"rgba(255,255,255,.4)",
+                              paddingBottom:10,borderBottomColor:"rgba(255,255,255,.3)",
                               borderBottomWidth:1,borderStyle:"solid",color:"#fff",
                               fontSize:18,flexWrap:'wrap'}}>{itemdata.content==""?'暂无内容':itemdata.content}</Text>  
                 <Text style={{color:"#fff",paddingTop:9,marginLeft:16,fontSize:16}}>两票类型：{itemdata.tickettypename}</Text>
@@ -177,12 +177,7 @@ export default class WaitPlan extends React.Component{
                 <Text style={{color:"#fff",marginTop:5,marginLeft:16,fontSize:16}}>流转人：{itemdata.manageuser}</Text>
                 <Text style={{color:"#ff8800",marginTop:5,marginLeft:16,fontSize:16}}>等待时间：{this.awaitTime(itemdata.lastTime)}</Text>
                 <Text style={{color:"#fff",marginTop:5,marginBottom:7,marginLeft:16,fontSize:16}}>流转时间：{itemdata.lastTime.replace(/T/,' ')}</Text>
-                <View style={{width:'100%',alignItems:'center',marginTop:7}}>
-                <TouchableOpacity onPress={()=> this.gotoItem(itemdata)} style={{elevation:2,justifyContent:'center',alignItems:'center',width:'80%',backgroundColor:'#365793',borderRadius:5,height:40}}>
-                   <Text style={{color:'white',fontSize:20,fontWeight:'500'}}>查看详情</Text>
-                </TouchableOpacity>
-                </View>
-            </View>
+            </TouchableOpacity>
             )
         })}
         {this.state.havenotdate&&<View style={{marginVertical:20}}><Text style={{textAlign:"center",fontSize:16}}>暂时没有数据！</Text></View>}
