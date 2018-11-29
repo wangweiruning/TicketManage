@@ -64,7 +64,6 @@ export default class Tdetail extends React.Component{
             isadd:{},
             additem:{},
             datamore:{},
-
             arrs:[]
         }
     }
@@ -164,8 +163,6 @@ export default class Tdetail extends React.Component{
        console.log(bool,good,Department,'hhhhhhhhhhhhhhhhhhhhhhhhhooooommmmm')
        this.loading();
        this.pipei(list.form.paramAllList);
-    //    this.getdepartment();
-    //    this.getgroup();
        this.xunahn(this.state.jax,this.state.zed);
        this.getlls(bool.form.templateContents);
       }
@@ -182,21 +179,6 @@ export default class Tdetail extends React.Component{
         })
       }
 
-    //  async getdepartment(){
-    //     let mlxg = `?form.tree_node_id=${this.state.itemsss[0].departmentid}&form.tree_node_operation=2`;
-    //     let me = await findbumen(mlxg);
-    //     this.setState({
-    //         userData:me.form.page.dataRows
-    //     })
-    //   }
-
-    //  async getgroup(){
-    //     let pdd = `?form.tree_node_id=${this.state.itemsss[0].departmentid}&form.tree_node_operation=0`;
-    //     let white = await findgroup(pdd);
-    //     this.setState({
-    //         group:white.form.page.dataRows
-    //     })
-    //   }
     
       pipei(sss){
         let s = sss;
@@ -244,7 +226,6 @@ export default class Tdetail extends React.Component{
     async openothers(val,leixing,banzu){
         let display = [];
         let datas=[];
-        console.log(val,"vvvvvvvvvvvvvvvv")
         let alljsitem = Object.keys(val);
         let alljsv = Object.values(val);
         let tts=[];
@@ -254,8 +235,6 @@ export default class Tdetail extends React.Component{
                 tts.push({[alljsitem[index]]:alljsv[index]});
             }
         })
-        console.log(tts,"ttttttttttt")
-
         tts.map(item=>{
             params.push(Object.keys(item)[0])
         })
@@ -269,7 +248,6 @@ export default class Tdetail extends React.Component{
             }
         };
         let s ={[leixing]:display.join(",")};
-       console.log(s,"eeeeeeeeeeeeeeeeee")
         if(banzu=="班组"){
             this.state.Department.map(item=>{
                 if(alljsitem.indexOf(item.DepartmentID) != -1){
@@ -351,7 +329,6 @@ export default class Tdetail extends React.Component{
     this.state.newpagedata[value] = s;
     this.state.showChecked=s;
     this.setState(this.state);
-    console.log("fffffffff-",this.state.showChecked);
     }
 
     handleInput(k, v,three){
@@ -388,8 +365,8 @@ export default class Tdetail extends React.Component{
             newpagedata:datas,
             datamore:datamore
         });
-        console.log("fffffffff",datas)
     }
+
     isChacked=(ss)=>{
         let sss = this.state.pagedata;
         
@@ -489,24 +466,8 @@ export default class Tdetail extends React.Component{
             })
         }
     }
-    add(v){
-        // this.setState(({arrs})=>{
-        //    arrs.push();
-        // });
 
-        // let varr=this.state.isadd;
-        // let keys = Object.keys(varr);
-        // let values = Object.values(varr);
-        
-        // let index = keys.findIndex((item,i)=>{
-        //     if(item==v){
-        //         // itemsss =  values[i+1]+1;
-        //         let objects = Object.assign(this.state.isadd,{[item]:values[i]+1})
-        //         this.state.isadd=objects;
-        //         this.forceUpdate();
-        //     }
-        // })  
-  
+    add(v){
         this.setState(({newpagedata})=>{
             let newpagedata2 = this.state.newpagedata;
             let vaaaa = newpagedata2[v+"*1"];
@@ -517,8 +478,8 @@ export default class Tdetail extends React.Component{
             this.state.newpagedata[v+"_1"] = nesadds;
             return newpagedata2;
        });
-        // console.log("++++++++++++>>>>>,", this.state.isadd);
     }
+
     isnums(v){
         let varr=this.state.isadd;
         let keys = Object.keys(varr);
@@ -531,17 +492,8 @@ export default class Tdetail extends React.Component{
         })
         return values[ss];  
     }
+
     delete(v,inde){
-        
-        // let isadd = this.state.isadd[v];
-        // let is = this.state.newpagedata[v+"*1"];
-        // if(!is)return alert("1111");
-        // console.log("QQQQQQQQQQQQQQQQQQ:::1111",isadd,is);
-
-        // is.splice(inde,1);
-        // this.forceUpdate();
-        console.log("QQQQQQQQQQQQQQQQQQ:::",this.state.newpagedata);
-
         this.setState(({isadd,newpagedata})=>{
             let vAdd = isadd[v];
             let vNewpagedata = newpagedata[v+"*1"];
@@ -553,35 +505,18 @@ export default class Tdetail extends React.Component{
             isadd = vAdd-1;
             return{isadd,newpagedata}
         });
-        
-        console.log("QQQQQQQQQQQQQQQQQQ:::111",this.state.newpagedata);
-
-
-        
-        
-        // console.log("Ggggggggg",inde)
-        // let varr=this.state.isadd;
-        // let keys = Object.keys(varr);
-        // let values = Object.values(varr);
-        // console.log(this.state.isadd,"llllllllllllllllllllllllll")
-
-
-
-        // let objects = Object.assign(this.state.isadd,{[v]:values.splice(inde,1) })
-        //         this.state.isadd=objects;
-        //         this.forceUpdate();
-        //         console.log(objects,'this.state.isadd')
     }
+
     getValueByID(v,qIndex){
         if(!this.state.newpagedata[v]){
             this.state.newpagedata[v] = [1];
         }
         return this.state.newpagedata[v][qIndex];
     }
+    
     getTextareaItemByID(v,dis,i){
         let ds = this.state.newpagedata[v.TicketParaID+"*1"] || ["0"];
         let checkeds = this.state.newpagedata[v.TicketParaID+"_1"]||["0"];
-        console.log(checkeds,">>>>>>>>>>")
         return ds.map((item,qIndex)=>{
             return (<View style={{backgroundColor:!dis?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)"}} key={qIndex}>
             <View style={{flexDirection:'row'}}>
@@ -602,7 +537,7 @@ export default class Tdetail extends React.Component{
                                     return newpagedata
                                 })
                             }} style={{width:'12%',justifyContent:'center',alignItems:'center',borderBottomColor:'#ddd',borderBottomWidth:.5,borderStyle:'solid'}}>
-                            <Image resizeMode="contain" style={{width:20,top:1,height:20}} source={require('../images/delete.png')}/>  
+                            <Image style={{width:20,top:1,height:20,resizeMode:Image.resizeMode.contain}} source={require('../images/delete.png')}/>  
                             </TouchableOpacity>
             </View>
                   {v.IsConfirm==1?<View style={{flexDirection:'row',alignItems:'center',padding:5}}><Checkbox 
@@ -624,7 +559,7 @@ export default class Tdetail extends React.Component{
             {
            let dis = this.chackSSSS(v.TicketParaID);
            let itemMsg = this.isChacked(i);
-           return <View key={i} style={{borderRadius:2,marginTop:5,padding:5,alignItems:'center',width:'100%'}}>
+           return <View key={i} style={{marginTop:5,padding:5,alignItems:'center',width:'100%'}}>
               <View style={{
                   width:'98%',
                   backgroundColor:'rgba(255,255,255,.3)',
@@ -632,12 +567,10 @@ export default class Tdetail extends React.Component{
                   flexDirection:'row',
                   alignItems:'center',
                   }}>
-                  <Text style={{color:'white',left:2,width:'80%'}}>{v.ParaName}</Text>
-                  {v.IsAdd==1&&!dis&& <View style={{flexDirection:'row',left:5}}>
-                         <TouchableOpacity onPress={()=>this.add(v.TicketParaID)}>
-                            <Image resizeMode="contain" style={{width:25,top:1,height:25}} source={require('../images/add.png')}/>  
-                        </TouchableOpacity>
-                        </View>}
+                  <Text style={{color:'white',left:2,width:'87%',flex:1,flexWrap:'wrap'}}>{v.ParaName}</Text>
+                  {v.IsAdd==1&&!dis&&<TouchableOpacity onPress={()=>this.add(v.TicketParaID)} style={{width:'12%',justifyContent:'center',alignItems:'center'}}>
+                            <Image style={{width:25,top:1,height:25,resizeMode:Image.resizeMode.contain}} source={require('../images/add.png')}/>  
+                        </TouchableOpacity>}
               </View>
                {      
                   v.ParaTypeID==4? 
@@ -751,7 +684,6 @@ export default class Tdetail extends React.Component{
                 </TouchableOpacity>:null}
             </View>
         </ScrollView>
-        {/* </View> */}
         </ImageBackground>)
     }
 }
