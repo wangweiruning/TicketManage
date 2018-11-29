@@ -145,7 +145,7 @@ let result = this.state.result;
             <ScrollView>
               {result.length>0&&result.map((itemdata,index)=>{
                  return (
-                  <TouchableOpacity key={index}
+                  <TouchableOpacity key={index} activeOpacity={.8}
                         onPress={()=>this.gotoItem(itemdata)}
                         style={{marginBottom:8,marginTop:8,paddingBottom:15,width:"95%",marginLeft:10.3,borderRadius:10,backgroundColor:'rgba(255,255,255,.2)'}}>
                     <Text numberOfLines={10} 
