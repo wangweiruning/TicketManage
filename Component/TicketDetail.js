@@ -1,6 +1,6 @@
 import React from 'react';
 import TicketTitle from './TicketTitle';
-import {Checkbox,TextareaItem,ActivityIndicator} from 'antd-mobile-rn';
+import {TextareaItem,ActivityIndicator} from 'antd-mobile-rn';
 import {View,Text,ScrollView,TouchableOpacity,TextInput,ToastAndroid,Alert,Image,ImageBackground} from 'react-native';
 import ModalDropdown from 'react-native-modal-dropdown';
 import DatePicker from 'react-native-datepicker'
@@ -16,6 +16,7 @@ import {newTiceketNum,
         AllMangerUser,AllDepartment,ForDepartment} from './../api/api';
 
 import TicketDropdownCheckBox from './TicketDropdownCheckBox';
+import CheckBox from 'react-native-checkbox';
 import {StackActions, NavigationActions} from 'react-navigation';
 const resetAction = StackActions.reset({
     index: 0,
@@ -321,14 +322,16 @@ export default class Tdetail extends React.Component{
 
 
     onChangecoform(value,dis,index){
+console.log(dis,"/////////////",value,index)
    
     let s = this.state.newpagedata[value];
     if(!s)s = [];
     s[index] = dis?"1":"0";
-
+console.log("/////////////---->>>>",dis,s[index] == "0")
     this.state.newpagedata[value] = s;
     this.state.showChecked=s;
     this.setState(this.state);
+
     }
 
     handleInput(k, v,three){
@@ -517,6 +520,7 @@ export default class Tdetail extends React.Component{
     getTextareaItemByID(v,dis,i){
         let ds = this.state.newpagedata[v.TicketParaID+"*1"] || [""];
         let checkeds = this.state.newpagedata[v.TicketParaID+"_1"]||["0"];
+       
         let newpagedataID = this.state.newpagedata[v.TicketParaID+"*1"];
         return ds.map((item,qIndex)=>{
             return (<View style={{backgroundColor:!dis?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)"}} key={qIndex}>
@@ -547,9 +551,16 @@ export default class Tdetail extends React.Component{
                             }
                             </TouchableOpacity>}
             </View>
-                  {v.IsConfirm==1?<View style={{flexDirection:'row',alignItems:'center',padding:5,height:44}}><Checkbox 
-                  onChange={(e)=>this.onChangecoform(v.TicketParaID+"_1",e.target.checked,qIndex)}  checked={checkeds[qIndex]=="1"} disabled={dis}>
-                  <Text style={{marginLeft:5,color:'#f5f5f5'}}>是否已执行</Text></Checkbox></View>:null}</View>)
+                  {v.IsConfirm==1?<View style={{flexDirection:'row',alignItems:'center',padding:5,height:44}}>
+                  <CheckBox 
+                  labelStyle={{color:'#f5f5f5'}} checkboxStyle={{width:18,height:18}}
+                  label={'是否已执行'}
+                  style={{backgroundColor:'rgba(255,255,255,.2)'}}
+                  onChange={(e)=>this.onChangecoform(v.TicketParaID+"_1",e,qIndex)}  
+                   disabled={dis}
+                   
+                   >
+                  </CheckBox></View>:null}</View>)
         })
     }
     render(){
@@ -603,9 +614,13 @@ export default class Tdetail extends React.Component{
                     <TextInput multiline={true} editable={!dis} placeholder="请输入内容..." underlineColorAndroid="transparent" placeholderTextColor="#eee"
                     onChangeText={(v)=>this.handleInput('datalist'+i,v,getAllTempanyId[i])} style={{paddingHorizontal:6,minWidth:'98%',backgroundColor:!dis?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)",color:'white'}}/>
                     {v.IsConfirm==1?<View style={{borderTopColor:'white',borderStyle:'solid',borderTopWidth:1,flexDirection:'row',padding:5,backgroundColor:!dis?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)"}}>
-                    <Checkbox onChange={(e)=>this.onChangecoform(getAllTempanyId[i]+"_1",e.target.checked)}
+                    <CheckBox 
+                    labelStyle={{color:'#f5f5f5'}} checkboxStyle={{width:18,height:18}}
+                    label={'是否已执行'}
+                    style={{backgroundColor:'rgba(255,255,255,.2)'}}
+                    onChange={(e)=>this.onChangecoform(getAllTempanyId[i]+"_1",e)}
                         disabled={dis}
-                    ><Text style={{color:'#f5f5f5'}}>是否已执行</Text></Checkbox></View>:null}
+                    ></CheckBox></View>:null}
                   </View>
                     :v.ParaTypeID==5?
                     <DatePicker    
@@ -635,8 +650,12 @@ export default class Tdetail extends React.Component{
                        autoHeight
                          style={{color:'white',fontSize:14,paddingHorizontal:6,minWidth:'98%',backgroundColor:!dis?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)"}} />
                          <View style={{flexDirection:'row',backgroundColor:!dis?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)",padding:5}}>
-                       <Checkbox onChange={(e)=>this.onChangecoform(getAllTempanyId[i]+"_1",e.target.checked)} disabled={dis}>
-                          <Text style={{color:'#f5f5f5'}}>是否已执行</Text></Checkbox></View></View>
+                       <CheckBox 
+                       labelStyle={{color:'#f5f5f5'}} checkboxStyle={{width:18,height:18}}
+                       label={'是否已执行'}
+                       style={{backgroundColor:'rgba(255,255,255,.2)'}}
+                       onChange={(e)=>this.onChangecoform(getAllTempanyId[i]+"_1",e)} disabled={dis}>
+                         </CheckBox></View></View>
                         }
                   </View>:null
                }
