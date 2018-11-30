@@ -16,7 +16,7 @@ export default class HistoryPlan extends React.Component{
 
    async componentDidMount(){
     const {navigate} = this.props.navigation;
-    if(!jconfig.userinfo.user){
+    if(jconfig.userinfo.user==(""||null)){
       return Alert.alert(
         "登录超时",
         "登录状态已过期，请重新登录",

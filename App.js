@@ -284,14 +284,15 @@ export default class App extends Component {
 
 async getUserInfo () {
   try {
-   return new Promise((s1, s2) => {
+    new Promise((s1, s2) => {
     MySorage._load("userinfo", (res) => {
       let info = JSON.parse(res);
+      window.jconfig.userinfo=info;
+      console.log(res,info,'ssssssssssss')
       if(!info){
         this.navigator.dispatch(resetAction);
         return
       }
-      window.jconfig.userinfo=info;
     })
    })
   }

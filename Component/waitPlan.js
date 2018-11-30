@@ -19,7 +19,7 @@ export default class WaitPlan extends React.Component{
   }
     async componentWillMount(){
         const {navigate} = this.props.navigation
-        if(jconfig.userinfo.user==null){
+        if(jconfig.userinfo.user==(""||null)){
           return Alert.alert(
             "登录超时",
             "登录状态已过期，请重新登录",

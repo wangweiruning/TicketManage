@@ -56,8 +56,15 @@ export default class Login extends React.Component{
         this.setState({
             loading:true
         })
-        if(data.username=="" && data.password==""){
-            ToastAndroid.show('请输入账号或密码',ToastAndroid.SHORT)   
+        if(data.username==""){
+            ToastAndroid.show('请输入账号',ToastAndroid.SHORT);
+            this.setState({loading:false})
+            return 
+        }
+        if(data.password==""){
+            ToastAndroid.show('请输入密码',ToastAndroid.SHORT);
+            this.setState({loading:false})
+            return 
         }
         try{
          let datas =`?form.user=${data.username}&form.pass=${data.password}&code=50ACD07A6C49F3B9E082EF40461AC6D1`;
