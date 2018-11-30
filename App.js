@@ -19,7 +19,7 @@ import TicketModel from './Component/TicketModel';
 import TicketFlew from './Component/TicketFlew';
 import Result from './Component/Result';
 import {StackNavigator,TabBarTop, TabNavigator,StackActions, NavigationActions} from "react-navigation";
-import {Image,BackHandler,ToastAndroid,StatusBar,Easing,Animated} from 'react-native';
+import {Image,BackHandler,ToastAndroid,StatusBar,Easing,Animated,Alert} from 'react-native';
 import {islogin} from './api/api'
 MySorage._getStorage()
 window.jconfig={
@@ -236,7 +236,13 @@ export default class App extends Component {
  async componentWillMount(){
     let d="?code=50ACD07A6C49F3B9E082EF40461AC6D1";
     let ff= await islogin(d);
-    if(ff.form.status==0){return this.navigator.dispatch(resetAction);}
+    if(ff.form.status==0){
+      Alert.alert("","登录信息已过期，请重新登录",[
+        {text:'去登录',onPress:()=>this.navigator.dispatch(resetAction)}
+      ],
+      {cancelable:true}
+      )
+    }
     console.log(ff,"lllllllllll")
     BackHandler.addEventListener('hardwareBackPress', this.onBackAndroid);
 }
