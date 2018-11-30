@@ -62,9 +62,7 @@ export default class Login extends React.Component{
          let result = await login(datas)
          if(result.form.status == 1){
             window.jconfig.userinfo=result.form;
-            MySorage._sava("userinfo", JSON.stringify(result.form));
-            // ToastAndroid.show(result.form.targetresult,ToastAndroid.SHORT)
-            this.props.navigation.dispatch(resetAction);
+            MySorage._sava("userinfo", JSON.stringify(result.form));            // ToastAndroid.show(result.form.targetresult,ToastAndroid.SHORT)            this.props.navigation.dispatch(resetAction);
           }
          else{
             Alert.alert('',result.form.targetresult,[{text:'是',onPress:this.opntion2Selected}])

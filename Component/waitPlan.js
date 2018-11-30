@@ -180,7 +180,7 @@ export default class WaitPlan extends React.Component{
             </TouchableOpacity>
             )
         })}
-        {this.state.havenotdate&&<View style={{marginVertical:20}}><Text style={{textAlign:"center",fontSize:16}}>暂时没有数据！</Text></View>}
+        {this.state.havenotdate&&<View style={{marginVertical:20}}><Text style={{textAlign:"center",fontSize:16,color:"#fff"}}>暂时没有数据！</Text></View>}
             </ScrollView>
             </View>
       </ImageBackground>
