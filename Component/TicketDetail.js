@@ -520,15 +520,15 @@ export default class Tdetail extends React.Component{
         let newpagedataID = this.state.newpagedata[v.TicketParaID+"*1"];
         return ds.map((item,qIndex)=>{
             return (<View style={{backgroundColor:!dis?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)"}} key={qIndex}>
-            <View style={{flexDirection:'row',borderTopColor:'#ddd',borderTopWidth:.5,borderStyle:'solid'}}>
+            <View style={{flexDirection:'row',borderTopColor:'rgba(255,255,255,.3)',borderTopWidth:.5,borderStyle:'solid'}}>
             <View style={{width:v.IsAdd==1 && !dis?"88%":"100%"}}>
-            <TextareaItem value={this.getValueByID(v.TicketParaID+"*1",qIndex)} editable={!dis} placeholder="请输入内容..." placeholderTextColor="white"
+            <TextareaItem last={true} value={this.getValueByID(v.TicketParaID+"*1",qIndex)} editable={!dis} placeholder="请输入内容..." placeholderTextColor="white"
                              onChange={(e)=>{
                                  this.state.newpagedata[v.TicketParaID+"*1"][qIndex] = e
                                 this.setState(this.state)
                                 }} 
                                 autoHeight 
-                             style={{borderBottomWidth:0,paddingHorizontal:6,backgroundColor:'transparent',color:'white',minWidth:"100%",fontSize:14}} />
+                             style={{borderBottomWidth:0.5,borderStyle:'solid',borderBottomColor:'rgba(255,255,255,.3)',paddingHorizontal:6,backgroundColor:'transparent',color:'white',minWidth:"100%",fontSize:14}} />
             </View>
             {v.IsAdd==1&&!dis&&<TouchableOpacity onPress={()=>{
                                 this.setState(({newpagedata})=>{
@@ -541,11 +541,11 @@ export default class Tdetail extends React.Component{
                                     this.state.newpagedata[v.TicketParaID+"_1"]=newpagedataChecked;
                                     return newpagedata
                                 })
-                            }} style={{width:'12%',justifyContent:'center',alignItems:'center',borderBottomColor:'#ddd',borderBottomWidth:.5,borderStyle:'solid'}}>
+                            }} style={{width:'12%',justifyContent:'center',alignItems:'center'}}>
                             {!newpagedataID || newpagedataID.length<2?null:<Image style={{width:25,top:1,height:25,resizeMode:Image.resizeMode.contain}} source={require('../images/delete.png')}/>}
                             </TouchableOpacity>}
             </View>
-                  {v.IsConfirm==1?<View style={{flexDirection:'row',alignItems:'center',padding:5}}><Checkbox 
+                  {v.IsConfirm==1?<View style={{flexDirection:'row',alignItems:'center',padding:5,height:44}}><Checkbox 
                   onChange={(e)=>this.onChangecoform(v.TicketParaID+"_1",e.target.checked,qIndex)}  checked={checkeds[qIndex]=="1"} disabled={dis}>
                   <Text style={{marginLeft:5,color:'#f5f5f5'}}>是否已执行</Text></Checkbox></View>:null}</View>)
         })
@@ -564,7 +564,7 @@ export default class Tdetail extends React.Component{
             {
            let dis = this.chackSSSS(v.TicketParaID);
            let itemMsg = this.isChacked(i);
-           return <View key={i} style={{marginTop:5,padding:5,alignItems:'center',width:'100%'}}>
+           return <View key={i} style={{marginTop:5,paddingTop:5,alignItems:'center',width:'100%'}}>
               <View style={{
                   width:'98%',
                   backgroundColor:'rgba(255,255,255,.3)',
@@ -648,7 +648,7 @@ export default class Tdetail extends React.Component{
                 <Text style={{color:'#f5f5f5',left:5}}>提交</Text>
             </View>
             <View style={{marginTop:5,marginBottom:20,width:'100%',alignItems:'center'}}>
-               <View style={{width:'95.5%',elevation:3,backgroundColor:'rgba(255,255,255,.3)',alignItems:'center'}}>
+               <View style={{width:'98%',elevation:3,backgroundColor:'rgba(255,255,255,.3)',alignItems:'center'}}>
                 <View style={{flexDirection:'row',width:'95%',alignItems:'center',paddingBottom:8,paddingRight:8,paddingTop:8}}>
                   <Text style={{color:'white',flex:1}}>是否同意</Text>
                   <ModalDropdown dropdownTextStyle={{fontSize:15}} dropdownStyle={{height:50}} textStyle={{color:'#f5f5f5',fontSize:13}} 
@@ -672,7 +672,7 @@ export default class Tdetail extends React.Component{
                 <Image source={require('../images/line.png')} style={{width:'90%',height:2,resizeMode:Image.resizeMode.contain}}/>
                 <View style={{width:'98%',padding:6}}>
                   <Text style={{color:'white'}}>详细意见</Text>
-                  <TextareaItem  placeholderTextColor="#f5f5f5" style={{paddingHorizontal:5,color:"#F5F5F5",fontSize:14,minWidth:'95%',backgroundColor:'rgba(255,255,255,.2)'}} placeholder="请输入内容..." autoHeight onChangeText={(v)=>this.handleInputs('detailInfo',v)}/>
+                  <TextareaItem last={true}  placeholderTextColor="#f5f5f5" style={{paddingHorizontal:5,color:"#F5F5F5",fontSize:14,minWidth:'95%',backgroundColor:'rgba(255,255,255,.2)'}} placeholder="请输入内容..." autoHeight onChangeText={(v)=>this.handleInputs('detailInfo',v)}/>
                 </View>
                </View>
             </View>
