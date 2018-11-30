@@ -1,6 +1,6 @@
 import React from 'react';
 import {View,TouchableOpacity,Text,Alert,ToastAndroid,Platform,BackHandler,DeviceEventEmitter,Image,TextInput,StatusBar} from 'react-native';
-import {InputItem,ActivityIndicator,Toast} from 'antd-mobile-rn';
+import {ActivityIndicator,Toast} from 'antd-mobile-rn';
 import {login} from '../api/api';
 import MySorage from '../api/storage';
 import {StackActions, NavigationActions} from 'react-navigation';
@@ -13,7 +13,6 @@ const resetAction = StackActions.reset({
 export default class Login extends React.Component{
      constructor(props){
          super(props);
-        //  MySorage._getStorage(); 
          this.state={
             user:'',
             pass:'',
@@ -64,7 +63,7 @@ export default class Login extends React.Component{
          if(result.form.status == 1){
             window.jconfig.userinfo=result.form;
             MySorage._sava("userinfo", JSON.stringify(result.form));
-            ToastAndroid.show(result.form.targetresult,ToastAndroid.SHORT)
+            // ToastAndroid.show(result.form.targetresult,ToastAndroid.SHORT)
             this.props.navigation.dispatch(resetAction);
           }
          else{
