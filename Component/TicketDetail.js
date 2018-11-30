@@ -520,15 +520,15 @@ export default class Tdetail extends React.Component{
         let newpagedataID = this.state.newpagedata[v.TicketParaID+"*1"];
         return ds.map((item,qIndex)=>{
             return (<View style={{backgroundColor:!dis?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)"}} key={qIndex}>
-            <View style={{flexDirection:'row',borderTopColor:'rgba(255,255,255,.3)',borderTopWidth:.5,borderStyle:'solid'}}>
-            <View style={{width:v.IsAdd==1 && !dis?"88%":"100%"}}>
+            <View style={{flexDirection:'row',borderTopColor:!v.IsConfirm==1?'transparent':'rgba(255,255,255,.3)',borderTopWidth:!v.IsConfirm==1?0:.5,borderStyle:'solid'}}>
+            <View style={{width:v.IsAdd==1 && !dis?ds.length==1?"98%":"89%":"98%"}}>
             <TextareaItem last={true} value={this.getValueByID(v.TicketParaID+"*1",qIndex)} editable={!dis} placeholder="请输入内容..." placeholderTextColor="white"
                              onChange={(e)=>{
                                  this.state.newpagedata[v.TicketParaID+"*1"][qIndex] = e
                                 this.setState(this.state)
                                 }} 
                                 autoHeight 
-                             style={{borderBottomWidth:0.5,borderStyle:'solid',borderBottomColor:'rgba(255,255,255,.3)',paddingHorizontal:6,backgroundColor:'transparent',color:'white',minWidth:"100%",fontSize:14}} />
+                             style={{paddingHorizontal:0,paddingRight:4,marginHorizontal:5,borderBottomWidth:0.5,borderStyle:'solid',borderBottomColor:'rgba(255,255,255,.3)',backgroundColor:'transparent',color:'white',minWidth:"100%",fontSize:14}} />
             </View>
             {v.IsAdd==1&&!dis&&<TouchableOpacity onPress={()=>{
                                 this.setState(({newpagedata})=>{
@@ -541,8 +541,10 @@ export default class Tdetail extends React.Component{
                                     this.state.newpagedata[v.TicketParaID+"_1"]=newpagedataChecked;
                                     return newpagedata
                                 })
-                            }} style={{width:'12%',justifyContent:'center',alignItems:'center'}}>
-                            {!newpagedataID || newpagedataID.length<2?null:<Image style={{width:25,top:1,height:25,resizeMode:Image.resizeMode.contain}} source={require('../images/delete.png')}/>}
+                            }} style={{width:!newpagedataID || newpagedataID.length<2 || ds.length==1?"0%":'11%',justifyContent:'center',alignItems:'center'}}>
+                            {!newpagedataID || newpagedataID.length<2 ?null:
+                            <Image style={{width:25,top:1,height:25,resizeMode:Image.resizeMode.contain}} source={require('../images/delete.png')}/>
+                            }
                             </TouchableOpacity>}
             </View>
                   {v.IsConfirm==1?<View style={{flexDirection:'row',alignItems:'center',padding:5,height:44}}><Checkbox 
@@ -573,8 +575,8 @@ export default class Tdetail extends React.Component{
                   flexDirection:'row',
                   alignItems:'center',
                   }}>
-                  <Text style={{color:'white',left:2,width:'87.5%',flex:1,flexWrap:'wrap',paddingRight:5}}>{v.ParaName}</Text>
-                  {v.IsAdd==1&&!dis&&<TouchableOpacity onPress={()=>this.add(v.TicketParaID)} style={{width:'12%',justifyContent:'center',alignItems:'center'}}>
+                  <Text style={{color:'white',left:2,width:'85.5%',flex:1,flexWrap:'wrap',paddingRight:5}}>{v.ParaName}</Text>
+                  {v.IsAdd==1&&!dis&&<TouchableOpacity onPress={()=>this.add(v.TicketParaID)} style={{width:'11%',justifyContent:'center',alignItems:'center'}}>
                             <Image style={{width:25,top:1,height:25,resizeMode:Image.resizeMode.contain}} source={require('../images/add.png')}/>  
                         </TouchableOpacity>}
               </View>
@@ -618,7 +620,7 @@ export default class Tdetail extends React.Component{
                     format="YYYY-MM-DD HH:mm"         
                     confirmBtnText="确定"        
                     cancelBtnText="取消"      
-                    showIcon={true} 
+                    showIcon={dis?true:false} 
                     disabled={!dis} 
                     minDate={new Date(2015, 1, 1)}
                     placeholder="请选择时间"      

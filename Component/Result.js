@@ -844,7 +844,7 @@ export default class Tdetail extends React.Component {
         this.setState(({newpagedata})=>{
             if(v.IsAdd==1){
                 let newChecked = this.state.newChecked;
-                let nesadds = newChecked[v+"_1"]||[];
+                let nesadds = newChecked[v+"_1"]||[''];
                 nesadds = nesadds.split("&$");
                 nesadds.push("0");
                 this.state.newChecked[v+"_1"] = nesadds.join("&$");
@@ -852,12 +852,12 @@ export default class Tdetail extends React.Component {
             }
             
             let newpagedata2 = this.state.pagedata;
-            let vaaaa = this.state.pagedata[v.TicketParaID+"*1"];
-
-            vaaaa = newpagedata2[v+"*1"];
-            vaaaa = vaaaa?vaaaa.split("&$"):[];
-            if(vaaaa.length==0)return ToastAndroid.show('第一个数据不能为空!', ToastAndroid.SHORT);
+            let  newsvaa = newpagedata2[v];
+            let  vaaaa = newpagedata2[v+"*1"]=="&$"?newsvaa: newpagedata2[v+"*1"];
+            console.log(newpagedata2)
+            vaaaa = vaaaa?vaaaa.split("&$"):[''];
             vaaaa.push("");
+            console.log(vaaaa)
             newpagedata2[v+"*1"] = vaaaa.join("&$");
             this.state.newpagedata[v+"*1"] = vaaaa;
             return newpagedata2;
@@ -976,19 +976,18 @@ export default class Tdetail extends React.Component {
         return newds.map((item,qIndex)=>{
            
             return (<View style={{width:"100%",}} key={qIndex}>
-            <View style={{width:"100%",flexDirection:"row",backgroundColor:dis?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)",}}>
-            <View style={{width:v.IsAdd==1&&dis&&v.ParaTypeID ==6?
-                                "88%":"100%",borderTopWidth:0.5,borderStyle:"solid",borderTopColor:v.IsAdd==1&&dis&&v.ParaTypeID ==6?"transparent":"rgba(255,255,255,0.4)"}}>
+            <View style={{width:"100%",flexDirection:"row",backgroundColor:dis?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)",borderTopWidth:!v.IsConfirm==1?0:0.5,borderStyle:"solid",borderTopColor:!v.IsConfirm==1?"transparent":"rgba(255,255,255,0.4)"}}>
+            <View style={{width:v.IsAdd==1 && dis?newds.length==1?"98%":"89%":"98%"}}>
             <TextareaItem defaultValue={item?item:''} editable={dis} placeholder={"请输入内容..."} placeholderTextColor="white"
                              onChange={(e)=>{
                                  newds[qIndex] = e;
                                  this.state.pagedata[v.TicketParaID+"*1"] = newds.join("&$");
                                  this.state.newpagedata[v.TicketParaID+"*1"]=newds;
                              }}
-                             autoHeight 
-                                style={{paddingVertical: 5.1,fontSize:14,
+                             autoHeight last={true}
+                                style={{marginHorizontal:6,paddingHorizontal:0,fontSize:14,paddingRight:4,
                                 backgroundColor:"transparent",
-                                color:'white',minWidth:"100%"}} />
+                                color:'white',minWidth:"100%",borderBottomColor:'rgba(255,255,255,.3)',borderBottomWidth:0.5,borderStyle:'solid'}} />
                                 </View>
                                 {v.IsAdd==1&&dis&&v.ParaTypeID ==6&& <TouchableOpacity onPress={()=>{
                                 this.setState(({pagedata})=>{
@@ -1001,7 +1000,7 @@ export default class Tdetail extends React.Component {
                                     return pagedata;
                                 })
                                 
-                            }} style={{justifyContent:'center',width:'12%',alignItems:'center',borderBottomColor:"#ddd",borderBottomWidth:0.5,borderStyle:"solid"}}>
+                            }} style={{justifyContent:'center',width:newds.length==1?'0%':'11%',alignItems:'center'}}>
                                     {newds.length>1&&<Image style={{width:25,top:1,height:25,resizeMode:Image.resizeMode.contain}} source={require('../images/delete.png')}/>}  
                             </TouchableOpacity>
                             }
@@ -1048,7 +1047,7 @@ export default class Tdetail extends React.Component {
                         </View>
                         </View>:null}
                     {
-                        this.state.mengCard&&<View style={{top:"-6%",justifyContent:'center',alignItems:'center', zIndex:444,width:"100%",height:"100%"}}>
+                        this.state.mengCard&&<View style={{top:"-6%",justifyContent:'center',alignItems:'center',width:"100%",height:"100%"}}>
                         <ActivityIndicator color="#ffffff"/>
                         <Text style={{color:"#ffffff",textAlign:"center",marginTop:10,fontSize:15}}>加载中...</Text>
                         </View>}
@@ -1069,7 +1068,7 @@ export default class Tdetail extends React.Component {
                                 }}>
                                 <Text style={{color:'white',left:2,width:"87%",flex:1,flexWrap:'wrap'}}>{v.ParaName}</Text>
                                 {v.IsAdd==1&&dis&&v.ParaTypeID ==6&& 
-                         <TouchableOpacity onPress={()=>this.add(v.TicketParaID)} style={{width:'12%',justifyContent:'center',alignItems:'center'}}>
+                         <TouchableOpacity onPress={()=>this.add(v.TicketParaID)} style={{width:'11%',justifyContent:'center',alignItems:'center'}}>
                             <Image style={{width:25,top:1,height:25,resizeMode:Image.resizeMode.contain}} source={require('../images/add.png')}/>  
                         </TouchableOpacity>}
                             </View>
@@ -1105,7 +1104,7 @@ export default class Tdetail extends React.Component {
                                                         underlineColorAndroid="transparent"
                                                         placeholderTextColor="#f5f5f5"
                                                         onChangeText={(values) => this.handleInput(v.TicketParaID, values)}
-                                                        style={{paddingHorizontal:6,minWidth:'98%',maxWidth:'98.1%',backgroundColor:dis?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)",color:'#eee'}} />
+                                                        style={{paddingHorizontal:6.5,minWidth:'98%',maxWidth:'98.1%',backgroundColor:dis?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)",color:'#eee'}} />
                                                     <View style={{ flexDirection: 'row', padding: 5 ,
                                                     backgroundColor:dis?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)",
                                                     borderTopColor:"rgba(255,255,255,.4)",borderStyle:"solid",borderTopWidth:0.5,
@@ -1125,13 +1124,13 @@ export default class Tdetail extends React.Component {
                                                         editable={dis} placeholder="请输入内容..."
                                                         placeholderTextColor="#f5f5f5"
                                                         onChangeText={(values) => this.handleInput(v.TicketParaID, values)}
-                                                        style={{paddingHorizontal:6,minWidth:'98%',maxWidth:'98.1%',backgroundColor:dis?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)",color:'#eee'}} />}
+                                                        style={{paddingHorizontal:6.5,minWidth:'98%',maxWidth:'98.1%',backgroundColor:dis?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)",color:'#eee'}} />}
                                             </View> : v.ParaTypeID == 5
                                                 ?
                                                 <DatePicker
                                                     customStyles={{
                                                         dateInput: {
-                                                            left:6,
+                                                            left:6.5,
                                                             justifyContent:'center',
                                                                 borderWidth:0,
                                                             },
@@ -1142,7 +1141,7 @@ export default class Tdetail extends React.Component {
                                                     format="YYYY-MM-DD HH:mm"
                                                     confirmBtnText="确定"
                                                     cancelBtnText="取消"
-                                                    showIcon={true}
+                                                    showIcon={dis?true:false}
                                                     disabled={!dis}
                                                     minDate={new Date(2015, 1, 1)}
                                                     placeholder="请选择时间"
