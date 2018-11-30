@@ -56,13 +56,18 @@ export default class Login extends React.Component{
         this.setState({
             loading:true
         })
+        if(data.username=="" && data.password==""){
+            ToastAndroid.show('请输入账号或密码',ToastAndroid.SHORT)   
+        }
         try{
          let datas =`?form.user=${data.username}&form.pass=${data.password}&code=50ACD07A6C49F3B9E082EF40461AC6D1`;
          
          let result = await login(datas)
          if(result.form.status == 1){
             window.jconfig.userinfo=result.form;
-            MySorage._sava("userinfo", JSON.stringify(result.form));            // ToastAndroid.show(result.form.targetresult,ToastAndroid.SHORT)            this.props.navigation.dispatch(resetAction);
+            MySorage._sava("userinfo", JSON.stringify(result.form));            
+            // ToastAndroid.show(result.form.targetresult,ToastAndroid.SHORT)            
+            this.props.navigation.dispatch(resetAction);
           }
          else{
             Alert.alert('',result.form.targetresult,[{text:'是',onPress:this.opntion2Selected}])
