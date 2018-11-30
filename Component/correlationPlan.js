@@ -41,18 +41,18 @@ export default class CorrelationPlan extends React.Component{
         const histo = await historys("?form.tree_node_operation="+0);
         const datas = "?form.userId="+histo.form.userId+"&pageSize=10&curPage=0";
                 const result = await correation(datas);
-                       if(result&&result.form.dataList.length>0){
+                     
                       this.setState({
                           userId:histo.form.userId,
                           result:result.form.dataList,//序列化：转换为一个 (字符串)JSON字符串
                           mengCard:false
                       });
-                     }
+                     
                      if(!result.form.dataList.length>0){
                       this.setState({
                         havenotdate:true
                     })
-                  }
+                    }
                 }
      }
     
@@ -159,7 +159,7 @@ let result = this.state.result;
                 </TouchableOpacity>
                 )
               })}
-              {this.state.havenotdate&&<View style={{marginVertical:20}}><Text style={{textAlign:"center",fontSize:16}}>暂时没有数据！</Text></View>}
+              {this.state.havenotdate&&<View style={{marginVertical:20}}><Text style={{textAlign:"center",fontSize:16,color:"#fff"}}>暂时没有数据！</Text></View>}
             </ScrollView>
             </View>
       </ImageBackground>

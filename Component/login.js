@@ -64,6 +64,7 @@ export default class Login extends React.Component{
          if(result.form.status == 1){
             window.jconfig.userinfo=result.form;
             MySorage._sava("userinfo", JSON.stringify(result.form));
+            MySorage._sava("first", false);
             ToastAndroid.show(result.form.targetresult,ToastAndroid.SHORT)
             this.props.navigation.dispatch(resetAction);
           }

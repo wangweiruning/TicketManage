@@ -101,7 +101,7 @@ export default class HistoryPlan extends React.Component{
                   <Text style={{marginTop:6,color:"#fff",marginBottom:7,marginLeft:16,fontSize:16}}>开票时间：{itemdata.filltickettime}</Text>
                 </TouchableOpacity>
                 })}
-                {this.state.havenotdate&&<View style={{marginVertical:20}}><Text style={{textAlign:"center",fontSize:16}}>暂时没有数据！</Text></View>}
+                {this.state.havenotdate&&<View style={{marginVertical:20}}><Text style={{textAlign:"center",fontSize:16,color:"#fff"}}>暂时没有数据！</Text></View>}
               </ScrollView>
               </View>
         </ImageBackground>
