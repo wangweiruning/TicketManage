@@ -7,7 +7,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "antd-mobile-rn": "^2.2.1",
+    "antd-mobile-rn": "^2.3.1",
     "babel-plugin-import": "^1.9.1",
     "babel-preset-react-native": "^4.0.1",
     "fetch": "^1.1.0",
