@@ -50,10 +50,6 @@ export default class ToastExample extends React.Component {
   );
   }
 
-  outs(){
-    const {navigate} = this.props.navigation;
-    navigate('login')
-  }
 
   reset(routeName="",params={}){
     window.jconfig.info={}

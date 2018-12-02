@@ -236,13 +236,8 @@ export default class App extends Component {
  async componentWillMount(){
     let d="?code=50ACD07A6C49F3B9E082EF40461AC6D1";
     let ff= await islogin(d);
-    console.log(ff,'qqqqqqqqqqqqqqq')
-    if(ff.form.status==0&&window.jconfig.userinfo){
-      Alert.alert("","登录信息已过期，请重新登录",[
-        {text:'去登录',onPress:()=>this.navigator.dispatch(resetAction)}
-      ],
-      {cancelable:false}
-      )
+    if(ff.form.status==0){
+      return this.navigator.dispatch(resetAction);
     }
     BackHandler.addEventListener('hardwareBackPress', this.onBackAndroid);
 }
