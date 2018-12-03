@@ -638,7 +638,7 @@ export default class Tdetail extends React.Component{
                   <View style={{width:'97.5%'}}>
                        {
                       v.IsAdd==1?this.getTextareaItemByID(v,dis,i):<View>
-                                 <TextareaItem last={true} placeholderTextColor="#eee" editable={!dis} placeholder="请输入内容..."
+                                 <TextareaItem placeholderTextColor="#eee" editable={!dis} placeholder="请输入内容..."
                       onChange={(e)=>this.handleInput('datalist'+i,e,getAllTempanyId[i])}
                        autoHeight
                          style={{color:'white',fontSize:14,paddingHorizontal:6,minWidth:'97.5%',backgroundColor:!dis?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)"}} />
