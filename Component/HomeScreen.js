@@ -50,7 +50,7 @@ export default class HomeScreen extends React.Component {
           <Text style={{fontSize:20,fontWeight:'500',color:'white',marginTop:10,marginBottom:10}}>两票管理</Text>
           {
           this.state.content.map((v,i)=><View key={i}>
-          <View style={{top:10}}>
+          <View style={{marginTop:10}}>
             <TouchableOpacity onPress={()=>navigate('waitPlan')} style={{height:70,minWidth:'93%',alignItems:'center',flexDirection:'row'}} activeOpacity={.8}>
                   <Image source={require('../images/unhandle_ticket.png')} style={{width:45,height:45,resizeMode:Image.resizeMode.contain,marginTop:2}}/>
                   <Text style={{fontWeight:'500',left:10,color:'white',fontSize:20,flex:1}}>{v.wait}</Text>
@@ -58,7 +58,7 @@ export default class HomeScreen extends React.Component {
             </TouchableOpacity>
             <Image source={require('../images/line.png')} style={{width:'100%',height:2,resizeMode:Image.resizeMode.contain}}/>
           </View>
-          <View style={{top:20}}>
+          <View>
           <TouchableOpacity onPress={()=>navigate('correlationPlan')} style={{height:70,minWidth:'93%',alignItems:'center',flexDirection:'row'}} activeOpacity={.8}>
                   <Image source={require('../images/online_ticket.png')} style={{width:45,height:45,resizeMode:Image.resizeMode.contain,marginTop:2}}/>
                   <Text style={{fontWeight:'500',left:10,color:'white',fontSize:20,flex:1}}>{v.about}</Text>
@@ -66,7 +66,7 @@ export default class HomeScreen extends React.Component {
           </TouchableOpacity>
           <Image source={require('../images/line.png')} style={{width:'100%',height:2,resizeMode:Image.resizeMode.contain}}/>
           </View>
-          <View style={{top:30}}>
+          <View>
               <TouchableOpacity onPress={()=>navigate('historyPlan')} style={{height:70,minWidth:'93%',alignItems:'center',flexDirection:'row'}} activeOpacity={.8}>
                   <Image source={require('../images/search_ticket.png')} style={{width:45,height:45,resizeMode:Image.resizeMode.contain,marginTop:2}}/>
                   <Text style={{fontWeight:'500',left:10,color:'white',fontSize:20,flex:1}}>{v.history}</Text>
