@@ -571,7 +571,7 @@ console.log("/////////////---->>>>",dis,s[index] == "0")
               <ActivityIndicator color="white"/>
               <Text style={{color:'white',fontSize:15,marginTop:15,zIndex:1000000}}>加载中...</Text>
         </View>}
-        <ScrollView style={{display:'flex'}}>
+        <ScrollView>
         {
             this.state.jax.map((v,i)=>
             {
