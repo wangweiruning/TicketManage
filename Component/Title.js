@@ -16,9 +16,9 @@ export default class Title extends React.Component{
     render(){
         return(
         <View style={{
-            width: '100%', 
-            paddingTop:StatusBar.currentHeight,
-            height:35+StatusBar.currentHeight,
+            width: '100%',
+            marginTop:StatusBar.currentHeight,
+            height:10+StatusBar.currentHeight,
             backgroundColor: 'transparent',
             display:'flex',
             flexDirection: 'row',

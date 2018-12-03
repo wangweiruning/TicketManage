@@ -23,13 +23,12 @@ export default class TicketTitle extends React.Component{
         <React.Fragment>
         <View style={{
             width: '100%',
-            paddingTop:StatusBar.currentHeight,
-            height:35+StatusBar.currentHeight,
+            marginTop:StatusBar.currentHeight,
+            height:10+StatusBar.currentHeight,
             backgroundColor: 'transparent',
             display:'flex',
             flexDirection: 'row',
             alignItems: 'center',
-            elevation: 4
         }}>
             <TouchableOpacity activeOpacity={0.8} onPress={()=>this._toBack()}
                                   style={{width: 60,marginLeft:5,height:38,display:'flex',alignItems:'center',flexDirection:'row'}}>   
