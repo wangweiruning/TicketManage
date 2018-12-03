@@ -225,7 +225,7 @@ const StackNavigatorConfigs={
 };
 
 const Navigators = StackNavigator(StackRouteConfigs,StackNavigatorConfigs);
-
+const defaultcom = Navigators.router.getStateForAction;
 
 export default class App extends Component {
 
@@ -236,9 +236,18 @@ export default class App extends Component {
  async componentWillMount(){
     let d="?code=50ACD07A6C49F3B9E082EF40461AC6D1";
     let ff= await islogin(d);
-    if(ff.form.status==0){
-      return this.navigator.dispatch(resetAction);
+    console.log(ff.form.status,window.jconfig.userinfo,'ggggggggggggggggg')
+    if(ff.form.status==0&&window.jconfig.userinfo!=null){
+     return Alert.alert(
+            "登录验证",
+            "你还没有登录哦，请先登录再来吧",
+            [
+              {text: '去登陆', onPress: () => this.navigator.dispatch(resetAction)},
+            ],
+            {cancelable:false}
+          )
     }
+    
     BackHandler.addEventListener('hardwareBackPress', this.onBackAndroid);
 }
 
@@ -247,18 +256,6 @@ export default class App extends Component {
     BackHandler.removeEventListener('hardwareBackPress', this.onBackAndroid);
 }
 
-// onBackAndroid = () => {
-//   this.props.navigator.pop();
-
-//   // if (this.lastBackPressed && this.lastBackPressed + 2000 >= Date.now()) {
-//   //     //最近2秒内按过back键，可以退出应用。
-//   //     BackHandler.exitApp();
-//   //     return;
-//   // }
-//   // this.lastBackPressed = Date.now();
-//   // ToastAndroid.show('再按一次退出应用',ToastAndroid.SHORT);
-//   // return true;
-//  }
  onBackAndroid = () => {
   if (current == true) {//如果是在首页
       if (lastBackPressed && lastBackPressed + 2000 >= Date.now()) {

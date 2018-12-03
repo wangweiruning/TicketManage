@@ -25,7 +25,19 @@ export default class Newticket extends React.Component{
    async goticket(names,v){
         let j = `?form.tree_node_id=${names}`
         let h = await ttmsTickets(j);
+        console.log(h)
+        if(h.form.dataList.length==0){
+            return Alert.alert(
+                 "提示",
+                 "该票错误，请选择其他票！",
+                 [
+                   {text: '确定'},
+                 ],
+                 {cancelable:false}
+               )
+         }
         let name= h.form.dataList[0].TicketTemplateID;
+        
         let list = await userlist();
         this.xunahn(name,v,list.form.paramAllList,names)
     } 
