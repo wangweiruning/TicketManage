@@ -15,7 +15,6 @@ export default class Title extends React.Component{
 
     render(){
         return(
-        <React.Fragment>
         <View style={{
             width: '100%', 
             paddingTop:StatusBar.currentHeight,
@@ -36,8 +35,7 @@ export default class Title extends React.Component{
             </View>
             <View style={{width:70,height:27}}>
             </View>
-        </View>
-        </React.Fragment>)
+        </View>)
     }
 }
 

@@ -22,7 +22,6 @@ export default class TicketTitle extends React.Component{
     render(){
         return(
         <React.Fragment>
-            
         <View style={{
             width: '100%',
             paddingTop:StatusBar.currentHeight,

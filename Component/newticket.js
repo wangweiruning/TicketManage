@@ -80,7 +80,7 @@ export default class Newticket extends React.Component{
     render(){
         return(<ImageBackground source={require('../images/gffg.jpg')} style={{alignItems:'center',width: '100%', height: '100%'}}>
                 <Title navigation={this.props.navigation} centerText={'选择模板'}/>
-             <ScrollView style={{position:'absolute',top:45+StatusBar.currentHeight,paddingBottom:30,marginBottom:10,width:'95%',backgroundColor:'rgba(255,255,255,.2)',borderRadius:4}}>
+             <ScrollView style={{position:'absolute',top:35+StatusBar.currentHeight,paddingBottom:30,marginBottom:10,width:'95%',backgroundColor:'rgba(255,255,255,.2)',borderRadius:4}}>
              {
                 this.state.jay.map((v,i)=>
                 <Animatable.View key={i} style={{alignItems:'center'}} useNativeDriver animation="fadeInRight" easing="ease-out-expo">
