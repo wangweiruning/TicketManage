@@ -74,7 +74,7 @@ export default class TicketModel extends React.Component{
                    style={{display:'flex',flexDirection:'row',width:'100%',backgroundColor:'#beebff',height:50,alignItems:'center',marginTop:10}}>
                           <Image source={require('../images/company_tree.png')} style={{width:20,left:5,resizeMode:Image.resizeMode.contain}}/>
                            <Text style={{fontSize:18,color:'black',left:10,flex:1}}>{v.TicketTemplateName}</Text>
-                          <Image source={require('../images/go.png')} style={{right:5,width:15,resizeMode:Image.resizeMode.contain}}/>
+                          <Image source={require('../images/go1.png')} style={{right:5,width:15,resizeMode:Image.resizeMode.contain}}/>
                    </TouchableOpacity>
                    </Animatable.View> 
                   )

@@ -10,7 +10,6 @@ import ToastExample from './Component/menu';
 import Newticket from './Component/newticket';
 import Login from './Component/login';
 import Tdetail from './Component/TicketDetail';
-import Litile from './Component/litile';
 import WaitPlan from './Component/waitPlan';
 import CorrelationPlan from './Component/correlationPlan';
 import HistoryPlan from './Component/historyPlan';
@@ -37,7 +36,7 @@ const TabRouteConfigs = { // 表示各个页面路由配置,让导航器知道�
   Home: { // 路由名称
       screen: HomeScreen, // 对应的路由页�?
       navigationOptions: ({ navigation }) => ({
-          tabBarLabel: '管理',
+          tabBarLabel: '两票管理',
           tabBarIcon: ({ focused }) => ( 
               <Image resizeMode = 'contain' source = { focused ? require('./images/whome.png') : require('./images/home.png') } style = { { width: 25, height: 25 } }
               />
@@ -103,15 +102,6 @@ const Tab = TabNavigator(TabRouteConfigs, TabNavigatorConfigs);
 const StackRouteConfigs={
   Tab: {
       screen: Tab,
-  },
-  litile:{
-    screen: Litile,
-    path:'app/litile',
-    header: null,
-    navigationOptions: {
-            header: null,
-            gesturesEnabled: true
-        }
   },
   waitPlan:{
     screen: WaitPlan,
@@ -236,7 +226,6 @@ export default class App extends Component {
  async componentWillMount(){
     let d="?code=50ACD07A6C49F3B9E082EF40461AC6D1";
     let ff= await islogin(d);
-    console.log(ff.form.status,window.jconfig.userinfo,'ggggggggggggggggg')
     if(ff.form.status==0&&window.jconfig.userinfo!=null){
      return Alert.alert(
             "登录验证",
@@ -280,7 +269,6 @@ async getUserInfo () {
     MySorage._load("userinfo", (res) => {
       let info = JSON.parse(res);
       window.jconfig.userinfo=info;
-      console.log(res,info,'ssssssssssss')
       if(!info){
         this.navigator.dispatch(resetAction);
         return

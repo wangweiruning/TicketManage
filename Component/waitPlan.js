@@ -1,5 +1,5 @@
 import React from 'react';
-import {  Text, View ,TouchableOpacity,Alert,ScrollView,Image,ImageBackground} from 'react-native';
+import {Text,View,TouchableOpacity,Alert,ScrollView,ImageBackground} from 'react-native';
 import Title from './Title'
 import {awaitdeteal,historys} from './../api/api'
 import {ActivityIndicator } from 'antd-mobile-rn';

@@ -158,7 +158,6 @@ export default class Tdetail extends React.Component{
             jax:bool.form.templateContents,
             zed:feel.form.dataList
        })
-       console.log(bool,good,Department,'hhhhhhhhhhhhhhhhhhhhhhhhhooooommmmm')
        this.loading();
        this.pipei(list.form.paramAllList);
        this.xunahn(this.state.jax,this.state.zed);
@@ -319,12 +318,10 @@ export default class Tdetail extends React.Component{
 
 
     onChangecoform(value,dis,index){
-console.log(dis,"/////////////",value,index)
    
     let s = this.state.newpagedata[value];
     if(!s)s = [];
     s[index] = dis?"1":"0";
-console.log("/////////////---->>>>",dis,s[index] == "0")
     this.state.newpagedata[value] = s;
     this.state.showChecked=s;
     this.setState(this.state);
@@ -353,7 +350,6 @@ console.log("/////////////---->>>>",dis,s[index] == "0")
             }
         })
         let rt = {[three+index]:v}
-        console.log("rrr",datamores)
         let data = Object.assign(this.state.pagedata,s)
         let datamore = Object.assign(this.state.datamore,rt)
         

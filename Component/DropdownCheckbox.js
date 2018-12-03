@@ -1,6 +1,5 @@
 import React from 'react';
 import { Checkbox } from 'antd-mobile-rn';
-import * as Animatable from 'react-native-animatable';
 import { View, Text, Image, TouchableOpacity, Modal, TextInput, FlatList } from 'react-native';
 
 

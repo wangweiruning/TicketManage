@@ -1,6 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View,TouchableOpacity ,ScrollView,Button,Alert,ToastAndroid,Image,ImageBackground} from 'react-native';
-import Title from './Title'
+import {Text,View,ScrollView,ToastAndroid,ImageBackground} from 'react-native';
 import TicketTitle from './TicketTitle'
 import {searchFlowRecord} from './../api/api'
 import MySorage from '../api/storage';

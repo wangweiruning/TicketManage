@@ -1,5 +1,4 @@
 import React from 'react';
-import {ActivityIndicator, Button} from 'antd-mobile-rn';
 import {View,Text,TouchableOpacity,Image,StatusBar} from 'react-native';
 
 export default class TicketTitle extends React.Component{
@@ -25,7 +24,7 @@ export default class TicketTitle extends React.Component{
         <View style={{
             width: '100%',
             paddingTop:StatusBar.currentHeight,
-            height: 45+StatusBar.currentHeight,
+            height:35+StatusBar.currentHeight,
             backgroundColor: 'transparent',
             display:'flex',
             flexDirection: 'row',

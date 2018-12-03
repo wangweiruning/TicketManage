@@ -1,6 +1,6 @@
 import React from 'react';
-import { InputItem, List, TextareaItem, ActivityIndicator } from 'antd-mobile-rn';
-import { View, Text, ScrollView, TouchableOpacity, Picker, TextInput, Alert, ToastAndroid, Dimensions, Image,ImageBackground } from 'react-native';
+import {TextareaItem, ActivityIndicator } from 'antd-mobile-rn';
+import {View,Text,ScrollView,TouchableOpacity,TextInput,Alert,ToastAndroid,Dimensions,Image,ImageBackground} from 'react-native';
 import ModalDropdown from 'react-native-modal-dropdown';
 import DropdownCheckbox from '../Component/DropdownCheckbox';
 import CheckBox from 'react-native-checkbox';
