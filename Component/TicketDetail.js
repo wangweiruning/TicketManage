@@ -75,10 +75,7 @@ export default class Tdetail extends React.Component{
       }
     
      loading(){
-        if(this.state.num==''){
-             setTimeout(()=>ToastAndroid.show("数据加载缓慢，请耐心等待", ToastAndroid.SHORT))
-        }
-        else{
+        if(this.state.num!=''){
              setTimeout(()=>ToastAndroid.show("加载完毕", ToastAndroid.SHORT))
         } 
      }
