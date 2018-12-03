@@ -215,7 +215,6 @@ const StackNavigatorConfigs={
 };
 
 const Navigators = StackNavigator(StackRouteConfigs,StackNavigatorConfigs);
-const defaultcom = Navigators.router.getStateForAction;
 
 export default class App extends Component {
 
@@ -229,7 +228,7 @@ export default class App extends Component {
     if(ff.form.status==0&&window.jconfig.userinfo!=null){
      return Alert.alert(
             "登录验证",
-            "你还没有登录哦，请先登录再来吧",
+            "登录数据过期，请重新登录",
             [
               {text: '去登陆', onPress: () => this.navigator.dispatch(resetAction)},
             ],
