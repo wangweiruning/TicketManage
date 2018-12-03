@@ -605,7 +605,7 @@ export default class Tdetail extends React.Component{
                   options={this.BackpageUseName()}/>:v.ParaTypeID==2 ?
                   <View style={{width:'97.5%'}}>
                     <TextInput multiline={true} editable={!dis} placeholder="请输入内容..." underlineColorAndroid="transparent" placeholderTextColor="#eee"
-                    onChangeText={(v)=>this.handleInput('datalist'+i,v,getAllTempanyId[i])} style={{paddingHorizontal:6,minWidth:'97.5%',backgroundColor:!dis?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)",color:'white'}}/>
+                    onChangeText={(v)=>this.handleInput('datalist'+i,v,getAllTempanyId[i])} style={{height:50,paddingHorizontal:6,minWidth:'97.5%',backgroundColor:!dis?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)",color:'white'}}/>
                     {v.IsConfirm==1?<View style={{borderTopColor:'white',borderStyle:'solid',borderTopWidth:1,flexDirection:'row',padding:5,backgroundColor:!dis?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)"}}>
                     <CheckBox 
                     labelStyle={{color:'#f5f5f5'}} checkboxStyle={{width:18,height:18}}
@@ -622,7 +622,7 @@ export default class Tdetail extends React.Component{
                         justifyContent:'center',
                         borderWidth:0
                       }}}  
-                    style={{width:'97.5%',backgroundColor:dis?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)"}}        
+                    style={{width:'97.5%',backgroundColor:dis?"rgba(255,255,255,.2)":"rgba(255,255,255,.4)",height:50}}        
                     date={itemMsg[i]} 
                     mode="datetime"        
                     format="YYYY-MM-DD HH:mm"         
@@ -663,15 +663,15 @@ export default class Tdetail extends React.Component{
             </View>
             <View style={{marginTop:5,marginBottom:20,width:'100%',alignItems:'center'}}>
                <View style={{width:'97.5%',elevation:3,backgroundColor:'rgba(255,255,255,.3)',alignItems:'center'}}>
-                <View style={{flexDirection:'row',width:'95%',alignItems:'center',paddingBottom:8,paddingRight:8,paddingTop:8}}>
-                  <Text style={{color:'white',flex:1}}>是否同意</Text>
+                <View style={{flexDirection:'row',width:'95%',alignItems:'center',paddingBottom:8,paddingTop:8}}>
+                  <Text style={{left:2,color:'white',flex:1}}>是否同意</Text>
                   <ModalDropdown dropdownTextStyle={{fontSize:15}} dropdownStyle={{height:50}} textStyle={{color:'#f5f5f5',fontSize:13}} 
                    style={{justifyContent:'center'}} defaultValue={'同意'} options={['同意']} onSelect={(index,v)=>this.sssgo(index,v)}/>
                   <Image source={require('../images/tj.png')} style={{width:15,height:15,resizeMode:Image.resizeMode.contain}}/>
                 </View>
                 <Image source={require('../images/line.png')} style={{width:'90%',height:2,resizeMode:Image.resizeMode.contain}}/>
-                <View style={{flexDirection:'row',width:'95%',alignItems:'center',paddingBottom:8,paddingRight:8,paddingTop:8}}>
-                  <Text style={{color:'white',flex:1}}>流转状态</Text>
+                <View style={{flexDirection:'row',width:'95%',alignItems:'center',paddingBottom:8,paddingTop:8}}>
+                  <Text style={{left:2,color:'white',flex:1}}>流转状态</Text>
                  {
                   this.state.status!="" && <ModalDropdown dropdownTextStyle={{fontSize:15}} dropdownStyle={{height:50}} textStyle={{color:'#f5f5f5',fontSize:13}} 
                   style={{justifyContent:'center'}} defaultValue={'请选择'} options={this.state.status}/>
