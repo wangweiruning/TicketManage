@@ -2,7 +2,7 @@ import React from 'react';
 import {Text,View,TouchableOpacity,Alert,ScrollView,ImageBackground} from 'react-native';
 import Title from './Title'
 import {awaitdeteal,historys} from './../api/api'
-import {ActivityIndicator } from 'antd-mobile-rn';
+import {ActivityIndicator} from 'antd-mobile-rn';
 import MySorage from '../api/storage';
 export default class WaitPlan extends React.Component{
   constructor(props) {
@@ -162,10 +162,10 @@ export default class WaitPlan extends React.Component{
                 </View>}
             <ScrollView>
          {  dataLis.length>0&&dataLis.map((itemdata,index)=>{
-             return (
+             return (<View style={{width:'100%',alignItems:'center'}}>
               <TouchableOpacity key={index} activeOpacity={.8}
                     onPress={()=>this.gotoItem(itemdata)}
-                    style={{marginTop:8,marginBottom:8,paddingBottom:15,width:"95%",borderRadius:10,backgroundColor:'rgba(255,255,255,.2)',marginLeft:10.3}}>
+                    style={{marginTop:8,marginBottom:8,paddingBottom:15,width:"95%",borderRadius:10,backgroundColor:'rgba(255,255,255,.2)'}}>
                 <Text numberOfLines={10} 
                     style = {{marginLeft:16,width:'91%',marginTop:20,
                               paddingBottom:10,borderBottomColor:"rgba(255,255,255,.3)",
@@ -178,7 +178,7 @@ export default class WaitPlan extends React.Component{
                 <Text style={{color:"#ff8800",marginTop:6,marginLeft:16,fontSize:16}}>等待时间：{this.awaitTime(itemdata.lastTime)}</Text>
                 <Text style={{color:"#fff",marginTop:6,marginBottom:7,marginLeft:16,fontSize:16}}>流转时间：{itemdata.lastTime.replace(/T/,' ')}</Text>
             </TouchableOpacity>
-            )
+          </View>)
         })}
         {this.state.havenotdate&&<View style={{marginVertical:20}}><Text style={{textAlign:"center",fontSize:16,color:"#fff"}}>暂时没有数据！</Text></View>}
             </ScrollView>
