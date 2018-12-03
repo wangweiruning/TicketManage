@@ -1185,16 +1185,16 @@ export default class Tdetail extends React.Component {
                             </View>
                             
                             <View style={{marginTop:5,marginBottom:20,width:'100%',alignItems:'center'}}>
-                            <View style={{width:'96%',elevation:3,backgroundColor:'rgba(255,255,255,.3)',alignItems:'center'}}>
+                            <View style={{width:'96%',backgroundColor:'rgba(255,255,255,.3)',alignItems:'center'}}>
                                 {this.aggreeall()}
                                 <Image source={require('../images/line.png')} style={{width:'90%',height:2,resizeMode:Image.resizeMode.contain}}/>
                                 {this.getliuzhuan()}
                                 <Image source={require('../images/line.png')} style={{width:'90%',height:2,resizeMode:Image.resizeMode.contain}}/>
                                 {this.gotSubmit()}
                                 <Image source={require('../images/line.png')} style={{width:'90%',height:2,resizeMode:Image.resizeMode.contain}}/>
-                            <View style={{width:'96%',borderBottomColor:'rgba(255,255,255,.2)',borderBottomWidth:1,borderStyle:'solid',padding:6}}>
+                            <View style={{width:'96%',padding:6}}>
                                 <Text style={{color:'white'}}>详细意见</Text>
-                                <TextareaItem placeholder="请输入内容..."  placeholderTextColor="#f5f5f5" autoHeight onChangeText={(v)=>this.onChangeTextInput(v)} 
+                                <TextareaItem last={true} placeholder="请输入内容..."  placeholderTextColor="#f5f5f5" autoHeight onChangeText={(v)=>this.onChangeTextInput(v)} 
                                 style={{paddingVertical: 5,fontSize:14,minWidth:'98%',backgroundColor:"rgba(255,255,255,.2)",color:'white'}}/>
                             </View>
                             </View>
