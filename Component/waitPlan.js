@@ -175,8 +175,8 @@ export default class WaitPlan extends React.Component{
                 <Text style={{color:"#fff",marginTop:6,marginLeft:16,fontSize:16}}>负责人：{itemdata.headuser}</Text>
                 <Text style={{color:"#fff",marginTop:6,marginLeft:16,fontSize:16}}>编号：{itemdata.ticketserialnum}</Text>
                 <Text style={{color:"#fff",marginTop:6,marginLeft:16,fontSize:16}}>流转人：{itemdata.manageuser}</Text>
-                <Text style={{color:"#ff8800",marginTop:6,marginLeft:16,fontSize:16}}>等待时间：{this.awaitTime(itemdata.lastTime)}</Text>
                 <Text style={{color:"#fff",marginTop:6,marginBottom:7,marginLeft:16,fontSize:16}}>流转时间：{itemdata.lastTime.replace(/T/,' ')}</Text>
+                <Text style={{color:"#ff8800",marginTop:6,marginLeft:16,fontSize:16}}>等待时间：{this.awaitTime(itemdata.lastTime)}</Text>
             </TouchableOpacity>
           </View>)
         })}
