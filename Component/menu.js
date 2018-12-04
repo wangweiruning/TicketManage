@@ -63,7 +63,7 @@ export default class ToastExample extends React.Component {
 
   render() {
     return (<ImageBackground source={require('../images/gffg.jpg')} style={{alignItems:'center',width: '100%', height: '100%'}}>
-                <View style={{marginTop:7+StatusBar.currentHeight,width:'95%',borderRadius:10,height:120,backgroundColor:'rgba(255,255,255,.2)',alignItems:'center'}}>
+                <View style={{marginTop:7+StatusBar.currentHeight,width:'95%',borderRadius:6,height:120,backgroundColor:'rgba(255,255,255,.2)',alignItems:'center'}}>
                   <Text style={{color:'#f5f5f5',fontSize:20,fontWeight:'500',marginTop:10,marginBottom:10}}>我的</Text>
                   <View style={{flexDirection:'row',width:'95%',marginTop:10,justifyContent:'center',alignItems:'center'}}>
                      <Text style={{fontSize:20,color:'#f5f5f5'}}>登录名：</Text>
