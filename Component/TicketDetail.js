@@ -600,8 +600,8 @@ export default class Tdetail extends React.Component{
                   disabled={dis}
                   textStyle={{color:'white',fontSize:13}} 
                   style={{backgroundColor:!dis?"rgba(255,255,255,.1)":"rgba(255,255,255,.6)",
-                  height:50,width:'97.6%',justifyContent:'center',paddingLeft:6}}  
-                  defaultValue={v.ParaName=="工作负责人"?this.state.isgzfzr?this.state.isgzfzr:"请选择":"请选择"}
+                  height:50,width:'97.6%',justifyContent:'center',paddingLeft:6}}
+                  defaultValue={v.ParaName=="工作负责人"?this.state.isgzfzr?this.state.isgzfzr:"请选择":"暂无法操作"}
                   onSelect={(e,value)=>this.getSelect(value,'datalist'+i,getAllTempanyId[i])}
                   options={this.BackpageUseName()}/>:v.ParaTypeID==2 ?
                   <View style={{width:'97.6%'}}>
