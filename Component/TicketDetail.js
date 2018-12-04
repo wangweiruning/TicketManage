@@ -572,15 +572,15 @@ export default class Tdetail extends React.Component{
            return <View key={i} style={{marginTop:5,paddingTop:5,alignItems:'center',width:'100%'}}>
               <View style={{
                   width:'97.6%',
-                  backgroundColor:v.FatherID!="null"?'rgba(255,255,255,.3)':'transparent',
-                  paddingTop:v.FatherID=='null'?0:5,
+                  backgroundColor:v.ParaTypeID!="1"?'rgba(255,255,255,.3)':'transparent',
+                  paddingTop:v.ParaTypeID=='1'?0:5,
                   paddingLeft:5,
-                  paddingBottom:v.FatherID=='null'?0:5,
+                  paddingBottom:v.ParaTypeID=='1'?0:5,
                   paddingRight:0,
                   flexDirection:'row',
                   alignItems:'center',
                   }}>
-                  <Text style={{fontSize:v.FatherID=='null'?15:13,color:'white',left:2,width:'85.6%',flex:1,flexWrap:'wrap',paddingRight:5}}>{v.ParaName}</Text>
+                  <Text style={{fontSize:v.ParaTypeID=='1'?15:13,color:'white',left:2,width:'85.6%',flex:1,flexWrap:'wrap',paddingRight:5}}>{v.ParaName}</Text>
                   {v.IsAdd==1&&!dis&&<TouchableOpacity onPress={()=>this.add(v.TicketParaID)} style={{width:'11.6%',justifyContent:'center',alignItems:'center'}}>
                             <Image style={{width:25,top:1,height:25,resizeMode:Image.resizeMode.contain}} source={require('../images/add.png')}/>  
                         </TouchableOpacity>}
