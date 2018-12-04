@@ -682,7 +682,7 @@ export default class Tdetail extends React.Component{
                 <Image source={require('../images/line.png')} style={{width:'93%',height:2,resizeMode:Image.resizeMode.contain}}/>
                 <View style={{width:'97%',paddingBottom:8,paddingTop:8}}>
                   <Text style={{left:.5,color:'white'}}>流转目标</Text>
-                  <TicketDropdownCheckBox style={{minWidth:'97.6%',height:50}} open={this.open.bind(this)} TextColor={{color:'#f5f5f5',fontSize:13}} SelectData={this.state.user}/>
+                  <TicketDropdownCheckBox style={{minWidth:'97.6%'}} open={this.open.bind(this)} TextColor={{color:'#f5f5f5',fontSize:13}} SelectData={this.state.user}/>
                 </View>
                 <Image source={require('../images/line.png')} style={{width:'93%',height:2,resizeMode:Image.resizeMode.contain}}/>
                 <View style={{width:'97%',paddingBottom:8,paddingTop:8}}>
