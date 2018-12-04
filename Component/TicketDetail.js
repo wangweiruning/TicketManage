@@ -573,7 +573,7 @@ export default class Tdetail extends React.Component{
            return <View key={i} style={{marginTop:5,paddingTop:5,alignItems:'center',width:'100%'}}>
               <View style={{
                   width:'97.6%',
-                  backgroundColor:'rgba(255,255,255,.3)',
+                  backgroundColor:v.FatherID!="null"?'rgba(255,255,255,.3)':'transparent',
                   padding:5,
                   paddingRight:0,
                   flexDirection:'row',
