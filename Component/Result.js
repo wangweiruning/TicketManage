@@ -664,6 +664,26 @@ export default class Tdetail extends React.Component {
     async submitResult() {
 
         const { newpagedata} = { ...this.state };
+           
+        
+        for (const key in newpagedata) {
+                if (key.slice(key.length - 2, key.length)== "*1") {
+                    console.log('ggggggg>>>>>',newpagedata[key])
+                    let newvalues = newpagedata[key];
+                    
+                    let newArr = [];
+                    for(let i =0;i<newvalues.length;i++){
+                        let newvalue = newvalues[i];
+                        if(newvalue){
+                            newArr.push(newvalue);
+                        }
+                    }
+                    console.log(newArr,"44444444")
+                    newpagedata[key]=newArr;
+                }
+            } 
+           
+
         if (this.state.vvval || this.state.searchRole.length < 1) {
             let data = {
                 'form.basicInfoId': this.props.navigation.state.params.ticketbasicinfoid,
@@ -679,8 +699,7 @@ export default class Tdetail extends React.Component {
                 'form.nextUserId': this.state.vvval,
                 "form.paraData": JSON.stringify(newpagedata)
             }
-            console.log(data, "111111111111111111") 
-           
+            console.log(data)
             var para = "";
             for (var a in data) {
                 para += ("&" + a + "=" + encodeURIComponent(data[a]));
@@ -716,7 +735,7 @@ export default class Tdetail extends React.Component {
                     { cancelable: false }
                 );
             } catch (error) {
-                ToastAndroid.show('数据填写错误', ToastAndroid.SHORT);
+                ToastAndroid.show('网络错误', ToastAndroid.SHORT);
                 this.setState({
                     loading: false
                 })
