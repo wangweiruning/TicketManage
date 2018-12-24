@@ -623,16 +623,16 @@ export default class Tdetail extends React.Component{
                         justifyContent:'center',
                         borderWidth:0
                       }}}  
-                    style={{justifyContent:'center',width:'97.6%',backgroundColor:dis?"rgba(255,255,255,.1)":"rgba(255,255,255,.6)",height:50}}        
+                    style={{justifyContent:'center',width:'97.6%',backgroundColor:!dis?"rgba(255,255,255,.1)":"rgba(255,255,255,.6)",height:50}}        
                     date={itemMsg[i]} 
                     mode="datetime"        
                     format="YYYY-MM-DD HH:mm"         
                     confirmBtnText="确定"        
                     cancelBtnText="取消"      
-                    showIcon={dis?true:false} 
-                    disabled={!dis} 
+                    showIcon={!dis?true:false} 
+                    disabled={dis} 
                     minDate={new Date(2015, 1, 1)}
-                    placeholder={!dis?"暂无法操作":"请选择时间"}      
+                    placeholder={dis?"暂无法操作":"请选择时间"}      
                     onDateChange={(e)=>this.onChange('datalist'+i ,e,getAllTempanyId[i])}/>
                     :
                     v.ParaTypeID==6?
