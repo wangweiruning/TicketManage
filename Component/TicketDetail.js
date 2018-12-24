@@ -150,7 +150,7 @@ export default class Tdetail extends React.Component{
             user:zero.form.dataList,
             monst:good.form.dataList[1].ticketroleid,
             statuss:good.form.dataList[0].ticketstatusid,
-            roleid:good.form.dataList[2].ticketflowid,
+            roleid:good.form.dataList[1].ticketflowid,
             status:kl,
             basicInfoId:good.form.dataList[0].FlowRoleID,
             flowroleid:bool.form.templateContents[1].FlowRoleID,
@@ -396,7 +396,6 @@ export default class Tdetail extends React.Component{
    async submitAll(){
     const {newpagedata,showChecked} = {...this.state};
     const tts = Object.assign(newpagedata,showChecked)
-    
     if (this.state.vvval.length<2) {
         Alert.alert("流转目标不能为空！")
     } else {
@@ -623,16 +622,16 @@ export default class Tdetail extends React.Component{
                         justifyContent:'center',
                         borderWidth:0
                       }}}  
-                    style={{justifyContent:'center',width:'97.6%',backgroundColor:dis?"rgba(255,255,255,.1)":"rgba(255,255,255,.6)",height:50}}        
+                    style={{justifyContent:'center',width:'97.6%',backgroundColor:!dis?"rgba(255,255,255,.1)":"rgba(255,255,255,.6)",height:50}}        
                     date={itemMsg[i]} 
                     mode="datetime"        
                     format="YYYY-MM-DD HH:mm"         
                     confirmBtnText="确定"        
                     cancelBtnText="取消"      
                     showIcon={dis?true:false} 
-                    disabled={!dis} 
+                    disabled={dis} 
                     minDate={new Date(2015, 1, 1)}
-                    placeholder={!dis?"暂无法操作":"请选择时间"}      
+                    placeholder={!dis?"请选择时间":"暂无法操作"}      
                     onDateChange={(e)=>this.onChange('datalist'+i ,e,getAllTempanyId[i])}/>
                     :
                     v.ParaTypeID==6?
@@ -675,7 +674,7 @@ export default class Tdetail extends React.Component{
                   <Text style={{left:.5,color:'white',flex:1}}>流转状态</Text>
                  {
                   this.state.status!="" && <ModalDropdown dropdownTextStyle={{fontSize:15}} dropdownStyle={{height:50}} textStyle={{color:'#f5f5f5',fontSize:13}} 
-                  style={{justifyContent:'center'}} defaultValue={'请选择'} options={this.state.status}/>
+                  style={{justifyContent:'center'}} defaultValue={this.state.status[0]?this.state.status[0]:'请选择'} options={this.state.status}/>
                  }
                  <Image source={require('../images/tj.png')} style={{width:15,height:15,resizeMode:Image.resizeMode.contain}}/>
                 </View>

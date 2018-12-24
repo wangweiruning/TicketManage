@@ -115,8 +115,9 @@ export default class TicketDropdownCheckBox extends React.Component{
                         }
                         if(s){
                             this.state.activeItem[item.userid || item.DepartmentID] = s?item.realname || item.DepartmentName:'';
-                        }else{
-                            this.state.activeItem=[]
+                        }
+                        else if(this.state.activeItem!==[]){
+                            this.state.activeItem[item.userid || item.DepartmentID] = s?item.realname || item.DepartmentName:'';
                         }
                         this.forceUpdate();
                 }}>
