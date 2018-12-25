@@ -220,6 +220,7 @@ export default class App extends Component {
 
   async componentDidMount () {
     await this.getUserInfo()
+    
   }
 
  async componentWillMount(){

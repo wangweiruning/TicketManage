@@ -144,7 +144,7 @@ let result = this.state.result;
             </View>}
             <ScrollView>
               {result.length>0&&result.map((itemdata,index)=>{
-                 return (<View style={{width:'100%',alignItems:'center'}}>
+                 return (<View style={{width:'100%',alignItems:'center'}} key={index}>
                   <TouchableOpacity key={index} activeOpacity={.8}
                         onPress={()=>this.gotoItem(itemdata)}
                         style={{marginBottom:8,marginTop:8,paddingBottom:15,width:"95%",borderRadius:10,backgroundColor:'rgba(255,255,255,.2)'}}>

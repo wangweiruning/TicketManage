@@ -417,9 +417,11 @@ export default class Tdetail extends React.Component {
         let alljsv = Object.values(val);
         let tts = [];
         let params = [];
+        let newarr = [];
         alljsv.findIndex((item, index) => {
             if (item != "") {
                 tts.push({ [alljsitem[index]]: alljsv[index] });
+                newarr.push(alljsitem[index]);
             }
         })
         tts.map(item => {
@@ -427,11 +429,11 @@ export default class Tdetail extends React.Component {
         })
 
         if (ParaName == "班组") {
-            this.state.groupName.map(pagename => {
-                if (alljsitem.join(",").indexOf(pagename.DepartmentID) != -1) {
-                    datas.push(pagename.DepartmentID)
-                }
-            })
+            // this.state.groupName.map(pagename => {
+            //     if (alljsitem.join(",").indexOf(pagename.DepartmentID) != -1) {
+            //         datas.push(pagename.DepartmentID)
+            //     }
+            // })
 
             let y = params == '' ? `?form.departmentId=` : `?form.departmentId=${params.join(",")}`
             let Team = await ForDepartment(y)
@@ -442,11 +444,11 @@ export default class Tdetail extends React.Component {
                 this.forceUpdate()
             })
         } else {
-            this.state.ParaId.map(pagename => {
-                if (alljsitem.join(",").indexOf(pagename.userid) != -1) {
-                    datas.push(pagename.userid)
-                }
-            })
+            // this.state.ParaId.map(pagename => {
+            //     if (alljsitem.join(",").indexOf(pagename.userid) != -1) {
+            //         datas.push(pagename.userid)
+            //     }
+            // })
             this.state.ischanges = false;
             this.forceUpdate()
         }
@@ -457,7 +459,7 @@ export default class Tdetail extends React.Component {
             }
         };
         let s = { [leixing]: display.join(",") };
-        let ss = { [leixing]: datas };
+        let ss = { [leixing]: newarr };
         let data = Object.assign(this.state.pagedata, s)
         let data1 = Object.assign(this.state.newpagedata, ss)
         this.setState({
@@ -667,22 +669,34 @@ export default class Tdetail extends React.Component {
            
         
         for (const key in newpagedata) {
+
                 if (key.slice(key.length - 2, key.length)== "*1") {
-                    console.log('ggggggg>>>>>',newpagedata[key])
+                    let tt = key.slice(0,key.length - 2)+"_1";
+                    console.log('ggggggg>>>>>',newpagedata[key],newpagedata[tt])
                     let newvalues = newpagedata[key];
-                    
+                    let checkvalues = newpagedata[tt];
                     let newArr = [];
+                    let checkArr = [];
                     for(let i =0;i<newvalues.length;i++){
                         let newvalue = newvalues[i];
                         if(newvalue){
                             newArr.push(newvalue);
+                            if(checkvalues){
+                                checkArr.push(checkvalues[i]);
+                            }
                         }
+                        
+                        
                     }
                     console.log(newArr,"44444444")
                     newpagedata[key]=newArr;
+                    if(checkvalues){
+                        newpagedata[tt]=checkArr
+                    }
+                    
                 }
             } 
-           
+           console.log(newpagedata)
 
         if (this.state.vvval || this.state.searchRole.length < 1) {
             let data = {
@@ -1047,7 +1061,7 @@ export default class Tdetail extends React.Component {
         return(<ImageBackground source={require('../images/gffg.jpg')} style={{width: '100%', height: '100%'}}>
                 
                     <TicketTitle navigation={this.props.navigation} num={true} numns={true} ishistory={this.props.navigation.state.params.ishistory}
-                        centerText={this.props.navigation.state.params.typeName}/> 
+                        centerText={this.props.navigation.state.params.typeName+this.props.navigation.state.params.ticketNum}/> 
 
                     {this.state.loading?<View style={{alignItems:'center',top:'45%'}}>
                         <View style={{borderRadius:4,

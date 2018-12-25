@@ -77,7 +77,7 @@ export default class Login extends React.Component{
             this.props.navigation.dispatch(resetAction);
           }
          else{
-            Alert.alert('',result.form.targetresult,[{text:'是',onPress:this.opntion2Selected}])
+            Alert.alert('提示',result.form.targetresult,[{text:'是',onPress:this.opntion2Selected}],{cancelable:false})
             this.setState({
                loading:false
            })
