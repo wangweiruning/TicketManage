@@ -518,12 +518,10 @@ export default class Tdetail extends React.Component{
             return (<View style={{backgroundColor:!dis?"rgba(255,255,255,.1)":"rgba(255,255,255,.6)"}} key={qIndex}>
             <View style={{flexDirection:'row',borderTopColor:!v.IsConfirm==1?'transparent':'rgba(255,255,255,.3)',borderTopWidth:!v.IsConfirm==1?0:.6,borderStyle:'solid'}}>
             <View style={{width:v.IsAdd==1 && !dis?ds.length==1?"97.6%":"88.6%":"97.6%"}}>
-            <TextareaItem last={true} value={this.getValueByID(v.TicketParaID+"*1",qIndex)} editable={!dis} placeholder={dis?"暂无法操作":"请输入内容..."} placeholderTextColor="white"
+            <TextareaItem autoHeight  last={true} value={this.getValueByID(v.TicketParaID+"*1",qIndex)} editable={!dis} placeholder={dis?"暂无法操作":"请输入内容..."} placeholderTextColor="white"
                              onChange={(e)=>{
-                                 this.state.newpagedata[v.TicketParaID+"*1"][qIndex] = e
-                                this.setState(this.state)
-                                }} 
-                                autoHeight 
+                                this.state.newpagedata[v.TicketParaID+"*1"][qIndex] = e
+                                this.setState(this.state)}}
                              style={{paddingHorizontal:0,paddingRight:4,marginHorizontal:5,borderBottomWidth:0.6,borderStyle:'solid',borderBottomColor:'rgba(255,255,255,.3)',backgroundColor:'transparent',color:'white',minWidth:"100%",fontSize:14}} />
             </View>
             {v.IsAdd==1&&!dis&&<TouchableOpacity onPress={()=>{
@@ -544,14 +542,11 @@ export default class Tdetail extends React.Component{
                             </TouchableOpacity>}
             </View>
                   {v.IsConfirm==1?<View style={{flexDirection:'row',alignItems:'center',padding:5,height:44}}>
-                  <CheckBox 
-                  labelStyle={{color:'#f5f5f5'}} checkboxStyle={{width:18,height:18}}
+                  <CheckBox labelStyle={{color:'#f5f5f5'}} checkboxStyle={{width:18,height:18}}
                   label={'是否已执行'}
                   style={{backgroundColor:'rgba(255,255,255,.1)'}}
-                  onChange={(e)=>this.onChangecoform(v.TicketParaID+"_1",e,qIndex)}  
-                   disabled={dis}
-                   
-                   >
+                  onChange={(e)=>this.onChangecoform(v.TicketParaID+"_1",e,qIndex)}
+                  disabled={dis}>
                   </CheckBox></View>:null}</View>)
         })
     }
@@ -612,7 +607,7 @@ export default class Tdetail extends React.Component{
                     label={'是否已执行'}
                     style={{backgroundColor:'rgba(255,255,255,.1)'}}
                     onChange={(e)=>this.onChangecoform(getAllTempanyId[i]+"_1",e)}
-                        disabled={dis}
+                    disabled={dis}
                     ></CheckBox></View>:null}
                   </View>
                     :v.ParaTypeID==5?

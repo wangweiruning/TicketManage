@@ -18,7 +18,7 @@ import TicketModel from './Component/TicketModel';
 import TicketFlew from './Component/TicketFlew';
 import Result from './Component/Result';
 import {StackNavigator,TabBarTop, TabNavigator,StackActions, NavigationActions} from "react-navigation";
-import {Image,BackHandler,ToastAndroid,StatusBar,Easing,Animated,Alert} from 'react-native';
+import {Image,BackHandler,ToastAndroid,StatusBar,Easing,Animated,Alert,NetInfo} from 'react-native';
 import {islogin} from './api/api'
 MySorage._getStorage()
 window.jconfig={
@@ -32,6 +32,14 @@ const resetAction = StackActions.reset({
     var lastBackPressed;
     var current = true;
 console.disableYellowBox = true;
+
+NetInfo.isConnected.fetch().done((isConnected) => {
+  if(isConnected){}
+  else{
+      ToastAndroid.show('网络错误,请检查网络',ToastAndroid.SHORT)
+    }
+});
+
 const TabRouteConfigs = { // 表示各个页面路由配置,让导航器知道需要导航的路由对应的页�?
   Home: { // 路由名称
       screen: HomeScreen, // 对应的路由页�?
@@ -220,7 +228,15 @@ export default class App extends Component {
 
   async componentDidMount () {
     await this.getUserInfo()
-  }
+    new Promise((s1, s2) => {
+    MySorage._load("history",(ress) => {
+      let infos = ress;
+      window.config=infos;
+      s1();
+    })
+  })
+}
+
 
  async componentWillMount(){
     let d="?code=50ACD07A6C49F3B9E082EF40461AC6D1";
@@ -234,15 +250,22 @@ export default class App extends Component {
             ],
             {cancelable:false}
           )
-    }
-    
+          }
     BackHandler.addEventListener('hardwareBackPress', this.onBackAndroid);
 }
 
 
   componentWillUnmount() {
+    // NetInfo.removeEventListener('change', this.handleConnectivityChange);
     BackHandler.removeEventListener('hardwareBackPress', this.onBackAndroid);
-}
+  }
+  
+
+  handleConnectivityChange(status) {
+    alert('status change:' + status);
+  //监听第一次改变后, 可以取消监听.或者在componentUnmount中取消监听
+  NetInfo.removeEventListener('change', this.handleConnectivityChange);
+  }
 
  onBackAndroid = () => {
   if (current == true) {//如果是在首页

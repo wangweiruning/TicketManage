@@ -10,6 +10,7 @@ const resetAction = StackActions.reset({
     actions: [NavigationActions.navigate({ routeName: 'Tab' })],
   });
   MySorage._getStorage(); 
+
 export default class Login extends React.Component{
      constructor(props){
          super(props);
@@ -17,11 +18,24 @@ export default class Login extends React.Component{
             user:'',
             pass:'',
             result:{},
+            userpass:{},
             loading:false
         }
      }
 
-     componentDidMount () {
+    async componentDidMount () {
+       await new Promise((s1, s2) => {
+            MySorage._load("history",(ress) => {
+                let infos = ress;
+                if(!infos) s1(); 
+                this.state.user=infos.data;
+                this.state.pass=infos.datag;
+                console.log(this.state);
+                this.forceUpdate();  
+                s1();
+            })
+      })
+
         // MySorage._getStorage()
             // 添加监听进入登陆页然后禁止用户点击返回键返回主页面
             this.viewDidAppear = this.props.navigation.addListener(
@@ -50,29 +64,35 @@ export default class Login extends React.Component{
         this.setState = (state,callback)=>{
         return;
       };
-      }
+    }
      
-    async submitgo(data){
+    async submitgo(){
         this.setState({
             loading:true
         })
-        if(data.username==""){
+        if(this.state.user==""){
             ToastAndroid.show('请输入账号',ToastAndroid.SHORT);
             this.setState({loading:false})
             return 
         }
-        if(data.password==""){
+        if(this.state.pass==""){
             ToastAndroid.show('请输入密码',ToastAndroid.SHORT);
             this.setState({loading:false})
             return 
         }
         try{
-         let datas =`?form.user=${data.username}&form.pass=${data.password}&code=50ACD07A6C49F3B9E082EF40461AC6D1`;
-         
+         let datas =`?form.user=${this.state.user}&form.pass=${this.state.pass}&code=50ACD07A6C49F3B9E082EF40461AC6D1`;
          let result = await login(datas)
          if(result.form.status == 1){
             window.jconfig.userinfo=result.form;
-            MySorage._sava("userinfo", JSON.stringify(result.form));            
+            MySorage._sava("userinfo",JSON.stringify(result.form));  
+            this.setState({
+                userpass:{data:this.state.user,datag:this.state.pass},
+            })  
+            MySorage._sava("history",this.state.userpass);
+
+
+
             // ToastAndroid.show(result.form.targetresult,ToastAndroid.SHORT)            
             this.props.navigation.dispatch(resetAction);
           }
@@ -85,9 +105,9 @@ export default class Login extends React.Component{
          this.setState({
               result:result,  //序列化：转换为一个 (字符串)JSON字符串
         });
+
         }catch(e){
             Toast.fail("服务器开小差了~~",3,null,true)
-            
             this.setState({
                 loading:false
             })
@@ -96,14 +116,11 @@ export default class Login extends React.Component{
 
      handleInput(k, v){
         this.setState({
-            [k]:v
+            [k]:v,
         });
     }
       
     render(){
-        
-        let username = this.state.user;
-        let password = this.state.pass;
         return(<View style={{position:'relative',flex:1}}>
         <StatusBar backgroundColor={'transparent'} translucent={true}
         />
@@ -133,7 +150,7 @@ export default class Login extends React.Component{
                <Image source={require('../images/login-username.png')} style={{width:25,top:10,marginRight:5}} resizeMode = 'contain'/>
                {/* <InputItem placeholder="账号" defaultValue={this.state.user} onChange={(e)=>this.handleInput('user',e)} style={{width:'85%'}}/> */}
             <TextInputLayout focusColor='white' style={{width:'82%'}}> 
-                    <TextInput style={{fontSize:16,height:40,color:'white',fontSize:18}}
+                    <TextInput style={{fontSize:16,height:40,color:'white',fontSize:18}} value={this.state.user}
                         placeholder={'账号'} onChangeText={(e)=>this.handleInput('user',e)}
                     />
             </TextInputLayout>
@@ -142,12 +159,13 @@ export default class Login extends React.Component{
                <Image source={require('../images/login-password.png')} style={{width:25,top:10,marginRight:5}} resizeMode = 'contain'/>
                {/* <InputItem type="password" defaultValue={this.state.pass} placeholder="密码" onChange={(e)=>this.handleInput('pass',e)} style={{width:'85%'}}/> */}
             <TextInputLayout focusColor='white' style={{width:'82%'}}> 
-                    <TextInput style={{fontSize:16,height:40,color:'white',fontSize:18}}
+                    <TextInput style={{fontSize:16,height:40,color:'white',fontSize:18}} value={this.state.pass}
                         placeholder={'密码'} secureTextEntry={true} onChangeText={(e)=>this.handleInput('pass',e)}
                     />
             </TextInputLayout>
            </View>
-           <TouchableOpacity disabled={this.state.loading?true:false} onPress={()=>this.submitgo({username,password})} 
+           {/* <CheckBox checked={this.state.active} label={'记住账号'} labelStyle={{color:'#f5f5f5'}} checkboxStyle={{width:18,height:18}} onChange={(e)=>this.setState({active:e})}/> */}
+           <TouchableOpacity disabled={this.state.loading?true:false} onPress={()=>this.submitgo()} 
                style={{elevation:3,marginTop:15,justifyContent:'center',alignItems:'center',width:'80%',backgroundColor:this.state.loading?'rgba(54,87,147,.3)':'#365793',borderRadius:5,height:40}}>
           <Text style={{color:'white',fontSize:20}}>登录</Text>
         </TouchableOpacity>
