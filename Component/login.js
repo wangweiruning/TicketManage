@@ -5,6 +5,7 @@ import {login} from '../api/api';
 import MySorage from '../api/storage';
 import {StackActions, NavigationActions} from 'react-navigation';
 import {TextInputLayout} from 'rn-textinputlayout';
+import TouchID from 'react-native-touch-id';
 const resetAction = StackActions.reset({
     index: 0,
     actions: [NavigationActions.navigate({ routeName: 'Tab' })],
@@ -20,7 +21,30 @@ export default class Login extends React.Component{
             loading:false
         }
      }
-
+     _pressHandler() {
+        const optionalConfigObject = {
+            title: "Authentication Required", // Android
+            imageColor: "#e00606", // Android
+            imageErrorColor: "#ff0000", // Android
+            sensorDescription: "Touch sensor", // Android
+            sensorErrorDescription: "Failed", // Android
+            cancelText: "Cancel", // Android
+            fallbackLabel: "Show Passcode", // iOS (if empty, then label is hidden)
+            unifiedErrors: false, // use unified error messages (default false)
+            passcodeFallback: false // iOS
+          };
+        TouchID.authenticate('to demo this react-native component', optionalConfigObject)
+          .then(success => {
+            Alert.alert('touch id','Authenticated Successfully',
+            [{text:" 确定",onPress:()=>{return false}}
+        ],{cancelable:false});
+          })
+          .catch(error => {
+            Alert.alert('touch id','Authenticated 错误了',
+             [{text:" 确定",onPress:()=>{return false}}
+                ],{cancelable:false});
+          });
+      }
      componentDidMount () {
         // MySorage._getStorage()
             // 添加监听进入登陆页然后禁止用户点击返回键返回主页面
@@ -133,7 +157,7 @@ export default class Login extends React.Component{
                <Image source={require('../images/login-username.png')} style={{width:25,top:10,marginRight:5}} resizeMode = 'contain'/>
                {/* <InputItem placeholder="账号" defaultValue={this.state.user} onChange={(e)=>this.handleInput('user',e)} style={{width:'85%'}}/> */}
             <TextInputLayout focusColor='white' style={{width:'82%'}}> 
-                    <TextInput style={{fontSize:16,height:40,color:'white',fontSize:18}}
+                    <TextInput defaultValue={"Whu2008"} style={{fontSize:16,height:40,color:'white',fontSize:18}}
                         placeholder={'账号'} onChangeText={(e)=>this.handleInput('user',e)}
                     />
             </TextInputLayout>
@@ -147,9 +171,14 @@ export default class Login extends React.Component{
                     />
             </TextInputLayout>
            </View>
+           
            <TouchableOpacity disabled={this.state.loading?true:false} onPress={()=>this.submitgo({username,password})} 
                style={{elevation:3,marginTop:15,justifyContent:'center',alignItems:'center',width:'80%',backgroundColor:this.state.loading?'rgba(54,87,147,.3)':'#365793',borderRadius:5,height:40}}>
           <Text style={{color:'white',fontSize:20}}>登录</Text>
+        </TouchableOpacity>
+        <TouchableOpacity  onPress={()=>this._pressHandler()} 
+               style={{elevation:3,marginTop:15,justifyContent:'center',alignItems:'center',width:'80%',backgroundColor:this.state.loading?'rgba(54,87,147,.3)':'#365793',borderRadius:5,height:40}}>
+          <Text style={{color:'white',fontSize:20}}>touchid</Text>
         </TouchableOpacity>
         </View>
         </View>)
