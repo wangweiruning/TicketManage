@@ -1,6 +1,6 @@
 import React from 'react';
 import {Text,View,Image,TouchableOpacity,ImageBackground,StatusBar,Alert} from 'react-native';
-
+import {awaitdeteal,historys,correation} from '../api/api';
 
 export default class HomeScreen extends React.Component {
 
@@ -14,10 +14,29 @@ export default class HomeScreen extends React.Component {
           about:'相关流程',
           history:'历史流程'
         }
-      ]
+      ],
+      aiaitList:"",
+      corrlateList:'',
+      history:'',
     }
   }
+  async componentDidMount(){
+        const histo = await historys("?form.tree_node_operation="+0);
+        const datas = "?form.userId="+histo.form.userId;
+        const result = await awaitdeteal(datas);//待处理数据
 
+        const datas2 = "?form.tree_node_operation="+0;
+        const result2 = await historys(datas2);//历史数据
+        const datas3 = "?form.userId="+result2.form.userId;
+        const result3 = await correation(datas3);//相关流程数据
+
+        console.log(result,result2,result3)
+        this.setState({
+          aiaitList:result.form.dataList.length,
+          history:result2.form.page.totalRecords,
+          corrlateList:result3.form.dataList.length
+        })
+  }
   show(){
     const {navigate} = this.props.navigation
     if(jconfig.userinfo.user==null){
@@ -44,6 +63,7 @@ export default class HomeScreen extends React.Component {
     this.props.navigation.navigate('newticket')
    }
   render() {
+    
       const { navigate } = this.props.navigation;
       return (<ImageBackground source={require('../images/gffg.jpg')} style={{alignItems:'center',width: '100%', height: '100%'}}>
           <View style={{width:'94.5%',height:'92%',marginTop:7+StatusBar.currentHeight,alignItems:'center',borderRadius:6,backgroundColor:'rgba(255,255,255,.2)'}}>
@@ -76,6 +96,32 @@ export default class HomeScreen extends React.Component {
           </View>
           </View>)
           }
+          <View style={{flex:1,flexDirection:'row',width:'100%',justifyContent:'space-evenly',alignItems:'center',marginTop:-20}}>
+              <View style={{padding:5,flexDirection:'column',
+                            alignContent:"center",alignItems:'center',
+                            borderRadius:10,borderWidth:2,width:'25%',
+                            borderStyle:"solid",borderColor:"#f9f9f9"}}>
+                  <Image source={require('../images/await.png')} style={{width:20,resizeMode:Image.resizeMode.contain}}/>
+                  <Text style={{color:"#fff"}}>待处理流程</Text>
+                  <Text style={{color:"#fff"}}>共{this.state.aiaitList}条</Text>
+              </View>
+              <View style={{padding:5,flexDirection:'column',
+                            alignContent:"center",alignItems:'center',
+                            borderRadius:10,borderWidth:2,width:'25%',
+                            borderStyle:"solid",borderColor:"#f9f9f9"}}>
+                  <Image source={require('../images/colle.png')} style={{width:20,resizeMode:Image.resizeMode.contain}}/>
+                  <Text style={{color:"#fff"}}>相关流程</Text>
+                  <Text style={{color:"#fff"}}>共{this.state.corrlateList}条</Text>
+              </View>
+              <View style={{padding:5,flexDirection:'column',
+                            alignContent:"center",alignItems:'center',
+                            borderRadius:10,borderWidth:2,width:'25%',
+                            borderStyle:"solid",borderColor:"#f9f9f9"}}>
+                  <Image source={require('../images/history.png')} style={{width:20,resizeMode:Image.resizeMode.contain}}/>
+                  <Text style={{color:"#fff"}}>历史流程</Text>
+                  <Text style={{color:"#fff"}}>共{this.state.history}条</Text>
+              </View>
+          </View>
           </View>
           <TouchableOpacity onPress={()=>this.show()} style={{position:'absolute',bottom:35,right:35}}>
               <Image source={require('../images/addd.png')} style={{width:45,height:45}}/>

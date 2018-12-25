@@ -42,7 +42,7 @@ export default class WaitPlan extends React.Component{
         }else{
         const histo = await historys("?form.tree_node_operation="+0);
         const datas = "?form.userId="+histo.form.userId;
-    const result = await awaitdeteal(datas);
+        const result = await awaitdeteal(datas);
     
         this.setState({
             userId:histo.form.userId,

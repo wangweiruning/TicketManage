@@ -208,15 +208,17 @@ export default class Tdetail extends React.Component{
     }
 
     open(val){
+        //修改选中传值问题
         let sss= Object.keys(val);
-        let display = [];
-        for(let i in val){
-            if(val[i]){
-                display.push(val[i]);
-            }
-        };
+        let rrr= Object.values(val);
+        let arrs =[];
+        for (let index = 0; index < rrr.length; index++) {
+           if(rrr[index]!=""){
+            arrs.push(sss[index]);
+           }
+        }
         this.setState({
-            vvval:sss.join(",")
+            vvval:arrs.join(",")
         })
     }
 
@@ -225,11 +227,13 @@ export default class Tdetail extends React.Component{
         let datas=[];
         let alljsitem = Object.keys(val);
         let alljsv = Object.values(val);
+        let newarrs =[];
         let tts=[];
         let params=[];
         let tindex = alljsv.findIndex((item,index)=>{
             if(item!=""){
                 tts.push({[alljsitem[index]]:alljsv[index]});
+                newarrs.push(alljsitem[index]);
             }
         })
         tts.map(item=>{
@@ -267,7 +271,7 @@ export default class Tdetail extends React.Component{
         })
         this.forceUpdate()
     }
-        let ss ={[leixing]:datas};
+        let ss ={[leixing]:newarrs};
         let data = Object.assign(this.state.pagedata,s)
         let data1 = Object.assign(this.state.newpagedata,ss)
         this.state.pagedata= data;
@@ -324,6 +328,7 @@ export default class Tdetail extends React.Component{
     s[index] = dis?"1":"0";
     this.state.newpagedata[value] = s;
     this.state.showChecked=s;
+    console.log(this.state.newpagedata,">>>>>>>>>>>>>>>>>>>>>>>>>>")
     this.setState(this.state);
 
     }
@@ -394,8 +399,36 @@ export default class Tdetail extends React.Component{
     }
  
    async submitAll(){
-    const {newpagedata,showChecked} = {...this.state};
-    const tts = Object.assign(newpagedata,showChecked)
+    const {newpagedata} = {...this.state};
+    for (const key in newpagedata) {
+
+        if (key.slice(key.length - 2, key.length)== "*1") {
+            let tt = key.slice(0,key.length - 2)+"_1";
+            let newvalues = newpagedata[key];
+            let checkvalues = newpagedata[tt];
+            let newArr = [];
+            let checkArr = [];
+            for(let i =0;i<newvalues.length;i++){
+                let newvalue = newvalues[i];
+                if(newvalue){
+                    newArr.push(newvalue);
+                    if(checkvalues){
+                        checkArr.push(checkvalues[i]);
+                    }
+                }
+                
+                
+            }
+            console.log(newArr,"44444444")
+            newpagedata[key]=newArr;
+            if(checkvalues){
+                newpagedata[tt]=checkArr
+            }
+            
+        }
+    } 
+   console.log(newpagedata)
+
     if (this.state.vvval.length<2) {
         Alert.alert("流转目标不能为空！")
     } else {
@@ -405,7 +438,7 @@ export default class Tdetail extends React.Component{
             "form.ticketStatusId": this.state.statuss,
             "form.ticketNum": this.state.num,
             "form.templateId": this.props.navigation.state.params.name,
-            "form.paraData": JSON.stringify(tts),
+            "form.paraData": JSON.stringify(newpagedata),
             "form.flowroleid": this.state.basicInfoId,
             "form.userId":jconfig.userinfo.user,
             "form.recordOption": this.state.stateTr,
@@ -466,11 +499,12 @@ export default class Tdetail extends React.Component{
          this.setState(({newpagedata})=>{
             let newpagedata2 = this.state.newpagedata;
             let vaaaa = newpagedata2[v+"*1"];
-            let nesadds = newpagedata2[v+"_1"]||[""];
+            let nesadds = newpagedata2[v+"_1"]||[0];
             vaaaa.push("");
             nesadds.push(0);
             newpagedata2[v+"*1"] = vaaaa;
             this.state.newpagedata[v+"_1"] = nesadds;
+            console.log(newpagedata2);
             return newpagedata2;
        });
     }
@@ -533,6 +567,7 @@ export default class Tdetail extends React.Component{
                                     if(newpagedataChecked.length)newpagedataChecked.splice(qIndex,1);
                                     this.state.newpagedata[v.TicketParaID+"*1"]=newpagedataID;
                                     this.state.newpagedata[v.TicketParaID+"_1"]=newpagedataChecked;
+                                    console.log(newpagedata,"vvvvvvvvvvv")
                                     return newpagedata
                                 })
                             }} style={{width:!newpagedataID || newpagedataID.length<2 || ds.length==1?"0%":'11.6%',justifyContent:'center',alignItems:'center'}}>
