@@ -31,7 +31,6 @@ export default class Login extends React.Component{
                 if(!infos) s1(); 
                 this.state.user=infos.data;
                 this.state.pass=infos.datag;
-                console.log(this.state);
                 this.forceUpdate();  
                 s1();
             })
@@ -138,7 +137,7 @@ export default class Login extends React.Component{
             sensorDescription: "请放入指纹", // Android
             sensorErrorDescription: "验证失败，请重试", // Android
             cancelText: "取消", // Android
-            unifiedErrors: false, // use unified error messages (default false)
+           // use unified error messages (default false)
         }
         const optionalConfig = {
             unifiedErrors: true // use unified error messages (default false)
