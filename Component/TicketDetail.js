@@ -454,8 +454,9 @@ export default class Tdetail extends React.Component{
         para +=("&"+a+"="+encodeURIComponent(data[a]));
         }
         para ='?'+para.substr(1,para.length);
-        let all = await tijiao(para);
-        if(all.form.paraData.length>2){
+        try{
+            let all = await tijiao(para);
+            if(all.form.paraData.length>2){
             Alert.alert(
                 '提示',`${this.props.navigation.state.params.v}创建成功！`,
                 [
@@ -463,6 +464,10 @@ export default class Tdetail extends React.Component{
                 ],
                 { cancelable: false }
             );
+        }
+        }catch(e){
+           ToastAndroid.show('网络或服务器出错，请重试',ToastAndroid.SHORT)
+           return
         }
     }
     }

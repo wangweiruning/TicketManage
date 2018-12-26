@@ -132,8 +132,8 @@ export default class Login extends React.Component{
 
         const optionalConfigObject = {
             title: "指纹验证登录", // Android
-            color: "#e00606", // Android,
-            imageColor: "#e00606", // Android
+            color: "#12e2a3", // Android,
+            imageColor: "#12e2a3", // Android
             imageErrorColor: "#ff0000", // Android
             sensorDescription: "请放入指纹", // Android
             sensorErrorDescription: "验证失败，请重试", // Android
