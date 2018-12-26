@@ -226,13 +226,17 @@ export default class Tdetail extends React.Component {
            
             const paramsItem = "?form.flowroleid=" + ticketFlowList[0].FlowRoleID;
             const saves = await editquanxian(paramsItem);//获取可编辑内容区域
-           
+            let tt;
+            saves.form.dataList.map(item=>{
+                 tt = Object.assign(this.state.newpagedata,{[item.TicketParaID]:item.ParaName=='班组'|| item.ParaName=='班组成员'?null:''});
+            })
             this.setState({
                 nnnmmm: true,
                 groupName: bumen.form.dataList,
                 chengyuanName: groupnumber.form.dataList,
                 havChangeList: saves.form.dataList,
-                ParaId: Team.form.dataList
+                ParaId: Team.form.dataList,
+                newpagedata:tt
             })
 
             //设置提交目标
@@ -696,8 +700,7 @@ export default class Tdetail extends React.Component {
                     
                 }
             } 
-           console.log(newpagedata)
-
+        
         if (this.state.vvval || this.state.searchRole.length < 1) {
             let data = {
                 'form.basicInfoId': this.props.navigation.state.params.ticketbasicinfoid,
@@ -1089,7 +1092,7 @@ export default class Tdetail extends React.Component {
                         {
                             this.state.templateContents.map((v,i)=>{
                                 let dis = this.ischacked(v.TicketParaID);
-                                
+                                    
                             return <View  key={i} style={{marginTop:5,padding:5,alignItems:'center',width:'100%'}}>
                             <View style={{
                                 width:'98%',

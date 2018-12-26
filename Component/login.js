@@ -5,6 +5,7 @@ import {login} from '../api/api';
 import MySorage from '../api/storage';
 import {StackActions, NavigationActions} from 'react-navigation';
 import {TextInputLayout} from 'rn-textinputlayout';
+import TouchID from 'react-native-touch-id';
 const resetAction = StackActions.reset({
     index: 0,
     actions: [NavigationActions.navigate({ routeName: 'Tab' })],
@@ -119,7 +120,42 @@ export default class Login extends React.Component{
             [k]:v,
         });
     }
-      
+   
+
+    pressHandler() {
+        if(!this.state.user||!this.state.pass){
+            Alert.alert("",'请先输入账号和密码',[{text:'确定'}],
+            {cancelable:false}
+            )
+            return
+        }
+
+        const optionalConfigObject = {
+            title: "指纹验证登录", // Android
+            color: "#e00606", // Android,
+            imageColor: "#e00606", // Android
+            imageErrorColor: "#ff0000", // Android
+            sensorDescription: "请放入指纹", // Android
+            sensorErrorDescription: "验证失败，请重试", // Android
+            cancelText: "取消", // Android
+            unifiedErrors: false, // use unified error messages (default false)
+        }
+        const optionalConfig = {
+            unifiedErrors: true // use unified error messages (default false)
+          }
+        TouchID.isSupported(optionalConfig)
+        .then(biometryType => {
+            // Success code
+        })
+        .catch(error => {
+    // Failure code
+         alert(error)
+        });
+        TouchID.authenticate('', optionalConfigObject)
+            .then(success => {
+                this.submitgo()
+            })
+    }
     render(){
         return(<View style={{position:'relative',flex:1}}>
         <StatusBar backgroundColor={'transparent'} translucent={true}
@@ -168,6 +204,11 @@ export default class Login extends React.Component{
            <TouchableOpacity disabled={this.state.loading?true:false} onPress={()=>this.submitgo()} 
                style={{elevation:3,marginTop:15,justifyContent:'center',alignItems:'center',width:'80%',backgroundColor:this.state.loading?'rgba(54,87,147,.3)':'#365793',borderRadius:5,height:40}}>
           <Text style={{color:'white',fontSize:20}}>登录</Text>
+        </TouchableOpacity>
+        
+        <TouchableOpacity  onPress={()=>this.pressHandler()} 
+               style={{elevation:3,marginTop:15,justifyContent:'center',alignItems:'center',width:'80%',backgroundColor:this.state.loading?'rgba(54,87,147,.3)':'#365793',borderRadius:5,height:40}}>
+          <Text style={{color:'white',fontSize:20}}>指纹登录</Text>
         </TouchableOpacity>
         </View>
         </View>)

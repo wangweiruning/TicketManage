@@ -141,7 +141,10 @@ export default class Tdetail extends React.Component{
         let kl = [];
         let google = good.form.dataList[1].ticketstatusname;
         kl.push(google)
-        
+        let tt;
+        feel.form.dataList.map(item=>{
+                 tt = Object.assign(this.state.newpagedata,{[item.TicketParaID]:item.ParaName=='班组'|| item.ParaName=='班组成员'?null:''});
+            })
         this.setState({
             ParaId:Team.form.dataList,
             AllManger:AllManger.form.dataList,
@@ -156,7 +159,8 @@ export default class Tdetail extends React.Component{
             flowroleid:bool.form.templateContents[1].FlowRoleID,
             num:x.form.newTicket,
             jax:bool.form.templateContents,
-            zed:feel.form.dataList
+            zed:feel.form.dataList,
+            newpagedata:tt
        })
        this.loading();
        this.pipei(list.form.paramAllList);
@@ -419,7 +423,6 @@ export default class Tdetail extends React.Component{
                 
                 
             }
-            console.log(newArr,"44444444")
             newpagedata[key]=newArr;
             if(checkvalues){
                 newpagedata[tt]=checkArr
@@ -427,7 +430,6 @@ export default class Tdetail extends React.Component{
             
         }
     } 
-   console.log(newpagedata)
 
     if (this.state.vvval.length<2) {
         Alert.alert("流转目标不能为空！")
