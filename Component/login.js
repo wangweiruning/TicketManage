@@ -149,7 +149,9 @@ export default class Login extends React.Component{
         })
         .catch(error => {
     // Failure code
-         alert(error)
+            Alert.alert("指纹验证提示",'您的手机不支持指纹登录，请选择手动登录',[{text:'确定'}],
+                {cancelable:false}
+            )
         });
         TouchID.authenticate('', optionalConfigObject)
             .then(success => {
