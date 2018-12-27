@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text,View,TouchableOpacity,ScrollView,Button,Alert,ImageBackground} from 'react-native';
+import {Text,View,TouchableOpacity,ScrollView,Button,Alert} from 'react-native';
 import Title from './Title'
 import {correation,historys} from './../api/api'
 import MySorage from '../api/storage';
@@ -16,18 +16,18 @@ export default class CorrelationPlan extends React.Component{
         mengCard:true
         };
       }
-    async  componentWillMount(){
-         const {navigate} = this.props.navigation;
-         if(jconfig.userinfo.user==(""||null)){
-          return Alert.alert(
-            "登录超时",
-            "登录状态已过期，请重新登录",
-            [
-              {text: '去登陆', onPress: () => navigate('login')},
-            ],
-            {cancelable:false}
-          );
-        }
+    async componentWillMount(){
+      const {navigate} = this.props.navigation;
+      if(jconfig.userinfo.user==(""||null)){
+      return Alert.alert(
+        "登录超时",
+        "登录状态已过期，请重新登录",
+        [
+          {text: '去登陆', onPress: () => navigate('login')},
+        ],
+        {cancelable:false}
+      );
+    }
     if(!jconfig.userinfo.status){
        return Alert.alert(
         "登录验证",
@@ -40,20 +40,19 @@ export default class CorrelationPlan extends React.Component{
     }else{
         const histo = await historys("?form.tree_node_operation="+0);
         const datas = "?form.userId="+histo.form.userId+"&pageSize=10&curPage=0";
-                const result = await correation(datas);
+        const result = await correation(datas);
+        this.setState({
+            userId:histo.form.userId,
+            result:result.form.dataList,//序列化：转换为一个 (字符串)JSON字符串
+            mengCard:false
+        });
                      
-                      this.setState({
-                          userId:histo.form.userId,
-                          result:result.form.dataList,//序列化：转换为一个 (字符串)JSON字符串
-                          mengCard:false
-                      });
-                     
-                     if(!result.form.dataList.length>0){
-                      this.setState({
-                        havenotdate:true
-                    })
-                    }
-                }
+        if(!result.form.dataList.length>0){
+        this.setState({
+          havenotdate:true
+      })
+      }
+      }
      }
     
      // 20180730 刷新
@@ -132,22 +131,20 @@ export default class CorrelationPlan extends React.Component{
   render() {
 let height = this.state.result.length * 100;
 let result = this.state.result;
-    return (
-      <ImageBackground source={require('../images/gffg.jpg')} style={{width: '100%', height: '100%'}}>
-       
+    return (<View style={{width: '100%', height: '100%'}}>
         <Title navigation={this.props.navigation} centerText={'相关流程'} />
         {/* 需要循环获取数据 */}
             <View style={{flex:1}}>
             {this.state.mengCard&&<View style={{justifyContent:'center',alignItems:'center',zIndex:444,width:"100%",height:"100%"}}>
-            <ActivityIndicator color="#ffffff"/>
-            <Text style={{color:"#ffffff",textAlign:"center",marginTop:10,fontSize:15}}>加载中...</Text>
+            <ActivityIndicator color="#1296db"/>
+            <Text style={{color:"#1296db",textAlign:"center",marginTop:10,fontSize:15}}>加载中...</Text>
             </View>}
             <ScrollView>
               {result.length>0&&result.map((itemdata,index)=>{
                  return (<View style={{width:'100%',alignItems:'center'}} key={index}>
                   <TouchableOpacity key={index} activeOpacity={.8}
                         onPress={()=>this.gotoItem(itemdata)}
-                        style={{marginBottom:8,marginTop:8,paddingBottom:15,width:"95%",borderRadius:10,backgroundColor:'rgba(255,255,255,.2)'}}>
+                        style={{marginBottom:8,marginTop:8,paddingBottom:15,width:"95%",borderRadius:10,backgroundColor:'#1296db'}}>
                     <Text numberOfLines={10} 
                     style = {{marginLeft:16,width:'91%',marginTop:20,
                               paddingBottom:10,borderBottomColor:"rgba(255,255,255,.3)",borderBottomWidth:1,borderStyle:"solid",color:"#fff",fontSize:18,flexWrap:'wrap'}}>{itemdata.content==""?'暂无内容':itemdata.content}</Text>
@@ -162,7 +159,7 @@ let result = this.state.result;
               {this.state.havenotdate&&<View style={{marginVertical:20}}><Text style={{textAlign:"center",fontSize:16,color:"#fff"}}>暂时没有数据！</Text></View>}
             </ScrollView>
             </View>
-      </ImageBackground>
+      </View>
     );
   }
 }

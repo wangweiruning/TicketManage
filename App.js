@@ -46,7 +46,7 @@ const TabRouteConfigs = { // 表示各个页面路由配置,让导航器知道�
   Home: { // 路由名称
       screen: HomeScreen, // 对应的路由页�?
       navigationOptions: ({ navigation }) => ({
-          tabBarLabel: '两票管理',
+          tabBarLabel: '首页',
           tabBarIcon: ({ focused }) => ( 
               <Image resizeMode = 'contain' source = { focused ? require('./images/whome.png') : require('./images/home.png') } style = { { width: 25, height: 25 } }
               />
@@ -98,7 +98,7 @@ const TabNavigatorConfigs = {
       backgroundColor: 'white',
         height:60,
     },
-    labelStyle: {fontSize: 10, marginTop:10},
+    labelStyle: {fontSize: 10, marginTop:8},
     IconStyle: {margin: 0},
     showIcon: true,
     pressOpacity: 1,

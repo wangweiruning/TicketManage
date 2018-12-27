@@ -67,14 +67,14 @@ export default class ToastExample extends React.Component {
   render() {
     return (<View style={{alignItems:'center',width: '100%', height: '100%',position:'relative'}}>
                  <Topt navigation={this.props.navigation} centerText={'两票管理'} />
-                <View style={{marginTop:7+StatusBar.currentHeight,width:'95%',borderRadius:6,height:120,backgroundColor:'rgba(255,255,255,.2)',alignItems:'center'}}>
-                  <View style={{flexDirection:'row',width:'95%',marginTop:10,justifyContent:'center',alignItems:'center'}}>
-                     <Text style={{fontSize:20,color:'#f5f5f5'}}>登录名：</Text>
-                     <Text style={{fontSize:20,color:'#f5f5f5',fontWeight:'500'}}>{jconfig.userinfo.user?this.state.realname:'暂无'}</Text>
+                <View style={{marginTop:7,width:'95%',height:120,backgroundColor:'white',alignItems:'center',justifyContent:'center',elevation:3,borderRadius:5}}>
+                  <View style={{flexDirection:'row',width:'95%',justifyContent:'center',alignItems:'center'}}>
+                     <Text style={{fontSize:18,color:'black'}}>登录名：</Text>
+                     <Text style={{fontSize:18,color:'black',fontWeight:'500'}}>{jconfig.userinfo.user?this.state.realname:'暂无'}</Text>
                   </View>
                 </View>
-             <TouchableOpacity onPress={()=> this.out()} style={{position:'absolute',elevation:2,bottom:30,justifyContent:'center',alignItems:'center',width:'80%',backgroundColor:'#365793',borderRadius:5,height:40}}>
-             <Text style={{color:'white',fontSize:20,fontWeight:'500'}}>退出系统</Text>
+             <TouchableOpacity onPress={()=> this.out()} style={{position:'absolute',elevation:2,bottom:30,justifyContent:'center',alignItems:'center',width:'80%',backgroundColor:'#1296db',borderRadius:5,height:40}}>
+             <Text style={{color:'white',fontSize:18,fontWeight:'500'}}>退出系统</Text>
             </TouchableOpacity>
             </View>)
   }

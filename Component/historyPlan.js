@@ -76,20 +76,20 @@ export default class HistoryPlan extends React.Component{
   render() {
       // let height = this.state.result.length * 100;
       let result = this.state.result;
-      return (<ImageBackground source={require('../images/gffg.jpg')} style={{width: '100%', height: '100%'}}>
+      return (<View style={{width:'100%',height:'100%'}}>
               <Title navigation={this.props.navigation} centerText={'历史流程'} />
               {/* 需要循环获取数据 */}
               <View style={{flex:1}}>
               {this.state.mengCard&&<View style={{justifyContent:'center',alignItems:'center',zIndex:444,width:"100%",height:"100%"}}>
-              <ActivityIndicator color="#ffffff"/>
-              <Text style={{color:"#ffffff",textAlign:"center",marginTop:10,fontSize:15}}>加载中...</Text>
+              <ActivityIndicator color="#1296db"/>
+              <Text style={{color:"#1296db",textAlign:"center",marginTop:10,fontSize:15}}>加载中...</Text>
               </View>}
               <ScrollView>
                 {result.length>0&&result.map((itemdata,index)=>{
                   return (<View style={{width:'100%',alignItems:'center'}} key={index}>
                   <TouchableOpacity key={index} activeOpacity={.8}
                   onPress={()=>this.gotoItem(itemdata)}
-                  style={{marginTop:8,marginBottom:8,paddingBottom:15,width:"95%",backgroundColor:'rgba(255,255,255,.2)',borderRadius:10}}>
+                  style={{marginTop:8,marginBottom:8,paddingBottom:15,width:"95%",backgroundColor:'#1296db',borderRadius:10}}>
                   <Text numberOfLines={10} 
                   style = {{marginLeft:16,width:'91%',marginTop:10,paddingBottom:10,borderBottomColor:"rgba(255,255,255,.3)",
                             borderBottomWidth:1,borderStyle:"solid",color:"#fff",fontSize:18,flexWrap:'wrap'}}>{itemdata.content==""?'暂无内容':itemdata.content}</Text>
@@ -103,7 +103,7 @@ export default class HistoryPlan extends React.Component{
                 {this.state.havenotdate&&<View style={{marginVertical:20}}><Text style={{textAlign:"center",fontSize:16,color:"#fff"}}>暂时没有数据！</Text></View>}
               </ScrollView>
               </View>
-        </ImageBackground>
+        </View>
     );
   }
 }

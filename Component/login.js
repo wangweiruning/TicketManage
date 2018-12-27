@@ -173,16 +173,16 @@ export default class Login extends React.Component{
                       backgroundColor:'rgba(0,0,0,.6)',
                       paddingTop:10,
                       zIndex:10000000000}}>
-              <ActivityIndicator color="white"/>
-              <Text style={{color:'white',fontSize:15,marginTop:20}}>登录中...</Text>
+              <ActivityIndicator color="#1296db"/>
+              <Text style={{color:'#1296db',fontSize:15,marginTop:20}}>登录中...</Text>
         </View>
         </View>:null}
         <View style={{position:'absolute',width:'100%',height:'100%'}}>
         <Image source={require('../images/cc.jpg')} style={{width:'100%',height:'100%'}}/>
         </View>
           <View style={{marginTop:"10%",alignItems:'center'}}>
-          <Image source={require('../images/log.png')} style={{width:80,height:80,marginBottom:10}} resizeMode = 'contain'/>
-          <Text style={{fontWeight:'500',color:'white',fontSize:20}}>瑞智一体化两票管理系统</Text>
+          <Image source={require('../images/log.png')} style={{width:70,height:70,marginBottom:10}} resizeMode = 'contain'/>
+          <Text style={{fontWeight:'500',color:'white',fontSize:18}}>瑞智一体化两票管理系统</Text>
            <View style={{flexDirection:'row',alignItems:'flex-end',marginTop:15,height:60}}>
                <Image source={require('../images/login-username.png')} style={{width:25,top:10,marginRight:5}} resizeMode = 'contain'/>
                {/* <InputItem placeholder="账号" defaultValue={this.state.user} onChange={(e)=>this.handleInput('user',e)} style={{width:'85%'}}/> */}
@@ -203,13 +203,12 @@ export default class Login extends React.Component{
            </View>
            {/* <CheckBox checked={this.state.active} label={'记住账号'} labelStyle={{color:'#f5f5f5'}} checkboxStyle={{width:18,height:18}} onChange={(e)=>this.setState({active:e})}/> */}
            <TouchableOpacity disabled={this.state.loading?true:false} onPress={()=>this.submitgo()} 
-               style={{elevation:3,marginTop:15,justifyContent:'center',alignItems:'center',width:'80%',backgroundColor:this.state.loading?'rgba(54,87,147,.3)':'#365793',borderRadius:5,height:40}}>
-          <Text style={{color:'white',fontSize:20}}>登录</Text>
+               style={{elevation:3,marginTop:15,justifyContent:'center',alignItems:'center',width:'80%',backgroundColor:this.state.loading?'rgba(54,87,147,.3)':'#1296db',borderRadius:5,height:40}}>
+          <Text style={{color:'white',fontSize:18}}>登录</Text>
         </TouchableOpacity>
-        
         <TouchableOpacity  onPress={()=>this.pressHandler()} 
-               style={{elevation:3,marginTop:15,justifyContent:'center',alignItems:'center',width:'80%',backgroundColor:this.state.loading?'rgba(54,87,147,.3)':'#365793',borderRadius:5,height:40}}>
-          <Text style={{color:'white',fontSize:20}}>指纹登录</Text>
+               style={{elevation:3,marginTop:15,justifyContent:'center',alignItems:'center',width:'80%',backgroundColor:this.state.loading?'rgba(54,87,147,.3)':'#1296db',borderRadius:5,height:40}}>
+          <Text style={{color:'white',fontSize:18}}>指纹登录</Text>
         </TouchableOpacity>
         </View>
         </View>)

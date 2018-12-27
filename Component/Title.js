@@ -17,10 +17,8 @@ export default class Title extends React.Component{
         return(
         <View style={{
             width: '100%',
-            marginTop:StatusBar.currentHeight,
-            height:10+StatusBar.currentHeight,
-            backgroundColor: 'transparent',
-            display:'flex',
+            height:13+StatusBar.currentHeight,
+            backgroundColor: '#1296db',
             flexDirection: 'row',
             alignItems: 'center',
         }}>
@@ -31,7 +29,7 @@ export default class Title extends React.Component{
                     <Text style={{color: 'white'}}>返回</Text>
             </TouchableOpacity>
             <View style={{flex:1,alignItems:'center'}}>
-                <Text style={{color:'white',fontSize:20,fontWeight:'500'}}>{this.props.centerText}</Text>
+                <Text style={{color:'white',fontSize:18,fontWeight:'500'}}>{this.props.centerText}</Text>
             </View>
             <View style={{width:70,height:27}}>
             </View>
