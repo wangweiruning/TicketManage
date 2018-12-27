@@ -11,13 +11,15 @@ import Newticket from './Component/newticket';
 import Login from './Component/login';
 import Tdetail from './Component/TicketDetail';
 import WaitPlan from './Component/waitPlan';
+import AddNewT from './Component/AddNewTictets';
+import MyTicetss from './Component/FlexExample';
 import CorrelationPlan from './Component/correlationPlan';
 import HistoryPlan from './Component/historyPlan';
 import MySorage from './api/storage';
 import TicketModel from './Component/TicketModel';
 import TicketFlew from './Component/TicketFlew';
 import Result from './Component/Result';
-import {StackNavigator,TabBarTop, TabNavigator,StackActions, NavigationActions} from "react-navigation";
+import {StackNavigator,TabBarTop,TabNavigator,StackActions,NavigationActions} from "react-navigation";
 import {Image,BackHandler,ToastAndroid,StatusBar,Easing,Animated,Alert,NetInfo} from 'react-native';
 import {islogin} from './api/api'
 MySorage._getStorage()
@@ -51,16 +53,26 @@ const TabRouteConfigs = { // 表示各个页面路由配置,让导航器知道�
           )
       }),
   },
-//   ActivityIndicatorExample: {
-//       screen: ActivityIndicatorExample,
-//       navigationOptions: { // 指定路由页面的配置选项
-//           tabBarLabel: '查询', // 可用作头部标�?headerTitle ，或者Tab标题 tabBarLabel
-//           tabBarIcon: ({ focused }) => ( 
-//               <Image resizeMode = 'contain' source = { focused ? require('./images/wmode.png') : require('./images/moda.png') } style = { { width: 20, height: 20 } }
-//               />
-//           )
-//       },
-//   },
+  AddNewT: {
+      screen: AddNewT,
+      navigationOptions: { // 指定路由页面的配置选项
+          tabBarLabel: '新建', // 可用作头部标�?headerTitle ，或者Tab标题 tabBarLabel
+          tabBarIcon: ({ focused }) => ( 
+              <Image resizeMode = 'contain' source = { focused ? require('./images/moda.png') : require('./images/wmode.png') } style = { { width: 25, height: 25 } }
+              />
+          )
+      },
+  },
+  MyTicets: {
+      screen: MyTicetss,
+      navigationOptions: { // 指定路由页面的配置选项
+          tabBarLabel: '总览', // 可用作头部标�?headerTitle ，或者Tab标题 tabBarLabel
+          tabBarIcon: ({ focused }) => ( 
+              <Image resizeMode = 'contain' source = { focused ? require('./images/cfjj.png') : require('./images/cfj.png') } style = { { width: 25, height: 25 } }
+              />
+          )
+      },
+  },
   ToastExample: {
       screen: ToastExample,
       navigationOptions: { // 指定路由页面的配置选项
@@ -70,17 +82,7 @@ const TabRouteConfigs = { // 表示各个页面路由配置,让导航器知道�
               />
           )
       },
-  },
-  // FlexExample: {
-  //     screen: FlexExample,
-  //     navigationOptions: { // 指定路由页面的配置选项
-  //         tabBarLabel: 'wo', // 可用作头部标�?headerTitle ，或者Tab标题 tabBarLabel
-  //         tabBarIcon: ({ focused }) => ( 
-  //             <Image resizeMode = 'contain' source = { focused ? require('./images/cfjj.png') : require('./images/cfj.png') } style = { { width: 20, height: 20 } }
-  //             />
-  //         )
-  //     },
-  // }
+  }
 };
 const TabNavigatorConfigs = {
   initialRouteName: 'Home', // 初始显示的Tab对应的页面路由名�?
@@ -89,11 +91,11 @@ const TabNavigatorConfigs = {
   lazy: true, // 是否懒加载页�?
   header:null,
   tabBarOptions: {
-    indicatorStyle:{backgroundColor:'white'},
-    activeTintColor: "white",
-    inactiveTintColor: "white",
+    indicatorStyle:{backgroundColor:'#1296db'},
+    activeTintColor: "#1296db",
+    inactiveTintColor: "#515151",
     style: {
-      backgroundColor: '#0b1b34',
+      backgroundColor: 'white',
         height:60,
     },
     labelStyle: {fontSize: 10, marginTop:10},
@@ -306,7 +308,7 @@ async getUserInfo () {
 
   render() {
     return (<React.Fragment>
-      <StatusBar backgroundColor={'transparent'} translucent={true}/>
+      <StatusBar backgroundColor={'#1296db'}/>
       <Navigators ref={(nav)=>{
         this.navigator = nav;
       }} configureScene={(route) => {

@@ -1,6 +1,7 @@
 import React from 'react';
 import {Text,View,Image,TouchableOpacity,ImageBackground,StatusBar,Alert} from 'react-native';
 import {awaitdeteal,historys,correation} from '../api/api';
+import Topt from './TopTitle';
 
 export default class HomeScreen extends React.Component {
 
@@ -65,9 +66,26 @@ export default class HomeScreen extends React.Component {
   render() {
     
       const { navigate } = this.props.navigation;
-      return (<ImageBackground source={require('../images/gffg.jpg')} style={{alignItems:'center',width: '100%', height: '100%'}}>
-          <View style={{width:'94.5%',height:'92%',marginTop:7+StatusBar.currentHeight,alignItems:'center',borderRadius:6,backgroundColor:'rgba(255,255,255,.2)'}}>
-          <Text style={{fontSize:20,fontWeight:'500',color:'white',marginTop:10,marginBottom:10}}>两票管理</Text>
+      return (<View>
+        <Topt navigation={this.props.navigation} centerText={'两票管理'} />
+         <View style={{width:'94.5%',height:'92%',alignItems:'center'}}>
+          <View style={{flexDirection:'row',width:'100%',justifyContent:'space-evenly'}}>
+              <View style={{padding:5,alignItems:'center',borderColor:'#f5f5f5',borderWidth:1,borderStyle:'solid',width:'31%'}}>
+                  <Image source={require('../images/await.png')} style={{width:30,resizeMode:Image.resizeMode.contain}}/>
+                  <Text style={{color:"#fff"}}>待处理流程</Text>
+                  <Text style={{color:"#fff"}}>共{this.state.aiaitList}条</Text>
+              </View>
+              <View style={{padding:5,alignItems:'center',borderColor:'#f5f5f5',borderWidth:1,borderStyle:'solid',width:'31%'}}>
+                  <Image source={require('../images/colle.png')} style={{width:30,resizeMode:Image.resizeMode.contain}}/>
+                  <Text style={{color:"#fff"}}>相关流程</Text>
+                  <Text style={{color:"#fff"}}>共{this.state.corrlateList}条</Text>
+              </View>
+              <View style={{padding:5,alignItems:'center',borderColor:'#f5f5f5',borderWidth:1,borderStyle:'solid',width:'31%'}}>
+                  <Image source={require('../images/history.png')} style={{width:30,resizeMode:Image.resizeMode.contain}}/>
+                  <Text style={{color:"#fff"}}>历史流程</Text>
+                  <Text style={{color:"#fff"}}>共{this.state.history}条</Text>
+              </View>
+          </View>
           {
           this.state.content.map((v,i)=><View key={i}>
           <View style={{marginTop:10}}>
@@ -96,36 +114,7 @@ export default class HomeScreen extends React.Component {
           </View>
           </View>)
           }
-          <View style={{flex:1,flexDirection:'row',width:'100%',justifyContent:'space-evenly',alignItems:'center',marginTop:-20}}>
-              <View style={{padding:5,flexDirection:'column',
-                            alignContent:"center",alignItems:'center',
-                            borderRadius:10,borderWidth:2,width:'25%',
-                            borderStyle:"solid",borderColor:"#f9f9f9"}}>
-                  <Image source={require('../images/await.png')} style={{width:20,resizeMode:Image.resizeMode.contain}}/>
-                  <Text style={{color:"#fff"}}>待处理流程</Text>
-                  <Text style={{color:"#fff"}}>共{this.state.aiaitList}条</Text>
-              </View>
-              <View style={{padding:5,flexDirection:'column',
-                            alignContent:"center",alignItems:'center',
-                            borderRadius:10,borderWidth:2,width:'25%',
-                            borderStyle:"solid",borderColor:"#f9f9f9"}}>
-                  <Image source={require('../images/colle.png')} style={{width:20,resizeMode:Image.resizeMode.contain}}/>
-                  <Text style={{color:"#fff"}}>相关流程</Text>
-                  <Text style={{color:"#fff"}}>共{this.state.corrlateList}条</Text>
-              </View>
-              <View style={{padding:5,flexDirection:'column',
-                            alignContent:"center",alignItems:'center',
-                            borderRadius:10,borderWidth:2,width:'25%',
-                            borderStyle:"solid",borderColor:"#f9f9f9"}}>
-                  <Image source={require('../images/history.png')} style={{width:20,resizeMode:Image.resizeMode.contain}}/>
-                  <Text style={{color:"#fff"}}>历史流程</Text>
-                  <Text style={{color:"#fff"}}>共{this.state.history}条</Text>
-              </View>
           </View>
-          </View>
-          <TouchableOpacity onPress={()=>this.show()} style={{position:'absolute',bottom:35,right:35}}>
-              <Image source={require('../images/addd.png')} style={{width:45,height:45}}/>
-          </TouchableOpacity>          
-        </ImageBackground>);
+          </View>);
     }
   }
