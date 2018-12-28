@@ -44,7 +44,7 @@ export default class HomeScreen extends React.Component {
   render() {
       const { navigate } = this.props.navigation;
       return (<View>
-        <Topt navigation={this.props.navigation} centerText={'首页'} />
+        <Topt navigation={this.props.navigation} centerText={'两票管理'} />
         <LunboComponent />
           {this.state.content.map((v,i)=><View key={i} style={{justifyContent:'space-evenly',flexWrap:'wrap',flexDirection:'row'}}>
               <TouchableOpacity onPress={()=>navigate('waitPlan')} style={{marginTop:5,height:100,width:'32.5%',alignItems:'center',backgroundColor:'white'}} activeOpacity={.8}>

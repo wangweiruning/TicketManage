@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text,View,TouchableOpacity,Alert,ScrollView,Image} from 'react-native';
+import {Text,View,TouchableOpacity,Alert,ScrollView,Image,TextInput} from 'react-native';
 import Title from './Title'
 import {awaitdeteal,historys} from './../api/api'
 import {ActivityIndicator} from 'antd-mobile-rn';
@@ -13,6 +13,7 @@ export default class WaitPlan extends React.Component{
       result:'',
       userId:"",
       dataLis:[],
+      SelectData:[],
       havenotdate:false,
       mengCard:true
     };
@@ -46,7 +47,10 @@ export default class WaitPlan extends React.Component{
     
         this.setState({
             userId:histo.form.userId,
-            dataLis:result.form.dataList.reverse(),
+            dataLis:result.form.dataList.sort((a,b)=>{
+              return  a.lastTime>b.lastTime?-1:1
+            }),
+            SelectData:result.form.dataList,
             mengCard:false
         })
         if(!result.form.dataList.length>0){
@@ -79,56 +83,6 @@ export default class WaitPlan extends React.Component{
                                                 _:Date.parse(new Date())})
     }
 
-    // 20181107 刷新
- async _refresh(callBack){
-    const histo = await historys("?form.tree_node_operation="+0);
-    const datas = "?form.userId="+histo.form.userId+"&pageSize=10&curPage=0";
-    const result = await awaitdeteal(datas);
-    callBack(result.form.dataList.reverse());
-           if(result&&result.form.dataList.length>0){
-          this.setState({
-              result:this.state.result.concat(result.form.dataList),//序列化：转换为一个 (字符串)JSON字符串
-          });
-         }
-   
-  }
-   
-  // 20181107 加载更多
-  async _loadMore(page,callBack){
-    const histo = await historys("?form.tree_node_operation="+0);
-    const datas = "?form.userId="+histo.form.userId+"&pageSize=10&curPage="+page;
-    const result = await awaitdeteal(datas);
-    callBack(result.form.dataList);
-           if(result&&result.form.dataList.length>0){
-          this.setState({
-              result:this.state.result.concat(result.form.dataList),//序列化：转换为一个 (字符串)JSON字符串
-          });
-        }
-  }
-   
-  // 20181107 子组件渲染
-  _renderRow(itemdata) {
-    // <CommentItem row={row} />
-    return (
-      <View 
-            onPress={()=>this.gotoItem(itemdata)}
-            style={{marginTop:5,paddingBottom:10,paddingTop:10,width:"90%",marginLeft:20,height:220}}>
-        <Text style={{color:"#000000"}}>两票类型：{itemdata.tickettypename}</Text>
-        <Text style={{color:"#000000"}}>负责人：{itemdata.headuser}</Text>
-        <Text style={{color:"#000000"}}>编号：{itemdata.ticketserialnum}</Text>
-        <Text style={{color:"#000000"}}>流转人：{itemdata.manageuser}</Text>
-        <View><Text style={{color:"#000000"}}>内容：</Text></View>
-        <Text numberOfLines={10} style = {{paddingBottom:15,borderColor:"#eeeeee",borderWidth:1,borderStyle:"solid",color:"#000000"}}>{itemdata.content}</Text>
-        <Text style={{color:"#000000"}}>等待时间：{itemdata.manageTime}</Text>
-        <Text style={{color:"#000000"}}>流转时间：{itemdata.lastTime}</Text>
-        <Button
-            onPress={()=>this.gotoItem(itemdata)}
-            title="查看详情"
-            color="#406ea4"
-            />
-    </View>
-    )
-  }
   awaitTime(time){
     let Times = time.replace(/-/g,"/").replace(/T/,' ');
     var endTime = new Date(Times).getTime() + 1000;
@@ -140,26 +94,60 @@ export default class WaitPlan extends React.Component{
    
  return tian+shi+fen;
   }
+
+
+  onChanegeTextKeyword(text){
+    if(!text){
+      this.setState({
+        dataLis:this.state.SelectData.sort((a,b)=>{
+          return  a.lastTime>b.lastTime?-1:1
+        })
+      });
+      return;
+     }
+
+    else if(text){
+      let newData = [];
+      for (var i = 0; i < this.state.dataLis.length; i++) {
+          let ds = this.state.dataLis[i];
+          if(ds.tickettypename && ds.tickettypename.indexOf(text)!=-1){
+            newData.push(ds);
+          }
+      }
+      this.setState({
+        dataLis:newData.sort((a,b)=>{
+          return  a.lastTime>b.lastTime?-1:1
+        })
+      });
+    }
+      // else{
+      //   console.log('fffffffffff')
+      //   this.setState({
+      //     dataLis
+      //   });
+      //   }
+  }
+
   render() {
-      let height = this.state.result.length * 100;
       let dataLis = this.state.dataLis;
     return (
       <View style={{width: '100%', height: '100%'}}>
         <Title navigation={this.props.navigation} centerText={'待处理流程'} />
         {/* 需要循环获取数据 */}
             <View style={{flex:1}}>
-            {/* {jconfig.userinfo.status?<PageListView
-                height={height}
-                pageLen={15}
-                renderRow={this._renderRow.bind(this)}
-                refresh={this._refresh.bind(this)}
-                loadMore={this._loadMore.bind(this)}
-            />:<Text style={{textAlign:"center",marginTop:20}}>还没有任何数据</Text>
-            } */}
             {this.state.mengCard&&<View style={{justifyContent:'center',alignItems:'center', zIndex:444,width:"100%",height:"100%"}}>
                 <ActivityIndicator color="#363434"/>
                 <Text style={{color:"#363434",textAlign:"center",marginTop:10,fontSize:15}}>加载中...</Text>
                 </View>}
+        <View style={{width:'100%',justifyContent:"center",alignItems:'center',backgroundColor:'white',height:70}}>
+         <View style={{backgroundColor:'#eee',width:'97%',flexDirection:'row',borderRadius:15,alignItems:'center'}}> 
+         <Image source={require('../images/search.png')} style={{width:20,height:20,marginLeft:8}}/>
+          <TextInput underlineColorAndroid={'transparent'} multiline={true} autoFocus={false} onChangeText={(e)=>this.onChanegeTextKeyword(e)}
+            style={{fontSize:13, color: '#363434',overflow:'hidden',width:'98%'}}
+            placeholder={"请输入两票名称"}
+        />
+        </View>
+        </View>
             <ScrollView>
          {  dataLis.length>0&&dataLis.map((itemdata,index)=>{
              return (<View style={{width:'100%',alignItems:'center'}} key={index}>
@@ -167,23 +155,23 @@ export default class WaitPlan extends React.Component{
                     onPress={()=>this.gotoItem(itemdata)}
                     style={{marginTop:8,marginBottom:8,width:"95%",backgroundColor:'white',flexDirection:'row'}}>
                 <View style={{width:'35%',alignItems:'center',justifyContent:'center'}}>
-                <View style={{width:40,height:40,borderRadius:20,justifyContent:'center',alignItems:'center',borderColor:"grey",borderWidth:1,borderStyle:'solid'}}>
+                <View style={{width:44,height:44,borderRadius:22,justifyContent:'center',alignItems:'center',borderColor:"#ccc",borderWidth:1,borderStyle:'solid'}}>
                 <Image source={require('../images/await.png')} style={{width:30,height:30}}/>
                 </View>
-                <Text style={{color:"#1296db",paddingTop:10,fontSize:13,flexWrap:'wrap'}}>{itemdata.tickettypename}</Text>
+                <Text style={{color:"#ccc",paddingTop:10,fontSize:13,flexWrap:'wrap'}}>{itemdata.tickettypename}</Text>
                 </View>
                 <View style={{width:'65%'}}>
                 <View style={{width:'100%',flexDirection:'row'}}>
-                <Text style={{flex:1,color:"#fda403",marginTop:6,fontSize:13}}>已等待{this.awaitTime(itemdata.lastTime)}</Text>
-                <Text style={{color:"#1296db",marginTop:6,fontSize:13,marginRight:10}}>{itemdata.ticketserialnum}</Text>
+                <Text style={{flex:1,color:"#f05d23",marginTop:6,fontSize:12}}>已等待{this.awaitTime(itemdata.lastTime)}</Text>
+                <Text style={{color:"#1296db",marginTop:6,fontSize:12,marginRight:10}}>{itemdata.ticketserialnum}</Text>
                 </View>
                 <Text numberOfLines={10} style={{width:'91%',marginTop:10,paddingBottom:10,color:"#363434",fontSize:15,flexWrap:'wrap'}}>
                    {itemdata.content==""?'暂无内容':itemdata.content}
                 </Text>
                 <View style={{flexDirection:'row'}}>
-                <Text style={{textAlign:'center',borderWidth:1,borderRadius:5,borderColor:'#1296db',borderStyle:"solid",color:'#1296db',marginRight:3}}>负责</Text>
+                <Text style={{textAlign:'center',borderWidth:1,borderRadius:5,borderColor:'#1296db',borderStyle:"solid",color:'#1296db',marginRight:3,fontSize:14}}>负责</Text>
                 <Text>{itemdata.headuser==null?'暂无负责人':itemdata.headuser}</Text>
-                <Text style={{marginLeft:10,textAlign:'center',borderWidth:1,borderRadius:5,borderColor:'#1296db',borderStyle:"solid",color:'#1296db',marginRight:3}}>流转</Text>
+                <Text style={{marginLeft:10,textAlign:'center',borderWidth:1,borderRadius:5,borderColor:'#1296db',borderStyle:"solid",color:'#1296db',marginRight:3,fontSize:14}}>流转</Text>
                 <Text>{itemdata.manageuser==null?'暂无流转人':itemdata.manageuser}</Text>
                 </View>
                 <View style={{flexDirection:'row',alignItems:'center',marginTop:10,marginBottom:8}}>

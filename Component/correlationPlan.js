@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text,View,TouchableOpacity,ScrollView,Button,Alert} from 'react-native';
+import {Text,View,TouchableOpacity,ScrollView,Image,Alert,TextInput} from 'react-native';
 import Title from './Title'
 import {correation,historys} from './../api/api'
 import MySorage from '../api/storage';
@@ -11,6 +11,7 @@ export default class CorrelationPlan extends React.Component{
     this.state = {
         animating: false,
         result:[],
+        SelectData:[],
         userId:"",
         havenotdate:false,
         mengCard:true
@@ -43,7 +44,10 @@ export default class CorrelationPlan extends React.Component{
         const result = await correation(datas);
         this.setState({
             userId:histo.form.userId,
-            result:result.form.dataList,//序列化：转换为一个 (字符串)JSON字符串
+            result:result.form.dataList.sort((a,b)=>{
+              return  a.lastTime>b.lastTime?-1:1
+            }),
+            SelectData:result.form.dataList,//序列化：转换为一个 (字符串)JSON字符串
             mengCard:false
         });
                      
@@ -54,64 +58,6 @@ export default class CorrelationPlan extends React.Component{
       }
       }
      }
-    
-     // 20180730 刷新
- async _refresh(callBack){
-    const histo = await historys("?form.tree_node_operation="+0);
-    
-    const datas = "?form.userId="+histo.form.userId+"&pageSize=10&curPage=0";
-    // const datas = "?form.userId="+histo.form.userId;
-            const result = await correation(datas);
-            callBack(result.form.dataList);
-           
-                   if(result&&result.form.dataList.length>0){
-                  this.setState({
-                      result:result.form.dataList,//序列化：转换为一个 (字符串)JSON字符串
-                  });
-                 }
-   
-  }
-   
-  // 20180730 加载更多
-  async _loadMore(page,callBack){
-    const histo = await historys("?form.tree_node_operation="+0);
-    
-    const datas = "?form.userId="+histo.form.userId+"&pageSize=10&curPage="+page;
-    // const datas = "?form.userId="+histo.form.userId;
-            const result = await correation(datas);
-            callBack(result.form.dataList);
-            
-                   if(result&&result.form.dataList.length>0){
-                  this.setState({
-                      result:result.form.dataList.reverse(),//序列化：转换为一个 (字符串)JSON字符串
-                      havenotdate:true,
-                      mengCard:flase
-                  });
-                 }
-  }
-   
-  // 20180730 子组件渲染
-  _renderRow(itemdata) {
-    return (
-      <View 
-            onPress={()=>this.gotoItem(itemdata)}
-            style={{marginTop:5,paddingBottom:10,paddingTop:10,width:"90%",marginLeft:20,height:220}}>
-        <Text style={{color:"#fff"}}>两票类型：{itemdata.tickettypename}</Text>
-        <Text style={{color:"#fff"}}>负责人：{itemdata.headuser}</Text>
-        <Text style={{color:"#fff"}}>编号：{itemdata.ticketserialnum}</Text>
-        <Text style={{color:"#fff"}}>流转人：{itemdata.manageuser}</Text>
-        <View><Text style={{color:"#fff"}}>内容：</Text></View>
-        <Text numberOfLines={10} style = {{paddingBottom:15,borderColor:"#eeeeee",borderWidth:1,borderStyle:"solid",color:"#fff"}}>{itemdata.content}</Text>
-        <Text style={{color:"#fff"}}>等待时间：{itemdata.manageTime}</Text>
-        <Text style={{color:"#fff"}}>流转时间：{itemdata.lastTime}</Text>
-        <Button
-            onPress={()=>this.gotoItem(itemdata)}
-            title="查看详情"
-            color="#406ea4"
-            />
-    </View>
-    )
-  }
     gotoItem(params){
         //跳转时传递参数 typeName：票名称 ticketNum:编号  templateID：工作票模板id（TicketTemplateID） isAlter 常量1   _： 当前时间戳
         this.props.navigation.navigate('Result',{
@@ -128,9 +74,40 @@ export default class CorrelationPlan extends React.Component{
           })
     }
 
+    onChanegeTextKeyword(text){
+      if(!text){
+        this.setState({
+          result:this.state.SelectData.sort((a,b)=>{
+            return  a.lastTime>b.lastTime?-1:1
+          })
+        });
+        return;
+       }
+  
+      else if(text){
+        let newData = [];
+        for (var i = 0; i < this.state.result.length; i++) {
+            let ds = this.state.result[i];
+            if(ds.tickettypename && ds.tickettypename.indexOf(text)!=-1){
+              newData.push(ds);
+            }
+        }
+        this.setState({
+          result:newData.sort((a,b)=>{
+            return  a.lastTime>b.lastTime?-1:1
+          })
+        });
+      }
+        // else{
+        //   console.log('fffffffffff')
+        //   this.setState({
+        //     dataLis
+        //   });
+        //   }
+    }
+
   render() {
-let height = this.state.result.length * 100;
-let result = this.state.result;
+   let result = this.state.result;
     return (<View style={{width: '100%', height: '100%'}}>
         <Title navigation={this.props.navigation} centerText={'相关流程'} />
         {/* 需要循环获取数据 */}
@@ -139,6 +116,15 @@ let result = this.state.result;
             <ActivityIndicator color="#363434"/>
             <Text style={{color:"#363434",textAlign:"center",marginTop:10,fontSize:15}}>加载中...</Text>
             </View>}
+            <View style={{width:'100%',justifyContent:"center",alignItems:'center',backgroundColor:'white',height:70}}>
+            <View style={{backgroundColor:'#eee',width:'97%',flexDirection:'row',borderRadius:15,alignItems:'center'}}> 
+            <Image source={require('../images/search.png')} style={{width:20,height:20,marginLeft:8}}/>
+              <TextInput underlineColorAndroid={'transparent'} multiline={true} autoFocus={false} onChangeText={(e)=>this.onChanegeTextKeyword(e)}
+                style={{fontSize:13, color: '#363434',overflow:'hidden',width:'98%'}}
+                placeholder={"请输入两票名称"}
+            />
+            </View>
+            </View>
             <ScrollView>
               {result.length>0&&result.map((itemdata,index)=>{
                  return (<View style={{width:'100%',alignItems:'center'}} key={index}>

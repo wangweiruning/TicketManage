@@ -87,7 +87,7 @@ export default class Login extends React.Component{
             window.jconfig.userinfo=result.form;
             MySorage._sava("userinfo",JSON.stringify(result.form));  
             this.setState({
-                userpass:{data:this.state.user,datag:this.state.pass},
+                userpass:{data:this.state.user},
             })  
             MySorage._sava("history",this.state.userpass);
 
@@ -196,7 +196,7 @@ export default class Login extends React.Component{
                <Image source={require('../images/login-password.png')} style={{width:25,top:10,marginRight:5}} resizeMode = 'contain'/>
                {/* <InputItem type="password" defaultValue={this.state.pass} placeholder="密码" onChange={(e)=>this.handleInput('pass',e)} style={{width:'85%'}}/> */}
             <TextInputLayout focusColor='white' style={{width:'82%'}}> 
-                    <TextInput style={{fontSize:16,height:40,color:'white',fontSize:18}} value={this.state.pass}
+                    <TextInput style={{fontSize:16,height:40,color:'white',fontSize:18}}
                         placeholder={'密码'} secureTextEntry={true} onChangeText={(e)=>this.handleInput('pass',e)}
                     />
             </TextInputLayout>

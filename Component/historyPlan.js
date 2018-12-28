@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, View,ScrollView ,Alert,TouchableOpacity,ImageBackground} from 'react-native';
+import {Text,View,ScrollView,Alert,TouchableOpacity,TextInput,Image} from 'react-native';
 import {historys,gethistory} from './../api/api'
 import Title from './Title'
 import {ActivityIndicator } from 'antd-mobile-rn';
@@ -9,6 +9,7 @@ export default class HistoryPlan extends React.Component{
     this.state = {
         animating: false,
         result:[],
+        SelectData:[],
         havenotdate:false,
         mengCard:true
     };
@@ -39,7 +40,10 @@ export default class HistoryPlan extends React.Component{
 
       if(result){
       this.setState({
-          result:result.form.page.dataRows.reverse(),//序列化：转换为一个 (字符串)JSON字符串
+          result:result.form.page.dataRows.sort((a,b)=>{
+            return  a.lastTime>b.lastTime?-1:1
+          }),
+          SelectData:result.form.page.dataRows,//序列化：转换为一个 (字符串)JSON字符串
           mengCard:false
       });
     }
@@ -72,6 +76,38 @@ export default class HistoryPlan extends React.Component{
 })
 }
 
+onChanegeTextKeyword(text){
+  if(!text){
+    this.setState({
+      result:this.state.SelectData.sort((a,b)=>{
+        return  a.lastTime>b.lastTime?-1:1
+      })
+    });
+    return;
+   }
+
+  else if(text){
+    let newData = [];
+    for (var i = 0; i < this.state.result.length; i++) {
+        let ds = this.state.result[i];
+        if(ds.tickettypename && ds.tickettypename.indexOf(text)!=-1){
+          newData.push(ds);
+        }
+    }
+    this.setState({
+      result:newData.sort((a,b)=>{
+        return  a.lastTime>b.lastTime?-1:1
+      })
+    });
+  }
+    // else{
+    //   console.log('fffffffffff')
+    //   this.setState({
+    //     dataLis
+    //   });
+    //   }
+}
+
 
   render() {
       // let height = this.state.result.length * 100;
@@ -84,6 +120,15 @@ export default class HistoryPlan extends React.Component{
               <ActivityIndicator color="#363434"/>
               <Text style={{color:"#363434",textAlign:"center",marginTop:10,fontSize:15}}>加载中...</Text>
               </View>}
+              <View style={{width:'100%',justifyContent:"center",alignItems:'center',backgroundColor:'white',height:70}}>
+              <View style={{backgroundColor:'#eee',width:'97%',flexDirection:'row',borderRadius:15,alignItems:'center'}}> 
+              <Image source={require('../images/search.png')} style={{width:20,height:20,marginLeft:8}}/>
+                <TextInput underlineColorAndroid={'transparent'} multiline={true} autoFocus={false} onChangeText={(e)=>this.onChanegeTextKeyword(e)}
+                  style={{fontSize:13, color: '#363434',overflow:'hidden',width:'98%'}}
+                  placeholder={"请输入两票名称"}
+              />
+              </View>
+              </View>
               <ScrollView>
                 {result.length>0&&result.map((itemdata,index)=>{
                   return (<View style={{width:'100%',alignItems:'center'}} key={index}>
