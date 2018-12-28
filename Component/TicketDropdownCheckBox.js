@@ -43,7 +43,7 @@ export default class TicketDropdownCheckBox extends React.Component{
         if(display.length>0){
             return display.join(",");
         }else{
-            return '==请选择=='
+            return !this.props.isshow?'==请选择==':''
         }
     }
 
@@ -84,7 +84,7 @@ export default class TicketDropdownCheckBox extends React.Component{
         let {color,fontSize} = {...this.props.TextColor}
         return(<View>
             <TouchableOpacity disabled={this.props.isshow} onPress={()=>this.setState({visible:true})}>
-            <View style={{flexDirection:'row',alignItems:'center',...this.props.style,backgroundColor:!this.props.isshow?"rgba(255,255,255,.1)":"rgba(255,255,255,.6)"}}>
+            <View style={{flexDirection:'row',alignItems:'center',...this.props.style,backgroundColor:!this.props.isshow?'#eee':"rgba(0,0,0,.3)"}}>
                         <Text style={{padding:5,paddingLeft:6.5,flex:1,flexDirection:'row',color:color?color:'lightgray',fontSize:fontSize?fontSize:13}}>{
                             this.open()
                         }</Text>

@@ -69,8 +69,8 @@ export default class ToastExample extends React.Component {
                  <Topt navigation={this.props.navigation} centerText={'两票管理'} />
                 <View style={{marginTop:7,width:'95%',height:120,backgroundColor:'white',alignItems:'center',justifyContent:'center',elevation:3,borderRadius:5}}>
                   <View style={{flexDirection:'row',width:'95%',justifyContent:'center',alignItems:'center'}}>
-                     <Text style={{fontSize:18,color:'black'}}>登录名：</Text>
-                     <Text style={{fontSize:18,color:'black',fontWeight:'500'}}>{jconfig.userinfo.user?this.state.realname:'暂无'}</Text>
+                     <Text style={{fontSize:18,color:'#363434'}}>登录名：</Text>
+                     <Text style={{fontSize:18,color:'#1296db',fontWeight:'300'}}>{jconfig.userinfo.user?this.state.realname:'暂无'}</Text>
                   </View>
                 </View>
              <TouchableOpacity onPress={()=> this.out()} style={{position:'absolute',elevation:2,bottom:30,justifyContent:'center',alignItems:'center',width:'80%',backgroundColor:'#1296db',borderRadius:5,height:40}}>

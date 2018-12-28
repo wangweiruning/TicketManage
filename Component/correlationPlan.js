@@ -136,27 +136,27 @@ let result = this.state.result;
         {/* 需要循环获取数据 */}
             <View style={{flex:1}}>
             {this.state.mengCard&&<View style={{justifyContent:'center',alignItems:'center',zIndex:444,width:"100%",height:"100%"}}>
-            <ActivityIndicator color="#1296db"/>
-            <Text style={{color:"#1296db",textAlign:"center",marginTop:10,fontSize:15}}>加载中...</Text>
+            <ActivityIndicator color="#363434"/>
+            <Text style={{color:"#363434",textAlign:"center",marginTop:10,fontSize:15}}>加载中...</Text>
             </View>}
             <ScrollView>
               {result.length>0&&result.map((itemdata,index)=>{
                  return (<View style={{width:'100%',alignItems:'center'}} key={index}>
                   <TouchableOpacity key={index} activeOpacity={.8}
                         onPress={()=>this.gotoItem(itemdata)}
-                        style={{marginBottom:8,marginTop:8,paddingBottom:15,width:"95%",borderRadius:10,backgroundColor:'#1296db'}}>
+                        style={{marginBottom:8,marginTop:8,paddingBottom:15,width:"95%",borderRadius:10,backgroundColor:'white'}}>
                     <Text numberOfLines={10} 
                     style = {{marginLeft:16,width:'91%',marginTop:20,
-                              paddingBottom:10,borderBottomColor:"rgba(255,255,255,.3)",borderBottomWidth:1,borderStyle:"solid",color:"#fff",fontSize:18,flexWrap:'wrap'}}>{itemdata.content==""?'暂无内容':itemdata.content}</Text>
-                    <Text style={{paddingTop:10,color:"#fff",marginLeft:16,fontSize:16}}>两票类型：{itemdata.tickettypename}</Text>
-                    <Text style={{marginTop:6,color:"#fff",marginLeft:16,fontSize:16}}>负责人：{itemdata.headuser}</Text>
-                    <Text style={{marginTop:6,color:"#fff",marginLeft:16,fontSize:16}}>编号：{itemdata.ticketserialnum}</Text>
-                    <Text style={{marginTop:6,color:"#fff",marginLeft:16,fontSize:16}}>流转人：{itemdata.manageuser}</Text>
-                    <Text style={{marginTop:6,color:"#fff",marginBottom:7,marginLeft:16,fontSize:16}}>处理时间：{itemdata.managetime.replace(/T/,' ')}</Text>
+                              paddingBottom:10,borderBottomColor:"rgba(0,0,0,.5)",borderBottomWidth:1,borderStyle:"solid",color:"#363434",fontSize:18,flexWrap:'wrap'}}>{itemdata.content==""?'暂无内容':itemdata.content}</Text>
+                    <Text style={{paddingTop:10,color:"#363434",marginLeft:16,fontSize:16}}>两票类型：{itemdata.tickettypename}</Text>
+                    <Text style={{marginTop:6,color:"#363434",marginLeft:16,fontSize:16}}>负责人：{itemdata.headuser}</Text>
+                    <Text style={{marginTop:6,color:"#363434",marginLeft:16,fontSize:16}}>编号：{itemdata.ticketserialnum}</Text>
+                    <Text style={{marginTop:6,color:"#363434",marginLeft:16,fontSize:16}}>流转人：{itemdata.manageuser}</Text>
+                    <Text style={{marginTop:10,color:"#1296db",marginBottom:7,marginLeft:16,fontSize:16}}>处理时间：{itemdata.managetime.replace(/T/,' ')}</Text>
                 </TouchableOpacity>
                 </View>)
               })}
-              {this.state.havenotdate&&<View style={{marginVertical:20}}><Text style={{textAlign:"center",fontSize:16,color:"#fff"}}>暂时没有数据！</Text></View>}
+              {this.state.havenotdate&&<View style={{marginVertical:20}}><Text style={{textAlign:"center",fontSize:16,color:"#363434"}}>暂时没有数据！</Text></View>}
             </ScrollView>
             </View>
       </View>

@@ -11,9 +11,10 @@ export default class TopT extends React.Component{
         <View style={{
             width: '100%',
             height:13+StatusBar.currentHeight,
-            backgroundColor: '#1296db',
+            backgroundColor: '#0390e8',
             flexDirection: 'row',
             justifyContent: 'center',
+            elevation:3
         }}>
         <Text style={{color:'white',fontSize:18,fontWeight:'500'}}>{this.props.centerText}</Text>
         </View>)

@@ -1,4 +1,4 @@
-import Topt from './TopTitle';
+import Title from './Title';
 import React from 'react';
 import {moban,ttmsTickets,searchUserPower,userlist} from '../api/api';
 import * as Animatable from 'react-native-animatable';
@@ -79,14 +79,14 @@ export default class AddNewT extends React.Component{
     }
     render(){
         return(<View style={{alignItems:'center',width:'100%', height:'100%'}}>
-                <Topt navigation={this.props.navigation} centerText={'新建两票'}/>
+                 <Title navigation={this.props.navigation} centerText={'两票模板'} />
              <ScrollView style={{marginTop:5,width:'100%'}}>
              {
                 this.state.jay.map((v,i)=>
                 <Animatable.View key={i} style={{alignItems:'center'}} useNativeDriver animation="fadeInRight" easing="ease-out-expo">
-                    <TouchableOpacity onPress={()=>this.goticket(v.attr.tree_id.substring(2),v.data.title)} style={{borderRadius:5,backgroundColor:'#1296db',width:'93%',padding:4,flexDirection:'row',alignItems:'center',marginTop:2.5,marginBottom:2.5}}>
+                    <TouchableOpacity onPress={()=>this.goticket(v.attr.tree_id.substring(2),v.data.title)} style={{borderRadius:5,backgroundColor:'white',width:'93%',padding:4,flexDirection:'row',alignItems:'center',marginTop:2.5,marginBottom:2.5}}>
                             <Image source={require('../images/company_tree.png')} style={{marginLeft:5,width:30,resizeMode:Image.resizeMode.contain}}/>
-                            <Text style={{fontSize:18,color:'#f5f5f5',left:14,flex:1}}>{v.data.title}</Text>
+                            <Text style={{fontSize:18,color:'#363434',left:14,flex:1}}>{v.data.title}</Text>
                         <Image source={require('../images/go1.png')} style={{right:5,width:15,resizeMode:Image.resizeMode.contain}}/>
                     </TouchableOpacity>
                     </Animatable.View>)

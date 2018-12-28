@@ -121,7 +121,7 @@ export default class DropdownCheckbox extends React.Component {
         return (<View>
             <TouchableOpacity disabled={this.props.isshow} onPress={() => this.setState({ visible: true })}>
 
-                <View style={{ flexDirection: 'row', alignItems: 'center', ...this.props.style, backgroundColor: !this.props.isshow ? "rgba(255,255,255,.1)" : "rgba(255,255,255,.6)" }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', ...this.props.style, backgroundColor: !this.props.isshow ? "#eee" : "rgba(0,0,0,.3)" }}>
                     <Text style={{ padding: 5,paddingLeft:6, flex: 1, flexDirection: 'row', color: color ? color : 'lightgray', fontSize: fontSize ? fontSize : 13 }}>{
                         this.open()
                     }</Text>
@@ -129,7 +129,10 @@ export default class DropdownCheckbox extends React.Component {
             </TouchableOpacity>
             {
 
-                this.state.visible && <Modal animationType={'slide'} transparent={true} onRequestClose={() => console.log('关闭')}>
+                this.state.visible && <Modal animationType={'slide'} transparent={true} onRequestClose={() =>{
+                    this.setState({ visible: false, SelectData: this.state.SelectData })
+                    this.props.open(this.state.activeItem, this.props.leixin, this.props.ParaName)
+                }}>
                     <View style={{ backgroundColor: '#ecf0f1', }}>
                         <View style={{ flexDirection: 'row', alignItems: 'center', borderBottomColor: 'lightgray', borderStyle: 'solid', borderBottomWidth: 1 }}>
                             <Image style={{ left: 5, width: 16, height: 16 }} source={require('../images/serch.png')} />

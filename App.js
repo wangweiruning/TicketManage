@@ -53,26 +53,26 @@ const TabRouteConfigs = { // 表示各个页面路由配置,让导航器知道�
           )
       }),
   },
-  AddNewT: {
-      screen: AddNewT,
-      navigationOptions: { // 指定路由页面的配置选项
-          tabBarLabel: '新建', // 可用作头部标�?headerTitle ，或者Tab标题 tabBarLabel
-          tabBarIcon: ({ focused }) => ( 
-              <Image resizeMode = 'contain' source = { focused ? require('./images/moda.png') : require('./images/wmode.png') } style = { { width: 25, height: 25 } }
-              />
-          )
-      },
-  },
-  MyTicets: {
-      screen: MyTicetss,
-      navigationOptions: { // 指定路由页面的配置选项
-          tabBarLabel: '总览', // 可用作头部标�?headerTitle ，或者Tab标题 tabBarLabel
-          tabBarIcon: ({ focused }) => ( 
-              <Image resizeMode = 'contain' source = { focused ? require('./images/cfjj.png') : require('./images/cfj.png') } style = { { width: 25, height: 25 } }
-              />
-          )
-      },
-  },
+//   AddNewT: {
+//       screen: AddNewT,
+//       navigationOptions: { // 指定路由页面的配置选项
+//           tabBarLabel: '模板', // 可用作头部标�?headerTitle ，或者Tab标题 tabBarLabel
+//           tabBarIcon: ({ focused }) => ( 
+//               <Image resizeMode = 'contain' source = { focused ? require('./images/moda.png') : require('./images/wmode.png') } style = { { width: 25, height: 25 } }
+//               />
+//           )
+//       },
+//   },
+//   MyTicets: {
+//       screen: MyTicetss,
+//       navigationOptions: { // 指定路由页面的配置选项
+//           tabBarLabel: '总览', // 可用作头部标�?headerTitle ，或者Tab标题 tabBarLabel
+//           tabBarIcon: ({ focused }) => ( 
+//               <Image resizeMode = 'contain' source = { focused ? require('./images/cfjj.png') : require('./images/cfj.png') } style = { { width: 25, height: 25 } }
+//               />
+//           )
+//       },
+//   },
   ToastExample: {
       screen: ToastExample,
       navigationOptions: { // 指定路由页面的配置选项
@@ -91,8 +91,8 @@ const TabNavigatorConfigs = {
   lazy: true, // 是否懒加载页�?
   header:null,
   tabBarOptions: {
-    indicatorStyle:{backgroundColor:'#1296db'},
-    activeTintColor: "#1296db",
+    indicatorStyle:{backgroundColor:'#0390e8'},
+    activeTintColor: "#0390e8",
     inactiveTintColor: "#515151",
     style: {
       backgroundColor: 'white',
@@ -140,9 +140,9 @@ const StackRouteConfigs={
             gesturesEnabled: true
         }
   },  
-  newticket:{
-    screen: Newticket,
-    path:'app/newticket',
+  AddNewTictets:{
+    screen: AddNewT,
+    path:'app/AddNewTictets',
     header: null,
     navigationOptions: {
             header: null,
@@ -308,7 +308,7 @@ async getUserInfo () {
 
   render() {
     return (<React.Fragment>
-      <StatusBar backgroundColor={'#1296db'}/>
+      <StatusBar backgroundColor={'#0390e8'}/>
       <Navigators ref={(nav)=>{
         this.navigator = nav;
       }} configureScene={(route) => {

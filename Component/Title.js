@@ -18,7 +18,7 @@ export default class Title extends React.Component{
         <View style={{
             width: '100%',
             height:13+StatusBar.currentHeight,
-            backgroundColor: '#1296db',
+            backgroundColor: '#0390e8',
             flexDirection: 'row',
             alignItems: 'center',
         }}>

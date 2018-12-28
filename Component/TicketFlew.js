@@ -101,13 +101,12 @@ export default class TicketFlew extends React.Component{
                                                 _:Date.parse(new Date())})
     }
   render() {
-    return (
-        <ImageBackground source={require('../images/gffg.jpg')} style={{width: '100%', height: '100%'}}>
+    return (<View style={{width: '100%', height: '100%'}}>
         
         {/* <Title navigation={this.props.navigation} centerText={this.props.navigation.state.params.name+"流程"} /> */}
         <TicketTitle navigation={this.props.navigation}  centerText={this.props.navigation.state.params.name+"流程"}/> 
         {/* 需要循环获取数据 */}
-        <ScrollView style={{marginBottom:5,width:'100%'}} 
+        <ScrollView style={{marginBottom:5,width:'100%'}}
             ref={scrollView=>{
                 if(scrollView!==null){
                     setTimeout(()=>{
@@ -117,7 +116,7 @@ export default class TicketFlew extends React.Component{
             }}>
             {this.showpage()}
         </ScrollView>
-      </ImageBackground>
+      </View>
     );
   }
 }

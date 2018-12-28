@@ -32,17 +32,17 @@ export default class MyTicets extends React.Component{
     render(){
         return(<View style={{alignItems:'center'}}>
               <Topt navigation={this.props.navigation} centerText={'两票总览'}/>
-              <View style={{height:70,flexDirection:'row',padding:5,alignItems:'center',width:'93%',borderRadius:5,marginTop:10,backgroundColor:'#1296db',elevation:3}}>
-                  <Image source={require('../images/await.png')} style={{marginLeft:5,width:30,height:30,resizeMode:Image.resizeMode.contain,marginRight:15}}/>
-                  <Text style={{color:"#fff",fontSize:18}}>待处理流程共{this.state.aiaitList}条</Text>
+              <View style={{height:70,flexDirection:'row',padding:5,alignItems:'center',width:'93%',borderRadius:5,marginTop:10,backgroundColor:'white'}}>
+                  <Image source={require('../images/unhandle_ticket.png')} style={{marginLeft:5,width:30,height:30,resizeMode:Image.resizeMode.contain,marginRight:15}}/>
+                  <Text style={{color:"#363434",fontSize:18}}>待处理流程共{this.state.aiaitList}条</Text>
               </View>
-              <View style={{height:70,flexDirection:'row',padding:5,alignItems:'center',width:'93%',borderRadius:5,marginTop:10,backgroundColor:'#1296db',elevation:3}}>
-                  <Image source={require('../images/colle.png')} style={{marginLeft:5,width:30,height:30,resizeMode:Image.resizeMode.contain,marginRight:15}}/>
-                  <Text style={{color:"#fff",fontSize:18}}>相关流程共{this.state.corrlateList}条</Text>
+              <View style={{height:70,flexDirection:'row',padding:5,alignItems:'center',width:'93%',borderRadius:5,marginTop:10,backgroundColor:'white'}}>
+                  <Image source={require('../images/online_ticket.png')} style={{marginLeft:5,width:30,height:30,resizeMode:Image.resizeMode.contain,marginRight:15}}/>
+                  <Text style={{color:"#363434",fontSize:18}}>相关流程共{this.state.corrlateList}条</Text>
               </View>
-              <View style={{height:70,flexDirection:'row',padding:5,alignItems:'center',width:'93%',borderRadius:5,marginTop:10,backgroundColor:'#1296db',elevation:3}}>
-                  <Image source={require('../images/history.png')} style={{marginLeft:5,width:30,height:30,resizeMode:Image.resizeMode.contain,marginRight:15}}/>
-                  <Text style={{color:"#fff",fontSize:18}}>历史流程共{this.state.history}条</Text>
+              <View style={{height:70,flexDirection:'row',padding:5,alignItems:'center',width:'93%',borderRadius:5,marginTop:10,backgroundColor:'white'}}>
+                  <Image source={require('../images/search_ticket.png')} style={{marginLeft:5,width:30,height:30,resizeMode:Image.resizeMode.contain,marginRight:15}}/>
+                  <Text style={{color:"#363434",fontSize:18}}>历史流程共{this.state.history}条</Text>
               </View>
         </View>)
     }

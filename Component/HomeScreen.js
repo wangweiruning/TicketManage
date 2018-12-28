@@ -1,6 +1,8 @@
 import React from 'react';
 import {Text,View,Image,TouchableOpacity} from 'react-native';
 import Topt from './TopTitle';
+import {awaitdeteal,historys,correation} from '../api/api';
+import LunboComponent from './lunbo';
 
 export default class HomeScreen extends React.Component {
 
@@ -12,31 +14,72 @@ export default class HomeScreen extends React.Component {
           img:require('../images/go1.png'),
           wait:'待处理流程',
           about:'相关流程',
-          history:'历史流程'
+          history:'历史流程',
+          Addnew:'两票模板',
+          network:'网络设置',
+          aboutme:'关于'
         }
       ],
+      aiaitList:"",
+      corrlateList:'',
+      history:'',
     }
   }
+
+  async componentDidMount(){
+    const histo = await historys("?form.tree_node_operation="+0);
+    const datas = "?form.userId="+histo.form.userId;
+    const result = await awaitdeteal(datas);//待处理数据
+    const datas2 = "?form.tree_node_operation="+0;
+    const result2 = await historys(datas2);//历史数据
+    const datas3 = "?form.userId="+result2.form.userId;
+    const result3 = await correation(datas3);//相关流程数据
+    this.setState({
+      aiaitList:result.form.dataList.length,
+      history:result2.form.page.totalRecords,
+      corrlateList:result3.form.dataList.length
+    })
+}
 
   render() {
       const { navigate } = this.props.navigation;
       return (<View>
         <Topt navigation={this.props.navigation} centerText={'首页'} />
-          {this.state.content.map((v,i)=><View key={i} style={{alignItems:'center'}}>
-            <TouchableOpacity onPress={()=>navigate('waitPlan')} style={{borderRadius:5,elevation:3,marginTop:15,height:70,width:'93%',alignItems:'center',flexDirection:'row',backgroundColor:'#1296db',paddingLeft:8}} activeOpacity={.8}>
-                  <Image source={require('../images/unhandle_ticket.png')} style={{width:45,height:45,resizeMode:Image.resizeMode.contain,marginTop:2}}/>
-                  <Text style={{fontWeight:'500',left:10,color:'white',fontSize:18,flex:1}}>{v.wait}</Text>
-                  <Image source={v.img} style={{width:20,resizeMode:Image.resizeMode.contain}}/>
+        <LunboComponent />
+          {this.state.content.map((v,i)=><View key={i} style={{justifyContent:'space-evenly',flexWrap:'wrap',flexDirection:'row'}}>
+              <TouchableOpacity onPress={()=>navigate('waitPlan')} style={{marginTop:5,height:100,width:'32.5%',alignItems:'center',backgroundColor:'white'}} activeOpacity={.8}>
+                <View style={{justifyContent:'flex-end',top:5,minWidth:'100%',flexDirection:'row',marginRight:5}}> 
+                  <View style={{borderRadius:10,width:30,height:20,justifyContent:'center',alignItems:'center',backgroundColor:'red'}}>
+                  <Text style={{color:'white'}}>{this.state.aiaitList>99?'99+':this.state.aiaitList}</Text>
+                  </View>
+                </View>
+                  <Image source={require('../images/await.png')} style={{width:35,height:35,resizeMode:Image.resizeMode.contain}}/>
+                  <Text style={{color:'#1296db',fontSize:18,marginTop:10}}>{v.wait}</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={()=>navigate('correlationPlan')} style={{borderRadius:5,elevation:3,marginTop:15,height:70,width:'93%',alignItems:'center',flexDirection:'row',backgroundColor:'#1296db',paddingLeft:8}} activeOpacity={.8}>
-                  <Image source={require('../images/online_ticket.png')} style={{width:45,height:45,resizeMode:Image.resizeMode.contain,marginTop:2}}/>
-                  <Text style={{fontWeight:'500',left:10,color:'white',fontSize:18,flex:1}}>{v.about}</Text>
-                  <Image source={v.img} style={{width:20,resizeMode:Image.resizeMode.contain}}/>
+            <TouchableOpacity onPress={()=>navigate('correlationPlan')} style={{marginTop:5,height:100,width:'32.5%',alignItems:'center',backgroundColor:'white'}} activeOpacity={.8}>
+            <View style={{justifyContent:'flex-end',top:5,minWidth:'100%',flexDirection:'row',marginRight:5}}> 
+                  <View style={{borderRadius:10,width:30,height:20,justifyContent:'center',alignItems:'center',backgroundColor:'#1296db'}}>
+                  <Text style={{color:'white'}}>{this.state.corrlateList>99?'99+':this.state.corrlateList}</Text>
+                  </View>
+            </View>
+                  <Image source={require('../images/colle.png')} style={{width:38,height:38,resizeMode:Image.resizeMode.contain,marginTop:2}}/>
+                  <Text style={{color:'#1296db',fontSize:18,marginTop:5}}>{v.about}</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={()=>navigate('historyPlan')} style={{borderRadius:5,elevation:3,marginTop:15,height:70,width:'93%',alignItems:'center',flexDirection:'row',backgroundColor:'#1296db',paddingLeft:8}} activeOpacity={.8}>
-                  <Image source={require('../images/search_ticket.png')} style={{width:45,height:45,resizeMode:Image.resizeMode.contain,marginTop:2}}/>
-                  <Text style={{fontWeight:'500',left:10,color:'white',fontSize:18,flex:1}}>{v.history}</Text>
-                  <Image source={v.img} style={{width:20,resizeMode:Image.resizeMode.contain}}/>
+            <TouchableOpacity onPress={()=>navigate('historyPlan')} style={{marginTop:5,height:100,width:'32.5%',alignItems:'center',backgroundColor:'white'}} activeOpacity={.8}>
+                  <Image source={require('../images/history.png')} style={{width:35,height:35,resizeMode:Image.resizeMode.contain,marginTop:23}}/>
+                  <Text style={{color:'#1296db',fontSize:18,marginTop:8}}>{v.history}</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={()=>navigate('AddNewTictets')} style={{marginTop:2,height:100,width:'32.5%',alignItems:'center',backgroundColor:'white'}} activeOpacity={.8}>
+                  <Image source={require('../images/moda.png')} style={{width:30,height:30,resizeMode:Image.resizeMode.contain,marginTop:18}}/>
+                  <Text style={{color:'#1296db',fontSize:18,marginTop:15}}>{v.Addnew}</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={()=>navigate('correlationPlan')} style={{marginTop:2,height:100,width:'32.5%',alignItems:'center',backgroundColor:'white'}} activeOpacity={.8}>
+                  <Image source={require('../images/shezhi.png')} style={{width:30,height:30,resizeMode:Image.resizeMode.contain,marginTop:18}}/>
+                  <Text style={{color:'#1296db',fontSize:18,marginTop:15}}>{v.network}</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={()=>navigate('historyPlan')} style={{marginTop:2,height:100,width:'32.5%',alignItems:'center',backgroundColor:'white'}} activeOpacity={.8}>
+                  <Image source={require('../images/ours.png')} style={{width:30,height:30,resizeMode:Image.resizeMode.contain,marginTop:18}}/>
+                  <Text style={{color:'#1296db',fontSize:18,marginTop:15}}>{v.aboutme}</Text>
             </TouchableOpacity>
           </View>)}
           </View>)

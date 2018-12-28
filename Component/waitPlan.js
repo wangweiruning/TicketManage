@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text,View,TouchableOpacity,Alert,ScrollView,ImageBackground} from 'react-native';
+import {Text,View,TouchableOpacity,Alert,ScrollView,Image} from 'react-native';
 import Title from './Title'
 import {awaitdeteal,historys} from './../api/api'
 import {ActivityIndicator} from 'antd-mobile-rn';
@@ -157,30 +157,46 @@ export default class WaitPlan extends React.Component{
             />:<Text style={{textAlign:"center",marginTop:20}}>还没有任何数据</Text>
             } */}
             {this.state.mengCard&&<View style={{justifyContent:'center',alignItems:'center', zIndex:444,width:"100%",height:"100%"}}>
-                <ActivityIndicator color="#1296db"/>
-                <Text style={{color:"#1296db",textAlign:"center",marginTop:10,fontSize:15}}>加载中...</Text>
+                <ActivityIndicator color="#363434"/>
+                <Text style={{color:"#363434",textAlign:"center",marginTop:10,fontSize:15}}>加载中...</Text>
                 </View>}
             <ScrollView>
          {  dataLis.length>0&&dataLis.map((itemdata,index)=>{
              return (<View style={{width:'100%',alignItems:'center'}} key={index}>
               <TouchableOpacity key={index} activeOpacity={.8}
                     onPress={()=>this.gotoItem(itemdata)}
-                    style={{marginTop:8,marginBottom:8,paddingBottom:15,width:"95%",borderRadius:10,backgroundColor:'#1296db'}}>
-                <Text numberOfLines={10} 
-                    style = {{marginLeft:16,width:'91%',marginTop:20,
-                              paddingBottom:10,borderBottomColor:"rgba(255,255,255,.3)",
-                              borderBottomWidth:1,borderStyle:"solid",color:"#fff",
-                              fontSize:18,flexWrap:'wrap'}}>{itemdata.content==""?'暂无内容':itemdata.content}</Text>  
-                <Text style={{color:"#fff",paddingTop:10,marginLeft:16,fontSize:16}}>两票类型：{itemdata.tickettypename}</Text>
-                <Text style={{color:"#fff",marginTop:6,marginLeft:16,fontSize:16}}>负责人：{itemdata.headuser}</Text>
-                <Text style={{color:"#fff",marginTop:6,marginLeft:16,fontSize:16}}>编号：{itemdata.ticketserialnum}</Text>
-                <Text style={{color:"#fff",marginTop:6,marginLeft:16,fontSize:16}}>流转人：{itemdata.manageuser}</Text>
-                <Text style={{color:"#fff",marginTop:6,marginBottom:7,marginLeft:16,fontSize:16}}>流转时间：{itemdata.lastTime.replace(/T/,' ')}</Text>
-                <Text style={{color:"#ff8800",marginTop:6,marginLeft:16,fontSize:16}}>等待时间：{this.awaitTime(itemdata.lastTime)}</Text>
+                    style={{marginTop:8,marginBottom:8,width:"95%",backgroundColor:'white',flexDirection:'row'}}>
+                <View style={{width:'35%',alignItems:'center',justifyContent:'center'}}>
+                <View style={{width:40,height:40,borderRadius:20,justifyContent:'center',alignItems:'center',borderColor:"grey",borderWidth:1,borderStyle:'solid'}}>
+                <Image source={require('../images/await.png')} style={{width:30,height:30}}/>
+                </View>
+                <Text style={{color:"#1296db",paddingTop:10,fontSize:13,flexWrap:'wrap'}}>{itemdata.tickettypename}</Text>
+                </View>
+                <View style={{width:'65%'}}>
+                <View style={{width:'100%',flexDirection:'row'}}>
+                <Text style={{flex:1,color:"#fda403",marginTop:6,fontSize:13}}>已等待{this.awaitTime(itemdata.lastTime)}</Text>
+                <Text style={{color:"#1296db",marginTop:6,fontSize:13,marginRight:10}}>{itemdata.ticketserialnum}</Text>
+                </View>
+                <Text numberOfLines={10} style={{width:'91%',marginTop:10,paddingBottom:10,color:"#363434",fontSize:15,flexWrap:'wrap'}}>
+                   {itemdata.content==""?'暂无内容':itemdata.content}
+                </Text>
+                <View style={{flexDirection:'row'}}>
+                <Text style={{textAlign:'center',borderWidth:1,borderRadius:5,borderColor:'#1296db',borderStyle:"solid",color:'#1296db',marginRight:3}}>负责</Text>
+                <Text>{itemdata.headuser==null?'暂无负责人':itemdata.headuser}</Text>
+                <Text style={{marginLeft:10,textAlign:'center',borderWidth:1,borderRadius:5,borderColor:'#1296db',borderStyle:"solid",color:'#1296db',marginRight:3}}>流转</Text>
+                <Text>{itemdata.manageuser==null?'暂无流转人':itemdata.manageuser}</Text>
+                </View>
+                <View style={{flexDirection:'row',alignItems:'center',marginTop:10,marginBottom:8}}>
+                  <Image source={require('../images/times.png')} style={{width:20,height:20,resizeMode:Image.resizeMode.contain}}/>
+                  <Text style={{color:"#363434",marginLeft:5,fontSize:13}}>
+                       {itemdata.lastTime.replace(/T/,' ')}
+                  </Text>
+                </View>
+            </View>
             </TouchableOpacity>
           </View>)
         })}
-        {this.state.havenotdate&&<View style={{marginVertical:20}}><Text style={{textAlign:"center",fontSize:16,color:"#fff"}}>暂时没有数据！</Text></View>}
+        {this.state.havenotdate&&<View style={{marginVertical:20}}><Text style={{textAlign:"center",fontSize:16,color:"#363434"}}>暂时没有数据！</Text></View>}
             </ScrollView>
             </View>
       </View>
