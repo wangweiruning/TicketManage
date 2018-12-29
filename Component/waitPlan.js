@@ -161,20 +161,20 @@ export default class WaitPlan extends React.Component{
                 <Text style={{color:"#333",fontSize:15,flexWrap:'wrap',width:60,marginTop:5,textAlign:'center'}}>{itemdata.tickettypename}</Text>
                 </View>
                 <View style={{width:'76%'}}>
-                <View style={{width:'100%',flexDirection:'row'}}>
-                <Text style={{flex:1,color:"#ff6600",marginTop:6,fontSize:15}}>已等待{this.awaitTime(itemdata.lastTime)}</Text>
-                <Text style={{color:"#1296db",marginTop:6,fontSize:15,marginRight:10}}>{itemdata.ticketserialnum}</Text>
+                <View style={{width:'100%',flexDirection:'row',alignItems:'center',marginTop:6}}>
+                <Text style={{flex:1,color:"#ff6600",fontSize:15}}>已等待{this.awaitTime(itemdata.lastTime)}</Text>
+                <Text style={{color:"#1296db",fontSize:15,marginRight:10}}>{itemdata.ticketserialnum}</Text>
                 </View>
-                <Text numberOfLines={10} style={{width:'99%',marginTop:5,paddingBottom:7,color:"#333",fontSize:16.5,flexWrap:'wrap'}}>
+                <Text numberOfLines={10} style={{lineHeight:25,width:'99%',color:"#333",fontSize:16.5,marginTop:3}}>
                    {itemdata.content==""?'暂无内容':itemdata.content}
                 </Text>
-                <View style={{flexDirection:'row',marginTop:5}}>
-                <Text style={{textAlign:'center',borderWidth:1,borderRadius:5,borderColor:'#1296db',borderStyle:"solid",color:'#1296db',marginRight:5,fontSize:12}}>负责</Text>
+                <View style={{flexDirection:'row',marginTop:3,alignItems:'center'}}>
+                <Text style={{textAlign:'center',color:'#1296db',borderWidth:1,borderRadius:3,borderColor:'#1296db',borderStyle:"solid",marginRight:5,fontSize:12}}>负责</Text>
                 <Text style={{fontSize:15,color:"#333"}}>{itemdata.headuser==null?'暂无负责人':itemdata.headuser}</Text>
-                <Text style={{marginLeft:20,textAlign:'center',borderWidth:1,borderRadius:5,borderColor:'#1296db',borderStyle:"solid",color:'#1296db',marginRight:3,fontSize:12}}>流转</Text>
+                <Text style={{marginLeft:20,textAlign:'center',borderWidth:1,borderRadius:3,borderColor:'#1296db',borderStyle:"solid",color:'#1296db',marginRight:5,fontSize:12}}>流转</Text>
                 <Text style={{fontSize:15,color:"#333"}}>{itemdata.manageuser==null?'暂无流转人':itemdata.manageuser}</Text>
                 </View>
-                <View style={{flexDirection:'row',alignItems:'center',marginTop:10,marginBottom:8}}>
+                <View style={{flexDirection:'row',alignItems:'center',marginTop:4,marginBottom:5}}>
                   <Image source={require('../images/times.png')} style={{width:20,height:20,resizeMode:Image.resizeMode.contain}}/>
                   <Text style={{color:"#333",marginLeft:5,fontSize:15}}>
                        {itemdata.lastTime.replace(/T/,' ')}

@@ -182,26 +182,24 @@ onChanegeTextKeyword(text){
                   <TouchableOpacity key={index} activeOpacity={.8}
                   onPress={()=>this.gotoItem(itemdata)}
                   style={{marginBottom:8,width:"95%",backgroundColor:'white',flexDirection:'row'}}>
-                  <View style={{width:'25%',alignItems:'center'}}>
-                  <View style={{marginTop:10,width:44,height:44,borderRadius:22,justifyContent:'center',alignItems:'center',borderColor:"#ccc",borderWidth:1,borderStyle:'solid'}}>
+                  <View style={{width:'24%',alignItems:'center'}}>
+                  <View style={{marginTop:13,width:44,height:44,borderRadius:22,justifyContent:'center',alignItems:'center',borderColor:"#ccc",borderWidth:1,borderStyle:'solid'}}>
                   <Image source={require('../images/history.png')} style={{width:30,height:30}}/>
                   </View>
-                  <Text style={{color:"#1b120f",fontSize:13,flexWrap:'wrap',width:55,marginTop:8,textAlign:'center'}}>{itemdata.tickettypename}</Text>
+                  <Text style={{color:"#333",fontSize:15,flexWrap:'wrap',width:60,marginTop:5,textAlign:'center'}}>{itemdata.tickettypename}</Text>
                   </View>
-                  <View style={{width:'75%'}}>
-                    <View style={{width:'100%',flexDirection:'row'}}>
+                  <View style={{width:'76%'}}>
                     <Text style={{color:"#1296db",marginTop:6,fontSize:12,marginRight:10}}>{itemdata.ticketserialnum}</Text>
-                    </View>
-                    <Text numberOfLines={10} style={{width:'91%',marginTop:10,paddingBottom:10,color:"#363434",fontSize:15,flexWrap:'wrap'}}>
+                    <Text numberOfLines={10} style={{lineHeight:25,width:'99%',marginTop:3,color:"#333",fontSize:16.5}}>
                       {itemdata.content==""?'暂无内容':itemdata.content}
                     </Text>
-                    <View style={{flexDirection:'row'}}>
-                    <Text style={{textAlign:'center',borderWidth:1,borderRadius:5,borderColor:'#1296db',borderStyle:"solid",color:'#1296db',marginRight:3,fontSize:14}}>负责</Text>
-                    <Text style={{fontSize:15,color:"#777"}}>{itemdata.realname==null?'暂无工作负责人':itemdata.realname}</Text>
+                    <View style={{flexDirection:'row',marginTop:3,alignItems:'center'}}>
+                    <Text style={{textAlign:'center',borderWidth:1,borderRadius:3,borderColor:'#1296db',borderStyle:"solid",color:'#1296db',marginRight:3,fontSize:12}}>负责</Text>
+                    <Text style={{fontSize:15,color:"#333"}}>{itemdata.realname==null?'暂无负责人':itemdata.realname}</Text>
                     </View>
-                    <View style={{flexDirection:'row',alignItems:'center',marginTop:15,marginBottom:5}}>
-                      <Image source={require('../images/times.png')} style={{width:15,height:15,resizeMode:Image.resizeMode.contain}}/>
-                      <Text style={{color:"#363434",marginLeft:5,fontSize:13}}>
+                    <View style={{flexDirection:'row',alignItems:'center',marginTop:4,marginBottom:5}}>
+                      <Image source={require('../images/times.png')} style={{width:20,height:20,resizeMode:Image.resizeMode.contain}}/>
+                      <Text style={{color:"#333",marginLeft:5,fontSize:15}}>
                           {itemdata.filltickettime.replace(/T/,' ')}
                       </Text>
                     </View>
