@@ -23,7 +23,7 @@ export default class Title extends React.Component{
             alignItems: 'center',
         }}>
             <TouchableOpacity activeOpacity={0.8} onPress={()=>this._toBack()}
-                                  style={{width: 60,marginLeft:5,height:38,display:'flex',alignItems:'center',flexDirection:'row'}}>   
+                                  style={{width:60,marginLeft:5,alignItems:'center',flexDirection:'row'}}>   
                     <Image source={require('../images/back.png')}
                         style={{resizeMode:Image.resizeMode.contain,height:20,width: 20}}/>
                     <Text style={{color: 'white'}}>返回</Text>

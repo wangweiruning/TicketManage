@@ -18,7 +18,6 @@
     "react-native-datepicker": "^1.7.2",
     "react-native-modal-dropdown": "^0.6.2",
     "react-native-storage": "^0.2.3",
-    "react-native-swRefresh": "^1.2.3",
     "react-native-touch-id": "^4.3.0",
     "react-navigation": "^2.17.0",
     "rn-textinputlayout": "^1.0.5"

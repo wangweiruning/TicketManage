@@ -26,5 +26,6 @@ const URL ={
     ParaIdForTeam:url+'ticketMng/ticketMng_searchParaIdForTeam.action', //班组班组成员id
     AllDepartment:url+'ticketMng/ticketMng_searchAllDepartment.action',  //查询所有部门
     ForDepartment:url+'ticketMng/ticketMng_searchUserForDepartment.action',  //根据部门id查班组成员
+    Searchhistory:url+'ticketMng/ticketMng_onGridSearch.action' //搜索
 }
 export default URL

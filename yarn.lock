@@ -4377,10 +4377,6 @@ react-native-storage@^0.2.3:
   version "0.2.3"
   resolved "https://registry.yarnpkg.com/react-native-storage/-/react-native-storage-0.2.3.tgz#294f034c6ecbd9e08cfe02fa24ecb9db7a861a1b"
 
-react-native-swRefresh@^1.2.3:
-  version "1.2.3"
-  resolved "https://registry.yarnpkg.com/react-native-swRefresh/-/react-native-swRefresh-1.2.3.tgz#84fa925cc13322812251c023f331dbfd5c03095a"
-
 react-native-swipeout@^2.2.2:
   version "2.3.6"
   resolved "https://registry.yarnpkg.com/react-native-swipeout/-/react-native-swipeout-2.3.6.tgz#47dac8a835825cf3f2eef9e495574a3d9ab6d3fa"

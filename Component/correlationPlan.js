@@ -19,16 +19,16 @@ export default class CorrelationPlan extends React.Component{
       }
     async componentWillMount(){
       const {navigate} = this.props.navigation;
-      if(jconfig.userinfo.user==(""||null)){
-      return Alert.alert(
-        "登录超时",
-        "登录状态已过期，请重新登录",
-        [
-          {text: '去登陆', onPress: () => navigate('login')},
-        ],
-        {cancelable:false}
-      );
-    }
+    //   if(jconfig.userinfo.user==(""||null)){
+    //   return Alert.alert(
+    //     "登录超时",
+    //     "登录状态已过期，请重新登录",
+    //     [
+    //       {text: '去登陆', onPress: () => navigate('login')},
+    //     ],
+    //     {cancelable:false}
+    //   );
+    // }
     if(!jconfig.userinfo.status){
        return Alert.alert(
         "登录验证",
@@ -116,8 +116,8 @@ export default class CorrelationPlan extends React.Component{
             <ActivityIndicator color="#363434"/>
             <Text style={{color:"#363434",textAlign:"center",marginTop:10,fontSize:15}}>加载中...</Text>
             </View>}
-            <View style={{width:'100%',justifyContent:"center",alignItems:'center',backgroundColor:'white',height:70}}>
-            <View style={{backgroundColor:'#eee',width:'97%',flexDirection:'row',borderRadius:15,alignItems:'center'}}> 
+            <View style={{width:'100%',justifyContent:"center",alignItems:'center',backgroundColor:'white',height:60}}>
+            <View style={{backgroundColor:'#eee',width:'97%',flexDirection:'row',borderRadius:15,alignItems:'center',height:40}}> 
             <Image source={require('../images/search.png')} style={{width:20,height:20,marginLeft:8}}/>
               <TextInput underlineColorAndroid={'transparent'} multiline={true} autoFocus={false} onChangeText={(e)=>this.onChanegeTextKeyword(e)}
                 style={{fontSize:13, color: '#363434',overflow:'hidden',width:'98%'}}
@@ -125,23 +125,41 @@ export default class CorrelationPlan extends React.Component{
             />
             </View>
             </View>
-            <ScrollView>
+            <ScrollView style={{marginTop:8}}>
               {result.length>0&&result.map((itemdata,index)=>{
                  return (<View style={{width:'100%',alignItems:'center'}} key={index}>
                   <TouchableOpacity key={index} activeOpacity={.8}
                         onPress={()=>this.gotoItem(itemdata)}
-                        style={{marginBottom:8,marginTop:8,paddingBottom:15,width:"95%",borderRadius:10,backgroundColor:'white'}}>
-                    <Text numberOfLines={10} 
-                    style = {{marginLeft:16,width:'91%',marginTop:20,
-                              paddingBottom:10,borderBottomColor:"rgba(0,0,0,.5)",borderBottomWidth:1,borderStyle:"solid",color:"#363434",fontSize:18,flexWrap:'wrap'}}>{itemdata.content==""?'暂无内容':itemdata.content}</Text>
-                    <Text style={{paddingTop:10,color:"#363434",marginLeft:16,fontSize:16}}>两票类型：{itemdata.tickettypename}</Text>
-                    <Text style={{marginTop:6,color:"#363434",marginLeft:16,fontSize:16}}>负责人：{itemdata.headuser}</Text>
-                    <Text style={{marginTop:6,color:"#363434",marginLeft:16,fontSize:16}}>编号：{itemdata.ticketserialnum}</Text>
-                    <Text style={{marginTop:6,color:"#363434",marginLeft:16,fontSize:16}}>流转人：{itemdata.manageuser}</Text>
-                    <Text style={{marginTop:10,color:"#1296db",marginBottom:7,marginLeft:16,fontSize:16}}>处理时间：{itemdata.managetime.replace(/T/,' ')}</Text>
-                </TouchableOpacity>
-                </View>)
-              })}
+                        style={{marginBottom:8,width:"95%",backgroundColor:'white',flexDirection:'row'}}>
+                    <View style={{width:'25%',alignItems:'center'}}>
+                    <View style={{marginTop:10,width:44,height:44,borderRadius:22,justifyContent:'center',alignItems:'center',borderColor:"#ccc",borderWidth:1,borderStyle:'solid'}}>
+                    <Image source={require('../images/colle.png')} style={{width:30,height:30}}/>
+                    </View>
+                    <Text style={{color:"#1b120f",fontSize:13,flexWrap:'wrap',width:55,marginTop:8,textAlign:'center'}}>{itemdata.tickettypename}</Text>
+                    </View>
+                    <View style={{width:'75%'}}>
+                    <View style={{width:'100%',flexDirection:'row'}}>
+                    <Text style={{color:"#1296db",marginTop:6,fontSize:12,marginRight:10}}>{itemdata.ticketserialnum}</Text>
+                    </View>
+                    <Text numberOfLines={10} style={{width:'91%',marginTop:10,paddingBottom:10,color:"#363434",fontSize:15,flexWrap:'wrap'}}>
+                      {itemdata.content==""?'暂无内容':itemdata.content}
+                    </Text>
+                    <View style={{flexDirection:'row'}}>
+                    <Text style={{textAlign:'center',borderWidth:1,borderRadius:5,borderColor:'#1296db',borderStyle:"solid",color:'#1296db',marginRight:3,fontSize:14}}>负责</Text>
+                    <Text style={{fontSize:15,color:"#777"}}>{itemdata.headuser==null?'暂无负责人':itemdata.headuser}</Text>
+                    <Text style={{marginLeft:10,textAlign:'center',borderWidth:1,borderRadius:5,borderColor:'#1296db',borderStyle:"solid",color:'#1296db',marginRight:3,fontSize:14}}>流转</Text>
+                    <Text style={{fontSize:15,color:"#777"}}>{itemdata.manageuser==null?'暂无流转人':itemdata.manageuser}</Text>
+                    </View>
+                    <View style={{flexDirection:'row',alignItems:'center',marginTop:15,marginBottom:5}}>
+                      <Image source={require('../images/times.png')} style={{width:15,height:15,resizeMode:Image.resizeMode.contain}}/>
+                      <Text style={{color:"#363434",marginLeft:5,fontSize:13}}>
+                          {itemdata.managetime.replace(/T/,' ')}
+                      </Text>
+                    </View>
+                    </View>
+                    </TouchableOpacity>
+                    </View>)
+                  })}
               {this.state.havenotdate&&<View style={{marginVertical:20}}><Text style={{textAlign:"center",fontSize:16,color:"#363434"}}>暂时没有数据！</Text></View>}
             </ScrollView>
             </View>

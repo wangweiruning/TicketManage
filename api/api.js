@@ -15,7 +15,8 @@ export function islogin(data){
 
 //登陆
 export function login(data) {
-    return   Httpdata.post({        url: url.userLogin+data,
+    return   Httpdata.post({        
+        url: url.userLogin+data,
         method: 'post',
         dataType: "json",
         contentType: "application/x-www-form-urlencoded",
@@ -254,5 +255,11 @@ export function ForDepartment(data) {
         method: 'post',
         dataType: "json",
 		contentType: "application/x-www-form-urlencoded",
+    })
+}
+
+export function Searchhistory(data){
+    return Httpdata.post({
+        url:url.Searchhistory+data,
     })
 }

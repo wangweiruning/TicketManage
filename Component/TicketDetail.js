@@ -630,18 +630,17 @@ export default class Tdetail extends React.Component{
                   banzu={v.ParaName}
                   leixin={getAllTempanyId[i]}/>: 
                   v.ParaTypeID==3?
-                  <ModalDropdown 
+                  <ModalDropdown dropdownStyle={{width:'50%',backgroundColor:'#eee',borderWidth:0,elevation:3,height:121}}
                   dropdownTextStyle={{fontSize:15}}
                   disabled={dis}
-                  textStyle={{color:'#363434',fontSize:13}} 
-                  style={{backgroundColor:!dis?"#eee":"rgba(0,0,0,.3)",
-                  height:50,width:'96%',justifyContent:'center',paddingLeft:6}}
+                  textStyle={{color:'#363434',fontSize:13,borderWidth:0}} 
+                  style={{backgroundColor:!dis?"#eee":"rgba(0,0,0,.3)",height:50,width:'96%',justifyContent:'center',paddingLeft:6}}
                   defaultValue={v.ParaName=="工作负责人"?this.state.isgzfzr?this.state.isgzfzr:"请选择":"请选择"}
                   onSelect={(e,value)=>this.getSelect(value,'datalist'+i,getAllTempanyId[i])}
                   options={this.BackpageUseName()}/>:v.ParaTypeID==2 ?
                   <View style={{width:'96%'}}>
                     <TextInput multiline={true} editable={!dis} placeholder={dis?"":"请输入内容..."} underlineColorAndroid="transparent" placeholderTextColor="#363434"
-                    onChangeText={(v)=>this.handleInput('datalist'+i,v,getAllTempanyId[i])} style={{height:50,paddingHorizontal:6,minWidth:'96%',backgroundColor:!dis?"#eee":"rgba(0,0,0,.3)",color:'#363434'}}/>
+                    onChangeText={(v)=>this.handleInput('datalist'+i,v,getAllTempanyId[i])} style={{height:60,paddingHorizontal:6,minWidth:'96%',backgroundColor:!dis?"#eee":"rgba(0,0,0,.3)",color:'#363434'}}/>
                     {v.IsConfirm==1?<View style={{borderTopColor:'white',borderStyle:'solid',borderTopWidth:1,flexDirection:'row',padding:5,backgroundColor:!dis?"#eee":"rgba(0,0,0,.3)"}}>
                     <CheckBox 
                     labelStyle={{color:'#363434'}} checkboxStyle={{width:18,height:18}}
@@ -709,13 +708,13 @@ export default class Tdetail extends React.Component{
                <View style={{width:'96%',backgroundColor:'white',alignItems:'center'}}>
                 <View style={{flexDirection:'row',width:'96%',alignItems:'center',paddingBottom:8,paddingTop:8,borderBottomColor:'#363434',borderStyle:'solid',borderBottomWidth:1}}>
                   <Text style={{left:.5,color:'#363434',flex:1}}>是否同意</Text>
-                  <ModalDropdown dropdownTextStyle={{fontSize:15}} dropdownStyle={{height:50}} textStyle={{color:'#363434',fontSize:13}} 
+                  <ModalDropdown dropdownTextStyle={{fontSize:15}} dropdownStyle={{width:'50%',backgroundColor:'#eee',borderWidth:0,elevation:3}} textStyle={{color:'#363434',fontSize:13}} 
                    style={{justifyContent:'center'}} defaultValue={'同意'} options={['同意']} onSelect={(index,v)=>this.sssgo(index,v)}/>
                 </View>
                 <View style={{flexDirection:'row',width:'96%',alignItems:'center',paddingBottom:8,paddingTop:8,borderBottomColor:'#363434',borderStyle:'solid',borderBottomWidth:1}}>
                   <Text style={{left:.5,color:'#363434',flex:1}}>流转状态</Text>
                  {
-                  this.state.status!="" && <ModalDropdown dropdownTextStyle={{fontSize:15}} dropdownStyle={{height:50}} textStyle={{color:'#363434',fontSize:13}} 
+                  this.state.status!="" && <ModalDropdown dropdownTextStyle={{fontSize:15}}dropdownStyle={{width:'50%',backgroundColor:'#eee',borderWidth:0,elevation:3}} textStyle={{color:'#363434',fontSize:13}} 
                   style={{justifyContent:'center'}} defaultValue={this.state.status[0]?this.state.status[0]:'请选择'} options={this.state.status}/>
                  }
                 </View>

@@ -1,7 +1,8 @@
 import React from 'react';
 import {Text,View,ScrollView,Alert,TouchableOpacity,TextInput,Image} from 'react-native';
-import {historys,gethistory} from './../api/api'
-import Title from './Title'
+import {historys,gethistory,Searchhistory} from './../api/api'
+import Title from './Title';
+import DatePicker from 'react-native-datepicker'
 import {ActivityIndicator } from 'antd-mobile-rn';
 export default class HistoryPlan extends React.Component{
   constructor(props) {
@@ -10,6 +11,7 @@ export default class HistoryPlan extends React.Component{
         animating: false,
         result:[],
         SelectData:[],
+        value:'',
         havenotdate:false,
         mengCard:true
     };
@@ -17,16 +19,16 @@ export default class HistoryPlan extends React.Component{
 
    async componentDidMount(){
     const {navigate} = this.props.navigation;
-    if(jconfig.userinfo.user==(""||null)){
-      return Alert.alert(
-        "登录超时",
-        "登录状态已过期，请重新登录",
-        [
-          {text: '去登陆', onPress: () => navigate('login')},
-        ],
-        {cancelable:false}
-      );
-    }
+    // if(jconfig.userinfo.user==(""||null)){
+    //   return Alert.alert(
+    //     "登录超时",
+    //     "登录状态已过期，请重新登录",
+    //     [
+    //       {text: '去登陆', onPress: () => navigate('login')},
+    //     ],
+    //     {cancelable:false}
+    //   );
+    // }
     if(!jconfig.userinfo.status) return Alert.alert(
         "登录验证",
         "你还没有登录哦，请先登录再来吧",
@@ -100,17 +102,37 @@ onChanegeTextKeyword(text){
       })
     });
   }
-    // else{
-    //   console.log('fffffffffff')
-    //   this.setState({
-    //     dataLis
-    //   });
-    //   }
 }
+
+  async search(){
+    let e = this.state.value
+    let tim = `?form.search_from=${e}`
+    let time = await Searchhistory(tim)
+    console.log(e)
+    if(!e){
+      this.setState({
+        result:this.state.SelectData.sort((a,b)=>{
+          return  a.lastTime>b.lastTime?-1:1
+        })
+      });
+      return;
+    }
+    else if(e){
+      let newData = [];
+      for (var i = 0; i <time.form.page.dataRows.length; i++) {
+        let ds = time.form.page.dataRows[i];
+        newData.push(ds);
+    }
+    this.setState({
+      result:newData.sort((a,b)=>{
+        return  a.lastTime>b.lastTime?-1:1
+      })
+    });
+    }
+  }
 
 
   render() {
-      // let height = this.state.result.length * 100;
       let result = this.state.result;
       return (<View style={{width:'100%',height:'100%'}}>
               <Title navigation={this.props.navigation} centerText={'历史流程'} />
@@ -120,28 +142,70 @@ onChanegeTextKeyword(text){
               <ActivityIndicator color="#363434"/>
               <Text style={{color:"#363434",textAlign:"center",marginTop:10,fontSize:15}}>加载中...</Text>
               </View>}
-              <View style={{width:'100%',justifyContent:"center",alignItems:'center',backgroundColor:'white',height:70}}>
-              <View style={{backgroundColor:'#eee',width:'97%',flexDirection:'row',borderRadius:15,alignItems:'center'}}> 
+              <View style={{width:'100%',justifyContent:"center",alignItems:'center',backgroundColor:'white'}}>
+              <View style={{backgroundColor:'#eee',width:'97%',flexDirection:'row',borderRadius:15,alignItems:'center',height:40,marginTop:10}}> 
               <Image source={require('../images/search.png')} style={{width:20,height:20,marginLeft:8}}/>
                 <TextInput underlineColorAndroid={'transparent'} multiline={true} autoFocus={false} onChangeText={(e)=>this.onChanegeTextKeyword(e)}
                   style={{fontSize:13, color: '#363434',overflow:'hidden',width:'98%'}}
                   placeholder={"请输入两票名称"}
               />
               </View>
+              <DatePicker  customStyles={{
+                      dateInput: {
+                      left:6,
+                      justifyContent:'center',
+                      borderWidth:0,
+                      },
+                      dateText:{
+                          color:'#363434'
+                      },
+                      placeholderText:{
+                          color:'#363434'
+                      }
+                    }}
+                    date={this.state.value} 
+                    style={{justifyContent:'center',width:'96%',height:40}}   
+                    mode="datetime"        
+                    format="YYYY-MM-DD HH:mm"
+                    confirmBtnText="确定"
+                    cancelBtnText="清空"
+                    showIcon={true}
+                    minDate={new Date(2015, 1, 1)}
+                    placeholder={"请选择时间"}  
+                    onCloseModal={()=>{this.setState({value:''});this.search()}} 
+                    onDateChange={(e)=>{this.setState({value:e});this.search()}}
+                    />
               </View>
-              <ScrollView>
+              <ScrollView style={{marginTop:8}}>
                 {result.length>0&&result.map((itemdata,index)=>{
                   return (<View style={{width:'100%',alignItems:'center'}} key={index}>
                   <TouchableOpacity key={index} activeOpacity={.8}
                   onPress={()=>this.gotoItem(itemdata)}
-                  style={{marginTop:8,marginBottom:8,paddingBottom:15,width:"95%",backgroundColor:'white',borderRadius:10}}>
-                  <Text numberOfLines={10} 
-                  style = {{marginLeft:16,width:'91%',marginTop:10,paddingBottom:10,borderBottomColor:"rgba(0,0,0,.5)",
-                            borderBottomWidth:1,borderStyle:"solid",color:"#363434",fontSize:18,flexWrap:'wrap'}}>{itemdata.content==""?'暂无内容':itemdata.content}</Text>
-                  <Text style={{paddingTop:10,color:"#363434",marginLeft:16,fontSize:16}}>两票类型：{itemdata.tickettypename}</Text>
-                  <Text style={{marginTop:6,color:"#363434",marginLeft:16,fontSize:16}}>两票编号：{itemdata.ticketserialnum}</Text>
-                  <Text style={{marginTop:6,color:"#363434",marginLeft:16,fontSize:16}}>工作负责人：{itemdata.realname==null?'暂无工作负责人':itemdata.realname}</Text>
-                  <Text style={{marginTop:10,color:"#1296db",marginBottom:7,marginLeft:16,fontSize:16}}>开票时间：{itemdata.filltickettime}</Text>
+                  style={{marginBottom:8,width:"95%",backgroundColor:'white',flexDirection:'row'}}>
+                  <View style={{width:'25%',alignItems:'center'}}>
+                  <View style={{marginTop:10,width:44,height:44,borderRadius:22,justifyContent:'center',alignItems:'center',borderColor:"#ccc",borderWidth:1,borderStyle:'solid'}}>
+                  <Image source={require('../images/history.png')} style={{width:30,height:30}}/>
+                  </View>
+                  <Text style={{color:"#1b120f",fontSize:13,flexWrap:'wrap',width:55,marginTop:8,textAlign:'center'}}>{itemdata.tickettypename}</Text>
+                  </View>
+                  <View style={{width:'75%'}}>
+                    <View style={{width:'100%',flexDirection:'row'}}>
+                    <Text style={{color:"#1296db",marginTop:6,fontSize:12,marginRight:10}}>{itemdata.ticketserialnum}</Text>
+                    </View>
+                    <Text numberOfLines={10} style={{width:'91%',marginTop:10,paddingBottom:10,color:"#363434",fontSize:15,flexWrap:'wrap'}}>
+                      {itemdata.content==""?'暂无内容':itemdata.content}
+                    </Text>
+                    <View style={{flexDirection:'row'}}>
+                    <Text style={{textAlign:'center',borderWidth:1,borderRadius:5,borderColor:'#1296db',borderStyle:"solid",color:'#1296db',marginRight:3,fontSize:14}}>负责</Text>
+                    <Text style={{fontSize:15,color:"#777"}}>{itemdata.realname==null?'暂无工作负责人':itemdata.realname}</Text>
+                    </View>
+                    <View style={{flexDirection:'row',alignItems:'center',marginTop:15,marginBottom:5}}>
+                      <Image source={require('../images/times.png')} style={{width:15,height:15,resizeMode:Image.resizeMode.contain}}/>
+                      <Text style={{color:"#363434",marginLeft:5,fontSize:13}}>
+                          {itemdata.filltickettime.replace(/T/,' ')}
+                      </Text>
+                    </View>
+                    </View>
                   </TouchableOpacity>
                 </View>)
                 })}

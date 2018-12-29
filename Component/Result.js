@@ -491,7 +491,7 @@ export default class Tdetail extends React.Component {
         alignItems: 'center', paddingBottom: 8, paddingRight: 8, paddingTop: 8,borderBottomColor:'#363434',borderStyle:'solid',borderBottomWidth:1 }}>
             <Text style={{  color: '#363434',flex:1 }}>流转状态</Text>
             <ModalDropdown dropdownTextStyle={{ fontSize: 15 }}
-                dropdownStyle={{}}
+                dropdownStyle={{width:'50%',backgroundColor:'#eee',borderWidth:0,elevation:3}}
                 textStyle={{ color: '#363434', fontSize: 13 }}
                 style={{ justifyContent: 'center' }}
                 defaultValue={arr[0] ? arr[0] : "请选择"}
@@ -621,7 +621,9 @@ export default class Tdetail extends React.Component {
         alignItems: 'center', paddingBottom: 8, paddingRight: 8, paddingTop: 8 ,borderBottomColor:'#363434',borderStyle:'solid',borderBottomWidth:1}}>
             <Text style={{ color: '#363434',flex:1 }}>是否同意</Text>
             <ModalDropdown
-                dropdownTextStyle={{ fontSize: 15 }} dropdownStyle={{}} textStyle={{ color: '#363434', fontSize: 13,}}
+                dropdownTextStyle={{ fontSize: 15 }} 
+                dropdownStyle={{width:'50%',backgroundColor:'#eee',borderWidth:0,elevation:3}}
+                textStyle={{ color: '#363434', fontSize: 13,}}
                 style={{justifyContent: 'center', }}
                 defaultValue={arr[0]}
                 onSelect={(index, value) => this.changeAgree(index, 0, value)}
@@ -1122,14 +1124,15 @@ export default class Tdetail extends React.Component {
                                         SelectData={v.ParaName == "班组" ? this.state.groupName : this.state.ParaId} canClick={dis} />
                                     : v.ParaTypeID == 3 ?
                                         <ModalDropdown
-                                            disabled={!dis}
-                                            dropdownTextStyle={{ fontSize: 15 }}
-                                            textStyle={{color:'#363434', fontSize: 13,}}
-                                            style={{backgroundColor:dis?"#eee":"rgba(0,0,0,.3)",
-                                                    height:50,width:'98%',justifyContent:'center',paddingLeft:6.5}} 
-                                            defaultValue={this.getGzryName(v.TicketParaID)}
-                                            onSelect={(e, value) => this.getSelect(e, value, v.TicketParaID)}
-                                            options={this.BackpageUseName()} />
+                                        dropdownStyle={{width:'50%',backgroundColor:'#eee',borderWidth:0,elevation:3,height:121}}
+                                        disabled={!dis}
+                                        dropdownTextStyle={{ fontSize: 15 }}
+                                        textStyle={{color:'#363434', fontSize: 13,}}
+                                        style={{backgroundColor:dis?"#eee":"rgba(0,0,0,.3)",
+                                                height:50,width:'98%',justifyContent:'center',paddingLeft:6.5}} 
+                                        defaultValue={this.getGzryName(v.TicketParaID)}
+                                        onSelect={(e, value) => this.getSelect(e, value, v.TicketParaID)}
+                                        options={this.BackpageUseName()} />
                                         : v.ParaTypeID == 2 ?
                                             <View>
                                                 {v.IsConfirm == 1 ? <View style={{ flexDirection: 'column',width:'100%'}}>

@@ -7,12 +7,10 @@
 import React, { Component } from 'react';
 import HomeScreen from './Component/HomeScreen';
 import ToastExample from './Component/menu';
-import Newticket from './Component/newticket';
 import Login from './Component/login';
 import Tdetail from './Component/TicketDetail';
 import WaitPlan from './Component/waitPlan';
 import AddNewT from './Component/AddNewTictets';
-import MyTicetss from './Component/FlexExample';
 import CorrelationPlan from './Component/correlationPlan';
 import HistoryPlan from './Component/historyPlan';
 import MySorage from './api/storage';
@@ -22,6 +20,7 @@ import Result from './Component/Result';
 import {StackNavigator,TabBarTop,TabNavigator,StackActions,NavigationActions} from "react-navigation";
 import {Image,BackHandler,ToastAndroid,StatusBar,Easing,Animated,Alert,NetInfo} from 'react-native';
 import {islogin} from './api/api'
+import Aboutme from './Component/Aboutme';
 MySorage._getStorage()
 window.jconfig={
   userinfo:{},
@@ -116,7 +115,6 @@ const StackRouteConfigs={
   waitPlan:{
     screen: WaitPlan,
     path:'app/waitPlan',
-    header: null,
     navigationOptions: {
             header: null,
             gesturesEnabled: true
@@ -125,7 +123,6 @@ const StackRouteConfigs={
   correlationPlan:{
     screen: CorrelationPlan,
     path:'app/correlationPlan',
-    header: null,
     navigationOptions: {
             header: null,
             gesturesEnabled: true
@@ -134,7 +131,6 @@ const StackRouteConfigs={
   historyPlan:{
     screen: HistoryPlan,
     path:'app/historyPlan',
-    header: null,
     navigationOptions: {
             header: null,
             gesturesEnabled: true
@@ -143,7 +139,6 @@ const StackRouteConfigs={
   AddNewTictets:{
     screen: AddNewT,
     path:'app/AddNewTictets',
-    header: null,
     navigationOptions: {
             header: null,
             gesturesEnabled: true
@@ -152,7 +147,6 @@ const StackRouteConfigs={
   TicketDetail:{
       screen:Tdetail,
       path:'app/TicketDetail',
-      header:null,
       navigationOptions: {
         header: null,
         gesturesEnabled: true
@@ -161,7 +155,6 @@ const StackRouteConfigs={
   Result:{
     screen:Result,
     path:'app/Result',
-    header:null,
     navigationOptions: {
       header: null,
       gesturesEnabled: true
@@ -170,7 +163,6 @@ const StackRouteConfigs={
   login:{
     screen:Login,
     path:'app/login',
-    header:null,
     navigationOptions: {
       header: null,
       gesturesEnabled: true
@@ -179,7 +171,6 @@ const StackRouteConfigs={
   TicketModel:{
     screen:TicketModel,
     path:'app/TicketModel',
-    header:null,
     navigationOptions: {
       header: null,
       gesturesEnabled: true
@@ -188,7 +179,14 @@ const StackRouteConfigs={
   TicketFlew:{
     screen:TicketFlew,
     path:'app/TicketFlew',
-    header:null,
+    navigationOptions: {
+      header: null,
+      gesturesEnabled: true
+  }
+  },
+  Aboutme:{
+    screen:Aboutme,
+    path:'app/Aboutme',
     navigationOptions: {
       header: null,
       gesturesEnabled: true

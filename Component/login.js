@@ -87,7 +87,7 @@ export default class Login extends React.Component{
             window.jconfig.userinfo=result.form;
             MySorage._sava("userinfo",JSON.stringify(result.form));  
             this.setState({
-                userpass:{data:this.state.user},
+                userpass:{data:this.state.user,datag:this.state.pass},
             })  
             MySorage._sava("history",this.state.userpass);
 
