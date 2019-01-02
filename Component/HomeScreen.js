@@ -73,7 +73,7 @@ export default class HomeScreen extends React.Component {
                   <Image source={require('../images/moda.png')} style={{width:30,height:30,resizeMode:Image.resizeMode.contain,marginTop:18}}/>
                   <Text style={{color:'#1296db',fontSize:18,marginTop:15}}>{v.Addnew}</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={()=>navigate('correlationPlan')} style={{marginTop:2,height:100,width:'31.5%',alignItems:'center',backgroundColor:'white',marginRight:2}} activeOpacity={.8}>
+            <TouchableOpacity onPress={()=>navigate('Network')} style={{marginTop:2,height:100,width:'31.5%',alignItems:'center',backgroundColor:'white',marginRight:2}} activeOpacity={.8}>
                   <Image source={require('../images/shezhi.png')} style={{width:30,height:30,resizeMode:Image.resizeMode.contain,marginTop:18}}/>
                   <Text style={{color:'#1296db',fontSize:18,marginTop:15}}>{v.network}</Text>
             </TouchableOpacity>

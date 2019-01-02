@@ -5,7 +5,6 @@ import {login} from '../api/api';
 import MySorage from '../api/storage';
 import {StackActions, NavigationActions} from 'react-navigation';
 import {TextInputLayout} from 'rn-textinputlayout';
-import TouchID from 'react-native-touch-id';
 const resetAction = StackActions.reset({
     index: 0,
     actions: [NavigationActions.navigate({ routeName: 'Tab' })],
@@ -89,11 +88,7 @@ export default class Login extends React.Component{
             this.setState({
                 userpass:{data:this.state.user,datag:this.state.pass},
             })  
-            MySorage._sava("history",this.state.userpass);
-
-
-
-            // ToastAndroid.show(result.form.targetresult,ToastAndroid.SHORT)            
+            MySorage._sava("history",this.state.userpass);           
             this.props.navigation.dispatch(resetAction);
           }
          else{
@@ -121,46 +116,10 @@ export default class Login extends React.Component{
     }
    
 
-    pressHandler() {
-        if(!this.state.user||!this.state.pass){
-            Alert.alert("",'请先输入账号和密码',[{text:'确定'}],
-            {cancelable:false}
-            )
-            return
-        }
 
-        const optionalConfigObject = {
-            title: "指纹验证登录", // Android
-            color: "#12e2a3", // Android,
-            imageColor: "#12e2a3", // Android
-            imageErrorColor: "#ff0000", // Android
-            sensorDescription: "请放入指纹", // Android
-            sensorErrorDescription: "验证失败，请重试", // Android
-            cancelText: "取消", // Android
-           // use unified error messages (default false)
-        }
-        const optionalConfig = {
-            unifiedErrors: true // use unified error messages (default false)
-          }
-        TouchID.isSupported(optionalConfig)
-        .then(biometryType => {
-            // Success code
-        })
-        .catch(error => {
-    // Failure code
-            Alert.alert("指纹验证提示",'您的手机不支持指纹登录，请选择手动登录',[{text:'确定'}],
-                {cancelable:false}
-            )
-        });
-        TouchID.authenticate('', optionalConfigObject)
-            .then(success => {
-                this.submitgo()
-            })
-    }
     render(){
         return(<View style={{position:'relative',flex:1}}>
-        <StatusBar backgroundColor={'transparent'} translucent={true}
-        />
+        <StatusBar backgroundColor={'transparent'} translucent={true} />
         {this.state.loading?<View style={{alignItems:'center',top:'75%'}}>
         <View style={{borderRadius:4,
                       borderColor:'rgba(255,255,255,.5)',
@@ -185,7 +144,6 @@ export default class Login extends React.Component{
           <Text style={{fontWeight:'500',color:'white',fontSize:18}}>瑞智一体化两票管理系统</Text>
            <View style={{flexDirection:'row',alignItems:'flex-end',marginTop:15,height:60}}>
                <Image source={require('../images/login-username.png')} style={{width:25,top:10,marginRight:5}} resizeMode = 'contain'/>
-               {/* <InputItem placeholder="账号" defaultValue={this.state.user} onChange={(e)=>this.handleInput('user',e)} style={{width:'85%'}}/> */}
             <TextInputLayout focusColor='white' style={{width:'82%'}}> 
                     <TextInput style={{fontSize:16,height:40,color:'white',fontSize:18}} value={this.state.user}
                         placeholder={'账号'} onChangeText={(e)=>this.handleInput('user',e)}
@@ -194,21 +152,18 @@ export default class Login extends React.Component{
            </View>
            <View style={{flexDirection:'row',alignItems:'flex-end',marginTop:15,height:60}}>
                <Image source={require('../images/login-password.png')} style={{width:25,top:10,marginRight:5}} resizeMode = 'contain'/>
-               {/* <InputItem type="password" defaultValue={this.state.pass} placeholder="密码" onChange={(e)=>this.handleInput('pass',e)} style={{width:'85%'}}/> */}
             <TextInputLayout focusColor='white' style={{width:'82%'}}> 
                     <TextInput style={{fontSize:16,height:40,color:'white',fontSize:18}}
                         placeholder={'密码'} secureTextEntry={true} onChangeText={(e)=>this.handleInput('pass',e)}
                     />
             </TextInputLayout>
            </View>
-           {/* <CheckBox checked={this.state.active} label={'记住账号'} labelStyle={{color:'#f5f5f5'}} checkboxStyle={{width:18,height:18}} onChange={(e)=>this.setState({active:e})}/> */}
            <TouchableOpacity disabled={this.state.loading?true:false} onPress={()=>this.submitgo()} 
                style={{elevation:3,marginTop:15,justifyContent:'center',alignItems:'center',width:'80%',backgroundColor:this.state.loading?'rgba(54,87,147,.3)':'#1296db',borderRadius:5,height:40}}>
           <Text style={{color:'white',fontSize:18}}>登录</Text>
         </TouchableOpacity>
-        <TouchableOpacity  onPress={()=>this.pressHandler()} 
-               style={{elevation:3,marginTop:15,justifyContent:'center',alignItems:'center',width:'80%',backgroundColor:this.state.loading?'rgba(54,87,147,.3)':'#1296db',borderRadius:5,height:40}}>
-          <Text style={{color:'white',fontSize:18}}>指纹登录</Text>
+        <TouchableOpacity onPress={()=>this.props.navigation.navigate('Networks')} style={{backgroundColor:'rgba(255,255,255,.4)',width:38,height:38,borderRadius:19,marginTop:40,justifyContent:'center',alignItems:'center'}}>
+         <Image source={require('../images/net.png')} style={{width:30,height:30}}/>
         </TouchableOpacity>
         </View>
         </View>)

@@ -21,6 +21,9 @@ import {StackNavigator,TabBarTop,TabNavigator,StackActions,NavigationActions} fr
 import {Image,BackHandler,ToastAndroid,StatusBar,Easing,Animated,Alert,NetInfo} from 'react-native';
 import {islogin} from './api/api'
 import Aboutme from './Component/Aboutme';
+import Network from './Component/Network';
+import Networks from './Component/Networks';
+import Touchlogin from './Component/Touchlogin';
 MySorage._getStorage()
 window.jconfig={
   userinfo:{},
@@ -28,7 +31,7 @@ window.jconfig={
 }
 const resetAction = StackActions.reset({
   index: 0,
-  actions: [NavigationActions.navigate({ routeName: 'login' })],
+  actions: [NavigationActions.navigate({ routeName:window.config={}?'login':'Touchlogin' })],
 });
     var lastBackPressed;
     var current = true;
@@ -191,6 +194,30 @@ const StackRouteConfigs={
       header: null,
       gesturesEnabled: true
   }
+  },
+  Network:{
+    screen:Network,
+    path:'app/Network',
+    navigationOptions: {
+      header: null,
+      gesturesEnabled: true
+  }
+  },
+  Networks:{
+    screen:Networks,
+    path:"app/Networks",
+    navigationOptions: {
+      header: null,
+      gesturesEnabled: true
+  }
+  },
+  Touchlogin:{
+    screen:Touchlogin,
+    path:'app/Touchlogin',
+    navigationOptions: {
+      header: null,
+      gesturesEnabled: true
+  }
   }
 };
 
@@ -227,14 +254,8 @@ const Navigators = StackNavigator(StackRouteConfigs,StackNavigatorConfigs);
 export default class App extends Component {
 
   async componentDidMount () {
+    await this.getLogin()
     await this.getUserInfo()
-    new Promise((s1, s2) => {
-    MySorage._load("history",(ress) => {
-      let infos = ress;
-      window.config=infos;
-      s1();
-    })
-  })
 }
 
 
@@ -301,8 +322,22 @@ async getUserInfo () {
    catch(e){
       return
    }
-   
   }
+
+  async getLogin(){
+    try{
+      new Promise((s1, s2) => {
+        MySorage._load("history",(ress) => {
+          window.config=ress;
+          s1();
+        })
+      })
+    }
+    catch(e){
+      return
+    }
+  }
+
 
   render() {
     return (<React.Fragment>

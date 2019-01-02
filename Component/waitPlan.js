@@ -153,30 +153,30 @@ export default class WaitPlan extends React.Component{
              return (<View style={{width:'100%',alignItems:'center'}} key={index}>
               <TouchableOpacity key={index} activeOpacity={.8}
                     onPress={()=>this.gotoItem(itemdata)}
-                    style={{marginBottom:8,width:"95%",backgroundColor:'white',flexDirection:'row'}}>
-                <View style={{width:'24%',alignItems:'center'}}>
-                <View style={{marginTop:13,width:44,height:44,borderRadius:22,justifyContent:'center',alignItems:'center',borderColor:"#ccc",borderWidth:1,borderStyle:'solid'}}>
+                    style={{marginBottom:8,width:"95.3%",backgroundColor:'white',flexDirection:'row'}}>
+                <View style={{width:'25%',alignItems:'center'}}>
+                <View style={{marginTop:13,width:51,height:52,borderRadius:25.5,justifyContent:'center',alignItems:'center',borderColor:"#ccc",borderWidth:1,borderStyle:'solid'}}>
                 <Image source={require('../images/await.png')} style={{width:30,height:30}}/>
                 </View>
-                <Text style={{color:"#333",fontSize:15,flexWrap:'wrap',width:60,marginTop:5,textAlign:'center'}}>{itemdata.tickettypename}</Text>
+                <Text style={{color:"#333",fontSize:14,flexWrap:'wrap',width:60,marginTop:6.8,marginLeft:1.5,textAlign:'center'}}>{itemdata.tickettypename}</Text>
                 </View>
-                <View style={{width:'76%'}}>
-                <View style={{width:'100%',flexDirection:'row',alignItems:'center',marginTop:6}}>
-                <Text style={{flex:1,color:"#ff6600",fontSize:15}}>已等待{this.awaitTime(itemdata.lastTime)}</Text>
-                <Text style={{color:"#1296db",fontSize:15,marginRight:10}}>{itemdata.ticketserialnum}</Text>
+                <View style={{width:'75%'}}>
+                <View style={{width:'100%',flexDirection:'row',alignItems:'center',marginTop:8.7}}>
+                <Text style={{flex:1,color:"#ff6600",fontSize:13.5}}>已等待{this.awaitTime(itemdata.lastTime)}</Text>
+                <Text style={{color:"#1296db",fontSize:13.5,marginRight:14.5}}>{itemdata.ticketserialnum}</Text>
                 </View>
-                <Text numberOfLines={10} style={{lineHeight:25,width:'99%',color:"#333",fontSize:16.5,marginTop:3}}>
+                <Text numberOfLines={3} ellipsizeMode='middle' style={{lineHeight:23,color:"#333",fontSize:15.9,width:'99%',marginTop:4.2,marginLeft:1}}>
                    {itemdata.content==""?'暂无内容':itemdata.content}
                 </Text>
-                <View style={{flexDirection:'row',marginTop:3,alignItems:'center'}}>
-                <Text style={{textAlign:'center',color:'#1296db',borderWidth:1,borderRadius:3,borderColor:'#1296db',borderStyle:"solid",marginRight:5,fontSize:12}}>负责</Text>
-                <Text style={{fontSize:15,color:"#333"}}>{itemdata.headuser==null?'暂无负责人':itemdata.headuser}</Text>
-                <Text style={{marginLeft:20,textAlign:'center',borderWidth:1,borderRadius:3,borderColor:'#1296db',borderStyle:"solid",color:'#1296db',marginRight:5,fontSize:12}}>流转</Text>
-                <Text style={{fontSize:15,color:"#333"}}>{itemdata.manageuser==null?'暂无流转人':itemdata.manageuser}</Text>
+                <View style={{flexDirection:'row',marginTop:7.4,alignItems:'center',marginLeft:2.3}}>
+                <Text style={{paddingLeft:.8,paddingRight:1,paddingTop:2,textAlign:'center',color:'#1296db',borderWidth:1,borderRadius:5,borderColor:'#1296db',borderStyle:"solid",marginRight:5,fontSize:12}}>负责</Text>
+                <Text style={{fontSize:14,color:"#333"}}>{itemdata.headuser==null?'暂无负责人':itemdata.headuser}</Text>
+                <Text style={{paddingLeft:.8,paddingRight:1,paddingTop:2,marginLeft:15.5,textAlign:'center',borderWidth:1,borderRadius:5,borderColor:'#1296db',borderStyle:"solid",color:'#1296db',marginRight:5,fontSize:12}}>流转</Text>
+                <Text style={{fontSize:14,color:"#333"}}>{itemdata.manageuser==null?'暂无流转人':itemdata.manageuser}</Text>
                 </View>
-                <View style={{flexDirection:'row',alignItems:'center',marginTop:4,marginBottom:5}}>
-                  <Image source={require('../images/times.png')} style={{width:20,height:20,resizeMode:Image.resizeMode.contain}}/>
-                  <Text style={{color:"#333",marginLeft:5,fontSize:15}}>
+                <View style={{flexDirection:'row',alignItems:'center',marginTop:3.7,marginBottom:6}}>
+                  <Image source={require('../images/times.png')} style={{width:20,height:20,resizeMode:Image.resizeMode.contain,marginLeft:.7}}/>
+                  <Text style={{color:"#333",marginLeft:4.3,fontSize:14}}>
                        {itemdata.lastTime.replace(/T/,' ')}
                   </Text>
                 </View>

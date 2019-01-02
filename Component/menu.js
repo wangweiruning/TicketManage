@@ -45,7 +45,7 @@ export default class ToastExample extends React.Component {
     Alert.alert(
       '','确定退出吗？',
       [
-       {text:'是',onPress:()=>this.reset('login')},
+       {text:'是',onPress:()=>this.reset('Touchlogin')},
        {text:'否',onPress:this.opntion2Selected}
       ],
       {cancelable:false}
@@ -66,7 +66,7 @@ export default class ToastExample extends React.Component {
 
   render() {
     return (<View style={{alignItems:'center',width: '100%', height: '100%',position:'relative'}}>
-                 <Topt navigation={this.props.navigation} centerText={'两票管理'} />
+                 <Topt navigation={this.props.navigation} centerText={'我的'} />
                 <View style={{marginTop:7,width:'95%',height:120,backgroundColor:'white',alignItems:'center',justifyContent:'center',elevation:3,borderRadius:5}}>
                   <View style={{flexDirection:'row',width:'95%',justifyContent:'center',alignItems:'center'}}>
                      <Text style={{fontSize:18,color:'#363434'}}>登录名：</Text>
