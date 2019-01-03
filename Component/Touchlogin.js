@@ -10,7 +10,7 @@ const resetAction = StackActions.reset({
     index: 0,
     actions: [NavigationActions.navigate({ routeName: 'Tab' })],
   });
-  MySorage._getStorage(); 
+ 
 export default class Touchlogin extends React.Component{
     constructor(props){
         super(props)
@@ -26,44 +26,41 @@ export default class Touchlogin extends React.Component{
         await new Promise((s1, s2) => {
             MySorage._load("history",(ress) => {
                 let infos = ress;
-                if(!infos) s1(); 
+                if(!infos) return s1(); 
                 this.state.user=infos.data;
                 this.state.pass=infos.datag;
                 this.forceUpdate();  
                 s1();
             })
       })
+      MySorage._getStorage(); 
     }
 
    async submitgo(){
-    this.setState({
-        loading:true
-    })
-        if(window.config.data){
-         let datas =`?form.user=${this.state.user}&form.pass=${this.state.pass}&code=50ACD07A6C49F3B9E082EF40461AC6D1`;
-         let result = await login(datas)
-         if(result.form.status == 1){
-            window.jconfig.userinfo=result.form;
-            MySorage._sava("userinfo",JSON.stringify(result.form));            
-            this.props.navigation.dispatch(resetAction);
-          }
-          else{
-            Alert.alert('',result.form.targetresult,[{text:'是',onPress:this.opntion2Selected}])
+        try{
             this.setState({
-               loading:false
-           })
-          }
+                loading:true
+            })
+             let datas =`?form.user=${this.state.user}&form.pass=${this.state.pass}&code=50ACD07A6C49F3B9E082EF40461AC6D1`;
+             let result = await login(datas)
+             if(result.form.status == 1){
+                window.jconfig.userinfo=result.form;
+                MySorage._sava("userinfo",JSON.stringify(result.form));            
+                this.props.navigation.dispatch(resetAction);
+              }
+              else{
+                this.setState({
+                    loading:false
+                })
+               return Alert.alert('',result.form.targetresult,[{text:'是',onPress:this.opntion2Selected}])
+              }
+        }catch(e){
+            alert('aaaaaaaaaaaaaaaaaaaa')
+            Toast.fail("服务器开小差了~~",3,null,true)
+            this.setState({
+                loading:false
+            })
         }
-        else{
-            ToastAndroid.show('登录信息过期',ToastAndroid.SHORT)
-            return this.props.navigation.dispatch(StackActions.reset({
-                index: 0,
-                actions: [
-                    NavigationActions.navigate({routeName:'login'})
-                ]
-            }))
-        }
-        
     }
     
 
@@ -118,7 +115,7 @@ export default class Touchlogin extends React.Component{
               <Text style={{color:'white',fontSize:15,marginTop:20}}>登录中...</Text>
         </View>
         </View>:null}
-        <View style={{width:'100%',height:30,alignItems:'center'}}>
+        <View style={{width:'100%',height:30,alignItems:'center',top:100}}>
           <Text onPress={()=>this.pressHandler()}>再试一次</Text>
           </View>
           <View style={{width:'100%',height:30,bottom:10,alignItems:'center',position:'absolute'}}>

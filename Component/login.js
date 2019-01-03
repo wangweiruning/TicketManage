@@ -3,13 +3,8 @@ import {View,TouchableOpacity,Text,Alert,ToastAndroid,Platform,BackHandler,Devic
 import {ActivityIndicator,Toast} from 'antd-mobile-rn';
 import {login} from '../api/api';
 import MySorage from '../api/storage';
-import {StackActions, NavigationActions} from 'react-navigation';
 import {TextInputLayout} from 'rn-textinputlayout';
-const resetAction = StackActions.reset({
-    index: 0,
-    actions: [NavigationActions.navigate({ routeName: 'Tab' })],
-  });
-  MySorage._getStorage(); 
+
 
 export default class Login extends React.Component{
      constructor(props){
@@ -27,15 +22,14 @@ export default class Login extends React.Component{
        await new Promise((s1, s2) => {
             MySorage._load("history",(ress) => {
                 let infos = ress;
-                if(!infos) s1(); 
+                if(!infos)return s1(); 
                 this.state.user=infos.data;
-                this.state.pass=infos.datag;
                 this.forceUpdate();  
                 s1();
             })
       })
 
-        // MySorage._getStorage()
+        MySorage._getStorage()
             // 添加监听进入登陆页然后禁止用户点击返回键返回主页面
             this.viewDidAppear = this.props.navigation.addListener(
                 'willFocus',(obj)=>{
@@ -89,7 +83,7 @@ export default class Login extends React.Component{
                 userpass:{data:this.state.user,datag:this.state.pass},
             })  
             MySorage._sava("history",this.state.userpass);           
-            this.props.navigation.dispatch(resetAction);
+            this.props.navigation.navigate('Touchid')
           }
          else{
             Alert.alert('',result.form.targetresult,[{text:'是',onPress:this.opntion2Selected}])

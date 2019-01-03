@@ -41,6 +41,13 @@ export default class HomeScreen extends React.Component {
     })
 }
 
+    componentWillUnmount = () => {
+      this.setState = (state,callback)=>{
+        return;
+      };
+    }
+
+    
   render() {
       const { navigate } = this.props.navigation;
       return (<View>

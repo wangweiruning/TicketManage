@@ -15,12 +15,12 @@ export default class Ltbar extends React.Component{
         <View style={{
             width: '100%',
             paddingTop:StatusBar.currentHeight,
-            height:30+StatusBar.currentHeight,
+            height:40+StatusBar.currentHeight,
             backgroundColor: '#0390e8',
             flexDirection: 'row',
             alignItems: 'center',
         }}>
-            <TouchableOpacity activeOpacity={0.8} onPress={()=>this._toBack()}
+           <TouchableOpacity activeOpacity={0.8} onPress={()=>this._toBack()}
                                   style={{width:60,marginLeft:5,alignItems:'center',flexDirection:'row'}}>   
                     <Image source={require('../images/back.png')}
                         style={{resizeMode:Image.resizeMode.contain,height:20,width: 20}}/>

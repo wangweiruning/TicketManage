@@ -5,21 +5,15 @@ import url from './serviceAPI.config';
 
 //登录验证
 export function islogin(data){
-    return   Httpdata.post({       
-                url: url.islogin+data,
-                method: 'post',
-                dataType: "json",
-                contentType: "application/x-www-form-urlencoded",
-            });
+    return Httpdata.post({       
+        url: url.islogin+data,
+    });
 }
 
 //登陆
 export function login(data) {
-    return   Httpdata.post({        
+    return Httpdata.post({        
         url: url.userLogin+data,
-        method: 'post',
-        dataType: "json",
-        contentType: "application/x-www-form-urlencoded",
     });
     
 }
@@ -27,9 +21,6 @@ export function login(data) {
 export function awaitdeteal(data) {
     return Httpdata.post({
         url: url.awaitdeteal+data,
-        method: 'post',
-        dataType: "json",
-		contentType: "application/x-www-form-urlencoded",
     });
 }
 
@@ -37,9 +28,6 @@ export function awaitdeteal(data) {
 export function correation(data) {
     return Httpdata.post({
         url: url.correation+data,
-        method: 'post',
-        dataType: "json",
-		contentType: "application/x-www-form-urlencoded",
     });
 }
 
@@ -47,18 +35,12 @@ export function correation(data) {
 export function historys(data) {
     return Httpdata.post({
         url: url.historys+data,
-        method: 'post',
-        dataType: "json",
-		contentType: "application/x-www-form-urlencoded",
     });
 }
 //gethistory获取当前历史票信息
 export function gethistory(data) {
     return Httpdata.post({
         url: url.gethistory+data,
-        method: 'post',
-        dataType: "json",
-		contentType: "application/x-www-form-urlencoded",
     });
 }
 
@@ -66,27 +48,18 @@ export function gethistory(data) {
 export function editquanxian(data) {
     return Httpdata.post({
         url: url.editquanxian+data,
-        method: 'post',
-        dataType: "json",
-		contentType: "application/x-www-form-urlencoded",
     })
 }
 //查看模板详情权限 不可编辑内容
 export function quanxian(data) {
     return Httpdata.post({
         url: url.findquanxian+data,
-        method: 'post',
-        dataType: "json",
-		contentType: "application/x-www-form-urlencoded",
     })
 }
 
 export function userlist(){
     return Httpdata.post({
         url: url.userlist,
-        method: 'post',
-        dataType: "json",
-		contentType: "application/x-www-form-urlencoded",
     })
 }
 
@@ -94,17 +67,11 @@ export function userlist(){
 export function TicketBasicInfo(data) {
     return Httpdata.post({
         url: url.TicketBasicInfo+data,
-        method: 'post',
-        dataType: "json",
-		contentType: "application/x-www-form-urlencoded",
     })
 }
 export function moban(data) {
     return Httpdata.post({
-        method:'post',
         url: url.moban+data,
-        dataType: "json",
-        contentType: "application/x-www-form-urlencoded",
     })
 }
 
@@ -112,9 +79,6 @@ export function moban(data) {
 export function searchTicketBasicInfo(data) {
     return Httpdata.post({
         url: url.searchTicketBasicInfo+data,
-        method: 'post',
-        dataType: "json",
-		contentType: "application/x-www-form-urlencoded",
     })
 }
 
@@ -122,9 +86,6 @@ export function searchTicketBasicInfo(data) {
 export function searchTicketFlow(data) {
     return Httpdata.post({
         url: url.searchTicketFlow+data,
-        method: 'post',
-        dataType: "json",
-		contentType: "application/x-www-form-urlencoded",
     })
 }
 
@@ -132,9 +93,6 @@ export function searchTicketFlow(data) {
 export function searchUserPower(data) {
     return Httpdata.post({
         url: url.searchUserPower+data,
-        method: 'post',
-        dataType: "json",
-		contentType: "application/x-www-form-urlencoded",
     })
 }
 
@@ -142,9 +100,6 @@ export function searchUserPower(data) {
 export function searchUserForRole(data) {
     return Httpdata.post({
         url: url.searchUserForRole+data,
-        method: 'post',
-        dataType: "json",
-		contentType: "application/x-www-form-urlencoded",
     })
 }
 
@@ -152,18 +107,12 @@ export function searchUserForRole(data) {
 export function newTiceketNum(data) {
     return Httpdata.post({
         url: url.newTiceketNum+data,
-        method: 'post',
-        dataType: "json",
-		contentType: "application/x-www-form-urlencoded",
     })
 }
 
 export function ttmsTickets(data) {
     return Httpdata.post({
         url: url.ttmsTickets+data,
-        method: 'post',
-        dataType: "json",
-		contentType: "application/x-www-form-urlencoded",
     })
 }
 
@@ -171,9 +120,6 @@ export function ttmsTickets(data) {
 export function searchFlowRecord(data) {
     return Httpdata.post({
         url: url.searchFlowRecord+data,
-        method: 'post',
-        dataType: "json",
-		contentType: "application/x-www-form-urlencoded",
     })
 }
 
@@ -181,9 +127,6 @@ export function searchFlowRecord(data) {
 export function searchTicketRecord(data) {
     return Httpdata.post({
         url: url.searchTicketRecord+data,
-        method: 'post',
-        dataType: "json",
-		contentType: "application/x-www-form-urlencoded",
     })
 }
 
@@ -191,9 +134,6 @@ export function searchTicketRecord(data) {
 export function findgroup(data) {
     return Httpdata.post({
         url: url.findgroup+data,
-        method: 'post',
-        dataType: "json",
-		contentType: "application/x-www-form-urlencoded",
     })
 }
 
@@ -201,9 +141,6 @@ export function findgroup(data) {
 export function findbumen(data) {
     return Httpdata.post({
         url: url.findbumen+data,
-        method: 'post',
-        dataType: "json",
-		contentType: "application/x-www-form-urlencoded",
     })
 }
 
@@ -219,32 +156,20 @@ export function tijiao(data) {
 }
 
 export function AllMangerUser() {
-    
     return Httpdata.post({
         url: url.AllMangerUser,
-        method: 'post',
-        dataType: "json",
-		contentType: "application/x-www-form-urlencoded",
     })
 }
 
 export function ParaIdForTeam() {
-    
     return Httpdata.post({
         url: url.ParaIdForTeam,
-        method: 'post',
-        dataType: "json",
-		contentType: "application/x-www-form-urlencoded",
     })
 }
 
 export function AllDepartment() {
-    
     return Httpdata.post({
         url: url.AllDepartment,
-        method: 'post',
-        dataType: "json",
-		contentType: "application/x-www-form-urlencoded",
     })
 }
 
@@ -252,9 +177,6 @@ export function ForDepartment(data) {
     
     return Httpdata.post({
         url: url.ForDepartment+data,
-        method: 'post',
-        dataType: "json",
-		contentType: "application/x-www-form-urlencoded",
     })
 }
 

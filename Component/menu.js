@@ -73,6 +73,11 @@ export default class ToastExample extends React.Component {
                      <Text style={{fontSize:18,color:'#1296db',fontWeight:'300'}}>{jconfig.userinfo.user?this.state.realname:'暂无'}</Text>
                   </View>
                 </View>
+             <TouchableOpacity style={{marginTop:20,width:'100%',height:50,justifyContent:'center',backgroundColor:'white'}} onPress={()=>this.props.navigation.navigate('Seting')}>
+              <Text>
+                设置
+              </Text>
+             </TouchableOpacity>
              <TouchableOpacity onPress={()=> this.out()} style={{position:'absolute',elevation:2,bottom:30,justifyContent:'center',alignItems:'center',width:'80%',backgroundColor:'#1296db',borderRadius:5,height:40}}>
              <Text style={{color:'white',fontSize:18,fontWeight:'500'}}>退出系统</Text>
             </TouchableOpacity>

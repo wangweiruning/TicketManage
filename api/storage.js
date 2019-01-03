@@ -1,6 +1,5 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Storage from 'react-native-storage';
-
 import {AsyncStorage} from 'react-native';
 
 import SYNC from './sync';
@@ -8,10 +7,9 @@ import SYNC from './sync';
 let storage;
 let defaultExpires = 1000*3600*24*7;  // 七天过期
 let size = 100000000000000000000000;
-export default class MySorage extends Component {
+export default class MySorage extends React.Component {
 
     static _getStorage() {
-        console.log("store:");
         if (storage === undefined) {
             storage = new Storage({
                 // 最大容量，默认值1000条数据循环存储
@@ -90,6 +88,20 @@ export default class MySorage extends Component {
             this._load3(key, null, null, callBack);
             s1();
         })
+    }
+
+    // 
+
+    static async _loadAll(key=[],callBack) {
+        if(!key.length) throw new Error("error array!");
+        let list =[];
+        for (let i=0;i<key.length;i++) {
+           let item = await new Promise(ps=>{
+                this._load3(key[i], null, null,ps);
+            })
+            list.push(item);
+        }
+        callBack(list);
     }
 
 

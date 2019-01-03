@@ -24,25 +24,24 @@ import Aboutme from './Component/Aboutme';
 import Network from './Component/Network';
 import Networks from './Component/Networks';
 import Touchlogin from './Component/Touchlogin';
-MySorage._getStorage()
+import Touch from './Component/Touchid'
+import Seting from './Component/Seting';
 window.jconfig={
   userinfo:{},
   usermsg:{}
 }
-const resetAction = StackActions.reset({
-  index: 0,
-  actions: [NavigationActions.navigate({ routeName:window.config={}?'login':'Touchlogin' })],
-});
-    var lastBackPressed;
-    var current = true;
-console.disableYellowBox = true;
 
-NetInfo.isConnected.fetch().done((isConnected) => {
-  if(isConnected){}
-  else{
-      ToastAndroid.show('网络错误,请检查网络',ToastAndroid.SHORT)
-    }
-});
+window.config={}
+
+var lastBackPressed;
+var current = true;     
+console.disableYellowBox = true;
+// NetInfo.isConnected.fetch().done((isConnected) => {
+//   if(isConnected){}
+//   else{
+//       ToastAndroid.show('网络错误,请检查网络',ToastAndroid.SHORT)
+//     }
+// });
 
 const TabRouteConfigs = { // 表示各个页面路由配置,让导航器知道需要导航的路由对应的页�?
   Home: { // 路由名称
@@ -218,6 +217,22 @@ const StackRouteConfigs={
       header: null,
       gesturesEnabled: true
   }
+  },
+  Touchid:{
+    screen:Touch,
+    path:'app/Touchid',
+    navigationOptions: {
+      header: null,
+      gesturesEnabled: true
+  }
+  },
+  Seting:{
+    screen:Seting,
+    path:'app/Seting',
+    navigationOptions: {
+      header: null,
+      gesturesEnabled: true
+  }
   }
 };
 
@@ -254,20 +269,21 @@ const Navigators = StackNavigator(StackRouteConfigs,StackNavigatorConfigs);
 export default class App extends Component {
 
   async componentDidMount () {
-    await this.getLogin()
     await this.getUserInfo()
+    // await this.getLogin()
 }
 
 
  async componentWillMount(){
+  MySorage._getStorage()
     let d="?code=50ACD07A6C49F3B9E082EF40461AC6D1";
     let ff= await islogin(d);
-    if(ff.form.status==0&&window.jconfig.userinfo!=null){
+    if(ff.form.status==0&&window.jconfig.userinfo!=null && !this.navigator.state.nav.routes[0].routeName == "login"){
      return Alert.alert(
             "登录验证",
             "登录数据过期，请重新登录",
             [
-              {text: '去登陆', onPress: () => this.navigator.dispatch(resetAction)},
+              {text: '去登陆', onPress: () =>{ this.navigator.dispatch(resetAction)}},
             ],
             {cancelable:false}
           )
@@ -280,13 +296,14 @@ export default class App extends Component {
     // NetInfo.removeEventListener('change', this.handleConnectivityChange);
     BackHandler.removeEventListener('hardwareBackPress', this.onBackAndroid);
   }
+
   
 
-  handleConnectivityChange(status) {
-    alert('status change:' + status);
-  //监听第一次改变后, 可以取消监听.或者在componentUnmount中取消监听
-  NetInfo.removeEventListener('change', this.handleConnectivityChange);
-  }
+  // handleConnectivityChange(status) {
+  //   alert('status change:' + status);
+  // //监听第一次改变后, 可以取消监听.或者在componentUnmount中取消监听
+  // NetInfo.removeEventListener('change', this.handleConnectivityChange);
+  // }
 
  onBackAndroid = () => {
   if (current == true) {//如果是在首页
@@ -308,35 +325,52 @@ export default class App extends Component {
 
 async getUserInfo () {
   try {
-    new Promise((s1, s2) => {
-    MySorage._load("userinfo", (res) => {
-      let info = JSON.parse(res);
-      window.jconfig.userinfo=info;
-      if(!info){
-        this.navigator.dispatch(resetAction);
-        return
-      }
-    })
-   })
-  }
-   catch(e){
+
+    MySorage._loadAll(["userinfo","history"],(data)=>{
+        let res = data[0];
+        let info = data[1];
+        window.jconfig.userinfo=JSON.parse(res);
+        if (!res) {
+          let type = "Touchlogin"
+          if(!info) type ="login"
+            let resetAction = StackActions.reset({
+              index: 0,
+              actions: [NavigationActions.navigate({ routeName:type})],
+            })
+          return this.navigator.dispatch(resetAction);
+          }
+    }) 
+
+
+  //   MySorage._load("userinfo", async(res) => {
+  //     console.log("res--->",res);
+  //     if(!res){
+  //       let type = "Touchlogin"
+  //       MySorage._load("history",(ress) => {
+  //         window.config=ress;
+  //         if(!ress)  type ="login";
+  //         let resetAction = StackActions.reset({
+  //           index: 0,
+  //           actions: [NavigationActions.navigate({ routeName:type})],
+  //         })
+  //         return this.navigator.dispatch(resetAction);
+  //       })
+
+  //       // this.navigator.dispatch(resetAction);
+  //       // return
+  //     }
+  //     let info = JSON.parse(res);
+  //     window.jconfig.userinfo=info;
+  //   })
+  // }
+  }catch(e){
       return
    }
   }
 
-  async getLogin(){
-    try{
-      new Promise((s1, s2) => {
-        MySorage._load("history",(ress) => {
-          window.config=ress;
-          s1();
-        })
-      })
-    }
-    catch(e){
-      return
-    }
-  }
+
+
+
 
 
   render() {
@@ -365,4 +399,6 @@ async getUserInfo () {
     </React.Fragment>);
   }
 }
+
+
 
