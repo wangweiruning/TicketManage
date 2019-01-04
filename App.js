@@ -375,7 +375,7 @@ async getUserInfo () {
 
   render() {
     return (<React.Fragment>
-      <StatusBar backgroundColor={'#0390e8'}/>
+      <StatusBar backgroundColor={'transparent'} translucent={true} />
       <Navigators ref={(nav)=>{
         this.navigator = nav;
       }} configureScene={(route) => {

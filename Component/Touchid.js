@@ -1,7 +1,7 @@
 import React from 'react';
-import {View,TouchableOpacity,Text,Alert,ToastAndroid,Platform,BackHandler,DeviceEventEmitter,Image,TextInput,StatusBar} from 'react-native';
+import {View,Text,Alert,ToastAndroid,StatusBar} from 'react-native';
 import TouchID from 'react-native-touch-id';
-import {ActivityIndicator,Toast,Switch} from 'antd-mobile-rn';
+import {Switch} from 'antd-mobile-rn';
 import {StackActions, NavigationActions} from 'react-navigation';
 import MySorage from '../api/storage';
 const resetAction = StackActions.reset({
@@ -19,13 +19,15 @@ export default class Touch extends React.Component{
 
 
     componentDidMount(){
-        MySorage._sava('seting',this.state.checked)
+        // MySorage._load('seting',(res)=>{
+        //     this.setState({checked:res})
+        // })
         this.pressHandler()
     }
 
     pressHandler() {
         const optionalConfigObject = {
-            title: "录入指纹", // Android
+            title: "收集指纹", // Android
             color: "#12e2a3", // Android,
             imageColor: "#12e2a3", // Android
             imageErrorColor: "#ff0000", // Android
@@ -58,19 +60,19 @@ export default class Touch extends React.Component{
 
     onSwitchChange(e){
         this.setState({checked:e})
-        console.log(e)
+        MySorage._sava('setting',e)
         MySorage._sava('seting',e)
     }
     render(){
-        return(<View>
+        return(<View style={{alignItems:'center',position:'relative',width:'100%',height:'100%'}}>
             <StatusBar barStyle='dark-content' />
-            <Text style={{marginTop:StatusBar.currentHeight+10,fontSize:18,marginLeft:5}}>指纹录入，保护重要信息</Text>
+            <Text style={{marginTop:StatusBar.currentHeight+10,fontSize:18,marginLeft:5}}>指纹收集，保护重要信息。</Text>
              <View style={{width:'100%',flexDirection:'row',justifyContent:'flex-end',height:50,alignItems:'center'}}>
-                <Text style={{marginRight:10}} onPress={()=>this.props.navigation.dispatch(resetAction)}>跳过</Text>
+                <Text style={{marginRight:10,borderColor:'grey',borderRadius:5,borderWidth:1,borderStyle:'solid',textAlign:"center"}} onPress={()=>this.props.navigation.dispatch(resetAction)}>跳过</Text>
              </View>
-             <View style={{width:'100%',alignItems:'center',height:35}}>
-             <Text>下次不再提示</Text>
+             <View style={{position:'absolute',bottom:10,flexDirection:'row',padding:5,justifyContent:'center',alignItems:'center',height:35}}>
              <Switch checked={this.state.checked} onChange={(e)=>this.onSwitchChange(e)} />
+             <Text>下次不再提示</Text>
              </View>
         </View>)
     }

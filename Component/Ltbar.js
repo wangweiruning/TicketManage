@@ -15,7 +15,7 @@ export default class Ltbar extends React.Component{
         <View style={{
             width: '100%',
             paddingTop:StatusBar.currentHeight,
-            height:40+StatusBar.currentHeight,
+            height:38+StatusBar.currentHeight,
             backgroundColor: '#0390e8',
             flexDirection: 'row',
             alignItems: 'center',

@@ -23,6 +23,7 @@ export default class HomeScreen extends React.Component {
       aiaitList:"",
       corrlateList:'',
       history:'',
+      loading:''
     }
   }
 
@@ -35,6 +36,7 @@ export default class HomeScreen extends React.Component {
     const datas3 = "?form.userId="+result2.form.userId;
     const result3 = await correation(datas3);//相关流程数据
     this.setState({
+      loading:result.form.dataList,
       aiaitList:result.form.dataList.length,
       history:result2.form.page.totalRecords,
       corrlateList:result3.form.dataList.length
@@ -51,7 +53,7 @@ export default class HomeScreen extends React.Component {
   render() {
       const { navigate } = this.props.navigation;
       return (<View>
-        <Topt navigation={this.props.navigation} centerText={'两票管理'} />
+        <Topt navigation={this.props.navigation} centerText={'两票管理'} datas={this.state.loading}/>
         <LunboComponent />
           {this.state.content.map((v,i)=><View key={i} style={{justifyContent:'center',flexWrap:'wrap',flexDirection:'row',marginTop:8}}>
               <TouchableOpacity onPress={()=>navigate('waitPlan')} style={{height:100,width:'31.5%',alignItems:'center',backgroundColor:'white',marginRight:2}} activeOpacity={.8}>

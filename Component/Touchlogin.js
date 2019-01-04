@@ -1,8 +1,7 @@
 import React from 'react';
-import {View,TouchableOpacity,Text,Alert,ToastAndroid,Platform,BackHandler,DeviceEventEmitter,Image,TextInput,StatusBar} from 'react-native';
+import {View,Text,Alert,StatusBar} from 'react-native';
 import TouchID from 'react-native-touch-id';
 import {ActivityIndicator,Toast} from 'antd-mobile-rn';
-import TopT from './TopTitle';
 import {login} from '../api/api';
 import MySorage from '../api/storage';
 import {StackActions, NavigationActions} from 'react-navigation';
@@ -55,7 +54,6 @@ export default class Touchlogin extends React.Component{
                return Alert.alert('',result.form.targetresult,[{text:'是',onPress:this.opntion2Selected}])
               }
         }catch(e){
-            alert('aaaaaaaaaaaaaaaaaaaa')
             Toast.fail("服务器开小差了~~",3,null,true)
             this.setState({
                 loading:false
@@ -97,8 +95,9 @@ export default class Touchlogin extends React.Component{
             })
     }
     render(){
-        return(<View style={{position:'relative',flex:1}}>
-          <TopT navigation={this.props.navigation} centerText={'指纹验证登录'}/>
+        return(<View style={{position:'relative',flex:1,alignItems:'center'}}>
+          <StatusBar barStyle='dark-content' />
+          <Text style={{marginTop:StatusBar.currentHeight+10,fontSize:18,marginLeft:5}}>指纹验证登录，更便捷的登录方式。</Text>
           {this.state.loading?<View style={{alignItems:'center',top:'75%'}}>
            <View style={{borderRadius:4,
                       borderColor:'rgba(255,255,255,.5)',
@@ -115,10 +114,10 @@ export default class Touchlogin extends React.Component{
               <Text style={{color:'white',fontSize:15,marginTop:20}}>登录中...</Text>
         </View>
         </View>:null}
-        <View style={{width:'100%',height:30,alignItems:'center',top:100}}>
+        <View style={{padding:5,justifyContent:'center',height:30,alignItems:'center',top:100,borderColor:'grey',borderRadius:10,borderWidth:1,borderStyle:'solid'}}>
           <Text onPress={()=>this.pressHandler()}>再试一次</Text>
           </View>
-          <View style={{width:'100%',height:30,bottom:10,alignItems:'center',position:'absolute'}}>
+          <View style={{padding:5,justifyContent:'center',height:30,bottom:10,alignItems:'center',position:'absolute',borderColor:'grey',borderRadius:10,borderWidth:1,borderStyle:'solid'}}>
           <Text onPress={()=>this.props.navigation.navigate('login')}>更多</Text>
           </View>
         </View>)

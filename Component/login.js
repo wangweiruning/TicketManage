@@ -3,14 +3,21 @@ import {View,TouchableOpacity,Text,Alert,ToastAndroid,Platform,BackHandler,Devic
 import {ActivityIndicator,Toast} from 'antd-mobile-rn';
 import {login} from '../api/api';
 import MySorage from '../api/storage';
+import TouchID from 'react-native-touch-id';
 import {TextInputLayout} from 'rn-textinputlayout';
-
-
+import {StackActions, NavigationActions} from 'react-navigation';
+const resetAction = StackActions.reset({
+    index: 0,
+    actions: [NavigationActions.navigate({ routeName: 'Tab' })],
+});
+MySorage._getStorage()
 export default class Login extends React.Component{
      constructor(props){
          super(props);
          this.state={
+            bool:null,
             user:'',
+            tou:false,
             pass:'',
             result:{},
             userpass:{},
@@ -18,18 +25,41 @@ export default class Login extends React.Component{
         }
      }
 
+     componentWillMount(){
+        TouchID.isSupported().then(biometryType => {
+          // Success code
+        })
+        .catch(error => {
+         // Failure code
+          this.setState({
+            tou:true
+          })
+        });
+       }
+
     async componentDidMount () {
-       await new Promise((s1, s2) => {
+        await new Promise((s1, s2) => {
             MySorage._load("history",(ress) => {
                 let infos = ress;
                 if(!infos)return s1(); 
-                this.state.user=infos.data;
-                this.forceUpdate();  
+                this.setState({
+                    user:infos.data
+                })
+                this.forceUpdate();
                 s1();
             })
-      })
+        })
+        await new Promise((s1, s2) => {
+            MySorage._load("seting",(ress) => {
+                if(!ress) return s1();
+                this.setState({
+                    bool:ress
+                })
+                this.forceUpdate();
+                s1();
+            })
+        })
 
-        MySorage._getStorage()
             // 添加监听进入登陆页然后禁止用户点击返回键返回主页面
             this.viewDidAppear = this.props.navigation.addListener(
                 'willFocus',(obj)=>{
@@ -60,6 +90,8 @@ export default class Login extends React.Component{
     }
      
     async submitgo(){
+        let boll = this.state.bool;
+        let ttt = this.state.tou
         this.setState({
             loading:true
         })
@@ -82,8 +114,8 @@ export default class Login extends React.Component{
             this.setState({
                 userpass:{data:this.state.user,datag:this.state.pass},
             })  
-            MySorage._sava("history",this.state.userpass);           
-            this.props.navigation.navigate('Touchid')
+            MySorage._sava("history",this.state.userpass);        
+            !boll&&!ttt?this.props.navigation.navigate('Touchid'):this.props.navigation.dispatch(resetAction)
           }
          else{
             Alert.alert('',result.form.targetresult,[{text:'是',onPress:this.opntion2Selected}])
@@ -113,7 +145,7 @@ export default class Login extends React.Component{
 
     render(){
         return(<View style={{position:'relative',flex:1}}>
-        <StatusBar backgroundColor={'transparent'} translucent={true} />
+        {/* <StatusBar backgroundColor={'transparent'} translucent={true} /> */}
         {this.state.loading?<View style={{alignItems:'center',top:'75%'}}>
         <View style={{borderRadius:4,
                       borderColor:'rgba(255,255,255,.5)',

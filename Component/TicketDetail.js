@@ -1,7 +1,7 @@
 import React from 'react';
 import TicketTitle from './TicketTitle';
 import {TextareaItem,ActivityIndicator} from 'antd-mobile-rn';
-import {View,Text,ScrollView,TouchableOpacity,TextInput,ToastAndroid,Alert,Image,ImageBackground} from 'react-native';
+import {View,Text,ScrollView,TouchableOpacity,TextInput,ToastAndroid,Alert,Image} from 'react-native';
 import ModalDropdown from 'react-native-modal-dropdown';
 import DatePicker from 'react-native-datepicker'
 import {newTiceketNum,
@@ -332,7 +332,6 @@ export default class Tdetail extends React.Component{
     s[index] = dis?"1":"0";
     this.state.newpagedata[value] = s;
     this.state.showChecked=s;
-    console.log(this.state.newpagedata,">>>>>>>>>>>>>>>>>>>>>>>>>>")
     this.setState(this.state);
 
     }
@@ -389,6 +388,7 @@ export default class Tdetail extends React.Component{
         let sss = this.state.zed;
         let index = sss.findIndex((v)=>{
             return v.TicketParaID == asd;
+            
         });
         return index==-1;
 
@@ -473,7 +473,6 @@ export default class Tdetail extends React.Component{
     }
 
     getSelect(value,datalist,getAllTempanyId){
-        console.log(value,datalist)
         let s ={[datalist]:value};
         let kk = "";
         this.state.AllManger.map(pagename=>{
@@ -511,7 +510,6 @@ export default class Tdetail extends React.Component{
             nesadds.push(0);
             newpagedata2[v+"*1"] = vaaaa;
             this.state.newpagedata[v+"_1"] = nesadds;
-            console.log(newpagedata2);
             return newpagedata2;
        });
     }
@@ -534,7 +532,6 @@ export default class Tdetail extends React.Component{
             let vAdd = isadd[v];
             let vNewpagedata = newpagedata[v+"*1"];
             if(!vNewpagedata){
-                alert("qqq");
                 return {};
             };
             newpagedata[v+"*1"] = vNewpagedata.splice(inde,1);
@@ -604,7 +601,7 @@ export default class Tdetail extends React.Component{
           this.state.jax.map((v,i)=>{
            let dis = this.chackSSSS(v.TicketParaID);
            let itemMsg = this.isChacked(i);
-           return <View key={i} style={{marginTop:5,paddingTop:5,alignItems:'center',minWidth:'100%'}}>
+           return (!dis&&<View key={i} style={{marginTop:5,paddingTop:5,alignItems:'center',minWidth:'100%'}}>
               <View style={{
                   width:'96%',
                   backgroundColor:v.ParaTypeID!="1"?'white':'transparent',
@@ -615,11 +612,11 @@ export default class Tdetail extends React.Component{
                   flexDirection:'row',
                   alignItems:'center',
                   }}>
-                  <Text style={{fontSize:v.ParaTypeID=='1'?15:13,color:'#363434',left:2,width:'85.6%',flex:1,flexWrap:'wrap',paddingRight:5}}>{v.ParaName}</Text>
+                 <Text style={{fontSize:v.ParaTypeID=='1'?15:13,color:'#363434',left:2,width:'85.6%',flex:1,flexWrap:'wrap',paddingRight:5}}>{v.ParaName}</Text>
                   {v.IsAdd==1&&!dis&&<TouchableOpacity onPress={()=>this.add(v.TicketParaID)} style={{width:'11.6%',height:25,justifyContent:'center',alignItems:'center'}}>
                             <Image style={{width:23,top:1,height:23,resizeMode:Image.resizeMode.contain}} source={require('../images/add.png')}/>  
                         </TouchableOpacity>}
-              </View>
+               </View>
                {      
                   v.ParaTypeID==4? 
                   <TicketDropdownCheckBox isshow={dis}
@@ -639,32 +636,28 @@ export default class Tdetail extends React.Component{
                   onSelect={(e,value)=>this.getSelect(value,'datalist'+i,getAllTempanyId[i])}
                   options={this.BackpageUseName()}/>:v.ParaTypeID==2 ?
                   <View style={{width:'96%'}}>
-                    <TextInput multiline={true} editable={!dis} placeholder={dis?"":"请输入内容..."} underlineColorAndroid="transparent" placeholderTextColor="#363434"
-                    onChangeText={(v)=>this.handleInput('datalist'+i,v,getAllTempanyId[i])} style={{height:60,paddingHorizontal:6,minWidth:'96%',backgroundColor:!dis?"#eee":"rgba(0,0,0,.3)",color:'#363434'}}/>
-                    {v.IsConfirm==1?<View style={{borderTopColor:'white',borderStyle:'solid',borderTopWidth:1,flexDirection:'row',padding:5,backgroundColor:!dis?"#eee":"rgba(0,0,0,.3)"}}>
-                    <CheckBox 
-                    labelStyle={{color:'#363434'}} checkboxStyle={{width:18,height:18}}
-                    label={'是否已执行'}
-                    style={{backgroundColor:'rgba(255,255,255,.1)'}}
-                    onChange={(e)=>this.onChangecoform(getAllTempanyId[i]+"_1",e)}
-                    disabled={dis}
-                    ></CheckBox></View>:null}
-                  </View>
-                    :v.ParaTypeID==5?
-                    <DatePicker    
-                    customStyles={{
-                      dateInput: {
-                      left:6,
-                      justifyContent:'center',
-                      borderWidth:0,
-                      },
-                      dateText:{
-                          color:'#363434'
-                      },
-                      placeholderText:{
-                          color:'#363434'
-                      }
-                    }}
+                  <TextInput multiline={true} editable={!dis} placeholder={dis?"":"请输入内容..."} underlineColorAndroid="transparent" placeholderTextColor="#363434"
+                  onChangeText={(v)=>this.handleInput('datalist'+i,v,getAllTempanyId[i])} style={{height:60,paddingHorizontal:6,minWidth:'96%',backgroundColor:!dis?"#eee":"rgba(0,0,0,.3)",color:'#363434'}}/>
+                  {v.IsConfirm==1?<View style={{borderTopColor:'white',borderStyle:'solid',borderTopWidth:1,flexDirection:'row',padding:5,backgroundColor:!dis?"#eee":"rgba(0,0,0,.3)"}}>
+                  <CheckBox 
+                  labelStyle={{color:'#363434'}} checkboxStyle={{width:18,height:18}}
+                  label={'是否已执行'}
+                  style={{backgroundColor:'rgba(255,255,255,.1)'}}
+                  onChange={(e)=>this.onChangecoform(getAllTempanyId[i]+"_1",e)}
+                  disabled={dis}></CheckBox></View>:null}
+                  </View>:v.ParaTypeID==5?<DatePicker customStyles={{
+                                                dateInput: {
+                                                left:6,
+                                                justifyContent:'center',
+                                                borderWidth:0,
+                                            },
+                                                dateText:{
+                                                    color:'#363434'
+                                                },
+                                            placeholderText:{
+                                                color:'#363434'
+                                            }
+                                            }}
                     style={{justifyContent:'center',width:'96%',backgroundColor:!dis?"#eee":"rgba(0,0,0,.3)",height:50}}        
                     date={itemMsg[i]} 
                     mode="datetime"        
@@ -676,26 +669,25 @@ export default class Tdetail extends React.Component{
                     minDate={new Date(2015, 1, 1)}
                     placeholder={!dis?"请选择时间":" "}      
                     onDateChange={(e)=>this.onChange('datalist'+i ,e,getAllTempanyId[i])}/>
-                    :
-                    v.ParaTypeID==6?
-                  <View style={{width:'96%'}}>
-                       {
+                    :v.ParaTypeID==6?
+                    <View style={{width:'96%'}}>
+                    {
                       v.IsAdd==1?this.getTextareaItemByID(v,dis,i):<View>
                                  <TextareaItem placeholderTextColor="#363434" editable={!dis} placeholder={dis?"":"请输入内容..."}
-                      onChange={(e)=>this.handleInput('datalist'+i,e,getAllTempanyId[i])}
+                       onChange={(e)=>this.handleInput('datalist'+i,e,getAllTempanyId[i])}
                        autoHeight
-                         style={{color:'#363434',fontSize:14,paddingHorizontal:6,minWidth:'96%',backgroundColor:!dis?"#eee":"rgba(0,0,0,.3)"}} />
-                         <View style={{flexDirection:'row',backgroundColor:!dis?"#eee":"rgba(0,0,0,.3)",padding:5}}>
+                       style={{color:'#363434',fontSize:14,paddingHorizontal:6,minWidth:'96%',backgroundColor:!dis?"#eee":"rgba(0,0,0,.3)"}} />
+                       <View style={{flexDirection:'row',backgroundColor:!dis?"#eee":"rgba(0,0,0,.3)",padding:5}}>
                        <CheckBox 
                        labelStyle={{color:'#363434'}} checkboxStyle={{width:18,height:18}}
                        label={'是否已执行'}
                        style={{backgroundColor:'rgba(255,255,255,.1)'}}
                        onChange={(e)=>this.onChangecoform(getAllTempanyId[i]+"_1",e)} disabled={dis}>
-                         </CheckBox></View></View>
-                        }
+                       </CheckBox></View></View>
+                    }
                   </View>:null
                }
-            </View>
+            </View>)
             }
             )
         }
@@ -731,15 +723,7 @@ export default class Tdetail extends React.Component{
             </View>:null}
             </View>
             <View style={{marginBottom:50,width:'100%',display:'flex',justifyContent:'center',alignItems:'center'}}>
-                {this.state.num?<TouchableOpacity 
-                            onPress={()=>this.submitAll()}
-                            style={{
-                                elevation:2,
-                                justifyContent:'center',
-                                alignItems:'center',
-                                width:'80%',
-                                backgroundColor:'#1296db',
-                                borderRadius:5,height:40}}>
+                {this.state.num?<TouchableOpacity onPress={()=>this.submitAll()} style={{elevation:2,justifyContent:'center',alignItems:'center',width:'80%',backgroundColor:'#1296db',borderRadius:5,height:40}}>
                         <Text style={{color:'white',fontSize:20,fontWeight:'300'}}>提交</Text>
                 </TouchableOpacity>:null}
             </View>

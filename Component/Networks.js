@@ -11,12 +11,20 @@ export default class Networks extends React.Component{
     constructor(props){
         super(props)
         this.state={
-            
+            network:''
         }
     }
 
     submit(){
-        this.props.navigation.dispatch(resetAction);
+        console.log(this.state.network)
+        MySorage._sava('netWorkIp',this.state.network);
+        // this.props.navigation.dispatch(resetAction);
+    }
+
+    handleInput(k, v){
+        this.setState({
+            [k]:v,
+        });
     }
 
     render(){ 
@@ -28,7 +36,7 @@ export default class Networks extends React.Component{
                 </View>
                 <View style={{borderWidth:1,borderStyle:'solid',borderColor:'grey',borderRadius:5,width:'96%',marginTop:10,alignItems:'center'}}><TextInput style={{width:'90%',}} multiline={true} /></View>
                 <View style={{marginTop:10,width:'100%',borderTopColor:'grey',borderStyle:'solid',borderTopWidth:1,justifyContent:'flex-end',flexDirection:'row',height:50,alignItems:'center'}}>
-                <TouchableOpacity style={{width:'20%',height:30,borderRadius:5,justifyContent:'center',alignItems:'center',backgroundColor:'#0390e8',marginRight:20}}>
+                <TouchableOpacity onPress={()=>this.submit()} style={{width:'20%',height:30,borderRadius:5,justifyContent:'center',alignItems:'center',backgroundColor:'#0390e8',marginRight:20}}>
                 <Text style={{color:'white',fontSize:18,fontWeight:'500'}}>保存</Text>
                 </TouchableOpacity>
                 </View>
