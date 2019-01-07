@@ -17,11 +17,11 @@ export default class TopT extends React.Component{
             flexDirection: 'row',
             justifyContent: 'center',
             alignItems:'center',
-            elevation:3
+            elevation:this.props.centerText=='我的'?0:3
         }}>
         {this.props.centerText=='两票管理'&&!this.props.datas&&<ActivityIndicator animating={!this.props.datas?true:false} color="white"/>}
         <Text style={{color:'white',fontSize:18,fontWeight:'500'}}>
-             {this.props.centerText}
+             {!this.props.datas&&this.props.centerText=='两票管理'?'数据获取中...':this.props.centerText}
         </Text>
         </View>)
     }

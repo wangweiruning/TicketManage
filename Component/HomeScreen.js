@@ -53,23 +53,23 @@ export default class HomeScreen extends React.Component {
   render() {
       const { navigate } = this.props.navigation;
       return (<View>
-        <Topt navigation={this.props.navigation} centerText={'两票管理'} datas={this.state.loading}/>
+        <Topt navigation={this.props.navigation} centerText={'首页'} datas={this.state.loading}/>
         <LunboComponent />
           {this.state.content.map((v,i)=><View key={i} style={{justifyContent:'center',flexWrap:'wrap',flexDirection:'row',marginTop:8}}>
-              <TouchableOpacity onPress={()=>navigate('waitPlan')} style={{height:100,width:'31.5%',alignItems:'center',backgroundColor:'white',marginRight:2}} activeOpacity={.8}>
-                <View style={{justifyContent:'flex-end',top:5,minWidth:'100%',flexDirection:'row',marginRight:5}}> 
-                  <View style={{borderRadius:10,width:30,height:20,justifyContent:'center',alignItems:'center',backgroundColor:'#fc6b3f'}}>
-                  <Text style={{color:'white'}}>{this.state.aiaitList>99?'99+':this.state.aiaitList}</Text>
-                  </View>
-                </View>
+            <TouchableOpacity onPress={()=>navigate('waitPlan')} style={{height:100,width:'31.5%',alignItems:'center',backgroundColor:'white',marginRight:2}} activeOpacity={.8}>
+            <View style={{justifyContent:'flex-end',top:5,minWidth:'100%',flexDirection:'row',marginRight:5,height:20}}> 
+                  {this.state.loading?<View style={{borderRadius:10,width:30,height:20,justifyContent:'center',alignItems:'center',backgroundColor:'#fc6b3f'}}>
+                     <Text style={{color:'white'}}>{this.state.aiaitList>99?'99+':this.state.aiaitList}</Text>
+                  </View>:null}
+            </View>
                   <Image source={require('../images/await.png')} style={{width:35,height:35,resizeMode:Image.resizeMode.contain}}/>
                   <Text style={{color:'#1296db',fontSize:18,marginTop:10}}>{v.wait}</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={()=>navigate('correlationPlan')} style={{height:100,width:'31.5%',alignItems:'center',backgroundColor:'white',marginRight:2}} activeOpacity={.8}>
-            <View style={{justifyContent:'flex-end',top:5,minWidth:'100%',flexDirection:'row',marginRight:5}}> 
-                  <View style={{borderRadius:10,width:30,height:20,justifyContent:'center',alignItems:'center',backgroundColor:'#53c7f0'}}>
-                  <Text style={{color:'white'}}>{this.state.corrlateList>99?'99+':this.state.corrlateList}</Text>
-                  </View>
+            <View style={{justifyContent:'flex-end',top:5,minWidth:'100%',flexDirection:'row',marginRight:5,height:20}}> 
+                  {this.state.loading?<View style={{borderRadius:10,width:30,height:20,justifyContent:'center',alignItems:'center',backgroundColor:'#53c7f0'}}>
+                     <Text style={{color:'white'}}>{this.state.corrlateList>99?'99+':this.state.corrlateList}</Text>
+                  </View>:null}
             </View>
                   <Image source={require('../images/colle.png')} style={{width:38,height:38,resizeMode:Image.resizeMode.contain,marginTop:2}}/>
                   <Text style={{color:'#1296db',fontSize:18,marginTop:5}}>{v.about}</Text>
@@ -78,7 +78,7 @@ export default class HomeScreen extends React.Component {
                   <Image source={require('../images/history.png')} style={{width:35,height:35,resizeMode:Image.resizeMode.contain,marginTop:23}}/>
                   <Text style={{color:'#1296db',fontSize:18,marginTop:8}}>{v.history}</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={()=>navigate('AddNewTictets')} style={{marginTop:2,height:100,width:'31.5%',alignItems:'center',backgroundColor:'white',marginRight:2}} activeOpacity={.8}>
+            <TouchableOpacity onPress={()=>navigate('AddNewTictetsTow')} style={{marginTop:2,height:100,width:'31.5%',alignItems:'center',backgroundColor:'white',marginRight:2}} activeOpacity={.8}>
                   <Image source={require('../images/moda.png')} style={{width:30,height:30,resizeMode:Image.resizeMode.contain,marginTop:18}}/>
                   <Text style={{color:'#1296db',fontSize:18,marginTop:15}}>{v.Addnew}</Text>
             </TouchableOpacity>

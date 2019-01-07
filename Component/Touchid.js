@@ -1,5 +1,5 @@
 import React from 'react';
-import {View,Text,Alert,ToastAndroid,StatusBar} from 'react-native';
+import {View,Text,Alert,ToastAndroid,StatusBar,TouchableOpacity} from 'react-native';
 import TouchID from 'react-native-touch-id';
 import {Switch} from 'antd-mobile-rn';
 import {StackActions, NavigationActions} from 'react-navigation';
@@ -54,7 +54,7 @@ export default class Touch extends React.Component{
         TouchID.authenticate('', optionalConfigObject)
             .then(success => {
                 ToastAndroid.show('指纹录入成功',ToastAndroid.SHORT)
-                setTimeout(()=>this.props.navigation.dispatch(resetAction),1500)
+                setTimeout(()=>this.props.navigation.dispatch(resetAction),2000)
         })
     }
 
@@ -66,13 +66,13 @@ export default class Touch extends React.Component{
     render(){
         return(<View style={{alignItems:'center',position:'relative',width:'100%',height:'100%'}}>
             <StatusBar barStyle='dark-content' />
-            <Text style={{marginTop:StatusBar.currentHeight+10,fontSize:18,marginLeft:5}}>指纹收集，保护重要信息。</Text>
-             <View style={{width:'100%',flexDirection:'row',justifyContent:'flex-end',height:50,alignItems:'center'}}>
+            <Text style={{marginTop:StatusBar.currentHeight+20,fontSize:18,marginLeft:5}}>指纹收集，保护重要信息。</Text>
+             <TouchableOpacity style={{padding:10,width:'100%',flexDirection:'row',justifyContent:'flex-end',height:50,alignItems:'center'}}>
                 <Text style={{marginRight:10,borderColor:'grey',borderRadius:5,borderWidth:1,borderStyle:'solid',textAlign:"center"}} onPress={()=>this.props.navigation.dispatch(resetAction)}>跳过</Text>
-             </View>
+             </TouchableOpacity>
              <View style={{position:'absolute',bottom:10,flexDirection:'row',padding:5,justifyContent:'center',alignItems:'center',height:35}}>
              <Switch checked={this.state.checked} onChange={(e)=>this.onSwitchChange(e)} />
-             <Text>下次不再提示</Text>
+                <Text>下次不再提示</Text>
              </View>
         </View>)
     }

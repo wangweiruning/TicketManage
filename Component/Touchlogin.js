@@ -1,5 +1,5 @@
 import React from 'react';
-import {View,Text,Alert,StatusBar} from 'react-native';
+import {View,Text,Alert,StatusBar,TouchableOpacity} from 'react-native';
 import TouchID from 'react-native-touch-id';
 import {ActivityIndicator,Toast} from 'antd-mobile-rn';
 import {login} from '../api/api';
@@ -97,7 +97,7 @@ export default class Touchlogin extends React.Component{
     render(){
         return(<View style={{position:'relative',flex:1,alignItems:'center'}}>
           <StatusBar barStyle='dark-content' />
-          <Text style={{marginTop:StatusBar.currentHeight+10,fontSize:18,marginLeft:5}}>指纹验证登录，更便捷的登录方式。</Text>
+          <Text style={{marginTop:StatusBar.currentHeight+20,fontSize:18,marginLeft:5}}>指纹验证登录，更便捷的登录方式。</Text>
           {this.state.loading?<View style={{alignItems:'center',top:'75%'}}>
            <View style={{borderRadius:4,
                       borderColor:'rgba(255,255,255,.5)',
@@ -114,12 +114,12 @@ export default class Touchlogin extends React.Component{
               <Text style={{color:'white',fontSize:15,marginTop:20}}>登录中...</Text>
         </View>
         </View>:null}
-        <View style={{padding:5,justifyContent:'center',height:30,alignItems:'center',top:100,borderColor:'grey',borderRadius:10,borderWidth:1,borderStyle:'solid'}}>
-          <Text onPress={()=>this.pressHandler()}>再试一次</Text>
-          </View>
-          <View style={{padding:5,justifyContent:'center',height:30,bottom:10,alignItems:'center',position:'absolute',borderColor:'grey',borderRadius:10,borderWidth:1,borderStyle:'solid'}}>
-          <Text onPress={()=>this.props.navigation.navigate('login')}>更多</Text>
-          </View>
+           <TouchableOpacity style={{padding:10,justifyContent:'center',height:30,alignItems:'center',top:100,borderColor:'grey',borderRadius:10,borderWidth:1,borderStyle:'solid'}}>
+             <Text onPress={()=>this.pressHandler()}>再试一次</Text>
+           </TouchableOpacity>
+           <TouchableOpacity style={{padding:10,justifyContent:'center',height:30,bottom:10,alignItems:'center',position:'absolute',borderColor:'grey',borderRadius:10,borderWidth:1,borderStyle:'solid'}}>
+             <Text onPress={()=>this.props.navigation.navigate('login')}>更多</Text>
+           </TouchableOpacity>
         </View>)
     }
 }

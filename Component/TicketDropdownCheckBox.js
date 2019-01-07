@@ -48,33 +48,23 @@ export default class TicketDropdownCheckBox extends React.Component{
     }
 
     onChanegeTextKeyword(text){
-        this.timeA(text);
-    }
-
-    timeA(text){
-     
-      if(this.time){
-        clearTimeout(this.time)
-      }
-
-      if(!text){
+        if(!text){
             this.setState({
                 SelectData:this.props.SelectData,
             });
             return;
-      }
+        }
 
-      let newData = [];
-      for (var i = 0; i < this.props.SelectData.length; i++) {
+        let newData = [];
+        for (var i = 0; i < this.props.SelectData.length; i++) {
           let ds = this.props.SelectData[i];
           if((ds.realname && ds.realname.indexOf(text)!=-1) || (ds.DepartmentName && ds.DepartmentName.indexOf(text)!=-1)){
             newData.push(ds);
           }
-      }
-      this.setState({
-        SelectData:newData,
-     });
-
+        }
+        this.setState({
+          SelectData:newData,
+        });
       return;
     }
     
@@ -84,7 +74,7 @@ export default class TicketDropdownCheckBox extends React.Component{
         let {color,fontSize} = {...this.props.TextColor}
         return(<View>
             <TouchableOpacity disabled={this.props.isshow} onPress={()=>this.setState({visible:true})}>
-            <View style={{flexDirection:'row',alignItems:'center',...this.props.style,backgroundColor:!this.props.isshow?'#eee':"rgba(0,0,0,.3)"}}>
+            <View style={{flexDirection:'row',alignItems:'center',...this.props.style,backgroundColor:!this.props.isshow?'white':"rgba(0,0,0,.3)"}}>
                         <Text style={{padding:5,paddingLeft:6.5,flex:1,flexDirection:'row',color:color?color:'lightgray',fontSize:fontSize?fontSize:13}}>{
                             this.open()
                         }</Text>
@@ -94,12 +84,14 @@ export default class TicketDropdownCheckBox extends React.Component{
             this.state.visible && <Modal animationType={'slide'} transparent={true} onRequestClose={()=>{this.setState({visible:false,SelectData:this.props.SelectData})
             this.props.open(this.state.activeItem,this.props.leixin,this.props.banzu)}}>
             <View style={{backgroundColor:'#ecf0f1'}}>
-            <View style={{flexDirection:'row',alignItems:'center',borderBottomColor:'lightgray',borderStyle:'solid',borderBottomWidth:1}}>
-            <Image style={{left:5,width:16, height:16}}  source={require('../images/serch.png')}/>
-            <TextInput maxLength={20} multiline={true} autoFocus={false} onChangeText={this.onChanegeTextKeyword.bind(this)}
-                style={{fontSize:13, color: '#999',overflow:'hidden',width:'95%',left:5}}
-                placeholder={"请输入"}
+            <View style={{width:'100%',justifyContent:"center",alignItems:'center',backgroundColor:'white',height:60}}>
+            <View style={{backgroundColor:'#eee',width:'97%',flexDirection:'row',borderRadius:15,alignItems:'center',height:40}}>
+            <Image source={require('../images/search.png')} style={{width:20,height:20,marginLeft:8}}/>
+            <TextInput underlineColorAndroid={'transparent'} multiline={true} autoFocus={false} onChangeText={(e)=>this.onChanegeTextKeyword(e)}
+                style={{fontSize:13, color: '#363434',overflow:'hidden',width:'98%'}}
+                placeholder="请输入"
             />
+            </View>
             </View>
             </View>
                 <FlatList style={{height:100,backgroundColor:'#ecf0f1'}}

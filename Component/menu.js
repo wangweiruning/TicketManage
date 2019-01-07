@@ -3,6 +3,7 @@ import {View,Text,TouchableOpacity,Alert,Image,StatusBar} from 'react-native';
 import MySorage from '../api/storage';
 import TouchID from 'react-native-touch-id';
 import {userlist,historys} from '../api/api';
+import {Switch} from 'antd-mobile-rn';
 import {StackActions, NavigationActions} from 'react-navigation';
 import Topt from './TopTitle';
 
@@ -15,7 +16,7 @@ export default class ToastExample extends React.Component {
       user:'',
       tou:false,
       list:[],
-      realname:''
+      realname:'',
     }
   }
  
@@ -46,24 +47,17 @@ export default class ToastExample extends React.Component {
         bools:ress
       })
      })
-    this.viewDidAppear = this.props.navigation.addListener(
-      'willFocus', async(obj)=>{
-          MySorage._load("seting",(ress) => {
-                  this.setState({
-                    bools:ress
-                  })
-          })
-      }
-  );
-  }
-
-  componentWillUnmount(){
-    this.viewDidAppear.remove();
+  //   this.viewDidAppear = this.props.navigation.addListener(
+  //     'willFocus', async(obj)=>{
+  //         MySorage._load("seting",(ress) => {
+  //                 this.setState({
+  //                   bools:ress
+  //                 })
+  //         })
+  //     }
+  // );
   }
  
-
-
-
   real(){
       let r = this.state.list;
       let y = this.state.user;
@@ -100,6 +94,14 @@ export default class ToastExample extends React.Component {
     }))
 }
 
+    change(e){
+      this.setState({
+        bools:e
+      })
+      MySorage._sava('seting',e)
+      ToastAndroid.show('设置成功',ToastAndroid.SHORT)
+    }
+
 
   reset(routeName="",params={}){
     window.jconfig.info={}
@@ -113,21 +115,50 @@ export default class ToastExample extends React.Component {
 }
 
   render() {
-    return (<View style={{alignItems:'center',width: '100%', height: '100%',position:'relative'}}>
-                 <Topt navigation={this.props.navigation} centerText={'我的'} />
-                <View style={{marginTop:7,width:'95%',height:120,backgroundColor:'white',alignItems:'center',justifyContent:'center',elevation:3,borderRadius:5}}>
-                  <View style={{flexDirection:'row',width:'95%',justifyContent:'center',alignItems:'center'}}>
-                     <Text style={{fontSize:18,color:'#363434'}}>登录名：</Text>
-                     <Text style={{fontSize:18,color:'#1296db',fontWeight:'300'}}>{jconfig.userinfo.user?this.state.realname:'暂无'}</Text>
-                  </View>
+    
+    return (<View style={{alignItems:'center'}}>
+              <Topt navigation={this.props.navigation} centerText={'我的'} />
+                <View style={{width:'100%',height:120,backgroundColor:'#0390e8',alignItems:'center',flexDirection:'row',paddingLeft:10}}>
+                     <View style={{backgroundColor:'green',width:70,height:70,borderRadius:5,overflow:'hidden',justifyContent:'center',alignItems:'center'}}>
+                       <Image source={require('../images/avo.png')} style={{resizeMode:'stretch'}} />
+                     </View>
+                     <Text style={{fontSize:18,color:'white',fontWeight:'300',marginLeft:10}}>{jconfig.userinfo.user?this.state.realname:'暂无'}</Text>
                 </View>
-             <TouchableOpacity style={{flexDirection:'row',marginTop:20,width:'100%',height:50,alignItems:'center',backgroundColor:'white'}} onPress={()=>this.props.navigation.navigate('Seting')}>
-              <Text style={{marginLeft:10,color:'black',flex:1}}>设置</Text>
-              <Image source={require('../images/go1.png')} style={{width:15,height:15}}/>
+            {this.state.tou?<Text style={{marginLeft:10,marginTop:10,color:'grey',fontSize:10}}>本机不支持指纹功能或未开启指纹功能，指纹登录将无法使用</Text>:<Text style={{marginLeft:10,marginTop:10,color:'grey',fontSize:10}}>开启后可以使用指纹进行快捷登录，设置仅对本机生效，如需修改指纹，请在手机系统设置里面操作。</Text>}
+            <View style={{paddingBottom:15,paddingTop:15,marginTop:10,alignItems:'center',flexDirection:'row',width:'100%',backgroundColor:this.state.tou?'#dfdfdf':'white',borderTopColor:"lightgrey",borderBottomColor:'lightgrey',borderTopWidth:1,borderBottomWidth:1,borderStyle:'solid'}}>
+                   <Image source={this.state.tou?require('../images/touch1.png'):require('../images/touch.png')} style={{width:20,height:20,resizeMode:Image.resizeMode.contain,marginLeft:10}}/>
+                   <Text style={{color:this.state.tou?'#f5f5f5':'black',fontSize:18,flex:1,marginLeft:10}}>打开/关闭指纹</Text>
+                   <Switch disabled={this.state.tou} style={{marginRight:10}} checked={this.state.bools} onChange={(e)=>this.change(e)}/>
+            </View>
+             <View style={{marginTop:20,backgroundColor:'white',width:'100%',borderTopColor:"lightgrey",borderBottomColor:'lightgrey',borderTopWidth:1,borderBottomWidth:1,borderStyle:'solid'}}>
+             <TouchableOpacity onPress={()=>this.props.navigation.navigate('Network')} style={{width:'100%',alignItems:'center',flexDirection:'row'}} activeOpacity={.8}>
+                  <View style={{marginLeft:10}}>
+                    <Image source={require('../images/shezhi.png')} style={{width:20,height:20,resizeMode:Image.resizeMode.contain}}/>
+                  </View>
+                  <View style={{flexDirection:'row',width:'90%',alignItems:'center',marginLeft:10,paddingTop:15,paddingBottom:15,borderBottomWidth:1,borderBottomColor:'lightgrey',borderStyle:'solid'}}>
+                   <Text style={{color:'black',fontSize:18,flex:1}}>网络设置</Text>
+                   <Image source={require('../images/go1.png')} style={{marginRight:10,width:15,height:15,resizeMode:Image.resizeMode.contain}}/>
+                  </View>
              </TouchableOpacity>
-             <TouchableOpacity onPress={()=> this.out()} style={{position:'absolute',elevation:2,bottom:30,justifyContent:'center',alignItems:'center',width:'80%',backgroundColor:'#1296db',borderRadius:5,height:40}}>
-               <Text style={{color:'white',fontSize:18,fontWeight:'500'}}>退出系统</Text>
+             <TouchableOpacity onPress={()=>this.props.navigation.navigate('Aboutme')} style={{width:'100%',alignItems:'center',flexDirection:'row'}} activeOpacity={.8}>
+                 <View style={{marginLeft:10}}>
+                   <Image source={require('../images/ours.png')} style={{width:20,height:20,resizeMode:Image.resizeMode.contain}}/>
+                 </View>
+                  <View style={{flexDirection:'row',width:'90%',alignItems:'center',marginLeft:10,paddingTop:15,paddingBottom:15,borderBottomWidth:1,borderBottomColor:'lightgrey',borderStyle:'solid'}}>
+                   <Text style={{color:'black',fontSize:18,flex:1}}>关于我们</Text>
+                   <Image source={require('../images/go1.png')} style={{marginRight:10,width:15,height:15,resizeMode:Image.resizeMode.contain}}/>
+                  </View>
              </TouchableOpacity>
+             <TouchableOpacity onPress={()=> this.out()} style={{width:'100%',alignItems:'center',flexDirection:'row'}} activeOpacity={.5}>
+                  <View style={{marginLeft:10}}>
+                   <Image source={require('../images/out.png')} style={{width:20,height:20,resizeMode:Image.resizeMode.contain}}/>
+                 </View>
+                 <View style={{flexDirection:'row',width:'90%',alignItems:'center',paddingTop:15,paddingBottom:15,marginLeft:10}}>
+                   <Text style={{color:'black',fontSize:18,flex:1}}>退出系统</Text>
+                   <Image source={require('../images/go1.png')} style={{marginRight:10,width:15,height:15,resizeMode:Image.resizeMode.contain}}/>
+                 </View>
+             </TouchableOpacity>
+             </View>
              </View>)
       }
 }

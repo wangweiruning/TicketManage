@@ -150,7 +150,7 @@ onChanegeTextKeyword(text){
                   placeholder={"请输入两票名称"}
               />
               </View>
-              <DatePicker  customStyles={{
+              <DatePicker customStyles={{
                       dateInput: {
                       left:6,
                       justifyContent:'center',
@@ -164,7 +164,7 @@ onChanegeTextKeyword(text){
                       }
                     }}
                     date={this.state.value} 
-                    style={{justifyContent:'center',width:'96%',height:40}}   
+                    style={{marginTop:10,justifyContent:'center',width:'100%',height:40,borderTopColor:"lightgrey",borderBottomColor:'lightgrey',borderTopWidth:1,borderBottomWidth:1,borderStyle:'solid'}}   
                     mode="datetime"        
                     format="YYYY-MM-DD HH:mm"
                     confirmBtnText="确定"

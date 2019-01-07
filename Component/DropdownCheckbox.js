@@ -86,15 +86,6 @@ export default class DropdownCheckbox extends React.Component {
 
 
     onChanegeTextKeyword(text) {
-        this.timeA(text);
-    }
-
-    timeA(text) {
-
-        if (this.time) {
-            clearTimeout(this.time)
-        }
-
         if (!text) {
             this.setState({
                 SelectData: this.props.SelectData,
@@ -111,6 +102,7 @@ export default class DropdownCheckbox extends React.Component {
         this.setState({
             SelectData: newData
         });
+        return
     }
 
 
@@ -133,18 +125,16 @@ export default class DropdownCheckbox extends React.Component {
                     this.setState({ visible: false, SelectData: this.state.SelectData })
                     this.props.open(this.state.activeItem, this.props.leixin, this.props.ParaName)
                 }}>
-                    <View style={{ backgroundColor: '#ecf0f1', }}>
-                        <View style={{ flexDirection: 'row', alignItems: 'center', borderBottomColor: 'lightgray', borderStyle: 'solid', borderBottomWidth: 1 }}>
-                            <Image style={{ left: 5, width: 16, height: 16 }} source={require('../images/serch.png')} />
-                            <TextInput
-                                maxLength={20}
-                                multiline={true}
-                                autoFocus={false}
-                                onChangeText={this.onChanegeTextKeyword.bind(this)}
-                                style={{ fontSize: 13, color: '#999', overflow: 'hidden', width: '95%', left: 5 }}
-                                placeholder={"请输入"}
-                            />
-                        </View>
+                    <View style={{ backgroundColor: '#ecf0f1'}}>
+                    <View style={{width:'100%',justifyContent:"center",alignItems:'center',backgroundColor:'white',height:60}}>
+                    <View style={{backgroundColor:'#eee',width:'97%',flexDirection:'row',borderRadius:15,alignItems:'center',height:40}}>
+                    <Image source={require('../images/search.png')} style={{width:20,height:20,marginLeft:8}}/>
+                    <TextInput underlineColorAndroid={'transparent'} multiline={true} autoFocus={false} onChangeText={(e)=>this.onChanegeTextKeyword(e)}
+                        style={{fontSize:13, color: '#363434',overflow:'hidden',width:'98%'}}
+                        placeholder="请输入"
+                    />
+                    </View>
+                    </View>
                     </View>
                     <FlatList style={{ height: 100, backgroundColor: '#ecf0f1' }}
                         data={this.state.SelectData}

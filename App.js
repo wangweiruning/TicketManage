@@ -25,7 +25,9 @@ import Network from './Component/Network';
 import Networks from './Component/Networks';
 import Touchlogin from './Component/Touchlogin';
 import Touch from './Component/Touchid'
-import Seting from './Component/Seting';
+import Nowapp from './Component/Nowapp';
+import AddNewTT from './Component/AddNewTictetsTow';
+MySorage._getStorage()
 window.jconfig={
   userinfo:{},
   usermsg:{}
@@ -47,23 +49,23 @@ const TabRouteConfigs = { // 表示各个页面路由配置,让导航器知道�
   Home: { // 路由名称
       screen: HomeScreen, // 对应的路由页�?
       navigationOptions: ({ navigation }) => ({
-          tabBarLabel: '两票管理',
+          tabBarLabel: '首页',
           tabBarIcon: ({ focused }) => ( 
               <Image resizeMode = 'contain' source = { focused ? require('./images/whome.png') : require('./images/home.png') } style = { { width: 25, height: 25 } }
               />
           )
       }),
   },
-//   AddNewT: {
-//       screen: AddNewT,
-//       navigationOptions: { // 指定路由页面的配置选项
-//           tabBarLabel: '模板', // 可用作头部标�?headerTitle ，或者Tab标题 tabBarLabel
-//           tabBarIcon: ({ focused }) => ( 
-//               <Image resizeMode = 'contain' source = { focused ? require('./images/moda.png') : require('./images/wmode.png') } style = { { width: 25, height: 25 } }
-//               />
-//           )
-//       },
-//   },
+  AddNewT: {
+      screen: AddNewT,
+      navigationOptions: { // 指定路由页面的配置选项
+          tabBarLabel: '模板', // 可用作头部标�?headerTitle ，或者Tab标题 tabBarLabel
+          tabBarIcon: ({ focused }) => ( 
+              <Image resizeMode = 'contain' source = { focused ? require('./images/nnne.png') : require('./images/wmode.png') } style = { { width: 28, height: 28 } }
+              />
+          )
+      },
+  },
 //   MyTicets: {
 //       screen: MyTicetss,
 //       navigationOptions: { // 指定路由页面的配置选项
@@ -147,12 +149,12 @@ const StackRouteConfigs={
         }
   },
   TicketDetail:{
-      screen:Tdetail,
-      path:'app/TicketDetail',
-      navigationOptions: {
-        header: null,
-        gesturesEnabled: true
-    }
+    screen:Tdetail,
+    path:'app/TicketDetail',
+    navigationOptions: {
+      header: null,
+      gesturesEnabled: true
+  }
   },
   Result:{
     screen:Result,
@@ -226,9 +228,17 @@ const StackRouteConfigs={
       gesturesEnabled: true
   }
   },
-  Seting:{
-    screen:Seting,
-    path:'app/Seting',
+  Nowapp:{
+    screen:Nowapp,
+    path:'app/Nowapp',
+    navigationOptions: {
+      header: null,
+      gesturesEnabled: true
+  }
+  },
+  AddNewTictetsTow:{
+    screen:AddNewTT,
+    path:'app/AddNewTictetsTow',
     navigationOptions: {
       header: null,
       gesturesEnabled: true
@@ -270,12 +280,10 @@ export default class App extends Component {
 
   async componentDidMount () {
     await this.getUserInfo()
-    // await this.getLogin()
 }
 
 
  async componentWillMount(){
-  MySorage._getStorage()
     let d="?code=50ACD07A6C49F3B9E082EF40461AC6D1";
     let ff= await islogin(d);
     if(ff.form.status==0&&window.jconfig.userinfo!=null && !this.navigator.state.nav.routes[0].routeName == "login"){
@@ -325,7 +333,6 @@ export default class App extends Component {
 
 async getUserInfo () {
   try {
-
     MySorage._loadAll(["userinfo","history"],(data)=>{
         let res = data[0];
         let info = data[1];
@@ -339,31 +346,8 @@ async getUserInfo () {
             })
           return this.navigator.dispatch(resetAction);
           }
-    }) 
-
-
-  //   MySorage._load("userinfo", async(res) => {
-  //     console.log("res--->",res);
-  //     if(!res){
-  //       let type = "Touchlogin"
-  //       MySorage._load("history",(ress) => {
-  //         window.config=ress;
-  //         if(!ress)  type ="login";
-  //         let resetAction = StackActions.reset({
-  //           index: 0,
-  //           actions: [NavigationActions.navigate({ routeName:type})],
-  //         })
-  //         return this.navigator.dispatch(resetAction);
-  //       })
-
-  //       // this.navigator.dispatch(resetAction);
-  //       // return
-  //     }
-  //     let info = JSON.parse(res);
-  //     window.jconfig.userinfo=info;
-  //   })
-  // }
-  }catch(e){
+      })
+   }catch(e){
       return
    }
   }
@@ -376,12 +360,8 @@ async getUserInfo () {
   render() {
     return (<React.Fragment>
       <StatusBar backgroundColor={'transparent'} translucent={true} />
-      <Navigators ref={(nav)=>{
-        this.navigator = nav;
-      }} configureScene={(route) => {
-          // return Navigator.SceneConfigs.VerticalDownSwipeJump; // 底部弹出
-    }}
-    onNavigationStateChange={(prevState, newState, action) => {//注册路由改变监听事件
+      <Navigators ref={(nav)=>{this.navigator = nav}}
+      onNavigationStateChange={(prevState, newState, action) => {//注册路由改变监听事件
       if (newState && newState.routes[newState.routes.length - 1].routeName == 'Tab') {//如果当前路由是Home页面，则需要处理安卓物理返回按键。
           current = true;
       } else {
