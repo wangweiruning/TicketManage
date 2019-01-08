@@ -18,7 +18,7 @@ import TicketModel from './Component/TicketModel';
 import TicketFlew from './Component/TicketFlew';
 import Result from './Component/Result';
 import {StackNavigator,TabBarTop,TabNavigator,StackActions,NavigationActions} from "react-navigation";
-import {Image,BackHandler,ToastAndroid,StatusBar,Easing,Animated,Alert,NetInfo} from 'react-native';
+import {Image,StatusBar,Easing,Animated,Alert,NetInfo} from 'react-native';
 import {islogin} from './api/api'
 import Aboutme from './Component/Aboutme';
 import Network from './Component/Network';
@@ -34,16 +34,8 @@ window.jconfig={
 }
 
 window.config={}
-
-var lastBackPressed;
-var current = true;     
+    
 console.disableYellowBox = true;
-// NetInfo.isConnected.fetch().done((isConnected) => {
-//   if(isConnected){}
-//   else{
-//       ToastAndroid.show('网络错误,请检查网络',ToastAndroid.SHORT)
-//     }
-// });
 
 const TabRouteConfigs = { // 表示各个页面路由配置,让导航器知道需要导航的路由对应的页�?
   Home: { // 路由名称
@@ -286,7 +278,7 @@ export default class App extends Component {
  async componentWillMount(){
     let d="?code=50ACD07A6C49F3B9E082EF40461AC6D1";
     let ff= await islogin(d);
-    if(ff.form.status==0&&window.jconfig.userinfo!=null && !this.navigator.state.nav.routes[0].routeName == "login"){
+    if(ff.form.status==0 && !this.navigator.state.nav.routes[0].routeName == "login"){
      return Alert.alert(
             "登录验证",
             "登录数据过期，请重新登录",
@@ -296,43 +288,12 @@ export default class App extends Component {
             {cancelable:false}
           )
           }
-    BackHandler.addEventListener('hardwareBackPress', this.onBackAndroid);
-}
-
-
-  componentWillUnmount() {
-    // NetInfo.removeEventListener('change', this.handleConnectivityChange);
-    BackHandler.removeEventListener('hardwareBackPress', this.onBackAndroid);
   }
 
-  
 
-  // handleConnectivityChange(status) {
-  //   alert('status change:' + status);
-  // //监听第一次改变后, 可以取消监听.或者在componentUnmount中取消监听
-  // NetInfo.removeEventListener('change', this.handleConnectivityChange);
-  // }
 
- onBackAndroid = () => {
-  if (current == true) {//如果是在首页
-      if (lastBackPressed && lastBackPressed + 2000 >= Date.now()) {
-          //最近2秒内按过back键，可以退出应用。
-          BackHandler.exitApp();
-          return false;
-      }
-
-      lastBackPressed = Date.now();
-      ToastAndroid.show('再按一次退出应用', ToastAndroid.SHORT);
-      return true;
-   } else {
-      if (this.props && this.props.navigation) {
-      this.props.navigator.pop();
-   }
-  }
-}
-
-async getUserInfo () {
-  try {
+  async getUserInfo () {
+    try {
     MySorage._loadAll(["userinfo","history"],(data)=>{
         let res = data[0];
         let info = data[1];
@@ -342,7 +303,7 @@ async getUserInfo () {
           if(!info) type ="login"
             let resetAction = StackActions.reset({
               index: 0,
-              actions: [NavigationActions.navigate({ routeName:type})],
+              actions: [NavigationActions.navigate({routeName:type})],
             })
           return this.navigator.dispatch(resetAction);
           }
@@ -360,22 +321,15 @@ async getUserInfo () {
   render() {
     return (<React.Fragment>
       <StatusBar backgroundColor={'transparent'} translucent={true} />
-      <Navigators ref={(nav)=>{this.navigator = nav}}
-      onNavigationStateChange={(prevState, newState, action) => {//注册路由改变监听事件
-      if (newState && newState.routes[newState.routes.length - 1].routeName == 'Tab') {//如果当前路由是Home页面，则需要处理安卓物理返回按键。
-          current = true;
-      } else {
-          current = false;
-      }
-    }}        
-    renderScene={(route, navigator) => {
+      <Navigators ref={(nav)=>{this.navigator = nav}}      
+        renderScene={(route, navigator) => {
         let Component = route.component;
         Component.navigator = navigator;
         if (route.component) {
             return <Component {...route.params} navigator={navigator}/>
-        }
-    }} 
-  />
+         }
+      }} 
+    />
     </React.Fragment>);
   }
 }

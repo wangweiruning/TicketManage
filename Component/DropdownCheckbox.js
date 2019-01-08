@@ -69,12 +69,10 @@ export default class DropdownCheckbox extends React.Component {
             if (display.length > 0) {
                 return display.join(",");
             } else {
-               
                 return "==请选择=="
             }
-
         } else {
-            return '==请选择=='
+            return this.props.isshow?' ':'==请选择=='
         }
     }
 
@@ -113,7 +111,7 @@ export default class DropdownCheckbox extends React.Component {
         return (<View>
             <TouchableOpacity disabled={this.props.isshow} onPress={() => this.setState({ visible: true })}>
 
-                <View style={{ flexDirection: 'row', alignItems: 'center', ...this.props.style, backgroundColor: !this.props.isshow ? "#eee" : "rgba(0,0,0,.3)" }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', ...this.props.style, backgroundColor: !this.props.isshow ? "white" : "rgba(0,0,0,.3)" }}>
                     <Text style={{ padding: 5,paddingLeft:6, flex: 1, flexDirection: 'row', color: color ? color : 'lightgray', fontSize: fontSize ? fontSize : 13 }}>{
                         this.open()
                     }</Text>

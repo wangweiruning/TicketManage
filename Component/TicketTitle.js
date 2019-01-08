@@ -34,10 +34,10 @@ export default class TicketTitle extends React.Component{
                         style={{resizeMode: Image.resizeMode.contain, height: 20, width: 20}}/>
                     <Text style={{color: 'white'}}>返回</Text>
             </TouchableOpacity>
-            <View style={{flex:1,justifyContent: 'center',flexWrap:'wrap'}}>
+            <View style={{flex:1,justifyContent:'center',flexWrap:'wrap',height:38}}>
                 <Text style={{color: 'white',fontSize:16,textAlign:"center"}}>{this.props.centerText}</Text>
             </View>
-            <TouchableOpacity style={{justifyContent:'center',width:60,height:43,marginRight:5}}>
+            <TouchableOpacity style={{justifyContent:'center',width:60,height:38,marginRight:5}}>
             {this.props.numns&&<Text onPress={()=>this.go()} style={{color:'#ffffff'}}>流程查看</Text>}
             </TouchableOpacity>
         </View>

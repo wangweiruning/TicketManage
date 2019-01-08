@@ -1,6 +1,6 @@
 import React from 'react';
 import {TextareaItem, ActivityIndicator } from 'antd-mobile-rn';
-import {View,Text,ScrollView,TouchableOpacity,TextInput,Alert,ToastAndroid,Dimensions,Image,ImageBackground} from 'react-native';
+import {View,Text,ScrollView,TouchableOpacity,TextInput,Alert,ToastAndroid,Dimensions,Image} from 'react-native';
 import ModalDropdown from 'react-native-modal-dropdown';
 import DropdownCheckbox from '../Component/DropdownCheckbox';
 import CheckBox from 'react-native-checkbox';
@@ -22,8 +22,6 @@ import {
     ForDepartment
 } from './../api/api'
 import { StackActions, NavigationActions } from 'react-navigation';
-import { grey } from 'ansi-colors';
-let { width, height } = Dimensions.get('window');
 const resetAction = StackActions.reset({
     index: 0,
     actions: [NavigationActions.navigate({ routeName: 'Tab' })],
@@ -95,21 +93,19 @@ export default class Tdetail extends React.Component {
 
         }
     }
-    onBackClicked = () => {
-        const { navigator } = this.props;
-        if (navigator && navigator.getCurrentRoutes().length > 1) {
-            navigator.pop();
-            return true;//true 表示返回上一页
-        }
-        return false; // 默认false  表示跳出RN
-    }
+
      componentDidMount() {
         this.getCanNotdata();
     }
 
+    componentWillUnmount = () => {
+        this.setState = (state,callback)=>{
+          return;
+        };
+      }
+
     //获取模板列表
     async getCanNotdata() {
-        if (!jconfig.userinfo) return ToastAndroid.show('请登录', ToastAndroid.SHORT);
         var ticketFlowrole = [];//定义该流程所属类型的所有状态角色
         var statusId = "";//定义该流程的状态id
         var roleId = "";//定义登陆用户的角色id
@@ -1010,20 +1006,17 @@ export default class Tdetail extends React.Component {
         let newds = ds!=undefined? ds.split('&$'):[""];
        
         return newds.map((item,qIndex)=>{
-           
-            return (<View style={{width:"100%",}} key={qIndex}>
-            <View style={{width:"100%",flexDirection:"row",backgroundColor:dis?"white":"rgba(0,0,0,.3)",borderTopWidth:!v.IsConfirm==1?0:0.5,borderStyle:"solid",borderTopColor:!v.IsConfirm==1?"transparent":"rgba(255,255,255,0.6)"}}>
-            <View style={{width:v.IsAdd==1 && dis?newds.length==1?"98%":"89%":"98%"}}>
+            return (<View style={{backgroundColor:dis?"white":"rgba(0,0,0,.3)",borderBottomStartRadius:newds.length==qIndex+1?5:0,borderBottomEndRadius:newds.length==qIndex+1?5:0,paddingBottom:v.IsConfirm==1?0:15}} key={qIndex}>
+            <View style={{flexDirection:"row",borderTopWidth:.6,borderStyle:"solid",borderTopColor:"#e9e9ef"}}>
+            <View style={{width:v.IsAdd==1 && dis?newds.length==1?"100%":"89%":"100%"}}>
             <TextareaItem defaultValue={item?item:''} editable={dis} placeholder={dis?"请输入内容...":""} placeholderTextColor="#363434"
-                             onChange={(e)=>{
-                                 newds[qIndex] = e;
+                             onChange={(e)=>{newds[qIndex] = e;
                                  this.state.pagedata[v.TicketParaID+"*1"] = newds.join("&$");
-                                 this.state.newpagedata[v.TicketParaID+"*1"]=newds;
-                             }}
-                             autoHeight last={true}
-                                style={{marginHorizontal:6,paddingHorizontal:0,fontSize:14,paddingRight:4,
-                                backgroundColor:"transparent",
-                                color:'#363434',minWidth:"100%",borderBottomColor:'#e9e9ef',borderBottomWidth:0.5,borderStyle:'solid'}} />
+                                 this.state.newpagedata[v.TicketParaID+"*1"]=newds;}}
+                                 autoHeight last={true}
+                                 style={{marginLeft:7,marginTop:8,borderRadius:5,borderWidth:1,borderStyle:"solid",
+                                 borderColor:'grey',paddingVertical:4,paddingHorizontal:4,padding:0,
+                                 backgroundColor:'transparent',color:'#363434',maxWidth:"96%",width:'96%',borderStyle:'solid'}} />
                                 </View>
                                 {v.IsAdd==1&&dis&&v.ParaTypeID ==6&& <TouchableOpacity onPress={()=>{
                                 this.setState(({pagedata})=>{
@@ -1036,13 +1029,12 @@ export default class Tdetail extends React.Component {
                                     return pagedata;
                                 })
                                 
-                            }} style={{justifyContent:'center',width:newds.length==1?'0%':'11%',alignItems:'center'}}>
+                            }} style={{justifyContent:'center',width:newds.length==1?'0%':'11%',alignItems:'center',paddingTop:5}}>
                                     {newds.length>1&&<Image style={{width:25,top:1,height:25,resizeMode:Image.resizeMode.contain}} source={require('../images/delete.png')}/>}  
                             </TouchableOpacity>
                             }
                             </View>
-                            {v.IsConfirm==1?
-                            <View style={{flexDirection: 'row',backgroundColor:dis ?"white":"rgba(0,0,0,.3)" , padding: 5 }}>
+                            {v.IsConfirm==1?<View style={{flexDirection:'row',padding:5,borderBottomStartRadius:5,borderBottomEndRadius:5,marginTop:5}}>
                                 {v.IsConfirm==1?<CheckBox labelStyle={{color:'#363434'}} checkboxStyle={{width:18,height:18}}
                                                         label={'是否已执行'}
                                                         style={{backgroundColor:'rgba(255,255,255,.1)'}}
@@ -1057,8 +1049,6 @@ export default class Tdetail extends React.Component {
         })
 
     }
-
-
 
     render(){
         return(<View style={{width: '100%', height: '100%'}}>
@@ -1093,7 +1083,7 @@ export default class Tdetail extends React.Component {
                             this.state.templateContents.map((v,i)=>{
                                 let dis = this.ischacked(v.TicketParaID);
                                     
-                            return <View  key={i} style={{marginTop:5,padding:5,alignItems:'center',width:'100%'}}>
+                            return <View  key={i} style={{padding:5,alignItems:'center',width:'100%'}}>
                             <View style={{
                                 width:'98%',
                                 backgroundColor:v.ParaTypeID!="1"?'white':'transparent',
@@ -1105,7 +1095,9 @@ export default class Tdetail extends React.Component {
                                 alignItems:'center',
                                 borderBottomColor:'#e9e9ef',
                                 borderBottomWidth:1,
-                                borderStyle:'solid'
+                                borderStyle:'solid',
+                                borderTopStartRadius:5,
+                                borderTopEndRadius:5,
                                 }}>
                                 <Text style={{fontSize:v.ParaTypeID=='1'?15:13,color:'#363434',left:2,width:"87%",flex:1,flexWrap:'wrap',paddingRight:4}}>{v.ParaName}</Text>
                                 {v.IsAdd==1&&dis&&v.ParaTypeID ==6&& 
@@ -1120,7 +1112,7 @@ export default class Tdetail extends React.Component {
                                         ParaName={v.ParaName}
                                         getDefaultValue={v.ParaName == "班组" ? false : true}
                                         defaultValue={this.getDefaultMore(v.TicketParaID, v.ParaName)}
-                                        style={{ minWidth: '98%' ,height:50}}
+                                        style={{ minWidth:'98%',height:50,borderBottomStartRadius:5,borderBottomEndRadius:5}}
                                         ischanges={this.state.ischanges}
                                         banzu={v.ParaName == "班组"?v.ParaName:" "}
                                         TextColor={{color:'#363434',fontSize:13,backgroundColor:dis?"white":"rgba(0,0,0,.3)"}}
@@ -1131,14 +1123,14 @@ export default class Tdetail extends React.Component {
                                         disabled={!dis}
                                         dropdownTextStyle={{ fontSize: 15 }}
                                         textStyle={{color:'#363434', fontSize: 13,}}
-                                        style={{backgroundColor:dis?"white":"rgba(0,0,0,.3)",
+                                        style={{backgroundColor:dis?"white":"rgba(0,0,0,.3)",borderBottomStartRadius:5,borderBottomEndRadius:5,
                                                 height:50,width:'98%',justifyContent:'center',paddingLeft:6.5}} 
                                         defaultValue={this.getGzryName(v.TicketParaID)}
                                         onSelect={(e, value) => this.getSelect(e, value, v.TicketParaID)}
                                         options={this.BackpageUseName()} />
                                         : v.ParaTypeID == 2 ?
-                                            <View>
-                                                {v.IsConfirm == 1 ? <View style={{ flexDirection: 'column',width:'100%'}}>
+                                            <View style={{backgroundColor:dis?"white":"rgba(0,0,0,.3)",width:'98%',borderBottomStartRadius:5,borderBottomEndRadius:5,paddingBottom:v.IsConfirm == 1?0:15}}>
+                                                {v.IsConfirm == 1 ? <View>
                                                     <TextInput
                                                         multiline={true}
                                                         value={this.getchecked(v.TicketParaID)}
@@ -1146,19 +1138,15 @@ export default class Tdetail extends React.Component {
                                                         underlineColorAndroid="transparent"
                                                         placeholderTextColor="#f5f5f5"
                                                         onChangeText={(values) => this.handleInput(v.TicketParaID, values)}
-                                                        style={{paddingHorizontal:6.5,minWidth:'98%',maxWidth:'98.1%',backgroundColor:dis?"white":"rgba(0,0,0,.3)",color:'#363434'}} />
-                                                    <View style={{ flexDirection: 'row', padding: 5 ,
-                                                    backgroundColor:dis?"white":"rgba(0,0,0,.3)",
-                                                    borderTopColor:"#e9e9ef",borderStyle:"solid",borderTopWidth:0.5,
-                                                    minWidth:'98%'}}>
+                                                        style={{borderRadius:5,paddingHorizontal:6.5,paddingVertical:8,minWidth:'96%',padding:0,maxWidth:'96%',color:'#363434',borderWidth:1,borderColor:'grey',borderStyle:'solid',marginTop:15,marginLeft:6.5}} />
+                                                    <View style={{flexDirection:'row', paddingLeft:5,borderTopColor:"#f5f5f5",borderStyle:"solid",borderTopWidth:.6,minWidth:'98%',marginTop:15,paddingTop:7}}>
                                                         <CheckBox labelStyle={{color:'#363434'}} checkboxStyle={{width:18,height:18}}
                                                             label={'是否已执行'}
                                                             style={{backgroundColor:'rgba(255,255,255,.1)'}}
                                                             checked={this.state.newChecked[v.TicketParaID+"_1"]==1}
                                                             onChange={(e) => dis && this.onChangeTextCheck(v.TicketParaID + '_1', e, dis)}
                                                             underlayColor={"transparent"}
-                                                        ></CheckBox></View></View>
-                                                         : 
+                                                        ></CheckBox></View></View>: 
                                                         <TextInput
                                                         multiline={true}
                                                         value={this.getchecked(v.TicketParaID)}
@@ -1166,9 +1154,8 @@ export default class Tdetail extends React.Component {
                                                         editable={dis} placeholder={dis?"请输入内容...":""}
                                                         placeholderTextColor="#363434"
                                                         onChangeText={(values) => this.handleInput(v.TicketParaID, values)}
-                                                        style={{paddingHorizontal:6.5,minWidth:'98%',maxWidth:'98.1%',backgroundColor:dis?"white":"rgba(0,0,0,.3)",color:'#363434'}} />}
-                                            </View> : v.ParaTypeID == 5
-                                                ?
+                                                        style={{borderRadius:5,paddingVertical:8,paddingHorizontal:6.5,padding:0,minWidth:'96%',maxWidth:'96%',color:'#363434',borderWidth:1,borderColor:'grey',borderStyle:'solid',marginTop:15,marginLeft:6.5}} />}
+                                            </View> : v.ParaTypeID == 5?
                                                 <DatePicker
                                                     customStyles={{
                                                         dateInput: {
@@ -1183,7 +1170,7 @@ export default class Tdetail extends React.Component {
                                                                     color:'#363434'
                                                                 }
                                                 }}  
-                                                    style={{width:'98%',backgroundColor:dis?"white":"rgba(0,0,0,.3)"}}   
+                                                    style={{width:'98%',backgroundColor:dis?"white":"rgba(0,0,0,.3)",borderBottomStartRadius:5,borderBottomEndRadius:5}}   
                                                     date={this.getchecked(v.TicketParaID)}
                                                     mode="datetime"
                                                     format="YYYY-MM-DD HH:mm"
@@ -1192,7 +1179,7 @@ export default class Tdetail extends React.Component {
                                                     showIcon={dis?true:false}
                                                     disabled={!dis}
                                                     minDate={new Date(2015, 1, 1)}
-                                                    placeholder={dis?"请选择时间":""}
+                                                    placeholder={dis?"请选择时间":" "}
                                                     onDateChange={(value) => this.onChange(v.TicketParaID, value)} />
                                                 : v.ParaTypeID == 6 ?
                                                     <View style={{width:"98%"}}>
@@ -1209,7 +1196,7 @@ export default class Tdetail extends React.Component {
                                                                         autoHeight
                                                                         style={{paddingVertical: 5,minWidth:'98%',fontSize:14,
                                                                             backgroundColor:dis?"white":"rgba(0,0,0,.3)",color:'#363434'}} />
-                                                                    {v.IsConfirm == 1 && <View style={{flexDirection:'row', backgroundColor: dis?'white':"rgba(0,0,0,.3)", padding: 5 }}>
+                                                                    {v.IsConfirm == 1 && <View style={{flexDirection:'row', backgroundColor: dis?'white':"rgba(0,0,0,.3)", padding: 5 ,borderBottomStartRadius:5,borderBottomEndRadius:5}}>
                                                                 <CheckBox
                                                                     labelStyle={{color:'#363434'}} checkboxStyle={{width:18,height:18}}
                                                                     label={'是否已执行'}
@@ -1233,7 +1220,7 @@ export default class Tdetail extends React.Component {
                             </View>
                             
                             <View style={{marginTop:5,marginBottom:20,width:'100%',alignItems:'center'}}>
-                            <View style={{width:'96%',backgroundColor:'white',alignItems:'center'}}>
+                            <View style={{width:'96%',backgroundColor:'white',alignItems:'center',borderRadius:5}}>
                                 {this.aggreeall()}
                                 {this.getliuzhuan()}
                                 {this.gotSubmit()}

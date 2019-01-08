@@ -24,7 +24,6 @@ export default class AddNewT extends React.Component{
    async goticket(names,v){
         let j = `?form.tree_node_id=${names}`
         let h = await ttmsTickets(j);
-        console.log(h)
         if(h.form.dataList.length==0){
             return Alert.alert(
                  "提示",

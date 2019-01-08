@@ -5,7 +5,7 @@ import Title from './Title';
 export default class Aboutme extends React.Component{
     render(){
         return(<View style={{width:'100%',height:'100%',alignItems:'center',position:'relative'}}>
-            <Title navigation={this.props.navigation} centerText={'关于我们'}/>
+            <Title navigation={this.props.navigation} centerText={'关于'}/>
             <Image source={require('../images/log.png')} style={{width:90,height:90,marginBottom:30,marginTop:30}}/>
             <View style={{marginTop:20,backgroundColor:'white',width:'100%',borderTopColor:"lightgrey",borderBottomColor:'lightgrey',borderTopWidth:1,borderBottomWidth:1,borderStyle:'solid'}}>
             <View style={{width:'100%',alignItems:'center',flexDirection:'row'}}>

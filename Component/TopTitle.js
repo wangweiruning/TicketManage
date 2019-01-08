@@ -19,9 +19,9 @@ export default class TopT extends React.Component{
             alignItems:'center',
             elevation:this.props.centerText=='我的'?0:3
         }}>
-        {this.props.centerText=='两票管理'&&!this.props.datas&&<ActivityIndicator animating={!this.props.datas?true:false} color="white"/>}
+        {this.props.centerText=='首页'&&!this.props.datas&&<ActivityIndicator size='small' animating={!this.props.datas?true:false} color="white"/>}
         <Text style={{color:'white',fontSize:18,fontWeight:'500'}}>
-             {!this.props.datas&&this.props.centerText=='两票管理'?'数据获取中...':this.props.centerText}
+             {!this.props.datas&&this.props.centerText=='首页'?'数据获取中...':this.props.centerText}
         </Text>
         </View>)
     }

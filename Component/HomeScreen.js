@@ -16,7 +16,7 @@ export default class HomeScreen extends React.Component {
           about:'相关流程',
           history:'历史流程',
           Addnew:'两票模板',
-          network:'网络设置',
+          network:'网络配置',
           aboutme:'关于'
         }
       ],
