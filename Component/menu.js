@@ -1,5 +1,5 @@
 import React from 'react';
-import {View,Text,TouchableOpacity,Alert,Image,StatusBar} from 'react-native';
+import {View,Text,TouchableOpacity,Alert,Image,StatusBar,ToastAndroid} from 'react-native';
 import MySorage from '../api/storage';
 import TouchID from 'react-native-touch-id';
 import {userlist,historys} from '../api/api';
@@ -12,7 +12,7 @@ export default class ToastExample extends React.Component {
   constructor(props){
     super(props)
     this.state={
-      bools:null,
+      bools:false,
       user:'',
       tou:false,
       list:[],
@@ -20,23 +20,21 @@ export default class ToastExample extends React.Component {
     }
   }
  
-       componentWillMount(){
-        TouchID.isSupported().then(biometryType => {
-          // Success code
-        })
-        .catch(error => {
-         // Failure code
-          this.setState({
-            tou:true
-          })
-        });
-        
-       }
+  componentWillMount(){
+    TouchID.isSupported().then(biometryType => {
+    // Success code
+    }).catch(error => {
+    // Failure code
+    this.setState({
+      tou:true
+    })
+   })
+  }
 
- async componentDidMount(){
-    let x =await userlist();
+  async componentDidMount(){
+    let x = await userlist();
     let d = `?form.tree_node_operation=0`;
-    let g =await historys(d);
+    let g = await historys(d);
     this.setState({
       list:x.form.paramAllList,
       user:g.form.userId
@@ -46,7 +44,7 @@ export default class ToastExample extends React.Component {
       this.setState({
         bools:ress
       })
-     })
+    })
   //   this.viewDidAppear = this.props.navigation.addListener(
   //     'willFocus', async(obj)=>{
   //         MySorage._load("seting",(ress) => {
@@ -84,7 +82,7 @@ export default class ToastExample extends React.Component {
   }
 
   resets(routeName="",params={}){
-    window.jconfig.info={}
+    window.jconfig.userinfo={}
     MySorage._remove('userinfo')
     this.props.navigation.dispatch(StackActions.reset({
         index: 0,
@@ -92,19 +90,17 @@ export default class ToastExample extends React.Component {
             NavigationActions.navigate({routeName,params})
         ]
     }))
-}
+   }
 
-    change(e){
-      this.setState({
-        bools:e
-      })
+  change(e){
+      this.setState({bools:e})
       MySorage._sava('seting',e)
       ToastAndroid.show('设置成功',ToastAndroid.SHORT)
-    }
+  }
 
 
   reset(routeName="",params={}){
-    window.jconfig.info={}
+    window.jconfig.userinfo={}
     MySorage._remove('userinfo')
     this.props.navigation.dispatch(StackActions.reset({
         index: 0,
@@ -127,7 +123,7 @@ export default class ToastExample extends React.Component {
             {this.state.tou?<Text style={{marginLeft:10,marginTop:10,color:'grey',fontSize:10}}>本机不支持指纹功能或未开启指纹功能，指纹登录将无法使用</Text>:<Text style={{marginLeft:10,marginTop:10,color:'grey',fontSize:10}}>开启后可以使用指纹进行快捷登录，设置仅对本机生效，如需修改指纹，请在手机系统设置里面操作。</Text>}
             <View style={{paddingBottom:15,paddingTop:15,marginTop:10,alignItems:'center',flexDirection:'row',width:'100%',backgroundColor:'white',borderTopColor:"lightgrey",borderBottomColor:'lightgrey',borderTopWidth:1,borderBottomWidth:1,borderStyle:'solid'}}>
                    <Image source={this.state.tou?require('../images/touch1.png'):require('../images/touch.png')} style={{width:20,height:20,resizeMode:Image.resizeMode.contain,marginLeft:10}}/>
-                   <Text style={{color:this.state.tou?'lightgrey':'black',fontSize:18,flex:1,marginLeft:10}}>打开/关闭指纹</Text>
+                   <Text style={{color:this.state.tou?'lightgrey':'black',fontSize:18,flex:1,marginLeft:10}}>{this.state.bools?'关闭指纹验证':'打开指纹验证'}</Text>
                    <Switch disabled={this.state.tou} style={{marginRight:10}} checked={this.state.bools} onChange={(e)=>this.change(e)}/>
             </View>
              <View style={{marginTop:20,backgroundColor:'white',width:'100%',borderTopColor:"lightgrey",borderBottomColor:'lightgrey',borderTopWidth:1,borderBottomWidth:1,borderStyle:'solid'}}>

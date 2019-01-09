@@ -1,6 +1,7 @@
 import React from 'react';
 import {View,TouchableOpacity,Text,Alert,ToastAndroid,Platform,BackHandler,DeviceEventEmitter,Image,TextInput,StatusBar} from 'react-native';
 import {ActivityIndicator,Toast} from 'antd-mobile-rn';
+
 import {login} from '../api/api';
 import MySorage from '../api/storage';
 import TouchID from 'react-native-touch-id';
@@ -38,6 +39,7 @@ export default class Login extends React.Component{
        }
 
     async componentDidMount () {
+        
         await new Promise((s1, s2) => {
             MySorage._load("history",(ress) => {
                 let infos = ress;
@@ -128,7 +130,7 @@ export default class Login extends React.Component{
         });
 
         }catch(e){
-            Toast.fail("服务器开小差了~~",3,null,true)
+            Toast.fail("服务器出现问题或网络连接异常",3,null,true)
             this.setState({
                 loading:false
             })

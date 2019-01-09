@@ -27,14 +27,17 @@ import Touchlogin from './Component/Touchlogin';
 import Touch from './Component/Touchid'
 import Nowapp from './Component/Nowapp';
 import AddNewTT from './Component/AddNewTictetsTow';
+import TouchID from 'react-native-touch-id';
+import SplashScreen from 'react-native-splash-screen'
 MySorage._getStorage()
 window.jconfig={
-  userinfo:{},
-  usermsg:{}
+  userinfo:{}
 }
 
-window.config={}
-    
+let resetAction = StackActions.reset({
+  index: 0,
+  actions: [NavigationActions.navigate({routeName:'login'})],
+})
 console.disableYellowBox = true;
 
 const TabRouteConfigs = { // 表示各个页面路由配置,让导航器知道需要导航的路由对应的页�?
@@ -269,49 +272,69 @@ const StackNavigatorConfigs={
 const Navigators = StackNavigator(StackRouteConfigs,StackNavigatorConfigs);
 
 export default class App extends Component {
+    constructor(props){
+       super(props)
+       this.state={
+         tou:false
+       }
+     }
 
-  async componentDidMount () {
-    await this.getUserInfo()
-}
+    begin(){
+      SplashScreen.hide()
+    }
 
 
- async componentWillMount(){
-    let d="?code=50ACD07A6C49F3B9E082EF40461AC6D1";
-    let ff= await islogin(d);
-    if(ff.form.status==0 && !this.navigator.state.nav.routes[0].routeName == "login"){
-     return Alert.alert(
-            "登录验证",
-            "登录数据过期，请重新登录",
+    componentDidMount () {
+      setTimeout(()=>this.begin(),1500);
+      TouchID.isSupported().then(biometryType => {
+        // Success code
+        }).catch(error => {
+        // Failure code
+        this.setState({
+          tou:true
+        })
+      })
+
+      this.getUserInfo()
+    }
+
+
+    async componentWillMount(){
+    let d = "?code=50ACD07A6C49F3B9E082EF40461AC6D1";
+    let ff = await islogin(d);
+    if(ff.form.status==0&&window.jconfig.userinfo!=null){
+      return Alert.alert("登录验证","用户信息过期，请重新登录",
             [
-              {text: '去登陆', onPress: () =>{ this.navigator.dispatch(resetAction)}},
+              {text:'去登陆',onPress: () =>{this.navigator.dispatch(resetAction)}},
             ],
             {cancelable:false}
           )
-          }
+      }
   }
 
 
 
   async getUserInfo () {
     try {
-    MySorage._loadAll(["userinfo","history"],(data)=>{
-        let res = data[0];
-        let info = data[1];
-        window.jconfig.userinfo=JSON.parse(res);
-        if (!res) {
-          let type = "Touchlogin"
-          if(!info) type ="login"
-            let resetAction = StackActions.reset({
-              index: 0,
-              actions: [NavigationActions.navigate({routeName:type})],
-            })
-          return this.navigator.dispatch(resetAction);
+          MySorage._loadAll(["userinfo","history"],(data)=>{
+          let res = data[0];
+          let info = data[1];
+          window.jconfig.userinfo=JSON.parse(res);
+          if (!res) {
+            let type = this.state.tou?"login":"Touchlogin"
+            if(!info) type = "login"
+              let resetAction = StackActions.reset({
+                index: 0,
+                actions: [NavigationActions.navigate({routeName:type})],
+              })
+            return this.navigator.dispatch(resetAction);
           }
-      })
-   }catch(e){
-      return
-   }
-  }
+        })
+        }catch(e){
+        return
+       }
+    }
+  
 
 
 
@@ -328,9 +351,9 @@ export default class App extends Component {
         if (route.component) {
             return <Component {...route.params} navigator={navigator}/>
          }
-      }} 
+      }}
     />
-    </React.Fragment>);
+    </React.Fragment>)
   }
 }
 
