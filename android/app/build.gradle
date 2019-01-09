@@ -151,7 +151,7 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation project(':react-native-touch-id')
     implementation project(':react-native-splash-screen')
-    implementation "com.android.support:appcompat-v7:23.0.1"
+    implementation "com.android.support:appcompat-v7:26.1.0"
     implementation "com.facebook.react:react-native:+"  // From node_modules
 }
 
