@@ -28,7 +28,7 @@ import Touch from './Component/Touchid'
 import Nowapp from './Component/Nowapp';
 import AddNewTT from './Component/AddNewTictetsTow';
 import TouchID from 'react-native-touch-id';
-import SplashScreen from 'react-native-splash-screen'
+// import SplashScreen from 'react-native-splash-screen'
 MySorage._getStorage()
 window.jconfig={
   userinfo:{}
@@ -279,13 +279,13 @@ export default class App extends Component {
        }
      }
 
-    begin(){
-      SplashScreen.hide()
-    }
+    // begin(){
+    //   SplashScreen.hide()
+    // }
 
 
     componentDidMount () {
-      setTimeout(()=>this.begin(),1200);
+      // setTimeout(()=>this.begin(),1200);
       TouchID.isSupported().then(biometryType => {
         // Success code
         }).catch(error => {
@@ -303,19 +303,14 @@ export default class App extends Component {
     let d = "?code=50ACD07A6C49F3B9E082EF40461AC6D1";
     let ff = await islogin(d);
     if(ff.form.status==0&&window.jconfig.userinfo!=null&&!this.navigator.state.nav.routes[0].routeName == "login"){
-      return Alert.alert("登录验证","用户信息过期，请重新登录",
-            [
-              {text:'去登陆',onPress: () =>{this.navigator.dispatch(resetAction)}},
-            ],
-            {cancelable:false}
-          )
+      return this.navigator.dispatch(resetAction)
       }
   }
 
 
 
-  async getUserInfo () {
-    try {
+    async getUserInfo () {
+        try {
           MySorage._loadAll(["userinfo","history","seting"],(data)=>{
           let res = data[0];
           let info = data[1];

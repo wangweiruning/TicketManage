@@ -455,12 +455,13 @@ export default class Tdetail extends React.Component{
             "form.recordOption": this.state.stateTr,
             "form.detailInfo": this.state.detailInfo,
             "form.targetFlowId": this.state.roleid,
-            "form.targetUserId":jconfig.userinfo.user,
+            "form.targetUserId":this.state.vvval,
             "form.targetStatusId": this.state.statuss,
             "form.targetFlowRoleId":this.state.more,
             "form.fatherIndex":0,
             "form.sonIndex": -1
         }
+        console.log(data,'sssssssssss')
         var para = "";
         for(var a in data){
         para +=("&"+a+"="+encodeURIComponent(data[a]));
