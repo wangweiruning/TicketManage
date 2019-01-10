@@ -65,13 +65,17 @@ export default class Tdetail extends React.Component{
             isadd:{},
             additem:{},
             datamore:{},
-            arrs:[]
+            arrs:[],
+            more:'',
         }
     }
 
       async componentDidMount(){
-          this.getData();
-          
+          try{
+            this.getData()
+          }catch(e){
+            console.log(e,'sqqqqqqqqqqqqqqqq')
+          }
       }
     
      loading(){
@@ -105,16 +109,14 @@ export default class Tdetail extends React.Component{
         let kjl = `?form.jqgrid_row_selected_id=${e}`;
         let bool = await TicketBasicInfo(kjl);
 
-
         let i = this.props.navigation.state.params.v;
         let ghr = `?form.ticketTypeName=${i}`;
         let good = await searchTicketFlow(ghr);
 
-
-        let black = `?form.flowroleid=${good.form.dataList[0].FlowRoleID}`;
+        let black = `?form.flowroleid=${good.form.fatherList[0].FlowRoleID}`;
         let feel = await editquanxian(black);
 
-        let fate = `?form.roleId=${good.form.dataList[1].ticketroleid}`;
+        let fate = `?form.roleId=${good.form.fatherList[1].ticketroleid}`;
         let zero = await searchUserForRole(fate);
 
         let aa = [];
@@ -145,7 +147,7 @@ export default class Tdetail extends React.Component{
 
           this.setState({pagedata:aaa,getAllTempanyId:getAllTempanyId,isadd:aas})
         let kl = [];
-        let google = good.form.dataList[1].ticketstatusname;
+        let google = good.form.fatherList[1].ticketstatusname;
         kl.push(google)
         let tt;
         feel.form.dataList.map(item=>{
@@ -157,11 +159,12 @@ export default class Tdetail extends React.Component{
             Department:Department.form.dataList,
             userId:userId.form.userId,
             user:zero.form.dataList,
-            monst:good.form.dataList[1].ticketroleid,
-            statuss:good.form.dataList[0].ticketstatusid,
-            roleid:good.form.dataList[1].ticketflowid,
+            monst:good.form.fatherList[1].ticketroleid,
+            statuss:good.form.fatherList[1].ticketstatusid,
+            roleid:good.form.fatherList[1].ticketflowid,
             status:kl,
-            basicInfoId:good.form.dataList[0].FlowRoleID,
+            more:good.form.fatherList[1].FlowRoleID,
+            basicInfoId:good.form.fatherList[0].FlowRoleID,
             flowroleid:bool.form.templateContents[1].FlowRoleID,
             num:x.form.newTicket,
             jax:bool.form.templateContents,
@@ -443,18 +446,21 @@ export default class Tdetail extends React.Component{
     let data = {
             "form.basicInfoId": 0,
             "form.ticketTypeName":this.props.navigation.state.params.v,
-            "form.ticketStatusId": this.state.statuss,
-            "form.ticketNum": this.state.num,
+            // "form.ticketNum": this.state.num,
             "form.templateId": this.props.navigation.state.params.name,
             "form.paraData": JSON.stringify(newpagedata),
             "form.flowroleid": this.state.basicInfoId,
+            "form.flowroleid0":this.state.basicInfoId,
             "form.userId":jconfig.userinfo.user,
             "form.recordOption": this.state.stateTr,
             "form.detailInfo": this.state.detailInfo,
-            "form.nextFlowId": this.state.roleid,
-            "form.nextUserId": this.state.vvval,
+            "form.targetFlowId": this.state.roleid,
+            "form.targetUserId":jconfig.userinfo.user,
+            "form.targetStatusId": this.state.statuss,
+            "form.targetFlowRoleId":this.state.more,
+            "form.fatherIndex":0,
+            "form.sonIndex": -1
         }
-
         var para = "";
         for(var a in data){
         para +=("&"+a+"="+encodeURIComponent(data[a]));
@@ -713,8 +719,8 @@ export default class Tdetail extends React.Component{
                 <View style={{flexDirection:'row',width:'96%',alignItems:'center',paddingBottom:8,paddingTop:8,borderBottomColor:'#e9e9ef',borderStyle:'solid',borderBottomWidth:1}}>
                   <Text style={{left:.5,color:'#363434',flex:1}}>流转状态</Text>
                  {
-                  this.state.status!="" && <ModalDropdown dropdownTextStyle={{fontSize:15}}dropdownStyle={{width:'50%',backgroundColor:'#eee',borderWidth:0,elevation:3}} textStyle={{color:'#363434',fontSize:13}} 
-                  style={{justifyContent:'center'}} defaultValue={this.state.status[0]?this.state.status[0]:'请选择'} options={this.state.status}/>
+                  this.state.status!="" && <ModalDropdown dropdownTextStyle={{fontSize:15}} dropdownStyle={{width:'50%',backgroundColor:'#eee',borderWidth:0,elevation:3}} textStyle={{color:'#363434',fontSize:13}} 
+                  style={{justifyContent:'center'}} defaultValue={'请选择'} options={this.state.status}/>
                  }
                 </View>
                 <View style={{width:'96%',paddingBottom:8,paddingTop:8,borderBottomColor:'#e9e9ef',borderStyle:'solid',borderBottomWidth:1}}>

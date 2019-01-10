@@ -129,7 +129,7 @@ export default class WaitPlan extends React.Component{
   }
 
   render() {
-      let dataLis = this.state.dataLis;
+    let dataLis = this.state.dataLis;
     return (
       <View style={{width: '100%', height: '100%'}}>
         <Title navigation={this.props.navigation} centerText={'待处理流程'} />

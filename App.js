@@ -285,7 +285,7 @@ export default class App extends Component {
 
 
     componentDidMount () {
-      setTimeout(()=>this.begin(),1500);
+      setTimeout(()=>this.begin(),1200);
       TouchID.isSupported().then(biometryType => {
         // Success code
         }).catch(error => {
@@ -302,7 +302,7 @@ export default class App extends Component {
     async componentWillMount(){
     let d = "?code=50ACD07A6C49F3B9E082EF40461AC6D1";
     let ff = await islogin(d);
-    if(ff.form.status==0&&window.jconfig.userinfo!=null){
+    if(ff.form.status==0&&window.jconfig.userinfo!=null&&!this.navigator.state.nav.routes[0].routeName == "login"){
       return Alert.alert("登录验证","用户信息过期，请重新登录",
             [
               {text:'去登陆',onPress: () =>{this.navigator.dispatch(resetAction)}},
@@ -316,13 +316,15 @@ export default class App extends Component {
 
   async getUserInfo () {
     try {
-          MySorage._loadAll(["userinfo","history"],(data)=>{
+          MySorage._loadAll(["userinfo","history","seting"],(data)=>{
           let res = data[0];
           let info = data[1];
+          let touch = data[2];
           window.jconfig.userinfo=JSON.parse(res);
           if (!res) {
             let type = this.state.tou?"login":"Touchlogin"
-            if(!info) type = "login"
+            if(!info) type ="login"
+            else type = touch || touch == null?'login':'Touchlogin'
               let resetAction = StackActions.reset({
                 index: 0,
                 actions: [NavigationActions.navigate({routeName:type})],
