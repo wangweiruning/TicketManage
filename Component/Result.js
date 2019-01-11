@@ -1,27 +1,13 @@
+import { ActivityIndicator, TextareaItem } from 'antd-mobile-rn';
 import React from 'react';
-import {TextareaItem, ActivityIndicator } from 'antd-mobile-rn';
-import {View,Text,ScrollView,TouchableOpacity,TextInput,Alert,ToastAndroid,Dimensions,Image} from 'react-native';
-import ModalDropdown from 'react-native-modal-dropdown';
-import DropdownCheckbox from '../Component/DropdownCheckbox';
+import { Alert, Image, ScrollView, Text, TextInput, ToastAndroid, TouchableOpacity, View } from 'react-native';
 import CheckBox from 'react-native-checkbox';
-import DatePicker from 'react-native-datepicker'
+import DatePicker from 'react-native-datepicker';
+import ModalDropdown from 'react-native-modal-dropdown';
+import { NavigationActions, StackActions } from 'react-navigation';
+import DropdownCheckbox from '../Component/DropdownCheckbox';
+import { AllDepartment, AllMangerUser, editquanxian, ForDepartment, historys, newTiceketNum, searchFlowRecord, searchTicketFlow, searchTicketRecord, searchUserForRole, TicketBasicInfo, tijiao } from './../api/api';
 import TicketTitle from './TicketTitle';
-import {
-    TicketBasicInfo,
-    searchTicketBasicInfo,
-    searchTicketFlow,
-    searchFlowRecord,
-    searchTicketRecord,
-    newTiceketNum,
-    searchUserForRole,
-    editquanxian,
-    AllDepartment,
-    AllMangerUser,
-    historys,
-    tijiao,
-    ForDepartment
-} from './../api/api'
-import { StackActions, NavigationActions } from 'react-navigation';
 const resetAction = StackActions.reset({
     index: 0,
     actions: [NavigationActions.navigate({ routeName: 'Tab' })],
@@ -69,7 +55,7 @@ export default class Tdetail extends React.Component {
             showChecked: {},
             groupName: [],
             chengyuanName: [],
-            newpagedata: { "defaultvalue": 1 },
+            newpagedata: {defaultvalue:'1'},
             isgzfzr: "",
             index: "",
             isBack: "",
@@ -94,7 +80,12 @@ export default class Tdetail extends React.Component {
             FlowRoleID:[],
             ticketFlowList:[] ,//已经经过的流程,
             sonList:[],//子流程
-
+            fatherIndex:-1,//父流程索引
+            sonIndex:-1,//子流程索引
+            arrFuFlowRoleID:[],//父子流程合计FlowRoleID
+            targetFlowId:'',//流转targetFlowId
+            sonstatusid:[],//子流程状态id
+            currentstatusid:'',//获取当前状态id
         }
     }
 
@@ -118,6 +109,8 @@ export default class Tdetail extends React.Component {
         var index = 0;//定义当前状态在所有状态的下标
         var skipFlowId = "";	//获取当前流程能跳转的流程id，0为不能跳转
         var isBack = "";	//获取当前流程是否能回转，1为能回转，0为不能回转
+        var fatherIndex = -1;
+        var sonIndex = -1;
         const { templateID, ticketNum, typeName, departmentid,ticketbasicinfoid } = this.props.navigation.state.params;
         const geturlid = "?form.tree_node_operation=" + 0;
         const result = await historys(geturlid);
@@ -163,7 +156,7 @@ export default class Tdetail extends React.Component {
              }
 
         })
-        console.log(ticketNum,ticketbasicinfoid,liucheng.form.sonList)
+        console.log(newTicket)
         this.setState({
             sonList:liucheng.form.sonList,
             ticketFlowrole: ticketFlowrole,
@@ -178,9 +171,8 @@ export default class Tdetail extends React.Component {
             //     TicketTypeID: TicketTypeID,
             //     statusId: statusId
             // })
-            statusId = liucheng.form.fatherList[1].FlowRoleID;
-            let qwer = liucheng.form.fatherList[1].ticketflowid;
-            statusId1= liucheng.form.fatherList[1].ticketstatusid;
+            
+            let qwer = liucheng.form.fatherList[1].ticketstatusid;
             // 这里需要获取已经经过的流程fl
             const flewFrom = "?form.basicInfoId=" + ticketbasicinfoid;
             const ticket = '?form.ticketNum='+ticketNum;
@@ -189,15 +181,37 @@ export default class Tdetail extends React.Component {
             ticketFlowList = FlowList.form.dataList;//获取当前流程所有状态
             if (ticketFlowList[0].ManageTime) {
                 flowRoleId = ticketFlowList[ticketFlowList.length - 1].FlowRoleID;	//按时间顺序排序，当两票完结或作废时为最后一条
+                statusId = ticketFlowList[ticketFlowList.length - 1].FlowRoleID;
+                statusId1= ticketFlowList[ticketFlowList.length - 1].FlowRoleID;
                
             } else {
                 flowRoleId = ticketFlowList[0].FlowRoleID;	//按时间顺序排序，两票未完成时处理时间为空，排在第一条
-              
+                statusId = ticketFlowList[0].FlowRoleID;
+                statusId1= ticketFlowList[0].FlowRoleID;
             }
+            let fatherList = liucheng.form.fatherList;
+            for(var i = 0; i < fatherList.length; i++){
+				if(fatherList[i].FlowRoleID == flowRoleId){
+					fatherIndex = i;
+					break;
+				}
+            }
+            let sonList = liucheng.form.sonList;
+            
+            // if(fatherIndex==-1){
+            //     for(var i = 0; i < sonList.length; i++){
+            //         if(sonList[i].FlowRoleID == flowRoleId){
+            //             sonIndex = parseInt(sonList[i].ticketrolerank) - 1;
+            //             break;
+            //         }
+            //     }
+            // }
             //将已填写的参数值填入页面
             const TicketRecord = await searchTicketRecord(flewFrom);
             const list = TicketRecord.form.dataList;//获取到票数据内容，等待传入页面
             this.setState({
+                fatherIndex:fatherIndex,
+                // sonIndex:sonIndex,
                 qwer:qwer,
                 statusId: statusId,
                 statusId1:statusId1,
@@ -271,19 +285,81 @@ export default class Tdetail extends React.Component {
                     //设置流转状态及流转目标
                     var nextFlowId = newTicket[index + 1].ticketflowid;//下一个流程id
                     var nextFlow = newTicket[index + 1].ticketstatusname;//
-                    
+                    var FuFlowRoleID = newTicket[index + 1].FlowRoleID;
                     let arr = [nextFlow];
+                    let arrFuFlowRoleID = [FuFlowRoleID];
                     let sons = liucheng.form.sonList;
-                    console.log(newTicket[index].ticketflowid,nextFlowId)
-                    sons.map((item,indexs)=>{
+                    let allFlowId =[newTicket[index + 1].ticketroleid];
+                 
+                    let currentstatusid =newTicket[index + 1].ticketstatusid; //获取当前状态id-----ticketstatusid
+                    let sonstatusid =[currentstatusid];//子流程状态id
+                    
+
+/***
+ * 
+ * 子流程
+ * 
+ * ** */
+                    if(fatherIndex==-1){
+                        for(var i = 0; i < sonList.length; i++){
+                            if(sonList[i].FlowRoleID == flowRoleId){
+                                sonIndex = parseInt(sonList[i].ticketrolerank) - 1;
+                                break;
+                            }
+                        }
+                   
+                    let flowdata = '';
+                    let son_list = [];
+                    let fatherFlowId = '';
+                    sons.map((item,i)=>{
                         if(newTicket[index].ticketflowid==item.fatherid){
+                            flowdata = sons[i];
+                            fatherFlowId = sons[i].fatherid;
                             arr.push(item.ticketstatusname);
+                            arrFuFlowRoleID.push(item.FlowRoleID);
+                            allFlowId.push(item.ticketroleid);
+                            sonstatusid.push(item.FlowRoleID);
                         }
                     })
+                   console.log(sons);
+                    for(var i = 0; i < sons.length; i++){
+                        if(sons[i].ticketflowid == flowdata.ticketflowid){	//同一个子流程下所有流程角色
+                            son_list.push(sons[i]);
+                        }
+                    }
+                    if(son_list.length>0){
+                    if(sonIndex == son_list.length - 1){	//当前流程角色为该子流程的最后一个流程角色时
+                        var ticketRoleId = son_list[0].ticketroleid;
+						for(var i = 0; i < fatherList.length; i++){
+							if(fatherList[i].ticketflowid == fatherFlowId && fatherList[i].ticketroleid == ticketRoleId){	
+                                //获取当前子流程所属主流程的第一个流程角色
+								currentstatusid = fatherList[i].ticketstatusid;
+							}
+						}
+					}else{	//流程流向该子流程的下一个流程角色
+						currentstatusid = son_list[sonIndex + 1].ticketstatusid;
+					}
+                }
+            }else{
+                    if(fatherIndex == fatherList.length - 1){	//当前为最后一个主流程时
+						
+                    }else{	//下一个主流程
+                        currentstatusid = fatherList[fatherIndex + 1].ticketstatusid;
+                        }
+                }
+
+                
+
+
+
 
                     this.setState({
                         nextFlow: arr,
-                        flowRoleId: flowRoleId
+                        flowRoleId: FuFlowRoleID,
+                        arrFuFlowRoleID:arrFuFlowRoleID,//获取所有的targetFlowId值
+                        targetFlowId:arrFuFlowRoleID[0],//设置默认targetFlowId
+                        sonstatusid:sonstatusid,
+                        currentstatusid:currentstatusid
                     })
                     var nextRoleId = newTicket[index + 1].ticketroleid;
                     const dui = "?form.roleId=" + nextRoleId;
@@ -292,7 +368,7 @@ export default class Tdetail extends React.Component {
                     this.setState({
                         nextFlowId: newTicket[index].ticketflowid,
                         searchRole: searchRole.form.dataList,
-                        FlowRoleID:[nextFlowId]
+                        FlowRoleID:allFlowId
                     })
                 }
 
@@ -512,7 +588,8 @@ export default class Tdetail extends React.Component {
                 dropdownStyle={{width:'50%',backgroundColor:'#eee',borderWidth:0,elevation:3}}
                 textStyle={{ color: '#363434', fontSize: 13 }}
                 style={{ justifyContent: 'center' }}
-                defaultValue={arr[0] ? arr[0] : "请选择"}
+                // defaultValue={arr[0] ? arr[0] : "请选择"}
+                defaultValue={"==请选择=="}
                 onSelect={(index, value) => this.changeAgree(index, 1, value)}
                 options={arr} />
         </View>
@@ -582,16 +659,22 @@ export default class Tdetail extends React.Component {
          
             var nextFlow = ticketFlowrole[index + 1].ticketstatusname;//下一个流程状态
             let arr = [nextFlow];
+            var FuFlowRoleID = ticketFlowrole[index + 1].FlowRoleID;
+            let arrFuFlowRoleID = [FuFlowRoleID];
             var nextRoleId = ticketFlowrole[index + 1].ticketroleid;
+            
             let sons = this.state.sonList;
             let ttsid = [ticketFlowrole[index + 1].ticketflowid];
             let roleid = [ticketFlowrole[index + 1].ticketroleid];
+
+            let sonstatusid =[];//子流程状态id
             sons.map((item,indexs)=>{
                 if(ticketFlowrole[index].ticketflowid==item.fatherid){
                     arr.push(item.ticketstatusname);
                     ttsid.push(item.ticketflowid);
                     roleid.push(item.ticketroleid);
-                    console.log(arr,ttsid,roleid,'_________+++++++++')
+                    arrFuFlowRoleID.push(item.FlowRoleID);
+                    sonstatusid.push(item.FlowRoleID);
                 }
                
             })
@@ -601,26 +684,34 @@ export default class Tdetail extends React.Component {
           
             this.state.nextFlowId = tt;
             const searchRole = await searchUserForRole(dui);//获取提交对象
-            console.log(searchRole,"kkkkkkkkkkkkkkk")
+            
             this.setState({
                 nextFlow: arr,
                 searchRole: searchRole.form.dataList,
-                FlowRoleID:[tt],
                 backRoleId:roleid,
+                arrFuFlowRoleID:arrFuFlowRoleID,
+                FlowRoleID:ttsid,
+                sonstatusid:sonstatusid
+
             })
+            // this.forceUpdate();s
         }
     }
     changeAgree = async(index, flag, value) => {
         let arr = [];
         arr.push(value)
-        let ll =  this.state.sonList;
-        ll.findIndex((v)=>{
-            if(value==v.ticketstatusname){
-                this.setState({
-                    xccv:v.FlowRoleID
-                })
-            }
-        })
+        // let ll =  this.state.sonList;
+        // ll.findIndex((v)=>{
+        //     if(value==v.ticketstatusname){
+        //         this.setState({
+        //             xccv:v.FlowRoleID
+        //         })
+        //     }else{
+        //         this.setState({
+        //             xccv:this.state.statusId1
+        //         }) 
+        //     }
+        // })
         if (flag == 0) {//是否同意
             
             if (index == 0) {//同意
@@ -635,14 +726,27 @@ export default class Tdetail extends React.Component {
         }
         
         if(flag==1){//流转状态
-            console.log('2222222222222222222',this.state.backRoleId)
             this.state.searchRole=[];
             let roleid =this.state.backRoleId[index];
                 this.state.nextFlowId = this.state.FlowRoleID[index];
+                console.log(this.state.FlowRoleID,"<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+                var FuFlowRoleID = this.state.arrFuFlowRoleID;
+                this.state.targetFlowId = FuFlowRoleID[index];
+                let statusId="";
+                if(index>0){
+                    statusId = this.state.sonstatusid[index-1];
+                }else{
+                    statusId = this.state.statusId1;
+                }
+                
+                console.log(this.state.FlowRoleID,index,">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
             const dui = "?form.roleId=" + roleid;
             const searchRoles = await searchUserForRole(dui);
             this.setState({
-                searchRole: searchRoles.form.dataList
+                targetFlowId:FuFlowRoleID[index],
+                searchRole: searchRoles.form.dataList,
+                flowRoleId:this.state.FlowRoleID[index],
+                statusId:statusId
             })
         }
 
@@ -671,7 +775,6 @@ export default class Tdetail extends React.Component {
     }
 
     getdefault(datas) {
-console.log(datas,"ggggggggggggggggggggggggggggg")
         let s = {};
         var data = {};
         let newdata = {};
@@ -708,9 +811,9 @@ console.log(datas,"ggggggggggggggggggggggggggggg")
 
     async submitResult() {
 
-        const { newpagedata} = { ...this.state };
+        let newpagedata = this.state.newpagedata==undefined?{defaultValue:1}:this.state.newpagedata;
            
-        
+          console.log(newpagedata,"llllllllllllllllllllllllll")
         for (const key in newpagedata) {
 
                 if (key.slice(key.length - 2, key.length)== "*1") {
@@ -735,27 +838,28 @@ console.log(datas,"ggggggggggggggggggggggggggggg")
                     
                 }
             } 
-        
+    
         if (this.state.vvval || this.state.searchRole.length < 1) {
             let data = {
                 'form.basicInfoId': this.props.navigation.state.params.ticketbasicinfoid,
                 'form.ticketTypeName': this.props.navigation.state.params.typeName,
-                'form.targetStatusId': this.state.statusId1,
+                'form.targetStatusId': this.state.currentstatusid,
                 'form.templateId': this.props.navigation.state.params.templateID,
-                'form.targetFlowRoleId': this.state.flowRoleId,
+                'form.targetFlowRoleId': this.state.targetFlowId,
                 'form.userId': this.props.navigation.state.params.userId,
                 'form.recordOption': this.state.agreeLiuzhuan,
                 'form.detailInfo': this.state.detailinfo,
-                'form.targetFlowId': this.state.qwer,
+                'form.targetFlowId': this.state.flowRoleId,
                 'form.targetUserId': this.state.vvval,
                 "form.paraData": JSON.stringify(newpagedata),
-                "form.fatherIndex":0,
-                "form.sonIndex": -1,
-                "form.flowroleid0":this.state.statusId,
-                "form.flowroleid": this.state.xccv,
+                "form.fatherIndex":this.state.fatherIndex,
+                "form.sonIndex": this.state.sonIndex,
+                "form.flowroleid0":this.state.statusId1,
+                "form.flowroleid": this.state.statusId,
             }
             console.log(data)
             var para = "";
+            return;
             for (var a in data) {
                 para += ("&" + a + "=" + encodeURIComponent(data[a]));
             }
