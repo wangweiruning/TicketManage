@@ -859,7 +859,7 @@ export default class Tdetail extends React.Component {
             }
             console.log(data)
             var para = "";
-            return;
+        
             for (var a in data) {
                 para += ("&" + a + "=" + encodeURIComponent(data[a]));
             }
