@@ -115,8 +115,8 @@ export default class ToastExample extends React.Component {
     return (<View style={{alignItems:'center'}}>
               <Topt navigation={this.props.navigation} centerText={'我的'} />
                 <View style={{width:'100%',height:120,backgroundColor:'#0390e8',alignItems:'center',flexDirection:'row',paddingLeft:10}}>
-                     <View style={{backgroundColor:'green',width:70,height:70,borderRadius:5,overflow:'hidden',justifyContent:'center',alignItems:'center'}}>
-                       <Image source={require('../images/avo.png')} style={{resizeMode:'stretch'}} />
+                     <View style={{width:70,height:70,borderRadius:5,overflow:'hidden',justifyContent:'center',alignItems:'center'}}>
+                       <Image source={require('../images/avo.png')} style={{width:70,height:70}} />
                      </View>
                      <Text style={{fontSize:18,color:'white',fontWeight:'300',marginLeft:10}}>{jconfig.userinfo.user?this.state.realname:'暂无'}</Text>
                 </View>

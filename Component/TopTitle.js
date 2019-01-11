@@ -1,10 +1,24 @@
 import React from 'react';
 import {ActivityIndicator} from 'antd-mobile-rn'
-import {View,Text,StatusBar} from 'react-native';
+import {View,Text,StatusBar,NetInfo} from 'react-native';
 
 export default class TopT extends React.Component{
     constructor(props) {
-        super(props);
+        super(props)
+        this.state={
+            net:true
+        }
+    }
+
+    componentDidMount(){
+        // NetInfo.isConnected.fetch().done((isConnected) => {
+        //     if(isConnected){}
+        //     else{
+        //         this.setState({
+        //             net:false
+        //         })
+        //       }
+        // });
     }
 
     render(){
