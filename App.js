@@ -17,8 +17,8 @@ import MySorage from './api/storage';
 import TicketModel from './Component/TicketModel';
 import TicketFlew from './Component/TicketFlew';
 import Result from './Component/Result';
-import {StackNavigator,TabBarTop,TabNavigator,StackActions,NavigationActions} from "react-navigation";
-import {Image,StatusBar,Easing,Animated,Alert,NetInfo} from 'react-native';
+import {createAppContainer,createStackNavigator,TabBarTop,createTabNavigator,StackActions,NavigationActions,createSwitchNavigator} from "react-navigation";
+import {Image,StatusBar,Easing,Animated,NetInfo} from 'react-native';
 import {islogin} from './api/api'
 import Aboutme from './Component/Aboutme';
 import Network from './Component/Network';
@@ -40,7 +40,7 @@ let resetAction = StackActions.reset({
 })
 console.disableYellowBox = true;
 
-const TabRouteConfigs = { // 表示各个页面路由配置,让导航器知道需要导航的路由对应的页�?
+const RouteConfig = { // 表示各个页面路由配置,让导航器知道需要导航的路由对应的页�?
   Home: { // 路由名称
       screen: HomeScreen, // 对应的路由页�?
       navigationOptions: ({ navigation }) => ({
@@ -82,32 +82,34 @@ const TabRouteConfigs = { // 表示各个页面路由配置,让导航器知道�
       },
   }
 };
-const TabNavigatorConfigs = {
+const TabNavigatorConfig = {
   initialRouteName: 'Home', // 初始显示的Tab对应的页面路由名�?
   tabBarComponent: TabBarTop, // Tab选项卡组件，�?TabBarBottom �?TabBarTop 两个值，在iOS中默认为 TabBarBottom ，在Android中默认为 TabBarTop �?
   tabBarPosition: 'bottom', // 设置选项卡的位置，在顶部或是底部，有'top'�?bottom'可�?
   lazy: true, // 是否懒加载页�?
   header:null,
+  backBehavior: 'none',
   tabBarOptions: {
     indicatorStyle:{backgroundColor:'#0390e8'},
     activeTintColor: "#0390e8",
     inactiveTintColor: "#515151",
     style: {
       backgroundColor: 'white',
-        height:60,
+      height:60,
     },
     labelStyle: {fontSize: 10, marginTop:8},
     IconStyle: {margin: 0},
     showIcon: true,
-    pressOpacity: 1,
+    pressOpacity:1,
     tabStyle: {
         
     }
 } // 在属性TabBarBottom与TabBarTop中有所不同
 };
-const Tab = TabNavigator(TabRouteConfigs, TabNavigatorConfigs);
 
-const StackRouteConfigs={
+const Tab = createTabNavigator(RouteConfig, TabNavigatorConfig);
+
+const RouteConfigs={
   Tab: {
       screen: Tab,
   },
@@ -158,7 +160,7 @@ const StackRouteConfigs={
       header: null,
       gesturesEnabled: true
   }
-},
+  },
   login:{
     screen:Login,
     path:'app/login',
@@ -241,7 +243,9 @@ const StackRouteConfigs={
   }
 };
 
-const StackNavigatorConfigs={
+
+
+const StackNavigatorConfig={
   initialRouteName:'Tab',
   headerMode:'none',
   transitionConfig: () => ({
@@ -269,11 +273,12 @@ const StackNavigatorConfigs={
 })
 };
 
-const Navigators = StackNavigator(StackRouteConfigs,StackNavigatorConfigs);
+const Navigators = createStackNavigator(RouteConfigs,StackNavigatorConfig);
 
 export default class App extends Component {
     constructor(props){
        super(props)
+       this.checklogin();
        this.state={
          tou:false
        }
@@ -298,15 +303,13 @@ export default class App extends Component {
       this.getUserInfo()
     }
 
-
-    async componentWillMount(){
-    let d = "?code=50ACD07A6C49F3B9E082EF40461AC6D1";
-    let ff = await islogin(d);
-    if(ff.form.status==0&&window.jconfig.userinfo!=null&&!this.navigator.state.nav.routes[0].routeName == "login"){
-      return this.navigator.dispatch(resetAction)
-      }
-  }
-
+    async checklogin(){
+      let d = `?code=50ACD07A6C49F3B9E082EF40461AC6D1`;
+      let ff = await islogin(d);
+      if(ff.form.status==0&&window.jconfig.userinfo!=null){
+        return this.navigator.dispatch(resetAction)
+        }
+    }
 
 
     async getUserInfo () {
@@ -331,16 +334,10 @@ export default class App extends Component {
         return
        }
     }
-  
-
-
-
-
-
 
   render() {
     return (<React.Fragment>
-      <StatusBar backgroundColor={'transparent'} translucent={true} />
+      <StatusBar backgroundColor='transparent' translucent={true} />
       <Navigators ref={(nav)=>{this.navigator = nav}}      
         renderScene={(route, navigator) => {
         let Component = route.component;
