@@ -4,11 +4,10 @@ import MySorage from '../api/storage';
 import TouchID from 'react-native-touch-id';
 import {userlist,historys} from '../api/api';
 import {Switch} from 'antd-mobile-rn';
-import {StackActions, NavigationActions} from 'react-navigation';
 import Topt from './TopTitle';
 
 
-export default class ToastExample extends React.Component {
+export default class Me extends React.Component {
   constructor(props){
     super(props)
     this.state={
@@ -72,25 +71,19 @@ export default class ToastExample extends React.Component {
     let boll = this.state.bools;
     let ttt = this.state.tou
     Alert.alert(
-      '','确定退出吗？',
+      '','确认退出吗？',
       [
-       {text:'是',onPress:()=>ttt?this.resets('login'):this.reset(boll?'login':'Touchlogin')},
+       {text:'是',onPress:()=>ttt?this.resets('Auth'):this.reset(boll?'Auth':'Touch')},
        {text:'否',onPress:this.opntion2Selected}
       ],
       {cancelable:false}
-  );
+  )
   }
 
-  resets(routeName="",params={}){
-    window.jconfig.userinfo={}
+  resets(s){
     MySorage._remove('userinfo')
-    this.props.navigation.dispatch(StackActions.reset({
-        index: 0,
-        actions: [
-            NavigationActions.navigate({routeName,params})
-        ]
-    }))
-   }
+    this.props.navigation.navigate(s)
+  }
 
   change(e){
       this.setState({bools:e})
@@ -99,19 +92,12 @@ export default class ToastExample extends React.Component {
   }
 
 
-  reset(routeName="",params={}){
-    window.jconfig.userinfo={}
+  reset(s){
     MySorage._remove('userinfo')
-    this.props.navigation.dispatch(StackActions.reset({
-        index: 0,
-        actions: [
-            NavigationActions.navigate({routeName,params})
-        ]
-    }))
-}
+    this.props.navigation.navigate(s)
+  }
 
   render() {
-    
     return (<View style={{alignItems:'center'}}>
               <Topt navigation={this.props.navigation} centerText={'我的'} />
                 <View style={{width:'100%',height:120,backgroundColor:'#0390e8',alignItems:'center',flexDirection:'row',paddingLeft:10}}>

@@ -17,7 +17,7 @@ import MySorage from './api/storage';
 import TicketModel from './Component/TicketModel';
 import TicketFlew from './Component/TicketFlew';
 import Result from './Component/Result';
-import {createAppContainer,createStackNavigator,TabBarTop,createTabNavigator,StackActions,NavigationActions,createSwitchNavigator} from "react-navigation";
+import {createSwitchNavigator,createStackNavigator,TabBarTop,createTabNavigator,StackActions,NavigationActions} from "react-navigation";
 import {Image,StatusBar,Easing,Animated,NetInfo} from 'react-native';
 import {islogin} from './api/api'
 import Aboutme from './Component/Aboutme';
@@ -25,7 +25,6 @@ import Network from './Component/Network';
 import Networks from './Component/Networks';
 import Touchlogin from './Component/Touchlogin';
 import Touch from './Component/Touchid'
-import Nowapp from './Component/Nowapp';
 import AddNewTT from './Component/AddNewTictetsTow';
 import TouchID from 'react-native-touch-id';
 // import SplashScreen from 'react-native-splash-screen'
@@ -38,7 +37,6 @@ let resetAction = StackActions.reset({
   index: 0,
   actions: [NavigationActions.navigate({routeName:'login'})],
 })
-console.disableYellowBox = true;
 
 const RouteConfig = { // 表示各个页面路由配置,让导航器知道需要导航的路由对应的页�?
   Home: { // 路由名称
@@ -111,7 +109,7 @@ const Tab = createTabNavigator(RouteConfig, TabNavigatorConfig);
 
 const RouteConfigs={
   Tab: {
-      screen: Tab,
+    screen: Tab,
   },
   waitPlan:{
     screen: WaitPlan,
@@ -149,97 +147,89 @@ const RouteConfigs={
     screen:Tdetail,
     path:'app/TicketDetail',
     navigationOptions: {
-      header: null,
-      gesturesEnabled: true
-  }
+            header: null,
+            gesturesEnabled: true
+        }
   },
   Result:{
     screen:Result,
     path:'app/Result',
     navigationOptions: {
-      header: null,
-      gesturesEnabled: true
-  }
+            header: null,
+            gesturesEnabled: true
+        }
   },
   login:{
     screen:Login,
     path:'app/login',
     navigationOptions: {
-      header: null,
-      gesturesEnabled: true
-  }
+            header: null,
+            gesturesEnabled: true
+        }
   },
   TicketModel:{
     screen:TicketModel,
     path:'app/TicketModel',
     navigationOptions: {
-      header: null,
-      gesturesEnabled: true
-  }
+            header: null,
+            gesturesEnabled: true
+        }
   },
   TicketFlew:{
     screen:TicketFlew,
     path:'app/TicketFlew',
     navigationOptions: {
-      header: null,
-      gesturesEnabled: true
-  }
+            header: null,
+            gesturesEnabled: true
+        }
   },
   Aboutme:{
     screen:Aboutme,
     path:'app/Aboutme',
     navigationOptions: {
-      header: null,
-      gesturesEnabled: true
-  }
+            header: null,
+            gesturesEnabled: true
+        }
   },
   Network:{
     screen:Network,
     path:'app/Network',
     navigationOptions: {
-      header: null,
-      gesturesEnabled: true
-  }
+            header: null,
+            gesturesEnabled: true
+        }
   },
   Networks:{
     screen:Networks,
     path:"app/Networks",
     navigationOptions: {
-      header: null,
-      gesturesEnabled: true
-  }
+            header: null,
+            gesturesEnabled: true
+        }
   },
   Touchlogin:{
     screen:Touchlogin,
     path:'app/Touchlogin',
     navigationOptions: {
-      header: null,
-      gesturesEnabled: true
-  }
+            header: null,
+            gesturesEnabled: true
+        }
   },
   Touchid:{
     screen:Touch,
     path:'app/Touchid',
     navigationOptions: {
-      header: null,
-      gesturesEnabled: true
-  }
-  },
-  Nowapp:{
-    screen:Nowapp,
-    path:'app/Nowapp',
-    navigationOptions: {
-      header: null,
-      gesturesEnabled: true
-  }
+            header: null,
+            gesturesEnabled: true
+        }
   },
   AddNewTictetsTow:{
     screen:AddNewTT,
     path:'app/AddNewTictetsTow',
     navigationOptions: {
-      header: null,
-      gesturesEnabled: true
-  }
+            header: null,
+            gesturesEnabled: true
+        }
   }
 };
 
@@ -278,7 +268,6 @@ const Navigators = createStackNavigator(RouteConfigs,StackNavigatorConfig);
 export default class App extends Component {
     constructor(props){
        super(props)
-       this.checklogin();
        this.state={
          tou:false
        }
@@ -287,6 +276,10 @@ export default class App extends Component {
     // begin(){
     //   SplashScreen.hide()
     // }
+    
+    componentWillMount(){
+      this.checklogin();
+    }
 
 
     componentDidMount () {
@@ -337,19 +330,21 @@ export default class App extends Component {
 
   render() {
     return (<React.Fragment>
-      <StatusBar backgroundColor='transparent' translucent={true} />
-      <Navigators ref={(nav)=>{this.navigator = nav}}      
-        renderScene={(route, navigator) => {
-        let Component = route.component;
-        Component.navigator = navigator;
-        if (route.component) {
-            return <Component {...route.params} navigator={navigator}/>
-         }
-      }}
-    />
-    </React.Fragment>)
-  }
+          <StatusBar backgroundColor='transparent' translucent={true} />
+          <Navigators ref={(nav)=>{this.navigator = nav}}     
+            renderScene={(route, navigator) => {
+            let Component = route.component;
+            Component.navigator = navigator;
+            if (route.component) {
+                return <Component {...route.params} navigator={navigator}/>
+                }
+             }}
+           />
+        </React.Fragment>)
+      }
 }
+
+
 
 
 

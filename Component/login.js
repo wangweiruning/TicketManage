@@ -1,7 +1,6 @@
 import React from 'react';
 import {View,TouchableOpacity,Text,Alert,ToastAndroid,Platform,BackHandler,DeviceEventEmitter,Image,TextInput,StatusBar} from 'react-native';
 import {ActivityIndicator,Toast} from 'antd-mobile-rn';
-
 import {login} from '../api/api';
 import MySorage from '../api/storage';
 import TouchID from 'react-native-touch-id';
@@ -9,7 +8,7 @@ import {TextInputLayout} from 'rn-textinputlayout';
 import {StackActions, NavigationActions} from 'react-navigation';
 const resetAction = StackActions.reset({
     index: 0,
-    actions: [NavigationActions.navigate({ routeName: 'Tab' })],
+    actions: [NavigationActions.navigate({ routeName: 'App' })],
 });
 MySorage._getStorage()
 export default class Login extends React.Component{
@@ -63,22 +62,22 @@ export default class Login extends React.Component{
         })
 
             // 添加监听进入登陆页然后禁止用户点击返回键返回主页面
-            this.viewDidAppear = this.props.navigation.addListener(
-                'willFocus',(obj)=>{
-                    if (Platform.OS === 'android') {
-                        BackHandler.addEventListener("hardwareBackPress", this.onBackClicked);
-                    }
-                }
-             );
+            // this.viewDidAppear = this.props.navigation.addListener(
+            //     'willFocus',(obj)=>{
+            //         if (Platform.OS === 'android') {
+            //             BackHandler.addEventListener("hardwareBackPress",this.state.user==''?null:this.onBackClicked);
+            //         }
+            //     }
+            //  );
     
-             // 添加监听登陆页界面被销毁之后恢复返回键的效果
-             this.viewDidAppear1 = this.props.navigation.addListener(
-                'willBlur',(obj)=>{
-                    if (Platform.OS === 'android') {
-                        BackHandler.removeEventListener("hardwareBackPress", this.onBackClicked)
-                    }
-                }
-             );
+            //  // 添加监听登陆页界面被销毁之后恢复返回键的效果
+            //  this.viewDidAppear1 = this.props.navigation.addListener(
+            //     'willBlur',(obj)=>{
+            //         if (Platform.OS === 'android') {
+            //             BackHandler.removeEventListener("hardwareBackPress", this.onBackClicked)
+            //         }
+            //     }
+            //  );
      } 
 
      onBackClicked = () => {
@@ -115,9 +114,9 @@ export default class Login extends React.Component{
             MySorage._sava("userinfo",JSON.stringify(result.form));  
             this.setState({
                 userpass:{data:this.state.user,datag:this.state.pass},
-            })  
-            MySorage._sava("history",this.state.userpass);        
-            !boll&&!ttt?this.props.navigation.navigate('Touchid'):this.props.navigation.dispatch(resetAction)
+            })
+            MySorage._sava("history",this.state.userpass);    
+            !boll&&!ttt?this.props.navigation.navigate('Touchid'):this.props.navigation.navigate('App')
           }
          else{
             Alert.alert('',result.form.targetresult,[{text:'是',onPress:this.opntion2Selected}])
@@ -147,7 +146,7 @@ export default class Login extends React.Component{
 
     render(){
         return(<View style={{position:'relative',flex:1}}>
-        {/* <StatusBar backgroundColor={'transparent'} translucent={true} /> */}
+        <StatusBar backgroundColor={'transparent'} translucent={true} />
         {this.state.loading?<View style={{alignItems:'center',top:'75%'}}>
         <View style={{borderRadius:4,
                       borderColor:'rgba(255,255,255,.5)',

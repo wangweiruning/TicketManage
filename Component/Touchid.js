@@ -9,7 +9,7 @@ const resetAction = StackActions.reset({
     actions: [NavigationActions.navigate({ routeName: 'Tab' })],
 });
 
-export default class Touch extends React.Component{
+export default class Touchid extends React.Component{
     constructor(props){
         super(props)
         this.state={
