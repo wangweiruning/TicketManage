@@ -16,6 +16,7 @@ export default class TicketTitle extends React.Component{
     go(){
         this.props.navigation.navigate('TicketFlew',{basicInfoId:this.props.navigation.state.params.ticketbasicinfoid,
             name:this.props.navigation.state.params.typeName,
+            ticketNum:this.props.navigation.state.params.ticketNum,
             ishistory:this.props.navigation.state.params.ishistory})
     }
     render(){

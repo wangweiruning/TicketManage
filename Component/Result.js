@@ -156,7 +156,7 @@ export default class Tdetail extends React.Component {
              }
 
         })
-        console.log(newTicket)
+        console.log(liucheng.form.sonList,liucheng.form.fatherList)
         this.setState({
             sonList:liucheng.form.sonList,
             ticketFlowrole: ticketFlowrole,
@@ -198,20 +198,12 @@ export default class Tdetail extends React.Component {
             }
             let sonList = liucheng.form.sonList;
             
-            // if(fatherIndex==-1){
-            //     for(var i = 0; i < sonList.length; i++){
-            //         if(sonList[i].FlowRoleID == flowRoleId){
-            //             sonIndex = parseInt(sonList[i].ticketrolerank) - 1;
-            //             break;
-            //         }
-            //     }
-            // }
+          
             //将已填写的参数值填入页面
             const TicketRecord = await searchTicketRecord(flewFrom);
             const list = TicketRecord.form.dataList;//获取到票数据内容，等待传入页面
             this.setState({
                 fatherIndex:fatherIndex,
-                // sonIndex:sonIndex,
                 qwer:qwer,
                 statusId: statusId,
                 statusId1:statusId1,
@@ -294,27 +286,28 @@ export default class Tdetail extends React.Component {
                     let currentstatusid =newTicket[index + 1].ticketstatusid; //获取当前状态id-----ticketstatusid
                     let sonstatusid =[currentstatusid];//子流程状态id
                     
+                    let fatherFlowId = '';
 
 /***
  * 
  * 子流程
  * 
  * ** */
-                    if(fatherIndex==-1){
+                    if(fatherIndex==-1){//子流程时
                         for(var i = 0; i < sonList.length; i++){
                             if(sonList[i].FlowRoleID == flowRoleId){
                                 sonIndex = parseInt(sonList[i].ticketrolerank) - 1;
+                                fatherFlowId = sonList[i].fatherid;
                                 break;
                             }
                         }
                    
                     let flowdata = '';
                     let son_list = [];
-                    let fatherFlowId = '';
                     sons.map((item,i)=>{
                         if(newTicket[index].ticketflowid==item.fatherid){
                             flowdata = sons[i];
-                            fatherFlowId = sons[i].fatherid;
+                            // fatherFlowId = sons[i].fatherid;
                             arr.push(item.ticketstatusname);
                             arrFuFlowRoleID.push(item.FlowRoleID);
                             allFlowId.push(item.ticketroleid);
@@ -323,12 +316,12 @@ export default class Tdetail extends React.Component {
                     })
                    console.log(sons);
                     for(var i = 0; i < sons.length; i++){
-                        if(sons[i].ticketflowid == flowdata.ticketflowid){	//同一个子流程下所有流程角色
+                        if(sons[i].ticketflowid == flowdata.ticketflowid&& item.ticketrolerank == 1){	//同一个子流程下所有流程角色
                             son_list.push(sons[i]);
                         }
                     }
                     if(son_list.length>0){
-                    if(sonIndex == son_list.length - 1){	//当前流程角色为该子流程的最后一个流程角色时
+                    if(sonIndex == son_list.length - 1){	//  
                         var ticketRoleId = son_list[0].ticketroleid;
 						for(var i = 0; i < fatherList.length; i++){
 							if(fatherList[i].ticketflowid == fatherFlowId && fatherList[i].ticketroleid == ticketRoleId){	
@@ -340,7 +333,7 @@ export default class Tdetail extends React.Component {
 						currentstatusid = son_list[sonIndex + 1].ticketstatusid;
 					}
                 }
-            }else{
+            }else{//主流程时
                     if(fatherIndex == fatherList.length - 1){	//当前为最后一个主流程时
 						
                     }else{	//下一个主流程
