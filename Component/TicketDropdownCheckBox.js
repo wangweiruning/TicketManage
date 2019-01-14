@@ -75,7 +75,7 @@ export default class TicketDropdownCheckBox extends React.Component{
         return(<View>
             <TouchableOpacity disabled={this.props.isshow} onPress={()=>this.setState({visible:true})}>
             <View style={{flexDirection:'row',alignItems:'center',...this.props.style,backgroundColor:!this.props.isshow?'white':"rgba(0,0,0,.3)"}}>
-                        <Text style={{padding:5,paddingLeft:6.5,flex:1,flexDirection:'row',color:color?color:'lightgray',fontSize:fontSize?fontSize:13}}>{
+                        <Text style={{paddingTop:5,paddingBottom:5,flexDirection:'row',color:color?color:'lightgray',fontSize:fontSize?fontSize:13}}>{
                             this.open()
                         }</Text>
                     </View>
@@ -83,22 +83,30 @@ export default class TicketDropdownCheckBox extends React.Component{
             {
             this.state.visible && <Modal animationType={'slide'} transparent={true} onRequestClose={()=>{this.setState({visible:false,SelectData:this.props.SelectData})
             this.props.open(this.state.activeItem,this.props.leixin,this.props.banzu)}}>
-            <View style={{backgroundColor:'#ecf0f1'}}>
-            <View style={{width:'100%',justifyContent:"center",alignItems:'center',backgroundColor:'white',height:60}}>
-            <View style={{backgroundColor:'#eee',width:'97%',flexDirection:'row',borderRadius:15,alignItems:'center',height:40}}>
-            <Image source={require('../images/search.png')} style={{width:20,height:20,marginLeft:8}}/>
+            <View style={{backgroundColor:'rgba(0,0,0,.3)',width:'100%',height:'100%'}}>
+            <TouchableOpacity style={{width:'100%',height:'50%'}} onPress={()=>this.setState({visible:false})}></TouchableOpacity>
+            <View style={{width:'100%',backgroundColor:'white',height:'50%'}}>
+            <View style={{flexDirection:'row',padding:7,justifyContent:'flex-end'}}>
+            <Text style={{elevation:3,backgroundColor:'#0390e8',textAlign:'center',width:50,color:'white',borderRadius:5,fontSize:15}} onPress={()=>{
+             this.setState({visible:false,SelectData:this.props.SelectData})
+             this.props.open(this.state.activeItem,this.props.leixin,this.props.banzu)}}>
+             确定
+            </Text>
+            </View>
+            <View style={{width:'100%',height:45,justifyContent:'center',alignItems:'center',backgroundColor:'#0390e8'}}>
+            <View style={{backgroundColor:'rgba(0,0,0,.3)',width:'97%',flexDirection:'row',borderRadius:15,alignItems:'center',height:30}}>
+            <Image source={require('../images/ssserch.png')} style={{width:20,height:20,marginLeft:8}}/>
             <TextInput underlineColorAndroid={'transparent'} multiline={true} autoFocus={false} onChangeText={(e)=>this.onChanegeTextKeyword(e)}
-                style={{fontSize:13, color: '#363434',overflow:'hidden',width:'98%'}}
-                placeholder="请输入"
+                style={{fontSize:13, color: '#f5f5f5',overflow:'hidden',width:'98%',height:'100%',padding:0}}
+                placeholder="请输入" placeholderTextColor='#f5f5f5'
             />
             </View>
             </View>
-            </View>
-                <FlatList style={{height:100,backgroundColor:'#ecf0f1'}}
+            <FlatList style={{height:'100%'}}
                 data = {this.state.SelectData}
                 keyExtractor={(item, index) => index.toString()}
                 renderItem={({item,index}) =>
-                <View key={index} style={{marginLeft:10,marginTop:10,flexDirection:'row',padding:5,width:'95%',height:40,backgroundColor:'white',borderRadius:5}}>
+                <View key={index} style={{marginLeft:10,marginTop:10,flexDirection:'row',padding:5,width:'95%',height:40,borderRadius:5}}>
                 <Checkbox checked={this.state.activeItem[item.userid || item.DepartmentID]}
                 onChange={(e)=>{
                         let s = e.target.checked;
@@ -116,16 +124,10 @@ export default class TicketDropdownCheckBox extends React.Component{
                 <Text style={{width:'100%',left:5,color:'black',fontSize:fontSize?fontSize:18}}>{item.realname || item.DepartmentName}</Text></Checkbox>
                 </View>}
                 />
-                <TouchableOpacity activeOpacity={.7} style={{justifyContent:'center',alignItems:'center',backgroundColor:'#00a6e7',height:50}} 
-                    onPress={()=>{
-                        this.setState({visible:false,SelectData:this.props.SelectData})
-                        this.props.open(this.state.activeItem,this.props.leixin,this.props.banzu)
-                    }}>
-                    <Text style={{fontSize:18,color:'white'}}>确定</Text>
-                </TouchableOpacity>
-            </Modal>
-            }
             </View>
+            </View>
+            </Modal>}
+        </View>
         )
     }
 }

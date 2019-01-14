@@ -17,6 +17,7 @@ import {newTiceketNum,
 
 import TicketDropdownCheckBox from './TicketDropdownCheckBox';
 import CheckBox from 'react-native-checkbox';
+import Modals from './Model'
 import {StackActions, NavigationActions} from 'react-navigation';
 const resetAction = StackActions.reset({
     index: 0,
@@ -74,7 +75,7 @@ export default class Tdetail extends React.Component{
           try{
             this.getData()
           }catch(e){
-            console.log(e,'sqqqqqqqqqqqqqqqq')
+              
           }
       }
     
@@ -146,13 +147,13 @@ export default class Tdetail extends React.Component{
           })
 
           this.setState({pagedata:aaa,getAllTempanyId:getAllTempanyId,isadd:aas})
-        let kl = [];
-        let google = good.form.fatherList[1].ticketstatusname;
-        kl.push(google)
-        let tt;
-        feel.form.dataList.map(item=>{
-                 tt = Object.assign(this.state.newpagedata,{[item.TicketParaID]:item.ParaName=='班组'|| item.ParaName=='班组成员'?null:''});
-            })
+            let kl = [];
+            let google = good.form.fatherList[1].ticketstatusname;
+            kl.push(google)
+            let tt;
+            feel.form.dataList.map(item=>{
+                    tt = Object.assign(this.state.newpagedata,{[item.TicketParaID]:item.ParaName=='班组'|| item.ParaName=='班组成员'?null:''});
+                })
         this.setState({
             ParaId:Team.form.dataList,
             AllManger:AllManger.form.dataList,
@@ -446,7 +447,6 @@ export default class Tdetail extends React.Component{
     let data = {
             "form.basicInfoId": 0,
             "form.ticketTypeName":this.props.navigation.state.params.v,
-            // "form.ticketNum": this.state.num,
             "form.templateId": this.props.navigation.state.params.name,
             "form.paraData": JSON.stringify(newpagedata),
             "form.flowroleid": this.state.basicInfoId,
@@ -461,7 +461,6 @@ export default class Tdetail extends React.Component{
             "form.fatherIndex":0,
             "form.sonIndex": -1
         }
-        console.log(data,'sssssssssss')
         var para = "";
         for(var a in data){
         para +=("&"+a+"="+encodeURIComponent(data[a]));
@@ -559,6 +558,17 @@ export default class Tdetail extends React.Component{
         }
         return this.state.newpagedata[v][qIndex];
     }
+
+    gets(v,s,datalist){
+        let ss ={[datalist]:v.realname};
+        let gh = {[s]:v.userid}
+        let fj = Object.assign(this.state.newpagedata,gh)
+        let data = Object.assign(this.state.pagedata,ss)
+        this.state.pagedata=data;
+        this.state.newpagedata=fj;
+        this.state.isgzfzr=v.realname;
+        this.forceUpdate()
+     }
     
     getTextareaItemByID(v,dis,i){
         let ds = this.state.newpagedata[v.TicketParaID+"*1"] || [""];
@@ -640,20 +650,24 @@ export default class Tdetail extends React.Component{
                {      
                   v.ParaTypeID==4? 
                   <TicketDropdownCheckBox isshow={dis}
-                  open={this.openothers.bind(this)} style={{minWidth:'96%',borderBottomStartRadius:5,borderBottomEndRadius:5,height:50,backgroundColor:dis?"rgba(255,255,255,1)":"rgba(255,255,255,.6)"}} 
+                  open={this.openothers.bind(this)} style={{minWidth:'96%',paddingLeft:6,borderBottomStartRadius:5,borderBottomEndRadius:5,height:50,backgroundColor:dis?"rgba(255,255,255,1)":"rgba(255,255,255,.6)"}} 
                   ischanges={this.state.ischanges}
                   TextColor={{color:'#363434',fontSize:13}} 
                   SelectData={v.ParaName=="班组"?this.state.Department:this.state.ParaId} 
                   banzu={v.ParaName}
                   leixin={getAllTempanyId[i]}/>:v.ParaTypeID==3?
-                  <ModalDropdown dropdownStyle={{width:'50%',backgroundColor:'#eee',borderWidth:0,elevation:3,height:121}}
-                  dropdownTextStyle={{fontSize:15}}
-                  disabled={dis}
-                  textStyle={{color:'#363434',fontSize:13,borderWidth:0}} 
-                  style={{backgroundColor:!dis?"white":"rgba(0,0,0,.3)",borderBottomStartRadius:5,borderBottomEndRadius:5,height:50,width:'96%',justifyContent:'center',paddingLeft:6}}
-                  defaultValue={v.ParaName=="工作负责人"?this.state.isgzfzr?this.state.isgzfzr:"请选择":"请选择"}
-                  onSelect={(e,value)=>this.getSelect(value,'datalist'+i,getAllTempanyId[i])}
-                  options={this.BackpageUseName()}/>:v.ParaTypeID==2?
+                //   <ModalDropdown dropdownStyle={{width:'50%',backgroundColor:'#eee',borderWidth:0,elevation:3,height:121}}
+                //   dropdownTextStyle={{fontSize:15}}
+                //   disabled={dis}
+                //   textStyle={{color:'#363434',fontSize:13,borderWidth:0}} 
+                //   style={{backgroundColor:!dis?"white":"rgba(0,0,0,.3)",borderBottomStartRadius:5,borderBottomEndRadius:5,height:50,width:'96%',justifyContent:'center',paddingLeft:6}}
+                //   defaultValue={v.ParaName=="工作负责人"?this.state.isgzfzr?this.state.isgzfzr:"请选择":"请选择"}
+                //   onSelect={(e,value)=>this.getSelect(value,'datalist'+i,getAllTempanyId[i])}
+                //   options={this.BackpageUseName()}/>
+                  <Modals gets={this.gets.bind(this)} leixin={getAllTempanyId[i]} pagedata={'datalist'+i}
+                  disabled={dis} textStyle={{color:'#363434',fontSize:13}} data={this.state.AllManger}
+                  style={{backgroundColor:!dis?"white":"rgba(0,0,0,.3)",borderBottomStartRadius:5,borderBottomEndRadius:5,height:50,minWidth:'96%',justifyContent:'center',paddingLeft:6}} />
+                  :v.ParaTypeID==2?
                   <View style={{width:'96%',paddingBottom:!dis?8:3,borderBottomStartRadius:5,borderBottomEndRadius:5,backgroundColor:!dis?"white":"rgba(0,0,0,.3)"}}>
                   <TextInput multiline={true} editable={!dis} placeholder={dis?"":"请输入内容..."} underlineColorAndroid="transparent" placeholderTextColor="grey"
                   onChangeText={(v)=>this.handleInput('datalist'+i,v,getAllTempanyId[i])} style={{paddingVertical:10,marginLeft:7,marginTop:8,borderRadius:5,borderWidth:1,borderStyle:"solid",borderColor:'grey',paddingHorizontal:6,width:'96%',padding:0,maxWidth:'96%',color:'#363434'}}/>
@@ -705,6 +719,7 @@ export default class Tdetail extends React.Component{
             }
             )
         }
+        
          <View>
             {this.state.num?<View>
             <View style={{width:'100%',padding:5,justifyContent:'center'}}>
@@ -713,23 +728,23 @@ export default class Tdetail extends React.Component{
             <View style={{marginTop:5,marginBottom:20,width:'100%',alignItems:'center'}}>
                <View style={{width:'96%',backgroundColor:'white',alignItems:'center',borderRadius:5}}>
                 <View style={{flexDirection:'row',width:'96%',alignItems:'center',paddingBottom:8,paddingTop:8,borderBottomColor:'#e9e9ef',borderStyle:'solid',borderBottomWidth:1}}>
-                  <Text style={{left:.5,color:'#363434',flex:1}}>是否同意</Text>
+                  <Text style={{color:'#363434',flex:1}}>是否同意</Text>
                   <ModalDropdown dropdownTextStyle={{fontSize:15}} dropdownStyle={{width:'50%',backgroundColor:'#eee',borderWidth:0,elevation:3}} textStyle={{color:'#363434',fontSize:13}} 
                    style={{justifyContent:'center'}} defaultValue={'同意'} options={['同意']} onSelect={(index,v)=>this.sssgo(index,v)}/>
                 </View>
                 <View style={{flexDirection:'row',width:'96%',alignItems:'center',paddingBottom:8,paddingTop:8,borderBottomColor:'#e9e9ef',borderStyle:'solid',borderBottomWidth:1}}>
-                  <Text style={{left:.5,color:'#363434',flex:1}}>流转状态</Text>
+                  <Text style={{color:'#363434',flex:1}}>流转状态</Text>
                  {
                   this.state.status!="" && <ModalDropdown dropdownTextStyle={{fontSize:15}} dropdownStyle={{width:'50%',backgroundColor:'#eee',borderWidth:0,elevation:3}} textStyle={{color:'#363434',fontSize:13}} 
                   style={{justifyContent:'center'}} defaultValue={'请选择'} options={this.state.status}/>
                  }
                 </View>
                 <View style={{width:'96%',paddingBottom:8,paddingTop:8,borderBottomColor:'#e9e9ef',borderStyle:'solid',borderBottomWidth:1}}>
-                  <Text style={{left:.5,color:'#363434'}}>流转目标</Text>
+                  <Text style={{color:'#363434'}}>流转目标</Text>
                   <TicketDropdownCheckBox style={{minWidth:'96%'}} open={this.open.bind(this)} TextColor={{color:'#363434',fontSize:13}} SelectData={this.state.user}/>
                 </View>
                 <View style={{width:'96%',paddingBottom:8,paddingTop:8}}>
-                  <Text style={{left:.5,color:'#363434'}}>详细意见</Text>
+                  <Text style={{color:'#363434'}}>详细意见</Text>
                   <TextareaItem last={true}  placeholderTextColor="#363434" style={{paddingHorizontal:5,color:"#363434",fontSize:14,minWidth:'95%',backgroundColor:'#eee'}} placeholder="请输入内容..." autoHeight onChangeText={(v)=>this.handleInputs('detailInfo',v)}/>
                 </View>
                </View>
