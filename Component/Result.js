@@ -87,7 +87,8 @@ export default class Tdetail extends React.Component {
             sonstatusid:[],//子流程状态id
             currentstatusid:'',//获取当前状态id
             tickstateid:[],
-            ticketID:''
+            ticketID:'',
+            newarrSon:[],
         }
     }
 
@@ -100,6 +101,218 @@ export default class Tdetail extends React.Component {
           return;
         };
       }
+async getliucheng(){
+    const { templateID, ticketNum, typeName, departmentid,ticketbasicinfoid } = this.props.navigation.state.params;
+		var ticketFlowList = [];//定义当前流程所有状态
+		var fatherIndex = -1;//定义当前状态在主流程中按流程角色排序的下标
+		var sonIndex = -1;//定义当前状态在子流程中按流程角色排序的下标
+		var flowRoleId = "";	//定义流程角色id
+		var basicInfoId = "";
+		var fatherFlowId = "";
+		var allFatherList = [];//定义所有主流程，按流程角色排序
+		var fatherList = [];//定义所有主流程（去除作废），按流程角色排序
+		var sonList = [];//定义所有子流程，按流程角色排序
+		var son_list = [];//定义当前子流程的所有流程角色，按流程角色排序
+		var flowdata = {};//定义当前流程的详细信息对象
+		var cur_FlowRole = [];//定义当前为主流程流向子流程时当前信息转化的对象数组
+		var target_FlowRole = [];//定义当前为主流程流向子流程时的目标流程信息对象数组
+		
+		//定义正常流转时下一个流程相关信息
+		var nextFlowId = "";
+		var nextStatusId = "";
+		var nextStatusName = "";
+		var nextFlowRoleId = "";
+		var nextRoleId = "";
+		isAlter=1;
+		// var ticketbasicinfoid=ticketbasicinfoid;
+		
+		//获取该类型的父级和子集流程（父级去除作废）
+				allFatherList = this.state.allFlowRole;
+				sonList = this.state.sonList;
+				//去除作废流程
+				for(var i = 0; i < allFatherList.length; i ++){
+					if(allFatherList[i].ticketstatusname != "作废"){
+						fatherList.push(allFatherList[i]);
+                    }
+                    console.log("fatherList>>>>>>>>>",fatherList)
+				}
+			
+	
+		
+		if(ticketNum){	//已有两票编号
+                    var ticketFlowdata = this.state.ticketFlowList;
+					basicInfoId = ticketFlowdata[0].TicketBasicInfoID;
+					ticketFlowList = ticketFlowdata;
+					if(ticketFlowList[0].ManageTime){
+						flowRoleId = ticketFlowList[ticketFlowList.length - 1].FlowRoleID;	//按时间顺序排序，当两票完结或作废时为最后一条
+						flowRoleId0 = ticketFlowList[ticketFlowList.length - 1].FlowRoleID;
+						flag_over = true;
+					}else{
+						flowRoleId = ticketFlowList[0].FlowRoleID;	//按时间顺序排序，两票未完成时处理时间为空，排在第一条
+						flowRoleId0 = ticketFlowList[0].FlowRoleID;
+                    }
+                    
+			for(var i = 0; i < fatherList.length; i++){
+				if(fatherList[i].FlowRoleID == flowRoleId){
+					fatherIndex = i;
+					break;
+				}
+			}
+            
+            
+			//从记录表中获取已流过流程的所有参数及参数值
+				record_list = this.state.listdatas;
+				
+			if(fatherIndex == -1){	//当前流程为子流程时
+				var son_flowId = "";
+				for(var i = 0; i < sonList.length; i++){
+					if(sonList[i].FlowRoleID == flowRoleId){
+						flowdata = sonList[i];
+						sonIndex = parseInt(sonList[i].ticketrolerank) - 1;
+						fatherFlowId = sonList[i].fatherid;
+						son_flowId = sonList[i].ticketflowid;
+						break;
+					}
+				}
+				for(var i = 0; i < sonList.length; i++){
+					if(sonList[i].ticketflowid == flowdata.ticketflowid){	//同一个子流程下所有流程角色
+						son_list.push(sonList[i]);
+					}
+				}
+
+				
+			
+				if(isAlter == 1){
+					//设置流转状态及流转目标
+					if(sonIndex == son_list.length - 1){	//当前流程角色为该子流程的最后一个流程角色时
+						var ticketRoleId = son_list[0].ticketroleid;
+						for(var i = 0; i < fatherList.length; i++){
+							if(fatherList[i].ticketflowid == fatherFlowId && fatherList[i].ticketroleid == ticketRoleId){	//获取当前子流程所属主流程的第一个流程角色
+								nextFlowId = fatherList[i].ticketflowid;
+								nextStatusId = fatherList[i].ticketstatusid;
+								nextStatusName = fatherList[i].ticketstatusname;
+								nextFlowRoleId = fatherList[i].FlowRoleID;
+								nextRoleId = fatherList[i].ticketroleid;
+							}
+						}
+					}else{	//流程流向该子流程的下一个流程角色
+						nextFlowId = son_list[sonIndex + 1].ticketflowid;
+						nextStatusId = son_list[sonIndex + 1].ticketstatusid;
+						nextStatusName = son_list[sonIndex + 1].ticketstatusname;
+						nextFlowRoleId = son_list[sonIndex + 1].FlowRoleID;
+						nextRoleId = son_list[sonIndex + 1].ticketroleid;
+					}
+					console.log(1111111111111111)
+                    console.log('<option value="' + nextFlowId + '" nextstatusid="' + nextStatusId + '" nextflowroleid="' + nextFlowRoleId + '" nextroleid="' + nextRoleId + '">' + nextStatusName + '</option>');
+                   
+                    let nextStatusNamedarr= [nextStatusName];//获取下一个状态名字
+                        let nextFlowIdarr = [nextFlowId];
+                        let nextStatusIdarr= [nextStatusId];
+                        let nextFlowRoleIdarr = [nextFlowRoleId];
+                        let nextRoleIdarr = [nextRoleId];    
+                        this.setState({
+                            nextFlowarr:nextStatusNamedarr,
+                            nextFlowIdarr:nextFlowIdarr,
+                            nextStatusIdarr:nextStatusIdarr,
+                            nextFlowRoleIdarr:nextFlowRoleIdarr,
+                            nextRoleIdarr:nextRoleIdarr
+                        })
+
+					
+				}
+				
+            }else{	//当前流程为主流程时
+                console.log(2222222222)
+				flowdata = fatherList[fatherIndex];
+				
+				for(var i = 0; i < sonList.length; i++){
+					if(sonList[i].fatherid == flowdata.ticketflowid && sonList[i].ticketrolerank == 1 && sonList[i].ticketroleid == flowdata.ticketroleid){
+						// editFlowRoleIds += "," + sonList[i].FlowRoleID;
+						var curFlowMap = {
+								"son_flowid": sonList[i].ticketflowid,
+								"son_firstflowroleid": sonList[i].FlowRoleID,
+								"son_statusid": sonList[i].ticketstatusid,
+								"son_statusname": sonList[i].ticketstatusname,
+								"son_roleid": sonList[i].ticketroleid,
+								"son_fatherflowid": flowdata.ticketroleid
+						};
+						cur_FlowRole.push(curFlowMap);
+					}
+				}
+				
+				for(var i = 0; i < cur_FlowRole.length; i++){
+					var sameFlow = [];
+					for(var j = 0; j < sonList.length; j++){
+						if(sonList[j].fatherid == flowdata.ticketflowid && sonList[j].ticketflowid == cur_FlowRole[i].son_flowid){
+							sameFlow.push(sonList[j]);
+						}
+					}
+					
+					var tarFlowMap = {};
+					if(sameFlow.length > 1){
+						tarFlowMap = {
+								"target_flowid": sameFlow[1].ticketflowid,
+								"target_flowroleid": sameFlow[1].FlowRoleID,
+								"target_statusid": sameFlow[1].ticketstatusid,
+								"target_statusname": sameFlow[1].ticketstatusname,
+								"target_roleid": sameFlow[1].ticketroleid,
+						};
+					}else if(sameFlow.length == 1){
+						tarFlowMap = {
+								"target_flowid": flowdata.ticketflowid,
+								"target_flowroleid": flowdata.FlowRoleID,
+								"target_statusid": flowdata.ticketstatusid,
+								"target_statusname": flowdata.ticketstatusname,
+								"target_roleid": flowdata.ticketroleid,
+						};
+					}
+					target_FlowRole.push(tarFlowMap);
+				}
+				
+				console.log(6666666666666)
+				
+				if(isAlter == 1){
+					//设置流转状态及流转目标
+					if(fatherIndex == fatherList.length - 1){	//当前为最后一个主流程时
+						console.log('gggggg')
+					}else{	//下一个主流程
+						nextFlowId = fatherList[fatherIndex + 1].ticketflowid;//FlowId
+						nextStatusId = fatherList[fatherIndex + 1].ticketstatusid;//statusid
+						nextStatusName = fatherList[fatherIndex + 1].ticketstatusname;//statusname
+						nextFlowRoleId = fatherList[fatherIndex + 1].FlowRoleID;//FlowRoleId
+                        nextRoleId = fatherList[fatherIndex + 1].ticketroleid;
+
+                        let nextStatusNamedarr= [nextStatusName];//获取下一个状态名字
+                        let nextFlowIdarr = [nextFlowId];
+                        let nextStatusIdarr= [nextStatusId];
+                        let nextFlowRoleIdarr = [nextFlowRoleId];
+                        let nextRoleIdarr = [nextRoleId];
+                        console.log(cur_FlowRole)
+                        cur_FlowRole.map(item=>{
+                            nextStatusNamedarr.push(item.son_statusname);
+                            nextFlowIdarr.push(item.son_flowid);
+                            nextStatusIdarr.push(item.son_statusid);
+                            nextFlowRoleIdarr.push(item.son_flowid);
+                            nextRoleIdarr.push(item.son_firstflowroleid)
+                        })
+
+                        this.setState({
+                            nextFlowarr:nextStatusNamedarr,
+                            nextFlowIdarr:nextFlowIdarr,
+                            nextStatusIdarr:nextStatusIdarr,
+                            nextFlowRoleIdarr:nextFlowRoleIdarr,
+                            nextRoleIdarr:nextRoleIdarr
+                        })
+
+					}
+                }
+				
+			}
+			
+			
+        }
+}
+
 
     //获取模板列表
     async getCanNotdata() {
@@ -283,6 +496,7 @@ export default class Tdetail extends React.Component {
                     let fatherFlowId = '';
                     let arrsons=[];
                     let arrsonsTy=[];
+                    let newarrSon = [currentstatusid];
                     for(let ty=0;ty<sons.length;ty++){
                         var newTrue=true;
                         var True1=false;
@@ -294,10 +508,11 @@ export default class Tdetail extends React.Component {
                             }
                         }
                         if(newTrue){
-                            console.log("sons--->",sons[ty]);
+                            console.log("sons--->",sons[ty+1]);
                         }else{
                             arrsonsTy.push(ty);
                             // arrsons.push(sons[ty]);
+                        
                             continue;
                         }
 
@@ -305,66 +520,77 @@ export default class Tdetail extends React.Component {
                     for(let nety=0;nety<arrsonsTy.length;nety++){
                         if(nety==0){
                             arrsons.push(sons[nety]);
+                            newarrSon.push(sons[nety+1].FlowRoleID);
                         }else{
                             arrsons.push(sons[arrsonsTy[nety-1]+1]);
+                            // let ss = sons[arrsonsTy[nety-1]+2].FlowRoleID;
+                            if(sons[arrsonsTy[nety-1]+2]){
+                                newarrSon.push(sons[arrsonsTy[nety-1]+2].FlowRoleID);
+                            }
                         }
                     }
-                    console.log("arrsonsds123455---->",arrsons);
+                    console.log("arrsonsds123455---->",newarrSon);
 
 /***
  * 
  * 子流程
  * 
  * ** */
-                    if(fatherIndex==-1){//子流程时
-                        for(var i = 0; i < sonList.length; i++){
-                            if(sonList[i].FlowRoleID == flowRoleId){
-                                sonIndex = parseInt(sonList[i].ticketrolerank) - 1;
-                                fatherFlowId = sonList[i].fatherid;
-                                break;
-                            }
-                        }
-                   
-                    let flowdata = '';
-                    let son_list = [];
-                    let sons = arrsons;
-                    sons.map((item,i)=>{
-                        if(newTicket[index].ticketflowid==item.fatherid){
-                            flowdata = sons[i];
-                            //fatherFlowId = sons[i].fatherid;
-                            arr.push(item.ticketstatusname);
-                            arrFuFlowRoleID.push(item.FlowRoleID);
-                            allFlowId.push(item.ticketroleid);
-                            sonstatusid.push(item.FlowRoleID);
-                        }
-                    })
-                   console.log(sons);
-                    for(var i = 0; i < sons.length; i++){
-                        if(sons[i].ticketflowid == flowdata.ticketflowid&& item.ticketrolerank == 1){	//同一个子流程下所有流程角色
-                            son_list.push(sons[i]);
-                        }
-                    }
-                    if(son_list.length>0){
-                    if(sonIndex == son_list.length - 1){	//  
-                        var ticketRoleId = son_list[0].ticketroleid;
-						for(var i = 0; i < fatherList.length; i++){
-							if(fatherList[i].ticketflowid == fatherFlowId && fatherList[i].ticketroleid == ticketRoleId){	
-                                //获取当前子流程所属主流程的第一个流程角色
-								currentstatusid = fatherList[i].ticketstatusid;
-							}
-						}
-					}else{	//流程流向该子流程的下一个流程角色
-						currentstatusid = son_list[sonIndex + 1].ticketstatusid;
-					}
-                }
-            }else{//主流程时
-                    if(fatherIndex == fatherList.length - 1){	//当前为最后一个主流程时
+            //     if(fatherIndex==-1){//子流程时
+            //             for(var i = 0; i < sonList.length; i++){
+            //                 if(sonList[i].FlowRoleID == flowRoleId){
+            //                     sonIndex = parseInt(sonList[i].ticketrolerank) - 1;
+            //                     fatherFlowId = sonList[i].fatherid;
+            //                     break;
+            //                 }
+            //             }
+            //         let flowdata = '';
+            //         let son_list = [];
+            //         let sons = sonList;
+            //         sons.map((item,i)=>{
+            //             if(fatherFlowId==item.fatherid){
+            //                 flowdata = sons[i];
+            //                 //fatherFlowId = sons[i].fatherid;
+            //                 arr.push(item.ticketstatusname);
+            //                 arrFuFlowRoleID.push(item.FlowRoleID);
+            //                 allFlowId.push(item.ticketroleid);
+            //                 sonstatusid.push(item.FlowRoleID);
+            //             }
+            //         })
+            //         for(var i = 0; i < sons.length; i++){
+            //             console.log(sons[i].ticketflowid == flowdata.ticketflowid);
+            //             if(sons[i].ticketflowid == flowdata.ticketflowid){	//同一个子流程下所有流程角色
+            //                 son_list.push(sons[i]);
+            //             }
+            //         }
+            //         if(son_list.length>0){
+            //         if(sonIndex == son_list.length - 1){	//
+            //             console.log(6)  
+            //             var ticketRoleId = son_list[0].ticketroleid;
+			// 			for(var i = 0; i < fatherList.length; i++){
+			// 				if(fatherList[i].ticketflowid == fatherFlowId && fatherList[i].ticketroleid == ticketRoleId){	
+            //                     //获取当前子流程所属主流程的第一个流程角色
+            //                     currentstatusid = fatherList[i].ticketstatusid;
+            //                     newarrSon.push(fatherList[i].ticketstatusid);
+            //                     console.log("sssfather---->",fatherList[i])
+			// 				}
+			// 			}
+			// 		}else{	//流程流向该子流程的下一个流程角色
+            //             console.log("sss---->",son_list,"sonIndex--->",sonIndex)
+            //             currentstatusid = son_list[sonIndex + 1].ticketstatusid;
+			// 		}
+            //         console.log(8)  
+            //     }
+            // }else{//主流程时
+            //     flowdata = fatherList[fatherIndex];
+            //     console.log(flowdata,"/////////////////////////////")
+            //     console.log("newfather---->",fatherList[fatherIndex + 1])
+            //         if(fatherIndex == fatherList.length - 1){	//当前为最后一个主流程时
 						
-                    }else{	//下一个主流程
-                        currentstatusid = fatherList[fatherIndex + 1].ticketstatusid;
-                        }
-                }
-
+            //         }else{	//下一个主流程
+            //             currentstatusid = fatherList[fatherIndex + 1].ticketstatusid;
+            //             }
+            //     }
                 
 
 
@@ -376,7 +602,8 @@ export default class Tdetail extends React.Component {
                         arrFuFlowRoleID:arrFuFlowRoleID,//获取所有的targetFlowId值
                         targetFlowId:arrFuFlowRoleID[0],//设置默认targetFlowId
                         sonstatusid:sonstatusid,
-                        currentstatusid:currentstatusid
+                        currentstatusid:currentstatusid,
+                        newarrSon:newarrSon
                     })
                     var nextRoleId = newTicket[index + 1].ticketroleid;
                     const dui = "?form.roleId=" + nextRoleId;
@@ -410,7 +637,10 @@ export default class Tdetail extends React.Component {
         }
         setTimeout(()=>ToastAndroid.show("加载完毕", ToastAndroid.SHORT))
         this.setState({ mengCard: false })
-        this.getSubdata(this.state.index, this.state.ticketFlowrole)
+        // this.getSubdata(this.state.index, this.state.ticketFlowrole);
+
+        
+        this.getliucheng();
     }
     getSelect(e, value, datalist) {
         let s = { [datalist]: [value] };
@@ -597,6 +827,7 @@ export default class Tdetail extends React.Component {
     }
     getliuzhuan = () => {
         let arr = this.state.nextFlow;
+        
         this.state.showPage.isflew = arr[0];
         return <View style={{ flexDirection: 'row', width: '96%',
         alignItems: 'center', paddingBottom: 8, paddingRight: 8, paddingTop: 8,borderBottomColor:'#e9e9ef',borderStyle:'solid',borderBottomWidth:1 }}>
@@ -605,7 +836,7 @@ export default class Tdetail extends React.Component {
                 dropdownStyle={{width:'50%',backgroundColor:'#eee',borderWidth:0,elevation:3}}
                 textStyle={{ color: '#363434', fontSize: 13 }}
                 style={{ justifyContent: 'center' }}
-                // defaultValue={arr[0] ? arr[0] : "请选择"}
+                defaultValue={arr[0] ? arr[0] : "请选择"}
                 defaultValue={"==请选择=="}
                 onSelect={(index, value) => this.changeAgree(index, 1, value)}
                 options={arr} />
@@ -659,7 +890,6 @@ export default class Tdetail extends React.Component {
 
     async getSubdata(index, ticketFlowrole) {
 
-
         let ticketFlowList = this.state.ticketFlowList;//获取经过的流程
         let flowRoleId = '';
         if (ticketFlowList[0].ManageTime) {
@@ -684,35 +914,55 @@ export default class Tdetail extends React.Component {
             let ttsid = [ticketFlowrole[index + 1].ticketflowid];
             let roleid = [ticketFlowrole[index + 1].ticketroleid];
             let tickstateid = [ticketstatusid];
+
             let sonstatusid =[];//子流程状态id
 
             let arrsons=[];
-            for(let ty=0;ty<sons.length;ty++){
-                var newTrue=true;
-                for(let tu=1;tu<sons.length;tu++){
-                    if(sons[ty].ticketstatusid==sons[tu].ticketstatusid){
-                        ty=tu;
-                        newTrue=false;
+                    let arrsonsTy=[];
+                    let newarrSon = [ticketstatusid];
+                    for(let ty=0;ty<sons.length;ty++){
+                        var newTrue=true;
+                        var True1=false;
+                        for(let tu=1;tu<sons.length;tu++){
+                            if(sons[ty].ticketstatusid==sons[tu].ticketstatusid){
+                                ty=tu;
+                                newTrue=false;
+                                continue;
+                            }
+                        }
+                        if(newTrue){
+                            console.log("sons--->",sons[ty+1]);
+                        }else{
+                            arrsonsTy.push(ty);
+                            // arrsons.push(sons[ty]);
+                        
+                            continue;
+                        }
 
-                        continue;
                     }
-                }
-                if(!newTrue){
-                    arrsons.push(sons[ty]);
-                    continue;
-                }
-
-            }
-
-          
-
+                    for(let nety=0;nety<arrsonsTy.length;nety++){
+                        if(nety==0){
+                            arrsons.push(sons[nety]);
+                            newarrSon.push(sons[nety+1].FlowRoleID);
+                        }else{
+                            arrsons.push(sons[arrsonsTy[nety-1]+1]);
+                            if(sons[arrsonsTy[nety-1]+2]){
+                                newarrSon.push(sons[arrsonsTy[nety-1]+2].FlowRoleID);
+                            }
+                        }
+                    }
+                    for(let i=0;i<arrsons.length;i++){
+                        if(ticketFlowrole[index].ticketflowid==arrsons[i].fatherid){
+                            sonstatusid.push(item.FlowRoleID);
+                        }
+                    }
             arrsons.map((item,indexs)=>{
                 if(ticketFlowrole[index].ticketflowid==item.fatherid){
                     arr.push(item.ticketstatusname);
                     ttsid.push(item.ticketflowid);
                     roleid.push(item.ticketroleid);
-                    arrFuFlowRoleID.push(item.FlowRoleID);
-                    sonstatusid.push(item.FlowRoleID);
+                    // arrFuFlowRoleID.push(item.FlowRoleID);
+                    
                     tickstateid.push(item.ticketstatusid);
                 }
                
@@ -728,10 +978,11 @@ export default class Tdetail extends React.Component {
                 nextFlow: arr,
                 searchRole: searchRole.form.dataList,
                 backRoleId:roleid,
-                arrFuFlowRoleID:arrFuFlowRoleID,
+                // arrFuFlowRoleID:arrFuFlowRoleID,
                 FlowRoleID:ttsid,
                 sonstatusid:sonstatusid,
-                tickstateid:tickstateid
+                tickstateid:tickstateid,
+                newarrSon:newarrSon
 
             })
             // this.forceUpdate();s
@@ -785,7 +1036,7 @@ export default class Tdetail extends React.Component {
             const searchRoles = await searchUserForRole(dui);
             this.setState({
                 currentstatusid:this.state.sonstatusid[index],
-                targetFlowId:FuFlowRoleID[index],
+                targetFlowId:newarrSon[index],
                 searchRole: searchRoles.form.dataList,
                 flowRoleId:this.state.FlowRoleID[index],
                 statusId:statusId,
@@ -902,7 +1153,7 @@ export default class Tdetail extends React.Component {
             }
             console.log(data)
             var para = "";
-        
+        return;
             for (var a in data) {
                 para += ("&" + a + "=" + encodeURIComponent(data[a]));
             }
