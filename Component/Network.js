@@ -28,6 +28,10 @@ export default class Network extends React.Component{
         });
     }
 
+    testBlur(){
+        this.refs.inputWR.blur();
+    }
+
     render(){ 
     return(<View style={{alignItems:'center'}}>
     <Title navigation={this.props.navigation} centerText={'网络设置'}/>
@@ -36,7 +40,7 @@ export default class Network extends React.Component{
                     <Text style={{color:'#0390e8',marginLeft:10,fontSize:18}}>服务器地址</Text>
             </View>
             <View style={{borderWidth:1,borderStyle:'solid',borderColor:'grey',borderRadius:5,width:'96%',marginTop:10,alignItems:'center'}}>
-                 <TextInput style={{width:'90%'}} onChangeText={(e)=>this.handleInput('network',e)} multiline={true} />
+                 <TextInput onSubmitEditing={()=>{this.testBlur()}} ref="inputWR" style={{width:'90%'}} onChangeText={(e)=>this.handleInput('network',e)} multiline={true} />
             </View>
             <View style={{marginTop:10,width:'100%',borderTopColor:'grey',borderStyle:'solid',borderTopWidth:1,justifyContent:'flex-end',flexDirection:'row',height:50,alignItems:'center'}}>
             <TouchableOpacity onPress={()=>this.submit()} style={{width:'20%',height:30,borderRadius:5,justifyContent:'center',alignItems:'center',backgroundColor:'#0390e8',marginRight:20}}>

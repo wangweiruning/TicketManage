@@ -51,10 +51,9 @@ export default class Touchid extends React.Component{
             {cancelable:false}
         )
         });
-        TouchID.authenticate('', optionalConfigObject)
-            .then(success => {
+        TouchID.authenticate('', optionalConfigObject).then(success => {
                 ToastAndroid.show('指纹录入成功',ToastAndroid.SHORT)
-                setTimeout(()=>this.props.navigation.dispatch(resetAction),2000)
+                setTimeout(()=>this.props.navigation.navigate('App'),2000)
         })
     }
 
@@ -68,7 +67,7 @@ export default class Touchid extends React.Component{
             <StatusBar barStyle='dark-content' />
             <Text style={{marginTop:StatusBar.currentHeight+20,fontSize:18,marginLeft:5}}>指纹收集，保护重要信息。</Text>
              <TouchableOpacity style={{padding:10,width:'100%',flexDirection:'row',justifyContent:'flex-end',height:50,alignItems:'center'}}>
-                <Text style={{marginRight:10,borderColor:'grey',borderRadius:5,borderWidth:1,borderStyle:'solid',textAlign:"center"}} onPress={()=>this.props.navigation.dispatch(resetAction)}>跳过</Text>
+                <Text style={{marginRight:10,borderColor:'grey',borderRadius:5,borderWidth:1,borderStyle:'solid',textAlign:"center"}} onPress={()=>this.props.navigation.navigate('App')}>跳过</Text>
              </TouchableOpacity>
              <View style={{position:'absolute',bottom:10,flexDirection:'row',padding:5,justifyContent:'center',alignItems:'center',height:35}}>
              <Switch checked={this.state.checked} onChange={(e)=>this.onSwitchChange(e)} />

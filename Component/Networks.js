@@ -27,6 +27,10 @@ export default class Networks extends React.Component{
         });
     }
 
+    testBlur(){
+        this.refs.inputWR.blur();
+    }
+
     render(){ 
         return(<View style={{alignItems:'center'}}>
         <Ltbar navigation={this.props.navigation} centerText={'网络设置'}/>
@@ -34,7 +38,8 @@ export default class Networks extends React.Component{
                 <View style={{height:50,width:'100%',borderBottomColor:'grey',borderStyle:'solid',borderBottomWidth:1,justifyContent:'center'}}>
                      <Text style={{color:'#0390e8',marginLeft:10,fontSize:18}}>服务器地址</Text>
                 </View>
-                <View style={{borderWidth:1,borderStyle:'solid',borderColor:'grey',borderRadius:5,width:'96%',marginTop:10,alignItems:'center'}}><TextInput style={{width:'90%',}} multiline={true} /></View>
+                <View style={{borderWidth:1,borderStyle:'solid',borderColor:'grey',borderRadius:5,width:'96%',marginTop:10,alignItems:'center'}}>
+                  <TextInput onSubmitEditing={()=>{this.testBlur()}} ref="inputWR" style={{width:'90%',}} multiline={true} onChangeText={(e)=>this.handleInput('network',e)} /></View>
                 <View style={{marginTop:10,width:'100%',borderTopColor:'grey',borderStyle:'solid',borderTopWidth:1,justifyContent:'flex-end',flexDirection:'row',height:50,alignItems:'center'}}>
                 <TouchableOpacity onPress={()=>this.submit()} style={{width:'20%',height:30,borderRadius:5,justifyContent:'center',alignItems:'center',backgroundColor:'#0390e8',marginRight:20}}>
                 <Text style={{color:'white',fontSize:18,fontWeight:'500'}}>保存</Text>

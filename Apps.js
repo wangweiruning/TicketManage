@@ -226,11 +226,18 @@ const Auths = createStackNavigator({
           gesturesEnabled: true
     }
   },
-     Networks:{
+    Networks:{
       screen:Networks,
       navigationOptions: {
           header: null,
           gesturesEnabled: true
+    }
+  },
+    Touchid:{
+      screen:Touchid,
+      navigationOptions: {
+        header: null,
+        gesturesEnabled: true
     }
   }
 },{initialRouteName:'login'})
@@ -240,7 +247,6 @@ const SwitchNav = createSwitchNavigator({
     Auth: Auths,
     App: Navigators,
     Touch: Touchlogin,
-    Touchid: Touchid
   },{
     initialRouteName:'AuthLoadingScreen',
   });

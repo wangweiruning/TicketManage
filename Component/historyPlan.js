@@ -131,6 +131,10 @@ onChanegeTextKeyword(text){
     }
   }
 
+  testBlur(){
+    this.refs.inputWR.blur();
+  }
+
 
   render() {
       let result = this.state.result;
@@ -145,7 +149,7 @@ onChanegeTextKeyword(text){
               <View style={{width:'100%',justifyContent:"center",alignItems:'center',backgroundColor:'white'}}>
               <View style={{backgroundColor:'#eee',width:'97%',flexDirection:'row',borderRadius:15,alignItems:'center',height:40,marginTop:10}}> 
               <Image source={require('../images/search.png')} style={{width:20,height:20,marginLeft:8}}/>
-                <TextInput underlineColorAndroid={'transparent'} multiline={true} autoFocus={false} onChangeText={(e)=>this.onChanegeTextKeyword(e)}
+                <TextInput onSubmitEditing={()=>{this.testBlur()}} ref="inputWR" underlineColorAndroid={'transparent'} multiline={true} autoFocus={false} onChangeText={(e)=>this.onChanegeTextKeyword(e)}
                   style={{fontSize:13, color: '#363434',overflow:'hidden',width:'98%'}}
                   placeholder={"请输入两票名称"}
               />

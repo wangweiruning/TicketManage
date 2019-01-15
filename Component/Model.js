@@ -65,15 +65,15 @@ export default class Modals extends React.Component{
                 </TouchableOpacity>
                 {show&&<Modal hardwareAccelerated={true} animationType='slide' onRequestClose={()=>{this.setState({show:!this.state.show});this.gazi()}} transparent={true}>
                     <View style={{backgroundColor:'rgba(0,0,0,.3)',width:'100%',height:'100%'}}>
-                        <TouchableOpacity style={{width:'100%',height:'50%'}} onPress={()=>this.setState({show:false})}></TouchableOpacity>
-                        <View style={{backgroundColor:'white',width:'100%',height:'50%'}}>
+                        <TouchableOpacity style={{width:'100%',height:'40%'}} onPress={()=>this.setState({show:false})}></TouchableOpacity>
+                        <View style={{backgroundColor:'white',width:'100%',height:'60%',borderTopStartRadius:5,borderTopEndRadius:5}}>
                             <View style={{flexDirection:'row',padding:7,justifyContent:'flex-end',borderBottomColor:'grey',borderBottomWidth:1,borderStyle:'solid'}}>
-                                <Text style={{textAlign:'center',width:50,color:'white',fontSize:15,elevation:3,backgroundColor:'#0390e8',borderRadius:5}}
+                                <Text style={{textAlign:'center',width:50,color:'white',fontSize:15,elevation:3,backgroundColor:'#0390e8',borderRadius:5,padding:5}}
                                     onPress={()=>{this.setState({show:false});this.gazi()}}>确定</Text>
                             </View>
-                            <FlatList style={{height:'100%'}} data = {data} keyExtractor={(item, index) => index.toString()}
+                            <FlatList style={{height:'100%',marginTop:8}} data = {data} keyExtractor={(item, index) => index.toString()}
                                 renderItem={({item,index}) =>
-                                    <View key={index} style={{marginBottom:5,marginLeft:9,marginTop:5,flexDirection:'row',width:'95%',height:40}}>
+                                    <View key={index} style={{marginBottom:8,marginLeft:9,flexDirection:'row',width:'95%',height:40,backgroundColor:'#e3e3e3',borderRadius:5,padding:5}}>
                                         <Checkbox checked={this.state.active == item.userid} onChange={(e)=>{
                                             this.state.active = item.userid;
                                             this.forceUpdate();
