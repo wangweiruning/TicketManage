@@ -8,6 +8,7 @@ import { NavigationActions, StackActions } from 'react-navigation';
 import DropdownCheckbox from '../Component/DropdownCheckbox';
 import { AllDepartment, AllMangerUser, editquanxian, ForDepartment, historys, newTiceketNum, searchFlowRecord, searchTicketFlow, searchTicketRecord, searchUserForRole, TicketBasicInfo, tijiao } from './../api/api';
 import TicketTitle from './TicketTitle';
+import Model from './Model';
 const resetAction = StackActions.reset({
     index: 0,
     actions: [NavigationActions.navigate({ routeName: 'Tab' })],
@@ -88,7 +89,12 @@ export default class Tdetail extends React.Component {
             currentstatusid:'',//获取当前状态id
             tickstateid:[],
             ticketID:'',
-            newarrSon:[],
+            nextFlowarr:[],
+            nextFlowIdarr:[],
+            nextStatusIdarr:[],
+            nextFlowRoleIdarr:[],
+            nextRoleIdarr:[],
+            currentflowroleid:[]
         }
     }
 
@@ -101,6 +107,9 @@ export default class Tdetail extends React.Component {
           return;
         };
       }
+
+
+
 async getliucheng(){
     const { templateID, ticketNum, typeName, departmentid,ticketbasicinfoid } = this.props.navigation.state.params;
 		var ticketFlowList = [];//定义当前流程所有状态
@@ -134,15 +143,14 @@ async getliucheng(){
 					if(allFatherList[i].ticketstatusname != "作废"){
 						fatherList.push(allFatherList[i]);
                     }
-                    console.log("fatherList>>>>>>>>>",fatherList)
+                    
 				}
-			
-	
 		
 		if(ticketNum){	//已有两票编号
                     var ticketFlowdata = this.state.ticketFlowList;
 					basicInfoId = ticketFlowdata[0].TicketBasicInfoID;
-					ticketFlowList = ticketFlowdata;
+                    ticketFlowList = ticketFlowdata;
+                    
 					if(ticketFlowList[0].ManageTime){
 						flowRoleId = ticketFlowList[ticketFlowList.length - 1].FlowRoleID;	//按时间顺序排序，当两票完结或作废时为最后一条
 						flowRoleId0 = ticketFlowList[ticketFlowList.length - 1].FlowRoleID;
@@ -202,27 +210,26 @@ async getliucheng(){
 						nextFlowRoleId = son_list[sonIndex + 1].FlowRoleID;
 						nextRoleId = son_list[sonIndex + 1].ticketroleid;
 					}
-					console.log(1111111111111111)
-                    console.log('<option value="' + nextFlowId + '" nextstatusid="' + nextStatusId + '" nextflowroleid="' + nextFlowRoleId + '" nextroleid="' + nextRoleId + '">' + nextStatusName + '</option>');
-                   
+				
                     let nextStatusNamedarr= [nextStatusName];//获取下一个状态名字
                         let nextFlowIdarr = [nextFlowId];
                         let nextStatusIdarr= [nextStatusId];
                         let nextFlowRoleIdarr = [nextFlowRoleId];
+                        let currentflowroleid=[nextFlowRoleId];
                         let nextRoleIdarr = [nextRoleId];    
                         this.setState({
                             nextFlowarr:nextStatusNamedarr,
                             nextFlowIdarr:nextFlowIdarr,
                             nextStatusIdarr:nextStatusIdarr,
                             nextFlowRoleIdarr:nextFlowRoleIdarr,
-                            nextRoleIdarr:nextRoleIdarr
+                            nextRoleIdarr:nextRoleIdarr,
+                            currentflowroleid:currentflowroleid
                         })
 
 					
 				}
 				
             }else{	//当前流程为主流程时
-                console.log(2222222222)
 				flowdata = fatherList[fatherIndex];
 				
 				for(var i = 0; i < sonList.length; i++){
@@ -269,12 +276,11 @@ async getliucheng(){
 					target_FlowRole.push(tarFlowMap);
 				}
 				
-				console.log(6666666666666)
 				
 				if(isAlter == 1){
 					//设置流转状态及流转目标
 					if(fatherIndex == fatherList.length - 1){	//当前为最后一个主流程时
-						console.log('gggggg')
+					
 					}else{	//下一个主流程
 						nextFlowId = fatherList[fatherIndex + 1].ticketflowid;//FlowId
 						nextStatusId = fatherList[fatherIndex + 1].ticketstatusid;//statusid
@@ -286,22 +292,26 @@ async getliucheng(){
                         let nextFlowIdarr = [nextFlowId];
                         let nextStatusIdarr= [nextStatusId];
                         let nextFlowRoleIdarr = [nextFlowRoleId];
+                        let currentflowroleid=[nextFlowRoleId];
                         let nextRoleIdarr = [nextRoleId];
-                        console.log(cur_FlowRole)
-                        cur_FlowRole.map(item=>{
+               
+               
+                        cur_FlowRole.map((item,i)=>{
                             nextStatusNamedarr.push(item.son_statusname);
-                            nextFlowIdarr.push(item.son_flowid);
-                            nextStatusIdarr.push(item.son_statusid);
-                            nextFlowRoleIdarr.push(item.son_flowid);
-                            nextRoleIdarr.push(item.son_firstflowroleid)
+                            nextFlowIdarr.push(target_FlowRole[i].target_flowid);
+                            nextStatusIdarr.push(target_FlowRole[i].target_statusid);
+                            nextFlowRoleIdarr.push(target_FlowRole[i].target_flowroleid);
+                            nextRoleIdarr.push(target_FlowRole[i].target_roleid);
+                            currentflowroleid.push(item.son_firstflowroleid);
                         })
-
+                        
                         this.setState({
                             nextFlowarr:nextStatusNamedarr,
                             nextFlowIdarr:nextFlowIdarr,
                             nextStatusIdarr:nextStatusIdarr,
                             nextFlowRoleIdarr:nextFlowRoleIdarr,
-                            nextRoleIdarr:nextRoleIdarr
+                            nextRoleIdarr:nextRoleIdarr,
+                            currentflowroleid:currentflowroleid
                         })
 
 					}
@@ -371,7 +381,7 @@ async getliucheng(){
              }
 
         })
-        console.log(liucheng.form.sonList,liucheng.form.fatherList)
+       
         this.setState({
             sonList:liucheng.form.sonList,
             ticketFlowrole: ticketFlowrole,
@@ -492,109 +502,7 @@ async getliucheng(){
                  
                     let currentstatusid =newTicket[index + 1].ticketstatusid; //获取当前状态id-----ticketstatusid
                     let sonstatusid =[currentstatusid];//子流程状态id
-                    console.log("sonstatusid--->",sonstatusid,"--currentstatusid-->",currentstatusid)
-                    let fatherFlowId = '';
-                    let arrsons=[];
-                    let arrsonsTy=[];
-                    let newarrSon = [currentstatusid];
-                    for(let ty=0;ty<sons.length;ty++){
-                        var newTrue=true;
-                        var True1=false;
-                        for(let tu=1;tu<sons.length;tu++){
-                            if(sons[ty].ticketstatusid==sons[tu].ticketstatusid){
-                                ty=tu;
-                                newTrue=false;
-                                continue;
-                            }
-                        }
-                        if(newTrue){
-                            console.log("sons--->",sons[ty+1]);
-                        }else{
-                            arrsonsTy.push(ty);
-                            // arrsons.push(sons[ty]);
-                        
-                            continue;
-                        }
-
-                    }
-                    for(let nety=0;nety<arrsonsTy.length;nety++){
-                        if(nety==0){
-                            arrsons.push(sons[nety]);
-                            newarrSon.push(sons[nety+1].FlowRoleID);
-                        }else{
-                            arrsons.push(sons[arrsonsTy[nety-1]+1]);
-                            // let ss = sons[arrsonsTy[nety-1]+2].FlowRoleID;
-                            if(sons[arrsonsTy[nety-1]+2]){
-                                newarrSon.push(sons[arrsonsTy[nety-1]+2].FlowRoleID);
-                            }
-                        }
-                    }
-                    console.log("arrsonsds123455---->",newarrSon);
-
-/***
- * 
- * 子流程
- * 
- * ** */
-            //     if(fatherIndex==-1){//子流程时
-            //             for(var i = 0; i < sonList.length; i++){
-            //                 if(sonList[i].FlowRoleID == flowRoleId){
-            //                     sonIndex = parseInt(sonList[i].ticketrolerank) - 1;
-            //                     fatherFlowId = sonList[i].fatherid;
-            //                     break;
-            //                 }
-            //             }
-            //         let flowdata = '';
-            //         let son_list = [];
-            //         let sons = sonList;
-            //         sons.map((item,i)=>{
-            //             if(fatherFlowId==item.fatherid){
-            //                 flowdata = sons[i];
-            //                 //fatherFlowId = sons[i].fatherid;
-            //                 arr.push(item.ticketstatusname);
-            //                 arrFuFlowRoleID.push(item.FlowRoleID);
-            //                 allFlowId.push(item.ticketroleid);
-            //                 sonstatusid.push(item.FlowRoleID);
-            //             }
-            //         })
-            //         for(var i = 0; i < sons.length; i++){
-            //             console.log(sons[i].ticketflowid == flowdata.ticketflowid);
-            //             if(sons[i].ticketflowid == flowdata.ticketflowid){	//同一个子流程下所有流程角色
-            //                 son_list.push(sons[i]);
-            //             }
-            //         }
-            //         if(son_list.length>0){
-            //         if(sonIndex == son_list.length - 1){	//
-            //             console.log(6)  
-            //             var ticketRoleId = son_list[0].ticketroleid;
-			// 			for(var i = 0; i < fatherList.length; i++){
-			// 				if(fatherList[i].ticketflowid == fatherFlowId && fatherList[i].ticketroleid == ticketRoleId){	
-            //                     //获取当前子流程所属主流程的第一个流程角色
-            //                     currentstatusid = fatherList[i].ticketstatusid;
-            //                     newarrSon.push(fatherList[i].ticketstatusid);
-            //                     console.log("sssfather---->",fatherList[i])
-			// 				}
-			// 			}
-			// 		}else{	//流程流向该子流程的下一个流程角色
-            //             console.log("sss---->",son_list,"sonIndex--->",sonIndex)
-            //             currentstatusid = son_list[sonIndex + 1].ticketstatusid;
-			// 		}
-            //         console.log(8)  
-            //     }
-            // }else{//主流程时
-            //     flowdata = fatherList[fatherIndex];
-            //     console.log(flowdata,"/////////////////////////////")
-            //     console.log("newfather---->",fatherList[fatherIndex + 1])
-            //         if(fatherIndex == fatherList.length - 1){	//当前为最后一个主流程时
-						
-            //         }else{	//下一个主流程
-            //             currentstatusid = fatherList[fatherIndex + 1].ticketstatusid;
-            //             }
-            //     }
-                
-
-
-
+                  
 
                     this.setState({
                         nextFlow: arr,
@@ -603,7 +511,7 @@ async getliucheng(){
                         targetFlowId:arrFuFlowRoleID[0],//设置默认targetFlowId
                         sonstatusid:sonstatusid,
                         currentstatusid:currentstatusid,
-                        newarrSon:newarrSon
+                        
                     })
                     var nextRoleId = newTicket[index + 1].ticketroleid;
                     const dui = "?form.roleId=" + nextRoleId;
@@ -774,11 +682,7 @@ async getliucheng(){
         })
 
         if (ParaName == "班组") {
-            // this.state.groupName.map(pagename => {
-            //     if (alljsitem.join(",").indexOf(pagename.DepartmentID) != -1) {
-            //         datas.push(pagename.DepartmentID)
-            //     }
-            // })
+        
 
             let y = params == '' ? `?form.departmentId=` : `?form.departmentId=${params.join(",")}`
             let Team = await ForDepartment(y)
@@ -789,11 +693,7 @@ async getliucheng(){
                 this.forceUpdate()
             })
         } else {
-            // this.state.ParaId.map(pagename => {
-            //     if (alljsitem.join(",").indexOf(pagename.userid) != -1) {
-            //         datas.push(pagename.userid)
-            //     }
-            // })
+          
             this.state.ischanges = false;
             this.forceUpdate()
         }
@@ -826,7 +726,7 @@ async getliucheng(){
         </View>
     }
     getliuzhuan = () => {
-        let arr = this.state.nextFlow;
+        let arr = this.state.nextFlowarr;
         
         this.state.showPage.isflew = arr[0];
         return <View style={{ flexDirection: 'row', width: '96%',
@@ -850,6 +750,7 @@ async getliucheng(){
         var backRoleId = [];  //roleid
         let NewArr = [];      //状态名字
         let FlowRoleID = [];// FlowRoleID
+        let nextFlowRoleId = [];
         if (isBack == 1) {
             for (var i = 0; i < index; i++) {
                 if (ticketFlowRole[i].ticketrolerank == 1) {
@@ -858,10 +759,12 @@ async getliucheng(){
                     backRoleId.push(ticketFlowRole[i].ticketroleid)
                     NewArr.push(itemarr)
                     FlowRoleID.push(ticketFlowRole[i].ticketflowid)
+                    nextFlowRoleId.push(ticketFlowRole[i].FlowRoleID)
                 }
             } 
         }
   
+        
         let allFlowRole = this.state.ticketFlowrole;
         if (skipFlowId != 0) {
             for (var i = 0; i < allFlowRole.length; i++) {
@@ -870,20 +773,30 @@ async getliucheng(){
                     backStatusId.push(allFlowRole[i].ticketstatusid)
                     backRoleId.push(allFlowRole[i].ticketroleid)
                     FlowRoleID.push(allFlowRole[i].ticketflowid)
+                    nextFlowRoleId.push(ticketFlowRole[i].FlowRoleID)
                 };
             }
         }
+
+       
+        let nextFlowIdarr = FlowRoleID;
+        let nextStatusIdarr= backStatusId;
+        let nextFlowRoleIdarr = nextFlowRoleId;
+        let currentflowroleid=nextFlowRoleId;
+        let nextRoleIdarr = backRoleId
         //获取提交对象
         const dui = "?form.roleId=" + backRoleId[0];
         const searchRole = await searchUserForRole(dui);//获取提交对象
 
         this.setState({
             nextFlowId:FlowRoleID[0],
-            nextFlow: NewArr,
+            nextFlowarr: NewArr,
             searchRole: searchRole.form.dataList,
-            backStatusId:backStatusId,
-            backRoleId:backRoleId,
-            FlowRoleID:FlowRoleID
+            nextStatusIdarr:nextStatusIdarr,
+            nextRoleIdarr:nextRoleIdarr,
+            nextFlowIdarr:nextFlowIdarr,
+            nextFlowRoleIdarr:nextFlowRoleIdarr,
+            currentflowroleid:currentflowroleid
         })
     
     }
@@ -903,110 +816,40 @@ async getliucheng(){
         if (index > ticketFlowrole.length - 2) { //最后两个状态为验收和作废，均为终结流程
             return;
         } else {
-            var ticketstatusid = ticketFlowrole[index + 1].ticketstatusid;
+         
             var nextFlow = ticketFlowrole[index + 1].ticketstatusname;//下一个流程状态
             let arr = [nextFlow];
-            var FuFlowRoleID = ticketFlowrole[index + 1].FlowRoleID;
-            let arrFuFlowRoleID = [FuFlowRoleID];
+          
+            // let arrFuFlowRoleID = [FuFlowRoleID];
             var nextRoleId = ticketFlowrole[index + 1].ticketroleid;
             
-            let sons = this.state.sonList;
-            let ttsid = [ticketFlowrole[index + 1].ticketflowid];
-            let roleid = [ticketFlowrole[index + 1].ticketroleid];
-            let tickstateid = [ticketstatusid];
+           
 
-            let sonstatusid =[];//子流程状态id
-
-            let arrsons=[];
-                    let arrsonsTy=[];
-                    let newarrSon = [ticketstatusid];
-                    for(let ty=0;ty<sons.length;ty++){
-                        var newTrue=true;
-                        var True1=false;
-                        for(let tu=1;tu<sons.length;tu++){
-                            if(sons[ty].ticketstatusid==sons[tu].ticketstatusid){
-                                ty=tu;
-                                newTrue=false;
-                                continue;
-                            }
-                        }
-                        if(newTrue){
-                            console.log("sons--->",sons[ty+1]);
-                        }else{
-                            arrsonsTy.push(ty);
-                            // arrsons.push(sons[ty]);
-                        
-                            continue;
-                        }
-
-                    }
-                    for(let nety=0;nety<arrsonsTy.length;nety++){
-                        if(nety==0){
-                            arrsons.push(sons[nety]);
-                            newarrSon.push(sons[nety+1].FlowRoleID);
-                        }else{
-                            arrsons.push(sons[arrsonsTy[nety-1]+1]);
-                            if(sons[arrsonsTy[nety-1]+2]){
-                                newarrSon.push(sons[arrsonsTy[nety-1]+2].FlowRoleID);
-                            }
-                        }
-                    }
-                    for(let i=0;i<arrsons.length;i++){
-                        if(ticketFlowrole[index].ticketflowid==arrsons[i].fatherid){
-                            sonstatusid.push(item.FlowRoleID);
-                        }
-                    }
-            arrsons.map((item,indexs)=>{
-                if(ticketFlowrole[index].ticketflowid==item.fatherid){
-                    arr.push(item.ticketstatusname);
-                    ttsid.push(item.ticketflowid);
-                    roleid.push(item.ticketroleid);
-                    // arrFuFlowRoleID.push(item.FlowRoleID);
-                    
-                    tickstateid.push(item.ticketstatusid);
-                }
-               
-            })
 
             const dui = "?form.roleId=" + nextRoleId;
             let tt = ticketFlowrole[index + 1].ticketflowid;
           
             this.state.nextFlowId = tt;
             const searchRole = await searchUserForRole(dui);//获取提交对象
-            console.log(sonstatusid)
+            
             this.setState({
                 nextFlow: arr,
                 searchRole: searchRole.form.dataList,
-                backRoleId:roleid,
-                // arrFuFlowRoleID:arrFuFlowRoleID,
-                FlowRoleID:ttsid,
-                sonstatusid:sonstatusid,
-                tickstateid:tickstateid,
-                newarrSon:newarrSon
+                
 
             })
-            // this.forceUpdate();s
+          
         }
     }
     changeAgree = async(index, flag, value) => {
         let arr = [];
         arr.push(value)
-        // let ll =  this.state.sonList;
-        // ll.findIndex((v)=>{
-        //     if(value==v.ticketstatusname){
-        //         this.setState({
-        //             xccv:v.FlowRoleID
-        //         })
-        //     }else{
-        //         this.setState({
-        //             xccv:this.state.statusId1
-        //         }) 
-        //     }
-        // })
+    
         if (flag == 0) {//是否同意
             
             if (index == 0) {//同意
                 this.setState({ agreeLiuzhuan: 1 })
+                this.getliucheng();
                 this.getSubdata(this.state.index, this.state.ticketFlowrole)
             } else {//不同意
                 this.setState({ agreeLiuzhuan: 2 })
@@ -1017,30 +860,26 @@ async getliucheng(){
         }
         
         if(flag==1){//流转状态
-            this.state.searchRole=[];
-            let roleid =this.state.backRoleId[index];
-                this.state.nextFlowId = this.state.FlowRoleID[index];
-                console.log(this.state.FlowRoleID,"<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
-                var FuFlowRoleID = this.state.arrFuFlowRoleID;
-                this.state.targetFlowId = FuFlowRoleID[index];
-                let statusId="";
+            
+            let roleid =this.state.nextRoleIdarr[index];
+            
                 if(index>0){
-                    statusId = this.state.sonstatusid[index-1];
+                    statusId = this.state.currentflowroleid[index];
 
                 }else{
                     statusId = this.state.statusId1;
                 }
                 
-                console.log(this.state.FlowRoleID,index,">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+          
             const dui = "?form.roleId=" + roleid;
             const searchRoles = await searchUserForRole(dui);
             this.setState({
-                currentstatusid:this.state.sonstatusid[index],
-                targetFlowId:newarrSon[index],
+            //     currentstatusid:this.state.sonstatusid[index],
+                targetFlowId:this.state.nextFlowRoleIdarr[index],
                 searchRole: searchRoles.form.dataList,
-                flowRoleId:this.state.FlowRoleID[index],
+                flowRoleId:this.state.nextFlowIdarr[index],
                 statusId:statusId,
-                ticketID:this.state.tickstateid[index]
+                ticketID:this.state.nextStatusIdarr[index]
             })
         }
 
@@ -1107,7 +946,7 @@ async getliucheng(){
 
         let newpagedata = this.state.newpagedata==undefined?{defaultValue:1}:this.state.newpagedata;
            
-          console.log(newpagedata,"llllllllllllllllllllllllll")
+
         for (const key in newpagedata) {
 
                 if (key.slice(key.length - 2, key.length)== "*1") {
@@ -1153,7 +992,7 @@ async getliucheng(){
             }
             console.log(data)
             var para = "";
-        return;
+        // return;
             for (var a in data) {
                 para += ("&" + a + "=" + encodeURIComponent(data[a]));
             }
@@ -1260,28 +1099,6 @@ async getliucheng(){
     }
 
 
-    // getddds = (ddd, indexss) => {
-    //     let sdate = this.state.newChecked;
-    //    console.log('>>>>>>>>>>>>>>',sdate)
-    //     if (JSON.stringify(sdate)!="{}") {
-    //         let tt = 0;
-    //         let keys = Object.keys(sdate);
-    //         let values = Object.values(sdate);
-           
-    //          keys.findIndex((item, i) => {
-    //             if (ddd == item) {
-    //                 tt = i;
-    //                 return 1
-    //             } else {
-    //                 return 0
-    //             }
-    //         })
-    //         let newvalue = values[tt].split('&$');
-    //         return newvalue[indexss] == 1 ? true : false;
-    //     } else {
-    //         return false;
-    //     }
-    // }
 
 /****
  * 动态创建的元素获取默认值
@@ -1326,10 +1143,10 @@ async getliucheng(){
             let newpagedata2 = this.state.pagedata;
             let  newsvaa = newpagedata2[v];
             let  vaaaa = newpagedata2[v+"*1"]=="&$"?newsvaa: newpagedata2[v+"*1"];
-            console.log(newpagedata2)
+            
             vaaaa = vaaaa?vaaaa.split("&$"):[''];
             vaaaa.push("");
-            console.log(vaaaa)
+           
             newpagedata2[v+"*1"] = vaaaa.join("&$");
             this.state.newpagedata[v+"*1"] = vaaaa;
             return newpagedata2;
@@ -1337,70 +1154,8 @@ async getliucheng(){
 
 
 
-        // let varr = this.state.isadd;
-        // let keys = Object.keys(varr);
-        // let values = Object.values(varr);
-
-        // let index = keys.findIndex((item, i) => {
-        //     if (item == v) {
-        //         console.log(varr, "555555555")
-        //         itemsss = values[i + 1] + 1;
-        //         let objects = Object.assign(this.state.isadd, { [item]: values[i] + 1 })
-        //         this.state.isadd = objects;
-        //         this.state.showmore = false;
-        //         this.forceUpdate();
-        //     }
-        // })
     }
-    // isnums(v) {
-    //     let ggg = this.state.pagedata;
-    //     let getarea = this.state.getmoretextarea;
-    //     if(JSON.stringify(ggg)=="{}")return "";
-        
-    //     let getareaValue = Object.values(getarea);
-    //     let getareakeys  = Object.keys(getarea);
-    //     let gettrues = false;
-    //     getareakeys.findIndex((keyItem,index)=>{
-            
-    //         if(keyItem == v+"*1"){
-    //             gettrues= getareaValue[index];
-    //             return ;
-    //         }
-    //     })
-    //     let values00 = Object.values(ggg);
-    //     let keys00 = Object.keys(ggg);
-
-    //     let textmore = "";
-    //     let varr = this.state.isadd;
-    //     let keys = Object.keys(varr);
-    //     let values = Object.values(varr);
-    //     let ss = 0;
-      
-    //     keys00.findIndex((item, index) => {
-    //         if (item.substr(item.length - 2, item.length) == "*1" && gettrues) {
-    //             textmore = values00[index];
-    //             textmore = textmore.split(",").length;
-    //             let objects = Object.assign(this.state.isadd, { [v]: textmore })
-    //             this.state.isadd = objects;
-    //             let getores = Object.assign(this.state.getmoretextarea,{[v+"*1"]:false})
-    //             this.state.getmoretextarea = getores;
-    //             this.forceUpdate();
-    //         } else if (item == v) {
-    //             indexid = index;
-    //             return true;
-    //         } else {
-    //             return false;
-    //         }
-    //     })
-
-    //     let index = keys.findIndex((item, i) => {
-    //         if (item == v) {
-    //             ss = i
-    //         }
-    //     })
-    //     return textmore != "" ? textmore : values[ss]
-
-    // }
+    
 
     /**
      * 多行文本删除（删除具体行数和 是否已执行）
