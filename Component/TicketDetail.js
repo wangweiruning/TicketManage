@@ -581,7 +581,7 @@ export default class Tdetail extends React.Component{
         return ds.map((item,qIndex)=>{
             return (<View style={{alignItems:'center',flexDirection:'row',backgroundColor:!dis?"white":"rgba(0,0,0,.3)",width:'96%',marginLeft:15,borderBottomColor:'#ccc',borderBottomWidth:ds.length==qIndex+1?1:0,borderStyle:'solid'}} key={qIndex}>
             {v.IsConfirm==1&&<View style={{padding:10}}>
-                   <CheckBox labelStyle={{color:'#363434'}} checkboxStyle={{width:18,height:18}}
+                 <CheckBox labelStyle={{color:'#363434'}} checkboxStyle={{width:18,height:18}}
                   style={{backgroundColor:'rgba(255,255,255,.1)'}} label={''}
                   onChange={(e)=>this.onChangecoform(v.TicketParaID+"_1",e,qIndex)}
                   disabled={dis}>

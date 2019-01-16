@@ -49,7 +49,6 @@ export default class TicketDropdownCheckBox extends React.Component{
     }
 
     onChanegeTextKeyword(text){
-        console.log(this.state.activeItem)
         if(!text){
             this.setState({
                 SelectData:this.props.SelectData,
@@ -59,13 +58,11 @@ export default class TicketDropdownCheckBox extends React.Component{
         let newData = [];
         for (var i = 0; i < this.props.SelectData.length; i++) {
           let ds = this.props.SelectData[i];
-          console.log(ds,'zzzzzzzzzzzzzzzzzzzzzz')
           if((ds.realname && ds.realname.indexOf(text)!=-1) || (ds.DepartmentName && ds.DepartmentName.indexOf(text)!=-1)){
                 newData.push(ds)
           }
         }
-        console.log(newData,'aaaaaaaaaaaaaaaaa')
-        
+    
         this.setState({
           SelectData:newData,
         });
