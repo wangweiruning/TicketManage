@@ -12,11 +12,12 @@ export default class DropdownCheckbox extends React.Component {
             show: false,
             text: '',
             default: this.props.defaultValue,
-            activeItem: new Array(this.props.SelectData.length).fill(""),
+            activeItem:[],
             defaultChecked: false,
             datas: '',
             a: 1,
             ischanges: false,
+            activeItemObj:{},
         }
     }
 
@@ -36,13 +37,13 @@ export default class DropdownCheckbox extends React.Component {
             nextProps.SelectData.map(item => {
                 let listOne = item.userid ? item.userid : item.DepartmentID;
                 if (alls.indexOf(listOne) != -1) {
-                    this.state.activeItem[item.userid || item.DepartmentID] = (item.realname || item.DepartmentName);
+                    this.state.activeItemObj[item.userid || item.DepartmentID] = (item.realname || item.DepartmentName);
                     this.forceUpdate()
                 }
             })
             this.forceUpdate()
         } else if (this.props.getDefaultValue && this.state.ischanges) {
-            this.state.activeItem = [];
+            this.state.activeItemObj = {};
             this.forceUpdate()
 
         } else {
@@ -52,10 +53,10 @@ export default class DropdownCheckbox extends React.Component {
 
 
     open() {
-        let activeItem = this.state.activeItem;
+        let activeItem = this.state.activeItemObj;
         let display = [];
         if (this.props.ischanges && this.props.banzu !== '班组') {
-            activeItem = [];
+            activeItem = {};
         }
     
         if (Object.keys(activeItem).length > 0) {
@@ -109,22 +110,40 @@ export default class DropdownCheckbox extends React.Component {
 
         return(<View>
             <TouchableOpacity disabled={this.props.isshow} onPress={()=>this.setState({visible:true})}>
-            <View style={{flexDirection:'row',alignItems:'center',...this.props.style,backgroundColor:!this.props.isshow?'transparent':"rgba(0,0,0,.3)"}}>
-                <Text style={{minWidth:'10%',maxWidth:'90%',paddingTop:5,paddingBottom:5,flexDirection:'row',color:color?color:'lightgray',fontSize:fontSize?fontSize:13}}>
+            <View style={{flexDirection:'row',alignItems:'center',...this.props.style,backgroundColor:this.props.isshow?'transparent':"white"}}>
+                <Text style={{paddingTop:5,paddingBottom:5,flexDirection:'row',color:color?color:'lightgray',fontSize:fontSize?fontSize:13}}>
                    {this.open()}
                 </Text>
-                   <Image source={require('../images/goto.png')} style={{width:20,height:20}}/>
+                  {!this.props.isshow&&<Image source={require('../images/goto.png')} style={{width:20,height:20}}/>} 
             </View>
             </TouchableOpacity>
-            {this.state.visible && <Modal animationType={'slide'} transparent={true} onRequestClose={()=>{this.setState({visible:false,SelectData:this.props.SelectData})
-            this.props.open(this.state.activeItem, this.props.leixin, this.props.ParaName)}}>
+            {this.state.visible && <Modal animationType={'slide'} transparent={true} onRequestClose={()=>{
+                this.setState({visible:false,SelectData:this.props.SelectData})
+                //**********************ww */
+                let activeItemObj = this.state.activeItemObj;
+                let actives=[];
+                for(let i in activeItemObj){
+                    if(!!activeItemObj[i]){
+                        actives[i] = activeItemObj[i];
+                    }
+                } 
+                this.props.open(actives, this.props.leixin, this.props.ParaName)
+            }}>
             <View style={{backgroundColor:'rgba(0,0,0,.3)',width:'100%',height:'100%'}}>
             <TouchableOpacity style={{width:'100%',height:'40%'}} onPress={()=>{this.setState({visible:false,SelectData:this.props.SelectData});this.props.open(this.state.activeItem, this.props.leixin, this.props.ParaName)}}></TouchableOpacity>
             <View style={{width:'100%',backgroundColor:'white',height:'60%',borderTopStartRadius:5,borderTopEndRadius:5}}>
             <View style={{flexDirection:'row',padding:7,justifyContent:'flex-end'}}>
             <Text style={{elevation:3,backgroundColor:'#0390e8',textAlign:'center',width:50,color:'white',borderRadius:5,fontSize:15,padding:5}} onPress={()=>{
              this.setState({visible:false,SelectData:this.props.SelectData})
-             this.props.open(this.state.activeItem, this.props.leixin, this.props.ParaName)}}>
+             //
+             let activeItemObj = this.state.activeItemObj;
+             let actives={};
+             for(let i in activeItemObj){
+                if(!!activeItemObj[i]){
+                    actives[i] = activeItemObj[i];
+                }
+             } 
+             this.props.open(actives, this.props.leixin, this.props.ParaName)}}>
              确定
             </Text>
             </View>
@@ -138,18 +157,27 @@ export default class DropdownCheckbox extends React.Component {
             </View>
             </View>
             <FlatList style={{height:'100%',marginTop:8}} data={this.state.SelectData} keyExtractor={(item, index) => index.toString()}
-                renderItem={({item,index}) =><View key={index} style={{marginLeft:9,marginBottom:8,flexDirection:'row',padding:5,width:'95%',height:40,borderRadius:5,backgroundColor:'#e3e3e3'}}>
-                <Checkbox checked={this.state.activeItem[item.userid || item.DepartmentID]}
-                onChange={(e) => {
-                                let s = e.target.checked;
-                                if (this.props.ParaName != "班组") {
-                                    this.state.ischanges = false;
-                                }
-                                this.state.activeItem[item.userid || item.DepartmentID] = s ? (item.realname || item.DepartmentName) : "";
-                                this.forceUpdate();
-                            }}>
-                <Text style={{width:'100%',left:5,color:'black',fontSize:fontSize?fontSize:18}}>{item.realname || item.DepartmentName}</Text></Checkbox>
-                </View>}
+                renderItem={({item,index}) =>{
+                    let isChecked = this.state.activeItemObj[item.userid || item.DepartmentID];
+                    if(isChecked == undefined){
+                        isChecked = this.state.activeItemObj[item.userid || item.DepartmentID] = false;
+                    }
+                    return(
+                        <View key={index} style={{marginLeft:9,marginBottom:8,flexDirection:'row',padding:5,width:'95%',height:40,borderRadius:5,backgroundColor:'#e3e3e3'}}>
+                            <Checkbox checked={!!isChecked}
+                            onChange={(e) => {
+                                            let s = e.target.checked;
+                                            if (this.props.ParaName != "班组") {
+                                                this.state.ischanges = false;
+                                            }
+                                            this.state.activeItemObj[item.userid || item.DepartmentID] = s?(item.realname || item.DepartmentName):null;
+                                            // this.state.activeItem[item.userid || item.DepartmentID] = s ? (item.realname || item.DepartmentName) : "";
+                                            this.forceUpdate();
+                                        }}>
+                            <Text style={{width:'100%',left:5,color:'black',fontSize:fontSize?fontSize:18}}>{item.realname || item.DepartmentName}</Text></Checkbox>
+                    </View>
+                    )
+                }}
                 />
             </View>
             </View>

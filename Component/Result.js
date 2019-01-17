@@ -638,7 +638,6 @@ async getliucheng(){
      * 获取提交对象
      * **/
     open(val) {
-       
         let display = [];
         let Datastring = Object.keys(val);
         let Datavalues = Object.values(val);
@@ -648,7 +647,7 @@ async getliucheng(){
                 arrs.push(Datastring[indexs])
             }
         })
-        for (let i in val) {
+        for (let i in val) {  
             if (val[i]) {
                 display.push(val[i]);
             }
@@ -718,28 +717,27 @@ async getliucheng(){
         return aa;
     }
     gotSubmit = () => {
-        return <View style={{ width: '96%',paddingBottom: 8, paddingTop: 8 ,borderBottomColor:'#e9e9ef',borderStyle:'solid',borderBottomWidth:1}}>
-                    <Text style={{ color: '#363434'}}>流转目标</Text>
-                    <DropdownCheckbox open={this.open.bind(this)}  TextColor={{ color: '#363434', fontSize: 13,}}
-                        style={{  height: 29.3, justifyContent: 'center'}} SelectData={this.state.searchRole} />
-                        
-        </View>
+        return <View style={{alignItems:'center',height:44,paddingRight:8,flexDirection:'row',marginLeft:15,width:'96%',borderBottomColor:'#e9e9ef',borderStyle:'solid',borderBottomWidth:1}}>
+                    <Text style={{color: '#363434',flex:1,fontSize:16}}>流转目标</Text>
+                    <DropdownCheckbox open={this.open.bind(this)} TextColor={{ color: '#363434', fontSize: 13}}
+                        style={{justifyContent: 'center'}} SelectData={this.state.searchRole} />
+               </View>
     }
     getliuzhuan = () => {
         let arr = this.state.nextFlowarr;
         
         this.state.showPage.isflew = arr[0];
-        return <View style={{ flexDirection: 'row', width: '96%',
-        alignItems: 'center', paddingBottom: 8, paddingRight: 8, paddingTop: 8,borderBottomColor:'#e9e9ef',borderStyle:'solid',borderBottomWidth:1 }}>
-            <Text style={{  color: '#363434',flex:1 }}>流转状态</Text>
+        return <View style={{flexDirection: 'row',height:44,paddingRight:8,width:'96%',marginLeft:15,alignItems: 'center',borderBottomColor:'#e9e9ef',borderStyle:'solid',borderBottomWidth:1 }}>
+            <Text style={{color: '#363434',flex:1 ,fontSize:16}}>流转状态</Text>
             <ModalDropdown dropdownTextStyle={{ fontSize: 15 }}
                 dropdownStyle={{width:'50%',backgroundColor:'#eee',borderWidth:0,elevation:3}}
                 textStyle={{ color: '#363434', fontSize: 13 }}
                 style={{ justifyContent: 'center' }}
                 defaultValue={arr[0] ? arr[0] : "请选择"}
-                defaultValue={"==请选择=="}
+                defaultValue={"请选择"}
                 onSelect={(index, value) => this.changeAgree(index, 1, value)}
                 options={arr} />
+            <Image source={require('../images/goto.png')} style={{width:20,height:20}}/>
         </View>
 
     }
@@ -893,17 +891,14 @@ async getliucheng(){
         } else {
             arr.push("不同意")
         }
-        return <View style={{ flexDirection: 'row', width: '96%',
-        alignItems: 'center', paddingBottom: 8, paddingRight: 8, paddingTop: 8 ,borderBottomColor:'#e9e9ef',borderStyle:'solid',borderBottomWidth:1}}>
-            <Text style={{ color: '#363434',flex:1 }}>是否同意</Text>
-            <ModalDropdown
-                dropdownTextStyle={{ fontSize: 15 }} 
+        return <View style={{ flexDirection: 'row',paddingRight:8, width: '96%',marginLeft:15,alignItems: 'center',height:44,borderBottomColor:'#e9e9ef',borderStyle:'solid',borderBottomWidth:1}}>
+            <Text style={{ color: '#363434',flex:1 ,fontSize:16}}>是否同意</Text>
+            <ModalDropdown dropdownTextStyle={{ fontSize: 15 }} style={{justifyContent: 'center'}} defaultValue={arr[0]}
                 dropdownStyle={{width:'50%',backgroundColor:'#eee',borderWidth:0,elevation:3}}
-                textStyle={{ color: '#363434', fontSize: 13,}}
-                style={{justifyContent: 'center', }}
-                defaultValue={arr[0]}
+                textStyle={{ color: '#363434', fontSize: 13}}
                 onSelect={(index, value) => this.changeAgree(index, 0, value)}
                 options={arr} />
+            <Image source={require('../images/goto.png')} style={{width:20,height:20}}/>
         </View>
     }
 
@@ -1200,20 +1195,20 @@ async getliucheng(){
             checkeds=checkeds!=undefined? checkeds.split("&$"):["0"];
         let newds = ds!=undefined? ds.split('&$'):[""];
         return newds.map((item,qIndex)=>{
-            return (<View style={{alignItems:'center',flexDirection:'row',backgroundColor:!dis?"white":"rgba(0,0,0,.3)",width:'93.5%',marginLeft:15,borderBottomColor:'#ccc',borderBottomWidth:newds.length==qIndex+1?1:0,borderStyle:'solid'}} key={qIndex}>
+            return (<View style={{alignItems:'center',flexDirection:'row',width:"96%",marginLeft:15,borderBottomColor:'#ccc',borderBottomWidth:newds.length==qIndex+1?1:0,borderStyle:'solid'}} key={qIndex}>
             {v.IsConfirm==1&&<View style={{padding:10}}>
-            <CheckBox labelStyle={{color:'#363434'}} checkboxStyle={{width:18,height:18}} style={{backgroundColor:'rgba(255,255,255,.1)'}}
+            <CheckBox labelStyle={{color:'#363434'}} checkboxStyle={{width:18,height:18}}
                 checked={checkeds[qIndex]=="1"} label={''}
                 onChange={(e) => dis&&this.onChangecoform(v.TicketParaID + '_1', e, qIndex)}
                 underlayColor={"transparent"}>
             </CheckBox></View>}
-            <View style={{width:'95%'}}>
+            <View style={{width:'100%',flex:1}}>
             <TextareaItem defaultValue={item?item:''} editable={dis} placeholder={dis?"请输入":""} placeholderTextColor="#363434"
                              onChange={(e)=>{newds[qIndex] = e;
                              this.state.pagedata[v.TicketParaID+"*1"] = newds.join("&$");
                              this.state.newpagedata[v.TicketParaID+"*1"]=newds;}}
                              autoHeight last={true}
-                             style={{paddingVertical:10,paddingHorizontal:0,color:'#666',fontSize:14,borderBottomColor:'#ccc',borderBottomWidth:newds.length==qIndex+1?0:1,borderStyle:'solid'}} />
+                             style={{maxWidth:"100%",width:'100%',paddingVertical:10,paddingHorizontal:0,color:'#666',fontSize:14,borderBottomColor:'#ccc',borderBottomWidth:newds.length==qIndex+1?0:1,borderStyle:'solid'}} />
             </View>
             {v.IsAdd==1&&dis&&v.ParaTypeID ==6&& <TouchableOpacity onPress={()=>{
             this.setState(({pagedata})=>{
@@ -1235,12 +1230,12 @@ async getliucheng(){
 
     }
 
-    MoreCheck(v,dis){
-        return(<View style={{marginRight:10,flexDirection:'row',alignItems:'center',maxWidth:'60%'}}>
+    MoreCheck(v,dis,i){
+        return(<View style={{marginRight:10,flexDirection:'row',alignItems:'center',borderBottomColor:'#ccc',borderStyle:'solid',borderBottomWidth:this.state.templateContents.length==i+1?0:1}}>
         <DropdownCheckbox open={this.openothers.bind(this)} isshow={!dis} leixin={v.TicketParaID} ParaName={v.ParaName}
             getDefaultValue={v.ParaName == "班组" ? false : true}
             defaultValue={this.getDefaultMore(v.TicketParaID, v.ParaName)}
-            style={{flexWrap:'wrap',height:44,backgroundColor:dis?"rgba(255,255,255,1)":"rgba(255,255,255,.6)",paddingLeft:6}}
+            style={{flexWrap:'wrap',height:44}}
             ischanges={this.state.ischanges}
             banzu={v.ParaName == "班组"?v.ParaName:" "}
             TextColor={{color:'#666',fontSize:13}}
@@ -1248,53 +1243,52 @@ async getliucheng(){
         </View>)
     }
 
-    NormalCheck(v,dis){
-        return(<View style={{marginRight:10,flexDirection:'row',alignItems:'center'}}>
+    NormalCheck(v,dis,i){
+        return(<View style={{marginRight:10,flexDirection:'row',alignItems:'center',borderBottomColor:'#ccc',borderStyle:'solid',borderBottomWidth:this.state.templateContents.length==i+1?0:1}}>
         <ModalDropdown
         dropdownStyle={{width:'50%',backgroundColor:'#eee',borderWidth:0,elevation:3,height:121}}
         disabled={!dis}
         dropdownTextStyle={{ fontSize: 15 }}
-        textStyle={{color:'#363434', fontSize: 13,}}
-        style={{backgroundColor:!dis?"white":"rgba(0,0,0,.3)",height:44,
-        justifyContent:'center',paddingLeft:6}} 
+        textStyle={{color:'#363434', fontSize: 13}}
+        style={{height:44,justifyContent:'center'}}
         defaultValue={this.getGzryName(v.TicketParaID)}
         onSelect={(e, value) => this.getSelect(e, value, v.TicketParaID)}
         options={this.BackpageUseName()} />
         </View>)
     }
 
-    GetText(v,dis){
-        return(<View style={{backgroundColor:dis?"white":"rgba(0,0,0,.3)",height:44,justifyContent:'center'}}>
-        {v.IsConfirm == 1 ? <View>
+    GetText(v,dis,i){
+        return(<View style={{height:44,justifyContent:'center',borderBottomColor:'#ccc',borderStyle:'solid',borderBottomWidth:this.state.templateContents.length==i+1?0:1}}>
+        {v.IsConfirm == 1 ? <View style={{flexDirection:'row',width:'100%'}}>
+        <CheckBox labelStyle={{color:'#363434'}} checkboxStyle={{width:18,height:18}}
+            label={''}
+            style={{backgroundColor:'rgba(255,255,255,.1)'}}
+            checked={this.state.newChecked[v.TicketParaID+"_1"]==1}
+            onChange={(e) => dis && this.onChangeTextCheck(v.TicketParaID + '_1', e, dis)}
+            underlayColor={"transparent"}></CheckBox>
         <TextInput multiline={true} value={this.getchecked(v.TicketParaID)}
             editable={dis} placeholder={dis?"请输入":""}
             underlineColorAndroid="transparent"
             placeholderTextColor="#f5f5f5"
             onChangeText={(values) => this.handleInput(v.TicketParaID, values)}
-            style={{padding:0,color:'#666',maxWidth:v.ParaName.length>20?'100%':'67%',minWidth:'20%',flexWrap:'wrap',backgroundColor:'green'}} />
-        <View style={{flexDirection:'row', paddingLeft:5,borderTopColor:"#f5f5f5",borderStyle:"solid",borderTopWidth:.6,marginTop:15,paddingTop:7}}>
-            <CheckBox labelStyle={{color:'#363434'}} checkboxStyle={{width:18,height:18}}
-                label={''}
-                style={{backgroundColor:'rgba(255,255,255,.1)'}}
-                checked={this.state.newChecked[v.TicketParaID+"_1"]==1}
-                onChange={(e) => dis && this.onChangeTextCheck(v.TicketParaID + '_1', e, dis)}
-                underlayColor={"transparent"}></CheckBox></View></View>: 
-           <TextInput multiline={true}
+            style={{padding:0,color:'#666',flexWrap:'wrap'}} />
+            </View>:<View style={{width:"100%"}}>
+            <TextInput multiline={true}
             value={this.getchecked(v.TicketParaID)} underlineColorAndroid="transparent"
             editable={dis} placeholder={dis?"请输入":""}
             placeholderTextColor="#363434"
             onChangeText={(values) => this.handleInput(v.TicketParaID, values)}
-            style={{padding:0,color:'#666',maxWidth:v.ParaName.length>20?'100%':'67%',minWidth:'20%' ,flexWrap:'wrap',backgroundColor:'green'}} />}
+            style={{padding:0,color:'#666',flexWrap:'wrap'}} />
+            </View>}
         </View>)
     }
 
-    CheckDates(v,dis){
-        return(<View style={{marginRight:v.ParaName=='至'?10:8,flexDirection:'row',alignItems:'center'}}>
+    CheckDates(v,dis,i){
+        return(<View style={{flexDirection:'row',alignItems:'center',borderBottomColor:'#ccc',borderStyle:'solid',borderBottomWidth:this.state.templateContents.length==i+1?0:1}}>
         <DatePicker
             customStyles={{
                     dateInput: {
                     paddingRight:5,
-                    alignItems:'flex-end',
                     justifyContent:'center',
                     borderWidth:0,
                     },
@@ -1305,7 +1299,7 @@ async getliucheng(){
                         color:'#666'
                     }
         }}  
-            style={{justifyContent:'center',backgroundColor:!dis?"white":"rgba(0,0,0,.3)",height:44}}   
+            style={{justifyContent:'center',height:44}}   
             date={this.getchecked(v.TicketParaID)}
             mode="datetime"
             format="YYYY-MM-DD HH:mm"
@@ -1316,18 +1310,18 @@ async getliucheng(){
             minDate={new Date(2015, 1, 1)}
             placeholder={dis?"请选择时间":" "}
             onDateChange={(value) => this.onChange(v.TicketParaID, value)} />
-         <Image source={require('../images/goto.png')} style={{width:20,height:20}}/>
+         {dis&&<Image source={require('../images/goto.png')} style={{width:20,height:20}}/>}
         </View>)
     }
 
     AreaInput(v,dis){
-        return(<View>
+        return(<View style={{width:"100%"}}>
           {
             v.IsAdd==1?this.getTextareaItemByID(v,dis):<View>
                     <TextareaItem editable={dis} rows={4} placeholderTextColor="#666" placeholder={dis?"请输入":""}
                     defaultValue={this.getchecked(v.TicketParaID)} autoHeight
                     onChangeText={(values) => this.handleInput(v.TicketParaID, values)}
-                    style={{ alignItems:'center',backgroundColor:'green',borderBottomColor:'#ccc',borderBottomWidth:1,borderStyle:'solid',color:'#666',fontSize:14,backgroundColor:dis?"white":"rgba(0,0,0,.3)",paddingHorizontal:0,height:44}} />
+                    style={{ alignItems:'center',color:'#666',fontSize:14,backgroundColor:dis?"white":"rgba(0,0,0,.3)",paddingHorizontal:0,height:44}} />
             {v.IsConfirm == 1 && <View style={{flexDirection:'row', backgroundColor: dis?'white':"rgba(0,0,0,.3)", padding: 5}}>
                     <CheckBox labelStyle={{color:'#363434'}} checkboxStyle={{width:18,height:18}} label={''}
                     style={{backgroundColor:'rgba(255,255,255,.1)'}}
@@ -1377,70 +1371,43 @@ async getliucheng(){
                         {
                             this.state.templateContents.map((v,i)=>{
                             let dis = this.ischacked(v.TicketParaID);
-                            return (<View key={i} style={{alignItems:'center',minWidth:'100%',backgroundColor:'white'}}>
-                            <View style={{
-                                width:v.ParaTypeID==3||v.ParaTypeID==2||v.ParaTypeID==4||v.ParaTypeID==6?'96%':v.ParaTypeID==5?'93.5%':'100%',backgroundColor:dis?'grey':'transparent',
-                                paddingLeft:v.ParaTypeID==3||v.ParaTypeID==5||v.ParaTypeID==2||v.ParaTypeID==4||v.ParaTypeID==6?0:v.ParaName=='至'?10:5,
-                                marginLeft:v.ParaTypeID==3||v.ParaTypeID==2||v.ParaTypeID==4||v.ParaTypeID==6?15:v.ParaTypeID==5?v.ParaName=='至'?15:20:0,
-                                paddingBottom:5,
-                                paddingRight:0,
-                                borderBottomColor:'#ccc',
-                                flexWrap:'wrap',
-                                borderBottomWidth:v.ParaTypeID==3||v.ParaTypeID==5||v.ParaTypeID==2||v.ParaTypeID==4||v.ParaTypeID==6?1:0,
-                                borderStyle:'solid',
-                                flexDirection:v.ParaName.length>25?'column':'row',
-                                alignItems:v.ParaName.length>25?'baseline':'center',
+                            return (<View key={i} style={{alignItems:'center',minWidth:'100%',backgroundColor:'white',borderBottomColor:"#ccc",borderStyle:"solid",borderBottomWidth:this.state.templateContents.length==i+1?1:0}}>
+                            <View style={{width:'96%',flexWrap:'wrap',borderBottomColor:'#ccc',borderStyle:'solid',justifyContent:'center',
+                                marginLeft:v.ParaTypeID==3||v.ParaTypeID==2||v.ParaTypeID==4||v.ParaTypeID==6?15:v.ParaTypeID=='1'?15:v.ParaTypeID==5?15:0,
+                                flexDirection:(v.IsAdd==1&&dis&&v.ParaTypeID ==6)?'row':'column',
+                                // borderBottomWidth:v.ParaTypeID==3||v.ParaTypeID==5||v.ParaTypeID==2||v.ParaTypeID==4||v.ParaTypeID==6?1:0
                                 }}>
-                                <Text style={{fontSize:16,color:'#333',marginLeft:v.ParaTypeID==3||v.ParaTypeID==2||v.ParaTypeID==4||v.ParaTypeID==6?0:v.ParaTypeID==5?0:10,flex:1,flexWrap:'wrap',paddingRight:5}}>{v.Level==1?null:v.ParaName}</Text>
+                                <Text style={{fontSize:16,color:'#333',flex:1,flexWrap:'wrap',paddingRight:5}}>{v.ParaName}</Text>
                                 {(v.IsAdd==1&&dis&&v.ParaTypeID ==6)?<TouchableOpacity dis={dis} onPress={()=>this.add(v,v.TicketParaID+"*1",v.TicketParaID+"_1")} style={{width:'11%',height:25,justifyContent:'center',alignItems:'center'}}>
                                                 <Image style={{width:23,top:1,height:23,resizeMode:Image.resizeMode.contain}} source={require('../images/add.png')}/>  
-                                            </TouchableOpacity>:v.ParaTypeID==3?this.NormalCheck(v,dis):v.ParaTypeID==5?this.CheckDates(v,dis):v.ParaTypeID==2?this.GetText(v,dis):v.ParaTypeID==4?this.MoreCheck(v,dis):null}
+                                            </TouchableOpacity>:v.ParaTypeID==3?this.NormalCheck(v,dis,i):v.ParaTypeID==5?this.CheckDates(v,dis,i):v.ParaTypeID==2?this.GetText(v,dis,i):v.ParaTypeID==4?this.MoreCheck(v,dis,i):null}
                             </View>
-                            {
-                                // v.ParaTypeID == 2 ?this.GetText(v,dis):
-                                // v.ParaTypeID == 3 ?this.NormalCheck(v,dis):
-                                // v.ParaTypeID == 4 ?this.MoreCheck(v,dis):
-                                // v.ParaTypeID == 5 ?this.CheckDates(v,dis):
-                                v.ParaTypeID == 6 ?this.AreaInput(v,dis):null
-                            }
+                            {v.ParaTypeID == 6 ?this.AreaInput(v,dis):null}
                         </View>)
                          }
                         )
                       }
                         {this.props.navigation.state.params.isqianfa&&!this.state.mengCard&&<View>
                             <View style={{width:'100%',padding:5,justifyContent:'center'}}>
-                                <Text style={{color:'#363434',marginLeft:10,fontSize:15}}>提交</Text>
+                                <Text style={{color:'#363434',marginLeft:15,fontSize:15}}>提交</Text>
                             </View>
-                            
-                            <View style={{marginTop:5,marginBottom:20,width:'100%',alignItems:'center'}}>
-                            <View style={{width:'96%',backgroundColor:'white',alignItems:'center',borderRadius:5}}>
+                            <View style={{width:'100%',backgroundColor:'white'}}>
                                 {this.aggreeall()}
                                 {this.getliuzhuan()}
                                 {this.gotSubmit()}
-                            <View style={{width:'96%',paddingBottom: 8, paddingTop: 8}}>
+                            <View style={{width:'96%',paddingBottom: 8, paddingTop: 8,marginLeft:15}}>
                                 <Text style={{color:'#363434'}}>详细意见</Text>
                                 <TextareaItem last={true} placeholder="请输入"  placeholderTextColor="#363434" autoHeight onChangeText={(v)=>this.onChangeTextInput(v)} 
-                                style={{paddingVertical: 5,fontSize:14,minWidth:'98%',backgroundColor:"#eee",color:'#363434'}}/>
+                                style={{paddingHorizontal:5,color:"#363434",fontSize:14,minWidth:'95%',maxWidth:'95%',backgroundColor:'#eee'}}/>
                             </View>
-                            </View>
-                            </View> 
-                            
-                            <View style={{marginBottom:50,width:'100%',display:'flex',justifyContent:'center',alignItems:'center'}}>
-                                <TouchableOpacity 
-                                            onPress={()=>this.submitResult()}
-                                            style={{
-                                                elevation:2,
-                                                justifyContent:'center',
-                                                alignItems:'center',
-                                                width:'80%',
-                                                backgroundColor:'#1296db',
-                                                borderRadius:5,height:40}}>
-                                        <Text style={{color:'white',fontSize:20}}>提交</Text>
-                                </TouchableOpacity>
                             </View>
                             </View>}
                   </ScrollView>
-                  {/* } */}
+                  <View style={{width:'100%',justifyContent:'center',alignItems:'center',height:65}}>
+                            <TouchableOpacity onPress={()=>this.submitResult()} style={{elevation:2,justifyContent:'center',alignItems:'center',width:'80%',backgroundColor:'#0390e8',borderRadius:5,height:40}}>
+                                <Text style={{color:'white',fontSize:20,fontWeight:'300'}}>提交</Text>
+                            </TouchableOpacity>
+                  </View>
               </View>)
     }
 }

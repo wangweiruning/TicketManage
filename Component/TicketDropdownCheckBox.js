@@ -16,7 +16,7 @@ export default class TicketDropdownCheckBox extends React.Component{
             defaultChecked:false,
             datas:'',
             ischanges:false,
-            check:false
+            activeItemObj:{},
         }
     }
     
@@ -31,10 +31,10 @@ export default class TicketDropdownCheckBox extends React.Component{
   }
 
     open(){
-        let activeItem = this.state.activeItem;
+        let activeItem = this.state.activeItemObj;
         let display = [];
         if(this.props.ischanges&&this.props.banzu!=='班组'){
-            activeItem =[];
+            activeItem ={};
         }
         for(let i in activeItem){
             if(activeItem[i]){
@@ -66,6 +66,7 @@ export default class TicketDropdownCheckBox extends React.Component{
         this.setState({
           SelectData:newData,
         });
+        return
     }
     
     testBlur(){
@@ -86,14 +87,28 @@ export default class TicketDropdownCheckBox extends React.Component{
             </View>
             </TouchableOpacity>
             {this.state.visible && <Modal animationType={'slide'} transparent={true} onRequestClose={()=>{this.testBlur();this.setState({visible:false,SelectData:this.props.SelectData})
-            this.props.open(this.state.activeItem,this.props.leixin,this.props.banzu)}}>
+            let activeItemObj = this.state.activeItemObj;
+            let actives=[];
+            for(let i in activeItemObj){
+                if(!!activeItemObj[i]){
+                    actives[i] = activeItemObj[i];
+                }
+            } 
+            this.props.open(actives,this.props.leixin,this.props.banzu)}}>
             <View style={{backgroundColor:'rgba(0,0,0,.3)',width:'100%',height:'100%'}}>
             <TouchableOpacity style={{width:'100%',height:'40%'}} onPress={()=>{this.setState({visible:false,SelectData:this.props.SelectData});this.props.open(this.state.activeItem,this.props.leixin,this.props.banzu)}}></TouchableOpacity>
             <View style={{width:'100%',backgroundColor:'white',height:'60%',borderTopStartRadius:5,borderTopEndRadius:5}}>
             <View style={{flexDirection:'row',padding:7,justifyContent:'flex-end'}}>
             <Text style={{elevation:3,backgroundColor:'#0390e8',textAlign:'center',width:50,color:'white',borderRadius:5,fontSize:15,padding:5}} onPress={()=>{
              this.setState({visible:false,SelectData:this.props.SelectData})
-             this.props.open(this.state.activeItem,this.props.leixin,this.props.banzu)}}>
+             let activeItemObj = this.state.activeItemObj;
+             let actives={};
+             for(let i in activeItemObj){
+                if(!!activeItemObj[i]){
+                    actives[i] = activeItemObj[i];
+                }
+             } 
+             this.props.open(actives,this.props.leixin,this.props.banzu)}}>
              确定
             </Text>
             </View>
@@ -107,24 +122,24 @@ export default class TicketDropdownCheckBox extends React.Component{
             </View>
             </View>
             <FlatList style={{height:'100%',marginTop:8}} data = {this.state.SelectData} keyExtractor={(item, index) => index.toString()}
-                renderItem={({item,index}) =><View key={index} style={{marginLeft:9,marginBottom:8,flexDirection:'row',padding:5,width:'95%',height:40,borderRadius:5,backgroundColor:'#e3e3e3'}}>
-                <Checkbox checked={this.state.activeItem[item.userid || item.DepartmentID]}
-                onChange={(e)=>{
-                        let s = e.target.checked;
-                        this.setState({check:s})
-                        if(this.props.ParaName!="班组"){
-                            this.state.ischanges=false;
-                        }
-                        if(s){
-                            this.state.activeItem[item.userid || item.DepartmentID] = s?item.realname || item.DepartmentName:'';
-                        }
-                        else if(this.state.activeItem!==[]){
-                            this.state.activeItem[item.userid || item.DepartmentID] = s?item.realname || item.DepartmentName:'';
-                        }
-                        this.forceUpdate();
-                }}>
-                <Text style={{width:'100%',left:5,color:'black',fontSize:fontSize?fontSize:18}}>{item.realname || item.DepartmentName}</Text></Checkbox>
-                </View>}
+                renderItem={({item,index}) =>{
+                    let isChecked = this.state.activeItemObj[item.userid || item.DepartmentID];
+                    if(isChecked == undefined){
+                        isChecked = this.state.activeItemObj[item.userid || item.DepartmentID] = false;
+                    }
+                    return(<View key={index} style={{marginLeft:9,marginBottom:8,flexDirection:'row',padding:5,width:'95%',height:40,borderRadius:5,backgroundColor:'#e3e3e3'}}>
+                    <Checkbox checked={!!isChecked}
+                    onChange={(e)=>{
+                            let s = e.target.checked;
+                            if(this.props.ParaName!="班组"){
+                                this.state.ischanges=false;
+                            }
+                            this.state.activeItemObj[item.userid || item.DepartmentID] = s?(item.realname || item.DepartmentName):null;
+                            this.forceUpdate();
+                    }}>
+                    <Text style={{width:'100%',left:5,color:'black',fontSize:fontSize?fontSize:18}}>{item.realname || item.DepartmentName}</Text></Checkbox>
+                    </View>)
+                }}
                 />
             </View>
             </View>

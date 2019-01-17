@@ -398,10 +398,8 @@ export default class Tdetail extends React.Component{
         let sss = this.state.zed;
         let index = sss.findIndex((v)=>{
             return v.TicketParaID == asd;
-            
         });
         return index==-1;
-
     }
     
     BackpageUseName(){
@@ -746,7 +744,7 @@ export default class Tdetail extends React.Component{
           this.state.jax.map((v,i)=>{
            let dis = this.chackSSSS(v.TicketParaID);
            let itemMsg = this.isChacked(i);
-           return (!dis&&<View key={i} style={{alignItems:'center',minWidth:'100%',backgroundColor:'white'}}>
+           return (!dis&&<View key={i} style={{alignItems:'center',minWidth:'100%',backgroundColor:'white',borderBottomWidth:!dis?0:1,borderBottomColor:'#ccc',borderStyle:'solid'}}>
             <View style={{width:v.ParaTypeID==3||v.ParaTypeID==2||v.ParaTypeID==4||v.ParaTypeID==6?'96%':v.ParaTypeID==5?v.ParaName=='至'?'96%':'93.5%':'100%',backgroundColor:v.ParaTypeID!="1"?'white':'transparent',paddingTop:v.ParaTypeID=='1'?0:5,  
                   paddingLeft:v.ParaTypeID==3||v.ParaTypeID==5||v.ParaTypeID==2||v.ParaTypeID==4||v.ParaTypeID==6?0:v.ParaName=='至'?10:5,
                   marginLeft:v.ParaTypeID==3||v.ParaTypeID==2||v.ParaTypeID==4||v.ParaTypeID==6?15:v.ParaTypeID==5?v.ParaName=='至'?15:20:0,
@@ -757,25 +755,18 @@ export default class Tdetail extends React.Component{
                   borderBottomWidth:v.ParaTypeID==3||v.ParaTypeID==5||v.ParaTypeID==2||v.ParaTypeID==4||v.ParaTypeID==6?1:0,
                   borderStyle:'solid',
                   flexDirection:v.ParaName.length>25?'column':'row',
-                  alignItems:v.ParaName.length>25?'baseline':'center',
-                  }}>
+                  alignItems:v.ParaName.length>25?'baseline':'center'}}>
                  <Text style={{fontSize:v.ParaTypeID=='1'?16:15,color:'#333',marginLeft:v.ParaTypeID==3||v.ParaTypeID==2||v.ParaTypeID==4||v.ParaTypeID==6?0:v.ParaTypeID==5?v.ParaName=='至'?7:0:10,flex:1,flexWrap:'wrap',paddingRight:5}}>{v.ParaName}</Text>
                   {(v.IsAdd==1&&!dis)?<TouchableOpacity onPress={()=>this.add(v.TicketParaID)} style={{width:'11.6%',height:25,justifyContent:'center',alignItems:'center'}}>
                             <Image style={{width:23,top:1,height:23,resizeMode:Image.resizeMode.contain}} source={require('../images/add.png')}/>  
                   </TouchableOpacity>:v.ParaTypeID==3?this.NormalCheck(dis,'datalist'+i,getAllTempanyId[i]):v.ParaTypeID==5?this.CheckDates(v,dis,'datalist'+i,getAllTempanyId[i],itemMsg[i]):v.ParaTypeID==2?this.GetText(dis,'datalist'+i,getAllTempanyId[i],v):v.ParaTypeID==4?this.MoreCheck(v,dis,getAllTempanyId[i]):null}
             </View>
-               {
-                //   v.ParaTypeID==2?this.GetText(dis,'datalist'+i,getAllTempanyId[i],v):
-                //   v.ParaTypeID==3?this.NormalCheck(dis,'datalist'+i,getAllTempanyId[i]):
-                //   v.ParaTypeID==4?this.MoreCheck(v,dis,getAllTempanyId[i]):
-                //   v.ParaTypeID==5?this.CheckDates(dis,'datalist'+i,getAllTempanyId[i],itemMsg[i]):
-                  v.ParaTypeID==6?this.AreaInput(dis,v,getAllTempanyId[i]+"_1",getAllTempanyId[i],'datalist'+i):null
-               }
+               {v.ParaTypeID==6?this.AreaInput(dis,v,getAllTempanyId[i]+"_1",getAllTempanyId[i],'datalist'+i):null}
             </View>)
             }
           )
         }
-        <View style={{height:1,borderBottomColor:'#ccc',borderBottomWidth:1,borderStyle:'solid',backgroundColor:'white'}}></View>
+        {/* <View style={{height:15,borderBottomColor:'#ccc',borderBottomWidth:1,borderStyle:'solid',backgroundColor:'white'}}></View> */}
         {this.sub()}
         </ScrollView>
         <View style={{height:65,width:'100%',justifyContent:'center',alignItems:'center'}}>
