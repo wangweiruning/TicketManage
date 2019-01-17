@@ -49,7 +49,6 @@ export default class TicketDropdownCheckBox extends React.Component{
     }
 
     onChanegeTextKeyword(text){
-        console.log(this.state.activeItem)
         if(!text){
             this.setState({
                 SelectData:this.props.SelectData,
@@ -59,13 +58,11 @@ export default class TicketDropdownCheckBox extends React.Component{
         let newData = [];
         for (var i = 0; i < this.props.SelectData.length; i++) {
           let ds = this.props.SelectData[i];
-          console.log(ds,'zzzzzzzzzzzzzzzzzzzzzz')
           if((ds.realname && ds.realname.indexOf(text)!=-1) || (ds.DepartmentName && ds.DepartmentName.indexOf(text)!=-1)){
                 newData.push(ds)
           }
         }
-        console.log(newData,'aaaaaaaaaaaaaaaaa')
-        
+    
         this.setState({
           SelectData:newData,
         });
@@ -81,14 +78,14 @@ export default class TicketDropdownCheckBox extends React.Component{
         let {color,fontSize} = {...this.props.TextColor}
         return(<View>
             <TouchableOpacity disabled={this.props.isshow} onPress={()=>this.setState({visible:true})}>
-            <View style={{flexDirection:'row',alignItems:'center',...this.props.style,backgroundColor:!this.props.isshow?'white':"rgba(0,0,0,.3)"}}>
-                        <Text style={{paddingTop:5,paddingBottom:5,flexDirection:'row',color:color?color:'lightgray',fontSize:fontSize?fontSize:13}}>{
-                            this.open()
-                        }</Text>
-                    </View>
+            <View style={{flexDirection:'row',alignItems:'center',...this.props.style,backgroundColor:!this.props.isshow?'transparent':"rgba(0,0,0,.3)"}}>
+                <Text style={{minWidth:'10%',maxWidth:'90%',paddingTop:5,paddingBottom:5,flexDirection:'row',color:color?color:'lightgray',fontSize:fontSize?fontSize:13}}>
+                   {this.open()}
+                </Text>
+                   <Image source={require('../images/goto.png')} style={{width:20,height:20}}/>
+            </View>
             </TouchableOpacity>
-            {
-            this.state.visible && <Modal animationType={'slide'} transparent={true} onRequestClose={()=>{this.testBlur();this.setState({visible:false,SelectData:this.props.SelectData})
+            {this.state.visible && <Modal animationType={'slide'} transparent={true} onRequestClose={()=>{this.testBlur();this.setState({visible:false,SelectData:this.props.SelectData})
             this.props.open(this.state.activeItem,this.props.leixin,this.props.banzu)}}>
             <View style={{backgroundColor:'rgba(0,0,0,.3)',width:'100%',height:'100%'}}>
             <TouchableOpacity style={{width:'100%',height:'40%'}} onPress={()=>{this.setState({visible:false,SelectData:this.props.SelectData});this.props.open(this.state.activeItem,this.props.leixin,this.props.banzu)}}></TouchableOpacity>
