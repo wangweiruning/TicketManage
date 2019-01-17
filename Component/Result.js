@@ -1128,31 +1128,31 @@ async getliucheng(){
 /***
  * 增加多行输入
  * ***/
-    add(v) {
-    // isadd--->>是否已执行
+    add=(v,k,t)=> {
         this.setState(({newpagedata})=>{
-            if(v.IsAdd==1){
+            if(v.IsConfirm==1){
                 let newChecked = this.state.newChecked;
-                let nesadds = newChecked[v+"_1"]||[''];
+                let nesadds = newChecked[t]||[''];
                 nesadds = nesadds.split("&$");
                 nesadds.push("0");
-                this.state.newChecked[v+"_1"] = nesadds.join("&$");
-                this.state.newpagedata[v+"_1"] = nesadds;
+                this.state.newChecked[t] = nesadds.join("&$");
+                this.state.newpagedata[t] = nesadds;
             }
             
             let newpagedata2 = this.state.pagedata;
-            let  newsvaa = newpagedata2[v];
-            let  vaaaa = newpagedata2[v+"*1"]=="&$"?newsvaa: newpagedata2[v+"*1"];
-            
+            let  newsvaa = newpagedata2[v.TicketParaID];
+         
+            let  vaaaa = newpagedata2[k]==undefined?newsvaa: newpagedata2[k];
+
             vaaaa = vaaaa?vaaaa.split("&$"):[''];
             vaaaa.push("");
            
-            newpagedata2[v+"*1"] = vaaaa.join("&$");
-            this.state.newpagedata[v+"*1"] = vaaaa;
+            newpagedata2[k] = vaaaa.join("&$");
+            this.state.newpagedata[k] = vaaaa;
+            this.state.pagedata[k]=vaaaa.join("&$");
             return newpagedata2;
        });
-
-
+       
 
     }
     
@@ -1199,7 +1199,6 @@ async getliucheng(){
         let checkeds = this.state.newChecked[v.TicketParaID+"_1"];
             checkeds=checkeds!=undefined? checkeds.split("&$"):["0"];
         let newds = ds!=undefined? ds.split('&$'):[""];
-       
         return newds.map((item,qIndex)=>{
             return (<View style={{alignItems:'center',flexDirection:'row',backgroundColor:!dis?"white":"rgba(0,0,0,.3)",width:'93.5%',marginLeft:15,borderBottomColor:'#ccc',borderBottomWidth:newds.length==qIndex+1?1:0,borderStyle:'solid'}} key={qIndex}>
             {v.IsConfirm==1&&<View style={{padding:10}}>
@@ -1393,7 +1392,7 @@ async getliucheng(){
                                 alignItems:v.ParaName.length>25?'baseline':'center',
                                 }}>
                                 <Text style={{fontSize:16,color:'#333',marginLeft:v.ParaTypeID==3||v.ParaTypeID==2||v.ParaTypeID==4||v.ParaTypeID==6?0:v.ParaTypeID==5?0:10,flex:1,flexWrap:'wrap',paddingRight:5}}>{v.Level==1?null:v.ParaName}</Text>
-                                {(v.IsAdd==1&&dis&&v.ParaTypeID ==6)?<TouchableOpacity dis={dis} onPress={()=>this.add(v.TicketParaID)} style={{width:'11%',height:25,justifyContent:'center',alignItems:'center'}}>
+                                {(v.IsAdd==1&&dis&&v.ParaTypeID ==6)?<TouchableOpacity dis={dis} onPress={()=>this.add(v,v.TicketParaID+"*1",v.TicketParaID+"_1")} style={{width:'11%',height:25,justifyContent:'center',alignItems:'center'}}>
                                                 <Image style={{width:23,top:1,height:23,resizeMode:Image.resizeMode.contain}} source={require('../images/add.png')}/>  
                                             </TouchableOpacity>:v.ParaTypeID==3?this.NormalCheck(v,dis):v.ParaTypeID==5?this.CheckDates(v,dis):v.ParaTypeID==2?this.GetText(v,dis):v.ParaTypeID==4?this.MoreCheck(v,dis):null}
                             </View>
