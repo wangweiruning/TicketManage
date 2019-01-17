@@ -20,7 +20,6 @@ export default class DropdownCheckbox extends React.Component {
         }
     }
 
-
     onSelect = (value) => {
         this.setState({
             visible: false,
@@ -65,7 +64,6 @@ export default class DropdownCheckbox extends React.Component {
                     display.push(activeItem[i]);
                 }
             };
-            
             if (display.length > 0) {
                 return display.join(",");
             } else {
@@ -74,6 +72,7 @@ export default class DropdownCheckbox extends React.Component {
         } else {
             return this.props.isshow?' ':'==请选择=='
         }
+        
     }
 
     handleInput(k, v) {
