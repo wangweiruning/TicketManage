@@ -28,6 +28,7 @@ export default class Tdetail extends React.Component{
     constructor(props){
         super(props)
         this.state={
+            newsz:[],
             ParaId:[],
             AllManger:[],
             Department:[],
@@ -134,12 +135,18 @@ export default class Tdetail extends React.Component{
           let aaa=[];
           let getAllTempanyId = [];
           let aas=[];
-          bool.form.templateContents.map((item,i)=>{
-
+          let c =[];
+          bool.form.templateContents.findIndex((v11)=>{
+            feel.form.dataList.findIndex((v22)=>{
+                  if(v11.TemplateContentID==v22.TemplateContentID){
+                    c.push(v11)
+                  }
+              })
+          })
+          c.map((item,i)=>{
             let idss = item.TicketParaID;
             getAllTempanyId.push(idss)
             let dd={["datalist"+i]:null};
-            
              aaa=Object.assign(this.state.pagedata,dd)
              if(item.IsAdd==1){
                  aas=Object.assign(this.state.isadd,{[item.TicketParaID]:1});
@@ -170,7 +177,8 @@ export default class Tdetail extends React.Component{
             num:x.form.newTicket,
             jax:bool.form.templateContents,
             zed:feel.form.dataList,
-            newpagedata:tt
+            newpagedata:tt,
+            newsz:c
        })
        this.loading();
        this.pipei(list.form.paramAllList);
@@ -178,7 +186,6 @@ export default class Tdetail extends React.Component{
        this.getlls(bool.form.templateContents);
       }
       
-
       getlls(data){
         let datas = [];
             data.map((v,i)=>{
@@ -459,6 +466,7 @@ export default class Tdetail extends React.Component{
             "form.fatherIndex":0,
             "form.sonIndex": -1
         }
+        console.log(data)
         var para = "";
         for(var a in data){
         para +=("&"+a+"="+encodeURIComponent(data[a]));
@@ -572,25 +580,24 @@ export default class Tdetail extends React.Component{
         this.refs.inputWR.blur();
     }
     
-    getTextareaItemByID(v,dis){
+    getTextareaItemByID(v,i){
         let ds = this.state.newpagedata[v.TicketParaID+"*1"] || [""];
         let checkeds = this.state.newpagedata[v.TicketParaID+"_1"]||["0"];
         let newpagedataID = this.state.newpagedata[v.TicketParaID+"*1"];
         return ds.map((item,qIndex)=>{
-            return (<View style={{alignItems:'center',flexDirection:'row',backgroundColor:!dis?"white":"rgba(0,0,0,.3)",width:'96%',marginLeft:15,borderBottomColor:'#ccc',borderBottomWidth:ds.length==qIndex+1?1:0,borderStyle:'solid'}} key={qIndex}>
+            return (<View style={{alignItems:'center',flexDirection:'row',backgroundColor:"white",width:'96%',marginLeft:15,borderBottomColor:'#ccc',borderTopColor:"#ccc",borderTopWidth:this.state.newsz.length==i+1?ds.length==qIndex+1?0:1:0,borderBottomWidth:ds.length==qIndex+1?this.state.newsz.length==i+1?0:1:0,borderStyle:'solid'}} key={qIndex}>
             {v.IsConfirm==1&&<View style={{padding:10}}>
                  <CheckBox labelStyle={{color:'#363434'}} checkboxStyle={{width:18,height:18}}
                   style={{backgroundColor:'rgba(255,255,255,.1)'}} label={''}
-                  onChange={(e)=>this.onChangecoform(v.TicketParaID+"_1",e,qIndex)}
-                  disabled={dis}>
+                  onChange={(e)=>this.onChangecoform(v.TicketParaID+"_1",e,qIndex)}>
                   </CheckBox></View>}
                 <View style={{flex:1}}>
-                <TextareaItem autoHeight last={true} value={this.getValueByID(v.TicketParaID+"*1",qIndex)} editable={!dis} placeholder={dis?"":"请输入"} placeholderTextColor="#666"
+                <TextareaItem autoHeight last={true} value={this.getValueByID(v.TicketParaID+"*1",qIndex)} placeholder={"请输入"} placeholderTextColor="#666"
                               onChange={(e)=>{this.state.newpagedata[v.TicketParaID+"*1"][qIndex] = e
                               this.setState(this.state)}}
                               style={{paddingVertical:10,paddingHorizontal:0,color:'#666',fontSize:14,borderBottomColor:'#ccc',borderBottomWidth:ds.length==qIndex+1?0:1,borderStyle:'solid',height:44}} />
                 </View>
-                {v.IsAdd==1&&!dis&&<TouchableOpacity onPress={()=>{
+                {v.IsAdd==1&&<TouchableOpacity onPress={()=>{
                                 this.setState(({newpagedata})=>{
                                     let newpagedataID = this.state.newpagedata[v.TicketParaID+"*1"];
                                     let newpagedataChecked = this.state.newpagedata[v.TicketParaID+"_1"];                          
@@ -610,42 +617,39 @@ export default class Tdetail extends React.Component{
         })
     }
 
-    MoreCheck(v,dis,TempanyId){
+    MoreCheck(v,TempanyId){
       return (<View style={{marginRight:10,flexDirection:'row',alignItems:'center',maxWidth:'60%'}}>
-              <TicketDropdownCheckBox isshow={dis} open={this.openothers.bind(this)} 
-                style={{flexWrap:'wrap',height:44,backgroundColor:dis?"rgba(255,255,255,1)":"rgba(255,255,255,.6)",paddingLeft:6}} 
+              <TicketDropdownCheckBox open={this.openothers.bind(this)} 
+                style={{flexWrap:'wrap',height:44,paddingLeft:6}} 
                 ischanges={this.state.ischanges}
                 TextColor={{color:'#666',fontSize:13}}
                 SelectData={v.ParaName=="班组"?this.state.Department:this.state.ParaId} 
                 banzu={v.ParaName}
                 leixin={TempanyId} />
-                {/* <Image source={require('../images/goto.png')} style={{width:20,height:20}}/> */}
                 </View>)
     }
 
-    NormalCheck(dis,index,TempanyId){
+    NormalCheck(index,TempanyId){
       return (<View style={{marginRight:10,flexDirection:'row',alignItems:'center'}}>
-                <Modals gets={this.gets.bind(this)} leixin={TempanyId} pagedata={index}
-                  disabled={dis} textStyle={{color:'#666',fontSize:13}} data={this.state.AllManger}
-                  style={{backgroundColor:!dis?"white":"rgba(0,0,0,.3)",height:44,
+                <Modals gets={this.gets.bind(this)} leixin={TempanyId} pagedata={index} textStyle={{color:'#666',fontSize:13}} data={this.state.AllManger}
+                  style={{backgroundColor:"white",height:44,
                   justifyContent:'center',paddingLeft:6}} />
                   <Image source={require('../images/goto.png')} style={{width:20,height:20}}/>
               </View>)
     }
 
-    GetText(dis,index,TempanyId,value){
-      return(<View style={{backgroundColor:!dis?"white":"rgba(0,0,0,.3)",height:44,justifyContent:'center'}}>
+    GetText(index,TempanyId,value){
+      return(<View style={{backgroundColor:"white",height:44,justifyContent:'center'}}>
                 {value.IsConfirm==1?<View style={{flexDirection:'row',paddingLeft:5,borderTopColor:'#f5f5f5',borderTopWidth:.6,borderStyle:'solid',paddingTop:7,marginTop:7}}>
                                     <CheckBox labelStyle={{color:'#363434'}} checkboxStyle={{width:18,height:18}} label={''} style={{backgroundColor:'rgba(255,255,255,.1)'}}
-                                    onChange={(e)=>this.onChangecoform(TempanyId+"_1",e)}
-                                    disabled={dis}></CheckBox></View>:null}
-             <TextInput onSubmitEditing={()=>{this.testBlur()}} ref="inputWR" multiline={true} editable={!dis} placeholder={dis?"":"请输入"} underlineColorAndroid="transparent" placeholderTextColor="#666"
+                                    onChange={(e)=>this.onChangecoform(TempanyId+"_1",e)}></CheckBox></View>:null}
+             <TextInput onSubmitEditing={()=>{this.testBlur()}} ref="inputWR" multiline={true} placeholder={"请输入"} underlineColorAndroid="transparent" placeholderTextColor="#666"
                 onChangeText={(v)=>this.handleInput(index,v,TempanyId)}
                 style={{padding:0,color:'#666',maxWidth:value.ParaName.length>20?'100%':'67%',minWidth:'20%'}}/>
             </View>)
     }
 
-    CheckDates(v,dis,index,TempanyId,indexs){
+    CheckDates(v,index,TempanyId,indexs){
         return(<View style={{marginRight:v.ParaName=='至'?10:8,flexDirection:'row',alignItems:'center'}}>
             <DatePicker customStyles={{
                         dateInput: {
@@ -661,32 +665,31 @@ export default class Tdetail extends React.Component{
                             color:'#666'
                         }
                     }}
-            style={{justifyContent:'center',backgroundColor:!dis?"white":"rgba(0,0,0,.3)",height:44}}        
+            style={{justifyContent:'center',backgroundColor:"white",height:44}}        
             date={indexs} 
             mode="datetime"        
             format="YYYY-MM-DD HH:mm"
             confirmBtnText="确定"        
             cancelBtnText="取消"
-            disabled={dis} 
             showIcon={false}
             minDate={new Date(2015, 1, 1)}
-            placeholder={!dis?"请选择时间":" "}      
+            placeholder={"请选择时间"}      
             onDateChange={(e)=>this.onChange(index,e,TempanyId)}/>
             <Image source={require('../images/goto.png')} style={{width:20,height:20}}/>
             </View>)
     }
 
-    AreaInput(dis,value,TempanyId_1,TempanyId,index){
+    AreaInput(value,TempanyId_1,TempanyId,index,i){
           return(<View style={{width:'100%'}}>
           {
-            value.IsAdd==1?this.getTextareaItemByID(value,dis):<View>
-             <TextareaItem placeholderTextColor="#666" editable={!dis} placeholder={dis?"":"请输入"} autoHeight
+            value.IsAdd==1?this.getTextareaItemByID(value,i):<View>
+             <TextareaItem placeholderTextColor="#666" placeholder={"请输入"} autoHeight
                onChange={(e)=>this.handleInput(index,e,TempanyId)}
-               style={{alignItems:'center',borderBottomColor:'#ccc',borderBottomWidth:1,borderStyle:'solid',color:'#666',fontSize:14,minWidth:'100%',backgroundColor:!dis?"white":"rgba(0,0,0,.3)",paddingHorizontal:0,height:44}} />
-             <View style={{flexDirection:'row',backgroundColor:!dis?"white":"rgba(0,0,0,.3)",padding:5}}>
+               style={{alignItems:'center',borderBottomColor:'#ccc',borderBottomWidth:1,borderStyle:'solid',color:'#666',fontSize:14,minWidth:'100%',backgroundColor:"white",paddingHorizontal:0,height:44}} />
+             <View style={{flexDirection:'row',backgroundColor:"white",padding:5}}>
                 <CheckBox checkboxStyle={{width:18,height:18}} label={''}
                   style={{backgroundColor:'rgba(255,255,255,.1)'}}
-                  onChange={(e)=>this.onChangecoform(TempanyId_1,e)} disabled={dis}>
+                  onChange={(e)=>this.onChangecoform(TempanyId_1,e)}>
                 </CheckBox>
                </View>
              </View>
@@ -697,7 +700,7 @@ export default class Tdetail extends React.Component{
     sub(){
       return(<View>
         {this.state.num?<View>
-        <View style={{width:'100%',padding:5,paddingTop:15,justifyContent:'center'}}>
+        <View style={{width:'100%',padding:5,paddingTop:10,justifyContent:'center'}}>
             <Text style={{color:'#363434',left:8,fontSize:15}}>提交</Text>
         </View>
         <View style={{marginTop:5,width:'100%',alignItems:'center'}}>
@@ -722,7 +725,7 @@ export default class Tdetail extends React.Component{
             </View>
             <View style={{width:'96%',paddingBottom:8,paddingTop:8,marginLeft:15}}>
               <Text style={{color:'#363434',fontSize:16}}>详细意见</Text>
-              <TextareaItem last={true}  placeholderTextColor="#363434" style={{paddingHorizontal:5,color:"#363434",fontSize:14,minWidth:'95%',maxWidth:'95%',backgroundColor:'#eee'}} placeholder="请输入内容..." autoHeight onChangeText={(v)=>this.handleInputs('detailInfo',v)}/>
+              <TextareaItem last={true}  placeholderTextColor="#363434" style={{paddingHorizontal:0,color:"#363434",fontSize:14,minWidth:'95%',maxWidth:'95%'}} placeholder="请输入内容..." autoHeight onChangeText={(v)=>this.handleInputs('detailInfo',v)}/>
             </View>
            </View>
         </View>
@@ -741,32 +744,32 @@ export default class Tdetail extends React.Component{
         <ScrollView>
         <View style={{height:15,borderBottomColor:'#ccc',borderBottomWidth:1,borderStyle:'solid'}}></View>
         {
-          this.state.jax.map((v,i)=>{
-           let dis = this.chackSSSS(v.TicketParaID);
+          this.state.newsz.map((v,i)=>{
+        //    let dis = this.chackSSSS(v.TicketParaID);
            let itemMsg = this.isChacked(i);
-           return (!dis&&<View key={i} style={{alignItems:'center',minWidth:'100%',backgroundColor:'white',borderBottomWidth:!dis?0:1,borderBottomColor:'#ccc',borderStyle:'solid'}}>
-            <View style={{width:v.ParaTypeID==3||v.ParaTypeID==2||v.ParaTypeID==4||v.ParaTypeID==6?'96%':v.ParaTypeID==5?v.ParaName=='至'?'96%':'93.5%':'100%',backgroundColor:v.ParaTypeID!="1"?'white':'transparent',paddingTop:v.ParaTypeID=='1'?0:5,  
+           return (<View key={i} style={{alignItems:'center',minWidth:'100%',backgroundColor:'white',borderBottomWidth:this.state.newsz.length==i+1?1:0,borderBottomColor:'#ccc',borderStyle:'solid'}}>
+            <View style={{width:v.ParaTypeID==3||v.ParaTypeID==2||v.ParaTypeID==4||v.ParaTypeID==6?'96%':v.ParaTypeID==5?v.ParaName=='至'?'96%':'93.5%':'100%',
+                  backgroundColor:v.ParaTypeID!="1"?'white':'transparent',paddingTop:v.ParaTypeID=='1'?0:5,  
                   paddingLeft:v.ParaTypeID==3||v.ParaTypeID==5||v.ParaTypeID==2||v.ParaTypeID==4||v.ParaTypeID==6?0:v.ParaName=='至'?10:5,
                   marginLeft:v.ParaTypeID==3||v.ParaTypeID==2||v.ParaTypeID==4||v.ParaTypeID==6?15:v.ParaTypeID==5?v.ParaName=='至'?15:20:0,
                   paddingBottom:v.ParaTypeID=='1'?0:5,
                   paddingRight:0,
                   borderBottomColor:'#ccc',
                   flexWrap:'wrap',
-                  borderBottomWidth:v.ParaTypeID==3||v.ParaTypeID==5||v.ParaTypeID==2||v.ParaTypeID==4||v.ParaTypeID==6?1:0,
+                  borderBottomWidth:(v.ParaTypeID==3||v.ParaTypeID==5||v.ParaTypeID==2||v.ParaTypeID==4||v.ParaTypeID==6)&&this.state.newsz.length==i+1?0:1,
                   borderStyle:'solid',
                   flexDirection:v.ParaName.length>25?'column':'row',
                   alignItems:v.ParaName.length>25?'baseline':'center'}}>
                  <Text style={{fontSize:v.ParaTypeID=='1'?16:15,color:'#333',marginLeft:v.ParaTypeID==3||v.ParaTypeID==2||v.ParaTypeID==4||v.ParaTypeID==6?0:v.ParaTypeID==5?v.ParaName=='至'?7:0:10,flex:1,flexWrap:'wrap',paddingRight:5}}>{v.ParaName}</Text>
-                  {(v.IsAdd==1&&!dis)?<TouchableOpacity onPress={()=>this.add(v.TicketParaID)} style={{width:'11.6%',height:25,justifyContent:'center',alignItems:'center'}}>
-                            <Image style={{width:23,top:1,height:23,resizeMode:Image.resizeMode.contain}} source={require('../images/add.png')}/>  
-                  </TouchableOpacity>:v.ParaTypeID==3?this.NormalCheck(dis,'datalist'+i,getAllTempanyId[i]):v.ParaTypeID==5?this.CheckDates(v,dis,'datalist'+i,getAllTempanyId[i],itemMsg[i]):v.ParaTypeID==2?this.GetText(dis,'datalist'+i,getAllTempanyId[i],v):v.ParaTypeID==4?this.MoreCheck(v,dis,getAllTempanyId[i]):null}
+                  {v.IsAdd==1?<TouchableOpacity onPress={()=>this.add(v.TicketParaID)} style={{width:'11.6%',height:25,justifyContent:'center',alignItems:'center'}}>
+                            <Image style={{width:23,top:1,height:23,resizeMode:Image.resizeMode.contain}} source={require('../images/add.png')}/>
+                  </TouchableOpacity>:v.ParaTypeID==3?this.NormalCheck('datalist'+i,getAllTempanyId[i]):v.ParaTypeID==5?this.CheckDates(v,'datalist'+i,getAllTempanyId[i],itemMsg[i]):v.ParaTypeID==2?this.GetText('datalist'+i,getAllTempanyId[i],v):v.ParaTypeID==4?this.MoreCheck(v,getAllTempanyId[i]):null}
             </View>
-               {v.ParaTypeID==6?this.AreaInput(dis,v,getAllTempanyId[i]+"_1",getAllTempanyId[i],'datalist'+i):null}
+               {v.ParaTypeID==6?this.AreaInput(v,getAllTempanyId[i]+"_1",getAllTempanyId[i],'datalist'+i,i):null}
             </View>)
             }
           )
         }
-        {/* <View style={{height:15,borderBottomColor:'#ccc',borderBottomWidth:1,borderStyle:'solid',backgroundColor:'white'}}></View> */}
         {this.sub()}
         </ScrollView>
         <View style={{height:65,width:'100%',justifyContent:'center',alignItems:'center'}}>
