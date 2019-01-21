@@ -1,11 +1,6 @@
-import MySorage from './storage';
-
-MySorage._getStorage()
-MySorage._load('netWorkIp',res=>{
-    console.log(res)
-})
 const urls='http://59.172.204.182:8030/ttms/'
-const URL = {
+
+export default URLs = {
     islogin:urls+'common/login_checkSession.action',//登录判断
     userLogin:urls+'common/login_checkuser.action',//用户登陆
     awaitdeteal:urls+'ticketMng/ticketMng_searchUnhandle.action',//待处理流程接口
@@ -34,5 +29,3 @@ const URL = {
     ForDepartment:urls+'ticketMng/ticketMng_searchUserForDepartment.action',  //根据部门id查班组成员
     Searchhistory:urls+'ticketMng/ticketMng_onGridSearch.action' //搜索
 }
-// export default URL
-export default URL

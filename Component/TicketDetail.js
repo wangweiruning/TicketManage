@@ -4,17 +4,17 @@ import {TextareaItem,ActivityIndicator} from 'antd-mobile-rn';
 import {View,Text,ScrollView,TouchableOpacity,TextInput,ToastAndroid,Alert,Image} from 'react-native';
 import ModalDropdown from 'react-native-modal-dropdown';
 import DatePicker from 'react-native-datepicker'
-import {newTiceketNum,
-        TicketBasicInfo,
-        searchTicketFlow,
-        editquanxian,
-        searchUserForRole,
-        searchTicketRecord,
-        tijiao,
-        historys,
-        userlist,
-        AllMangerUser,AllDepartment,ForDepartment} from './../api/api';
-
+// import {newTiceketNum,
+//         TicketBasicInfo,
+//         searchTicketFlow,
+//         editquanxian,
+//         searchUserForRole,
+//         searchTicketRecord,
+//         tijiao,
+//         historys,
+//         userlist,
+//         AllMangerUser,AllDepartment,ForDepartment} from './../api/api';
+import HttpUtils from '../api/Httpdata3';
 import TicketDropdownCheckBox from './TicketDropdownCheckBox';
 import CheckBox from 'react-native-checkbox';
 import Modals from './Model'
@@ -23,11 +23,11 @@ const resetAction = StackActions.reset({
     index: 0,
     actions: [NavigationActions.navigate({ routeName: 'Tab' })],
     });
-
 export default class Tdetail extends React.Component{
     constructor(props){
         super(props)
         this.state={
+            http:jconfig.netWorkIp?jconfig.netWorkIp:'http://59.172.204.182:8030/ttms',
             newsz:[],
             ParaId:[],
             AllManger:[],
@@ -96,38 +96,38 @@ export default class Tdetail extends React.Component{
      async getData(){
         let e = this.props.navigation.state.params.name;
         let r = `?form.templateId=${e}`;
-        let x = await newTiceketNum(r);
+        let x = await HttpUtils.AjaxData(`${this.state.http}/ticketMng/ticketMng_newTiceketNum.action`,r)  //newTiceketNum(r);
 
 
-        let j = x.form.newTicket;
-        let a = `?form.ticketNum=${j}`;
+        // let j = x.form.newTicket;
+        // let a = `?form.ticketNum=${j}`;
         // let g = await searchTicketBasicInfo(a);
-        let  ggs= `?form.basicInfoId=null`
-        let ssgg= await searchTicketRecord(ggs)
+        // let ggs= `?form.basicInfoId=null`
+        // let ssgg= await HttpUtils.AjaxData(`${this.state.http}/ticketMng/ticketMng_searchTicketRecord.action`,ggs) //searchTicketRecord(ggs)
 
         let opt = `?form.tree_node_operation=0`;
-        let userId = await historys(opt);
-        let list = await userlist();
+        let userId = await HttpUtils.AjaxData(`${this.state.http}/ticketMng/ticketMng_loadGrid.action`,opt) //historys(opt);
+        let list = await HttpUtils.AjaxData(`${this.state.http}/home/home_showUserDatas.action`,'') //userlist();
         let kjl = `?form.jqgrid_row_selected_id=${e}`;
-        let bool = await TicketBasicInfo(kjl);
+        let bool = await HttpUtils.AjaxData(`${this.state.http}/baseInformation/templateMng_templateContentSearch.action`,kjl)  //TicketBasicInfo(kjl);
 
         let i = this.props.navigation.state.params.v;
         let ghr = `?form.ticketTypeName=${i}`;
-        let good = await searchTicketFlow(ghr);
+        let good = await HttpUtils.AjaxData(`${this.state.http}/ticketMng/ticketMng_searchTicketFlow.action`,ghr) //searchTicketFlow(ghr);
 
         let black = `?form.flowroleid=${good.form.fatherList[0].FlowRoleID}`;
-        let feel = await editquanxian(black);
+        let feel = await HttpUtils.AjaxData(`${this.state.http}/ticketMng/ticketMng_searchEditPara.action`,black) //editquanxian(black);
 
         let fate = `?form.roleId=${good.form.fatherList[1].ticketroleid}`;
-        let zero = await searchUserForRole(fate);
+        let zero = await HttpUtils.AjaxData(`${this.state.http}/ticketMng/ticketMng_searchUserForRole.action`,fate)  //searchUserForRole(fate);
 
         let aa = [];
         let kobe = zero.form.dataList;
 
-        let AllManger = await AllMangerUser();
-        let Department = await AllDepartment();
+        let AllManger = await HttpUtils.AjaxData(`${this.state.http}/ticketMng/ticketMng_searchAllMangerUser.action`,'') //AllMangerUser();
+        let Department = await HttpUtils.AjaxData(`${this.state.http}/ticketMng/ticketMng_searchAllDepartment.action`,'') //AllDepartment();
         let y = `?form.departmentId=`
-        let Team =await ForDepartment(y)
+        let Team =await HttpUtils.AjaxData(`${this.state.http}/ticketMng/ticketMng_searchUserForDepartment.action`,y) // ForDepartment(y)
         for(let j in kobe){
               let bryent = kobe[j].realname;
               aa.push(bryent);
@@ -277,7 +277,7 @@ export default class Tdetail extends React.Component{
                 }
             })
         let y = alljsi==''? `?form.departmentId=`:`?form.departmentId=${alljsi}`
-        let Team =await ForDepartment(y)
+        let Team =await HttpUtils.AjaxData(`${this.state.http}/ticketMng/ticketMng_searchUserForDepartment.action`,y) //ForDepartment(y)
         this.setState({ParaId:[]},()=>{
             this.state.ischanges=true;
             this.state.ParaId=Team.form.dataList;
@@ -466,14 +466,13 @@ export default class Tdetail extends React.Component{
             "form.fatherIndex":0,
             "form.sonIndex": -1
         }
-        console.log(data)
         var para = "";
         for(var a in data){
         para +=("&"+a+"="+encodeURIComponent(data[a]));
         }
         para ='?'+para.substr(1,para.length);
         try{
-            let all = await tijiao(para);
+            let all = await HttpUtils.AjaxData(`${this.state.http}/ticketMng/ticketMng_ticketCommit.action`,para) //tijiao(para);
             if(all.form.paraData.length>2){
             Alert.alert(
                 '提示',`${this.props.navigation.state.params.v}创建成功！`,

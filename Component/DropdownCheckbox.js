@@ -109,12 +109,11 @@ export default class DropdownCheckbox extends React.Component {
         let { color, fontSize } = { ...this.props.TextColor }
 
         return(<View>
-            <TouchableOpacity disabled={this.props.isshow} onPress={()=>this.setState({visible:true})}>
+            <TouchableOpacity style={{...this.props.touch}} disabled={this.props.isshow} onPress={()=>this.setState({visible:true})}>
             <View style={{flexDirection:'row',alignItems:'center',...this.props.style,backgroundColor:this.props.isshow?'transparent':"white"}}>
                 <Text style={{paddingTop:5,paddingBottom:5,flexDirection:'row',color:color?color:'lightgray',fontSize:fontSize?fontSize:13}}>
                    {this.open()}
                 </Text>
-                  {!this.props.isshow&&<Image source={require('../images/goto.png')} style={{width:20,height:20}}/>} 
             </View>
             </TouchableOpacity>
             {this.state.visible && <Modal animationType={'slide'} transparent={true} onRequestClose={()=>{

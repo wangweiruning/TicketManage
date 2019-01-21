@@ -1,6 +1,7 @@
 import React from 'react';
 import {Text,View,TouchableOpacity,ScrollView,Image,Alert,TextInput} from 'react-native';
 import Title from './Title'
+import HttpUtils from '../api/Httpdata3';
 import {correation,historys} from './../api/api'
 import MySorage from '../api/storage';
 import {ActivityIndicator } from 'antd-mobile-rn';
@@ -9,6 +10,7 @@ export default class CorrelationPlan extends React.Component{
     MySorage._getStorage()
     super(props);
     this.state = {
+        http:jconfig.netWorkIp?jconfig.netWorkIp:'http://59.172.204.182:8030/ttms',
         animating: false,
         result:[],
         SelectData:[],
@@ -39,9 +41,9 @@ export default class CorrelationPlan extends React.Component{
         {cancelable:false}
       );
     }else{
-        const histo = await historys("?form.tree_node_operation="+0);
+        const histo = await HttpUtils.AjaxData(`${this.state.http}/ticketMng/ticketMng_loadGrid.action`,"?form.tree_node_operation="+0) //historys("?form.tree_node_operation="+0);
         const datas = "?form.userId="+histo.form.userId+"&pageSize=10&curPage=0";
-        const result = await correation(datas);
+        const result = await HttpUtils.AjaxData(`${this.state.http}/ticketMng/ticketMng_searchOnline.action`,datas) //correation(datas);
         this.setState({
             userId:histo.form.userId,
             result:result.form.dataList.sort((a,b)=>{

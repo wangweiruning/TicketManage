@@ -26,6 +26,7 @@ import AddNewTT from './Component/AddNewTictetsTow';
 import AuthLoadingScreen from './Auth'
 import Touchid from './Component/Touchid'
 import Login from './Component/login';
+import Myapp from './Component/Myapp';
 
 // async function checklogin(){
 //     let d = `?code=50ACD07A6C49F3B9E082EF40461AC6D1`;
@@ -183,6 +184,13 @@ const RouteConfigs={
               header: null,
               gesturesEnabled: true
           }
+    },
+    Myapp:{
+      screen:Myapp,
+      navigationOptions:{
+              header: null,
+              gesturesEnabled: true
+          }
     }
   };
   
@@ -224,22 +232,22 @@ const Auths = createStackNavigator({
       navigationOptions: {
           header: null,
           gesturesEnabled: true
-    }
-  },
+      }
+    },
     Networks:{
       screen:Networks,
       navigationOptions: {
           header: null,
           gesturesEnabled: true
-    }
-  },
+      }
+    },
     Touchid:{
       screen:Touchid,
       navigationOptions: {
         header: null,
         gesturesEnabled: true
+      }
     }
-  }
 },{initialRouteName:'login'})
 
 const SwitchNav = createSwitchNavigator({

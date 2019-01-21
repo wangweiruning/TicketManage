@@ -1,13 +1,8 @@
 import React from 'react';
-import {Text,View,TouchableOpacity,TextInput} from 'react-native';
+import {Text,View,TouchableOpacity,TextInput,ToastAndroid} from 'react-native';
 import Title from './Title';
 import MySorage from '../api/storage';
-import {StackActions, NavigationActions} from 'react-navigation';
-const resetAction = StackActions.reset({
-    index: 0,
-    actions: [NavigationActions.navigate({ routeName: 'login' })],
-});
-  
+
 export default class Network extends React.Component{
     constructor(props){
         super(props)
@@ -16,11 +11,32 @@ export default class Network extends React.Component{
         }
     }
 
-    submit(){
-        console.log(this.state.network)
-        MySorage._sava('netWorkIp',this.state.network);
-        // this.props.navigation.dispatch(resetAction);
+    async componentDidMount(){
+        await new Promise((s1, s2) => {
+            MySorage._load('netWorkIp',ress=>{
+                let infos = ress;
+                if(!infos)return s1(); 
+                this.setState({
+                    network:ress
+                })
+            })
+        })
     }
+
+
+    submit(){
+        MySorage._sava('netWorkIp',this.state.network);
+        MySorage._remove('userinfo');
+        ToastAndroid.show('网络设置成功',ToastAndroid.SHORT)
+        this.props.navigation.navigate('Auth')
+    }
+
+    componentWillUnmount = () => {
+        this.setState = (state,callback)=>{
+          return;
+        };
+    }
+
 
     handleInput(k, v){
         this.setState({
@@ -40,7 +56,7 @@ export default class Network extends React.Component{
                     <Text style={{color:'#0390e8',marginLeft:10,fontSize:18}}>服务器地址</Text>
             </View>
             <View style={{borderWidth:1,borderStyle:'solid',borderColor:'grey',borderRadius:5,width:'96%',marginTop:10,alignItems:'center'}}>
-                 <TextInput onSubmitEditing={()=>{this.testBlur()}} ref="inputWR" style={{width:'90%'}} onChangeText={(e)=>this.handleInput('network',e)} multiline={true} />
+                 <TextInput defaultValue={this.state.network} onSubmitEditing={()=>{this.testBlur()}} ref="inputWR" style={{width:'90%'}} onChangeText={(e)=>this.handleInput('network',e)} multiline={true} />
             </View>
             <View style={{marginTop:10,width:'100%',borderTopColor:'grey',borderStyle:'solid',borderTopWidth:1,justifyContent:'flex-end',flexDirection:'row',height:50,alignItems:'center'}}>
             <TouchableOpacity onPress={()=>this.submit()} style={{width:'20%',height:30,borderRadius:5,justifyContent:'center',alignItems:'center',backgroundColor:'#0390e8',marginRight:20}}>

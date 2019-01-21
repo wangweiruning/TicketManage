@@ -1,7 +1,8 @@
 import React from 'react';
 import {Text,View,Image,TouchableOpacity} from 'react-native';
 import Topt from './TopTitle';
-import {awaitdeteal,historys,correation} from '../api/api';
+import HttpUtils from '../api/Httpdata3';
+// import {awaitdeteal,historys,correation} from '../api/api';
 import LunboComponent from './lunbo';
 
 export default class HomeScreen extends React.Component {
@@ -9,6 +10,7 @@ export default class HomeScreen extends React.Component {
   constructor(props){
     super(props)
     this.state={
+      http:jconfig.netWorkIp?jconfig.netWorkIp:'http://59.172.204.182:8030/ttms',
       content:[
         {
           img:require('../images/go1.png'),
@@ -28,13 +30,13 @@ export default class HomeScreen extends React.Component {
   }
 
   async componentDidMount(){
-    const histo = await historys("?form.tree_node_operation="+0);
-    const datas = "?form.userId="+histo.form.userId;
-    const result = await awaitdeteal(datas);//待处理数据
-    const datas2 = "?form.tree_node_operation="+0;
-    const result2 = await historys(datas2);//历史数据
-    const datas3 = "?form.userId="+result2.form.userId;
-    const result3 = await correation(datas3);//相关流程数据
+    let histo = await HttpUtils.AjaxData(`${this.state.http}/ticketMng/ticketMng_loadGrid.action`,"?form.tree_node_operation="+0);
+    let datas = "?form.userId="+histo.form.userId;
+    let result = await HttpUtils.AjaxData(`${this.state.http}/ticketMng/ticketMng_searchUnhandle.action`,datas)   //待处理数据
+    let datas2 = "?form.tree_node_operation="+0;
+    let result2 = await HttpUtils.AjaxData(`${this.state.http}/ticketMng/ticketMng_loadGrid.action`,datas2) //历史数据
+    let datas3 = "?form.userId="+result2.form.userId;
+    let result3 = await HttpUtils.AjaxData(`${this.state.http}/ticketMng/ticketMng_searchOnline.action`,datas3) //相关流程数据
     this.setState({
       loading:result.form.dataList,
       aiaitList:result.form.dataList.length,
@@ -51,7 +53,7 @@ export default class HomeScreen extends React.Component {
 
     
   render() {
-      const { navigate } = this.props.navigation;
+      let { navigate } = this.props.navigation;
       return (<View>
         <Topt navigation={this.props.navigation} centerText={'首页'} datas={this.state.loading}/>
         <LunboComponent />

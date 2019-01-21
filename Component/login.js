@@ -1,20 +1,17 @@
 import React from 'react';
 import {View,TouchableOpacity,Text,Alert,ToastAndroid,Platform,BackHandler,DeviceEventEmitter,Image,TextInput,StatusBar} from 'react-native';
 import {ActivityIndicator,Toast} from 'antd-mobile-rn';
-import {login} from '../api/api';
+import HttpUtils from '../api/Httpdata3'
 import MySorage from '../api/storage';
 import TouchID from 'react-native-touch-id';
 import {TextInputLayout} from 'rn-textinputlayout';
-import {StackActions, NavigationActions} from 'react-navigation';
-const resetAction = StackActions.reset({
-    index: 0,
-    actions: [NavigationActions.navigate({ routeName: 'App' })],
-});
+
 MySorage._getStorage()
 export default class Login extends React.Component{
      constructor(props){
          super(props);
          this.state={
+            http:jconfig.netWorkIp?jconfig.netWorkIp:'http://59.172.204.182:8030/ttms',
             bool:null,
             user:'',
             tou:false,
@@ -60,6 +57,17 @@ export default class Login extends React.Component{
                 s1();
             })
         })
+
+        this.viewDidAppear = this.props.navigation.addListener(
+        'willFocus', async(obj)=>{
+          MySorage._load("netWorkIp",(ress) => {
+                  if(!ress) return;
+                  this.setState({
+                    http:ress
+                  })
+                })
+            }
+        );
 
             // 添加监听进入登陆页然后禁止用户点击返回键返回主页面
             // this.viewDidAppear = this.props.navigation.addListener(
@@ -108,7 +116,7 @@ export default class Login extends React.Component{
         }
         try{
          let datas =`?form.user=${this.state.user}&form.pass=${this.state.pass}&code=50ACD07A6C49F3B9E082EF40461AC6D1`;
-         let result = await login(datas)
+         let result = await HttpUtils.AjaxData(`${this.state.http}/common/login_checkuser.action`,datas)
          if(result.form.status == 1){
             window.jconfig.userinfo=result.form;
             MySorage._sava("userinfo",JSON.stringify(result.form));  

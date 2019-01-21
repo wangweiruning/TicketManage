@@ -1,7 +1,8 @@
 import React from 'react';
 import {Text,View,TouchableOpacity,Alert,ScrollView,Image,TextInput} from 'react-native';
 import Title from './Title'
-import {awaitdeteal,historys} from './../api/api'
+import HttpUtils from '../api/Httpdata3';
+// import {awaitdeteal,historys} from './../api/api'
 import {ActivityIndicator} from 'antd-mobile-rn';
 import MySorage from '../api/storage';
 export default class WaitPlan extends React.Component{
@@ -9,6 +10,7 @@ export default class WaitPlan extends React.Component{
     MySorage._getStorage()
     super(props);
     this.state = {
+      http:jconfig.netWorkIp?jconfig.netWorkIp:'http://59.172.204.182:8030/ttms',
       animating: false,
       result:'',
       userId:"",
@@ -41,9 +43,9 @@ export default class WaitPlan extends React.Component{
           );
           return 
         }else{
-        const histo = await historys("?form.tree_node_operation="+0);
+        const histo = await HttpUtils.AjaxData(`${this.state.http}/ticketMng/ticketMng_loadGrid.action`,"?form.tree_node_operation="+0) //historys("?form.tree_node_operation="+0);
         const datas = "?form.userId="+histo.form.userId;
-        const result = await awaitdeteal(datas);
+        const result = await HttpUtils.AjaxData(`${this.state.http}/ticketMng/ticketMng_searchUnhandle.action`,datas) //awaitdeteal(datas);
     
         this.setState({
             userId:histo.form.userId,

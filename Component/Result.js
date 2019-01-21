@@ -8,7 +8,7 @@ import { NavigationActions, StackActions } from 'react-navigation';
 import DropdownCheckbox from '../Component/DropdownCheckbox';
 import { AllDepartment, AllMangerUser, editquanxian, ForDepartment, historys, newTiceketNum, searchFlowRecord, searchTicketFlow, searchTicketRecord, searchUserForRole, TicketBasicInfo, tijiao } from './../api/api';
 import TicketTitle from './TicketTitle';
-import Model from './Model';
+import HttpUtils from '../api/Httpdata3';
 const resetAction = StackActions.reset({
     index: 0,
     actions: [NavigationActions.navigate({ routeName: 'Tab' })],
@@ -17,6 +17,7 @@ export default class Tdetail extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
+            http:jconfig.netWorkIp?jconfig.netWorkIp:'http://59.172.204.182:8030/ttms',
             one:[],
             tow:[],
             three:[],
@@ -99,7 +100,7 @@ export default class Tdetail extends React.Component {
             nextStatusIdarr:[],
             nextFlowRoleIdarr:[],
             nextRoleIdarr:[],
-            currentflowroleid:[]
+            currentflowroleid:[],
         }
     }
 
@@ -343,14 +344,14 @@ async getliucheng(){
         var sonIndex = -1;
         const { templateID, ticketNum, typeName, departmentid,ticketbasicinfoid } = this.props.navigation.state.params;
         const geturlid = "?form.tree_node_operation=" + 0;
-        const result = await historys(geturlid);
+        const result = await HttpUtils.AjaxData(`${this.state.http}/ticketMng/ticketMng_loadGrid.action`,geturlid)  //historys(geturlid);
         const userId = result.form.userId;
         /**
          * 获取票编号
          * newTiceketNum
          * **/
         const ids = '?form.templateId=' + templateID;
-        const TiceketNum = await newTiceketNum(ids);
+        const TiceketNum = await HttpUtils.AjaxData(`${this.state.http}/ticketMng/ticketMng_newTiceketNum.action`,ids) //newTiceketNum(ids);
         this.setState({
             TiceketNum: TiceketNum.form.newTicket,
             userId: userId
@@ -359,7 +360,7 @@ async getliucheng(){
 
 
         let r = '?form.jqgrid_row_selected_id=' + templateID;
-        let x = await TicketBasicInfo(r);//获取模板
+        let x = await HttpUtils.AjaxData(`${this.state.http}/baseInformation/templateMng_templateContentSearch.action`,r) //TicketBasicInfo(r);//获取模板
         let one = [];
         let tow = [];
         let three = [];
@@ -380,7 +381,6 @@ async getliucheng(){
         x.form.templateContents.filter(v=>v.ParaTypeID==6).map((v)=>{
             five.push(v)
         })
-        console.log(one,tow,three,four,five,'aaaaaaaaaaaaaaaaaaaa')
         this.setState({
             templateContents: x.form.templateContents,
             one:one,
@@ -398,7 +398,7 @@ async getliucheng(){
         //当前类型两票流程
         //根据类型名称查询流程状态角色并排序显示
         let data = `?form.ticketTypeName=${typeName}`;
-        let liucheng = await searchTicketFlow(data);
+        let liucheng = await HttpUtils.AjaxData(`${this.state.http}/ticketMng/ticketMng_searchTicketFlow.action`,data) //searchTicketFlow(data);
         // return;
         ticketFlowrole = liucheng.form.fatherList;//该流程所属类型的所有状态角色
         //去除作废流程
@@ -421,7 +421,7 @@ async getliucheng(){
             // 这里需要获取已经经过的流程fl
             const flewFrom = "?form.basicInfoId=" + ticketbasicinfoid;
             const ticket = '?form.ticketNum='+ticketNum;
-            const FlowList = await searchFlowRecord(ticket)
+            const FlowList = await HttpUtils.AjaxData(`${this.state.http}/ticketMng/ticketMng_searchFlowRecord.action`,ticket) //searchFlowRecord(ticket)
             
             ticketFlowList = FlowList.form.dataList;//获取当前流程所有状态
             if (ticketFlowList[0].ManageTime) {
@@ -445,7 +445,7 @@ async getliucheng(){
             
           
             //将已填写的参数值填入页面
-            const TicketRecord = await searchTicketRecord(flewFrom);
+            const TicketRecord = await HttpUtils.AjaxData(`${this.state.http}/ticketMng/ticketMng_searchTicketRecord.action`,flewFrom) //searchTicketRecord(flewFrom);
             const list = TicketRecord.form.dataList;//获取到票数据内容，等待传入页面
             this.setState({
                 fatherIndex:fatherIndex,
@@ -476,15 +476,15 @@ async getliucheng(){
 
 
             //获取组名称
-            let bumen = await AllDepartment();
+            let bumen = await HttpUtils.AjaxData(`${this.state.http}/ticketMng/ticketMng_searchAllDepartment.action`,'') //AllDepartment();
            
             let y = `?form.departmentId=`
-            let Team = await ForDepartment(y) //根据部门id获取用户
+            let Team = await HttpUtils.AjaxData(`${this.state.http}/ticketMng/ticketMng_searchUserForDepartment.action`,y) //ForDepartment(y) //根据部门id获取用户
             //获取工作负责人
-            const groupnumber = await AllMangerUser()
+            const groupnumber = await HttpUtils.AjaxData(`${this.state.http}/ticketMng/ticketMng_searchAllMangerUser.action`,'')  //AllMangerUser()
            
             const paramsItem = "?form.flowroleid=" + ticketFlowList[0].FlowRoleID;
-            const saves = await editquanxian(paramsItem);//获取可编辑内容区域
+            const saves = await HttpUtils.AjaxData(`${this.state.http}/ticketMng/ticketMng_searchEditPara.action`,paramsItem) //editquanxian(paramsItem);//获取可编辑内容区域
             let tt;
             saves.form.dataList.map(item=>{
                  tt = Object.assign(this.state.newpagedata,{[item.TicketParaID]:item.ParaName=='班组'|| item.ParaName=='班组成员'?null:''});
@@ -543,7 +543,7 @@ async getliucheng(){
                     })
                     var nextRoleId = newTicket[index + 1].ticketroleid;
                     const dui = "?form.roleId=" + nextRoleId;
-                    const searchRole = await searchUserForRole(dui);//获取提交对象
+                    const searchRole = await HttpUtils.AjaxData(`${this.state.http}/ticketMng/ticketMng_searchUserForRole.action`,dui)  //searchUserForRole(dui);//获取提交对象
                    
                     this.setState({
                         nextFlowId: newTicket[index].ticketflowid,
@@ -712,7 +712,7 @@ async getliucheng(){
         
 
             let y = params == '' ? `?form.departmentId=` : `?form.departmentId=${params.join(",")}`
-            let Team = await ForDepartment(y)
+            let Team = await HttpUtils.AjaxData(`${this.state.http}/ticketMng/ticketMng_searchUserForDepartment.action`,y) //ForDepartment(y)
             this.setState({ ParaId: [] }, () => {
                 this.state.ischanges = true;
                 this.state.ParaId = Team.form.dataList;
@@ -748,7 +748,7 @@ async getliucheng(){
         return <View style={{alignItems:'center',height:44,paddingRight:8,flexDirection:'row',marginLeft:15,width:'96%',borderBottomColor:'#e9e9ef',borderStyle:'solid',borderBottomWidth:1}}>
                     <Text style={{color: '#363434',flex:1,fontSize:16}}>流转目标</Text>
                     <DropdownCheckbox open={this.open.bind(this)} TextColor={{ color: '#363434', fontSize: 13}}
-                        style={{justifyContent: 'center'}} SelectData={this.state.searchRole} />
+                        style={{justifyContent: 'center'}} SelectData={this.state.searchRole} touch={{marginRight:18}}/>
                </View>
     }
     getliuzhuan = () => {
@@ -812,7 +812,7 @@ async getliucheng(){
         let nextRoleIdarr = backRoleId
         //获取提交对象
         const dui = "?form.roleId=" + backRoleId[0];
-        const searchRole = await searchUserForRole(dui);//获取提交对象
+        const searchRole = await HttpUtils.AjaxData(`${this.state.http}/ticketMng/ticketMng_searchUserForRole.action`,dui) //searchUserForRole(dui);//获取提交对象
 
         this.setState({
             nextFlowId:FlowRoleID[0],
@@ -856,7 +856,7 @@ async getliucheng(){
             let tt = ticketFlowrole[index + 1].ticketflowid;
           
             this.state.nextFlowId = tt;
-            const searchRole = await searchUserForRole(dui);//获取提交对象
+            const searchRole = await HttpUtils.AjaxData(`${this.state.http}/ticketMng/ticketMng_searchUserForRole.action`,dui) //searchUserForRole(dui);//获取提交对象
             
             this.setState({
                 nextFlow: arr,
@@ -898,7 +898,7 @@ async getliucheng(){
                 
           
             const dui = "?form.roleId=" + roleid;
-            const searchRoles = await searchUserForRole(dui);
+            const searchRoles = await HttpUtils.AjaxData(`${this.state.http}/ticketMng/ticketMng_searchUserForRole.action`,dui) //searchUserForRole(dui);
             this.setState({
             //     currentstatusid:this.state.sonstatusid[index],
                 targetFlowId:this.state.nextFlowRoleIdarr[index],
@@ -1013,9 +1013,7 @@ async getliucheng(){
                 "form.flowroleid0":this.state.statusId1,
                 "form.flowroleid": this.state.statusId,
             }
-            console.log(data)
             var para = "";
-        // return;
             for (var a in data) {
                 para += ("&" + a + "=" + encodeURIComponent(data[a]));
             }
@@ -1025,7 +1023,7 @@ async getliucheng(){
                 loading: true
             })
             try {
-                const tijiaodata = await tijiao(para)
+                const tijiaodata = await HttpUtils.AjaxData(`${this.state.http}/ticketMng/ticketMng_ticketCommit.action`,para)  //tijiao(para)
                 if(tijiaodata.form.commitInfo!==null){
                     this.setState({
                         loading: false
@@ -1236,7 +1234,7 @@ async getliucheng(){
                              this.state.pagedata[v.TicketParaID+"*1"] = newds.join("&$");
                              this.state.newpagedata[v.TicketParaID+"*1"]=newds;}}
                              autoHeight last={true}
-                             style={{maxWidth:"100%",width:'100%',paddingVertical:10,paddingHorizontal:0,color:'#666',fontSize:14,borderBottomColor:'#ccc',borderBottomWidth:newds.length==qIndex+1?0:1,borderStyle:'solid'}} />
+                             style={{maxWidth:"100%",width:'100%',paddingVertical:10,paddingHorizontal:0,color:dis?'#666':'#d1d1d1',fontSize:14,borderBottomColor:'#ccc',borderBottomWidth:newds.length==qIndex+1?0:1,borderStyle:'solid'}} />
             </View>
             {v.IsAdd==1&&dis&&v.ParaTypeID ==6&& <TouchableOpacity onPress={()=>{
             this.setState(({pagedata})=>{
@@ -1258,26 +1256,27 @@ async getliucheng(){
 
     }
 
+    gets(){
+
+    }
+
     MoreCheck(v,dis){
-        return(<View style={{marginRight:10,flexDirection:'row',alignItems:'center'}}>
-        <DropdownCheckbox open={this.openothers.bind(this)} isshow={!dis} leixin={v.TicketParaID} ParaName={v.ParaName}
+        return(<DropdownCheckbox open={this.openothers.bind(this)} isshow={!dis} leixin={v.TicketParaID} ParaName={v.ParaName}
             getDefaultValue={v.ParaName == "班组" ? false : true}
             defaultValue={this.getDefaultMore(v.TicketParaID, v.ParaName)}
             style={{flexWrap:'wrap',height:44}}
             ischanges={this.state.ischanges}
             banzu={v.ParaName == "班组"?v.ParaName:" "}
-            TextColor={{color:'#666',fontSize:13}}
-            SelectData={v.ParaName == "班组" ? this.state.groupName : this.state.ParaId} canClick={dis} />
-        </View>)
+            TextColor={{color:dis?'#666':'#d1d1d1',fontSize:13}}
+            SelectData={v.ParaName == "班组" ? this.state.groupName : this.state.ParaId} canClick={dis} />)
     }
 
     NormalCheck(v,dis){
-        return(<View style={{width:"100%",marginRight:10,flexDirection:'row',alignItems:'center'}}>
-        <ModalDropdown
-        dropdownStyle={{width:'50%',backgroundColor:'#eee',borderWidth:0,elevation:3,height:121}}
+        return(<View style={{width:"100%",flexDirection:'row'}}>
+        <ModalDropdown dropdownStyle={{width:'50%',backgroundColor:'#eee',borderWidth:0,elevation:3,height:121}}
         disabled={!dis}
-        dropdownTextStyle={{ fontSize: 15 }}
-        textStyle={{color:'#363434', fontSize: 13}}
+        dropdownTextStyle={{fontSize:15}}
+        textStyle={{color:dis?'#666':'#d1d1d1', fontSize: 13}}
         style={{height:44,justifyContent:'center'}}
         defaultValue={this.getGzryName(v.TicketParaID)}
         onSelect={(e, value) => this.getSelect(e, value, v.TicketParaID)}
@@ -1297,30 +1296,29 @@ async getliucheng(){
             underlineColorAndroid="transparent"
             placeholderTextColor="#f5f5f5"
             onChangeText={(values) => this.handleInput(v.TicketParaID, values)}
-            style={{padding:0,color:'#666',flexWrap:'wrap'}} />
+            style={{padding:0,color:dis?'#666':'#d1d1d1',flexWrap:'wrap'}} />
             </View>:<View style={{width:"100%"}}>
             <TextInput multiline={true} value={this.getchecked(v.TicketParaID)} underlineColorAndroid="transparent"
             editable={dis} placeholder={dis?"请输入":""} placeholderTextColor="#363434"
             onChangeText={(values) => this.handleInput(v.TicketParaID, values)}
-            style={{padding:0,color:'#666',flexWrap:'wrap'}} />
+            style={{padding:0,color:dis?'#666':'#d1d1d1',flexWrap:'wrap'}} />
             </View>}
         </View>)
     }
 
     CheckDates(v,dis){
-        return(<View style={{flexDirection:'row',alignItems:'center'}}>
+        return(<View style={{flexDirection:'row'}}>
         <DatePicker
             customStyles={{
                     dateInput: {
-                    paddingRight:5,
-                    justifyContent:'center',
                     borderWidth:0,
+                    justifyContent:'center'
                     },
                     dateText:{
-                        color:'#666'
+                        color:dis?'#666':'#d1d1d1'
                     },
                     placeholderText:{
-                        color:'#666'
+                        color:dis?'#666':'#d1d1d1'
                     }
         }}  
             style={{justifyContent:'center',height:44}}   
@@ -1334,14 +1332,13 @@ async getliucheng(){
             minDate={new Date(2015, 1, 1)}
             placeholder={dis?"请选择时间":" "}
             onDateChange={(value) => this.onChange(v.TicketParaID, value)} />
-         {dis&&<Image source={require('../images/goto.png')} style={{width:20,height:20}}/>}
         </View>)
     }
 
     AreaInput(v,dis){
         return(<View style={{width:"100%"}}>
           {
-            v.IsAdd==1?this.getTextareaItemByID(v,dis):<View style={{flexDirection:'row',width:'96%',marginLeft:15,alignItems:'center'}}>
+            v.IsAdd==1?this.getTextareaItemByID(v,dis):<View style={{flexDirection:'row',width:'96%',marginLeft:10,alignItems:'center'}}>
                 {v.IsConfirm == 1 && <CheckBox labelStyle={{color:'#363434'}} checkboxStyle={{width:18,height:18}} label={''}
                     underlayColor={"transparent"} checked={this.state.newChecked[v.TicketParaID+"_1"]==1}
                     onChange={(e) => dis && this.onChangeTextCheck(v.TicketParaID + '_1', e, dis)}>
@@ -1349,7 +1346,7 @@ async getliucheng(){
                     <TextareaItem editable={dis} rows={4} placeholderTextColor="#666" placeholder={dis?"请输入":""}
                     defaultValue={this.getchecked(v.TicketParaID)} autoHeight last={true}
                     onChangeText={(values) => this.handleInput(v.TicketParaID, values)}
-                    style={{alignItems:'center',color:'#666',fontSize:14,paddingHorizontal:0,height:44,maxWidth:'100%',minWidth:'100%'}} />
+                    style={{alignItems:'center',color:dis?'#666':'#d1d1d1',fontSize:14,paddingHorizontal:0,height:44,maxWidth:'100%',minWidth:'100%'}} />
                     </View>
            }
                 
@@ -1386,11 +1383,12 @@ async getliucheng(){
                         <Text style={{color:"#363434",textAlign:"center",marginTop:10,fontSize:15}}>加载中...</Text>
                         </View>}
                     <ScrollView>
+                     <View style={{height:15}}></View>
                       <View style={{width:'100%',backgroundColor:'white',borderBottomColor:"#ccc",borderStyle:"solid",borderBottomWidth:1,borderTopColor:"#ccc",borderTopWidth:1}}>
                         {this.state.one.map((v,i)=>{
                         let dis = this.ischacked(v.TicketParaID);
                         return (<View key={i} style={{width:'96%',borderBottomColor:'#ccc',borderStyle:'solid',justifyContent:'center',borderBottomWidth:1,marginLeft:15}}>
-                            <Text style={{fontSize:16,color:'#333',paddingRight:5,flex:1}}>{v.ParaName}</Text>
+                            <Text style={{fontSize:16,color:dis?'#666':'#d1d1d1',paddingRight:5,flex:1,marginTop:5}}>{v.ParaName}</Text>
                             {(v.IsAdd==1&&dis)&&<TouchableOpacity dis={dis} onPress={()=>this.add(v,v.TicketParaID+"*1",v.TicketParaID+"_1")} style={{width:'11%',height:25,justifyContent:'center',alignItems:'center'}}>
                                 <Image style={{width:23,top:1,height:23,resizeMode:Image.resizeMode.contain}} source={require('../images/add.png')}/>  
                             </TouchableOpacity>}
@@ -1399,7 +1397,7 @@ async getliucheng(){
                         {this.state.tow.map((v,i)=>{
                         let dis = this.ischacked(v.TicketParaID);
                         return (<View key={i} style={{width:'96%',borderBottomColor:'#ccc',borderStyle:'solid',justifyContent:'center',borderBottomWidth:1,marginLeft:15}}>
-                            <Text style={{fontSize:16,color:'#333',paddingRight:5,flex:1}}>{v.ParaName}</Text>
+                            <Text style={{fontSize:16,color:dis?'#666':'#d1d1d1',paddingRight:5,flex:1,marginTop:5}}>{v.ParaName}</Text>
                             {(v.IsAdd==1&&dis)&&<TouchableOpacity dis={dis} onPress={()=>this.add(v,v.TicketParaID+"*1",v.TicketParaID+"_1")} style={{width:'11%',height:25,justifyContent:'center',alignItems:'center'}}>
                                 <Image style={{width:23,top:1,height:23,resizeMode:Image.resizeMode.contain}} source={require('../images/add.png')}/>  
                             </TouchableOpacity>}
@@ -1408,7 +1406,7 @@ async getliucheng(){
                         {this.state.three.map((v,i)=>{
                         let dis = this.ischacked(v.TicketParaID);
                         return (<View key={i} style={{width:'96%',borderBottomColor:'#ccc',borderStyle:'solid',justifyContent:'center',borderBottomWidth:1,marginLeft:15}}>
-                            <Text style={{fontSize:16,color:'#333',paddingRight:5,flex:1}}>{v.ParaName}</Text>
+                            <Text style={{fontSize:16,color:dis?'#666':'#d1d1d1',paddingRight:5,flex:1,marginTop:5}}>{v.ParaName}</Text>
                             {(v.IsAdd==1&&dis)&&<TouchableOpacity dis={dis} onPress={()=>this.add(v,v.TicketParaID+"*1",v.TicketParaID+"_1")} style={{width:'11%',height:25,justifyContent:'center',alignItems:'center'}}>
                                 <Image style={{width:23,top:1,height:23,resizeMode:Image.resizeMode.contain}} source={require('../images/add.png')}/>  
                             </TouchableOpacity>}
@@ -1417,7 +1415,7 @@ async getliucheng(){
                         {this.state.four.map((v,i)=>{
                         let dis = this.ischacked(v.TicketParaID);
                         return (<View key={i} style={{width:'96%',borderBottomColor:'#ccc',borderStyle:'solid',justifyContent:'center',borderBottomWidth:1,marginLeft:15}}>
-                            <Text style={{fontSize:16,color:'#333',paddingRight:5,flex:1}}>{v.ParaName}</Text>
+                            <Text style={{fontSize:16,color:dis?'#666':'#d1d1d1',paddingRight:5,flex:1,marginTop:5}}>{v.ParaName}</Text>
                             {(v.IsAdd==1&&dis)&&<TouchableOpacity dis={dis} onPress={()=>this.add(v,v.TicketParaID+"*1",v.TicketParaID+"_1")} style={{width:'11%',height:25,justifyContent:'center',alignItems:'center'}}>
                                 <Image style={{width:23,top:1,height:23,resizeMode:Image.resizeMode.contain}} source={require('../images/add.png')}/>  
                             </TouchableOpacity>}
@@ -1426,7 +1424,7 @@ async getliucheng(){
                         {this.state.five.map((v,i)=>{
                         let dis = this.ischacked(v.TicketParaID);
                         return (<View key={i} style={{width:'96%',borderBottomColor:'#ccc',borderStyle:'solid',justifyContent:'center',borderBottomWidth:this.state.five.length==i+1?0:1,marginLeft:15}}>
-                            <Text style={{fontSize:16,color:'#333',paddingRight:5,flex:1}}>{v.ParaName}</Text>
+                            <Text style={{fontSize:16,color:dis?'#666':'#d1d1d1',paddingRight:5,flex:1,marginTop:5}}>{v.ParaName}</Text>
                             {(v.IsAdd==1&&dis)&&<TouchableOpacity dis={dis} onPress={()=>this.add(v,v.TicketParaID+"*1",v.TicketParaID+"_1")} style={{width:'11%',height:25,justifyContent:'center',alignItems:'center'}}>
                                 <Image style={{width:23,top:1,height:23,resizeMode:Image.resizeMode.contain}} source={require('../images/add.png')}/>  
                             </TouchableOpacity>}

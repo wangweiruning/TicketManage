@@ -2,7 +2,8 @@ import React from 'react';
 import {View,Text,TouchableOpacity,Alert,Image,StatusBar,ToastAndroid} from 'react-native';
 import MySorage from '../api/storage';
 import TouchID from 'react-native-touch-id';
-import {userlist,historys} from '../api/api';
+// import {userlist,historys} from '../api/api';
+import HttpUtils from '../api/Httpdata3'
 import {Switch} from 'antd-mobile-rn';
 import Topt from './TopTitle';
 
@@ -11,6 +12,7 @@ export default class Me extends React.Component {
   constructor(props){
     super(props)
     this.state={
+      http:jconfig.netWorkIp?jconfig.netWorkIp:'http://59.172.204.182:8030/ttms',
       bools:false,
       user:'',
       tou:false,
@@ -31,9 +33,10 @@ export default class Me extends React.Component {
   }
 
   async componentDidMount(){
-    let x = await userlist();
+    let x = await HttpUtils.AjaxData(`${this.state.http}/home/home_showUserDatas.action`,''); //userlist
     let d = `?form.tree_node_operation=0`;
-    let g = await historys(d);
+    let g = await HttpUtils.AjaxData(`${this.state.http}/ticketMng/ticketMng_loadGrid.action`,d); //historys
+    console.log(x,g)
     this.setState({
       list:x.form.paramAllList,
       user:g.form.userId

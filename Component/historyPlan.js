@@ -2,12 +2,14 @@ import React from 'react';
 import {Text,View,ScrollView,Alert,TouchableOpacity,TextInput,Image} from 'react-native';
 import {historys,gethistory,Searchhistory} from './../api/api'
 import Title from './Title';
+import HttpUtils from '../api/Httpdata3';
 import DatePicker from 'react-native-datepicker'
 import {ActivityIndicator } from 'antd-mobile-rn';
 export default class HistoryPlan extends React.Component{
   constructor(props) {
     super(props);
     this.state = {
+        http:jconfig.netWorkIp?jconfig.netWorkIp:'http://59.172.204.182:8030/ttms',
         animating: false,
         result:[],
         SelectData:[],
@@ -38,7 +40,7 @@ export default class HistoryPlan extends React.Component{
         {cancelable:false}
       );
       const datas = "?form.tree_node_operation="+0+"&form.page.pageSize=100&form.page.curPageNo=1";
-      const result = await historys(datas);
+      const result = await HttpUtils.AjaxData(`${this.state.http}/ticketMng/ticketMng_loadGrid.action`,datas)  //historys(datas);
 
       if(result){
       this.setState({
@@ -59,7 +61,7 @@ export default class HistoryPlan extends React.Component{
   async gotoItem(params){
 
     const items ="?form.jqgrid_row_selected_id="+params.id;
-    let getLIshi = await gethistory(items);
+    let getLIshi = await HttpUtils.AjaxData(`${this.state.http}/ticketSearch/previousTicketSearch_sendParameter.action`,items) //gethistory(items);
     let ttt = JSON.parse(getLIshi.form.dataJson);
     let sss= ttt.sendParameterList[0];
     //跳转时传递参数 typeName：票名称 ticketNum:编号  templateID：工作票模板id（tickettemplateid） isAlter 常量1   _： 当前时间戳  departmentid部门id
@@ -107,8 +109,7 @@ onChanegeTextKeyword(text){
   async search(){
     let e = this.state.value
     let tim = `?form.search_from=${e}`
-    let time = await Searchhistory(tim)
-    console.log(e)
+    let time = await HttpUtils.AjaxData(`${this.state.http}/ticketMng/ticketMng_onGridSearch.action`,tim) //Searchhistory(tim)
     if(!e){
       this.setState({
         result:this.state.SelectData.sort((a,b)=>{

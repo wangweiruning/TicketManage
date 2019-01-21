@@ -1,12 +1,14 @@
 import Topt from './TopTitle';
 import React from 'react';
-import {moban,ttmsTickets,searchUserPower,userlist} from '../api/api';
+import HttpUtils from '../api/Httpdata3';
+// import {moban,ttmsTickets,searchUserPower,userlist} from '../api/api';
 import {Text,TouchableOpacity,Image,Alert,ScrollView,View} from 'react-native';
 
 export default class AddNewT extends React.Component{
     constructor(props){
         super(props)
         this.state={
+          http:jconfig.netWorkIp?jconfig.netWorkIp:'http://59.172.204.182:8030/ttms',
           jay:[],
           jkl:[],
         }
@@ -15,7 +17,7 @@ export default class AddNewT extends React.Component{
 
     async componentDidMount(){
         let op = '?form.tree_node_id=0&form.tree_node_operation=0'
-        let e = await moban(op)
+        let e = await HttpUtils.AjaxData(`${this.state.http}/baseInformation/templateMng_loadTree.action`,op) //moban(op)
         this.setState({
             jay:e.form.tree_data[0].children
         })
@@ -23,7 +25,7 @@ export default class AddNewT extends React.Component{
      
    async goticket(names,v){
         let j = `?form.tree_node_id=${names}`
-        let h = await ttmsTickets(j);
+        let h = await HttpUtils.AjaxData(`${this.state.http}/ticketMng/ticketMng_loadTemplate.action`,j) // ttmsTickets(j);
         if(h.form.dataList.length==0){
             return Alert.alert(
                  "提示",
@@ -36,7 +38,7 @@ export default class AddNewT extends React.Component{
          }
         let name= h.form.dataList[0].TicketTemplateID;
         
-        let list = await userlist();
+        let list = await HttpUtils.AjaxData(`${this.state.http}/home/home_showUserDatas.action`,'') //userlist();
         this.xunahn(name,v,list.form.paramAllList,names)
     } 
 
@@ -51,7 +53,7 @@ export default class AddNewT extends React.Component{
                 p=true;
                 const {navigate} = this.props.navigation;
                 let j = `?form.tree_node_id=${treeid}`;
-                let n = await searchUserPower(j);
+                let n = await HttpUtils.AjaxData(`${this.state.http}/ticketMng/ticketMng_searchUserPower.action`,j)  //searchUserPower(j);
                 var flag = false;
                 for(var i = 0; i < n.form.dataList.length; i++){
                     if(n.form.dataList[i].userId == element.userid){

@@ -1,12 +1,8 @@
 import React from 'react';
-import {Text,View,TouchableOpacity,TextInput,StatusBar} from 'react-native';
-import {StackActions, NavigationActions} from 'react-navigation';
+import {Text,View,TouchableOpacity,TextInput,ToastAndroid} from 'react-native';
 import Ltbar from './Ltbar';
-const resetAction = StackActions.reset({
-    index: 0,
-    actions: [NavigationActions.navigate({ routeName: 'login' })],
-});
-  
+import MySorage from '../api/storage';
+
 export default class Networks extends React.Component{
     constructor(props){
         super(props)
@@ -16,9 +12,9 @@ export default class Networks extends React.Component{
     }
 
     submit(){
-        console.log(this.state.network)
         MySorage._sava('netWorkIp',this.state.network);
-        // this.props.navigation.dispatch(resetAction);
+        ToastAndroid.show('网络配置成功',ToastAndroid.SHORT)
+        this.props.navigation.navigate('Auth')
     }
 
     handleInput(k, v){
