@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text,View,TouchableOpacity,TextInput,ToastAndroid} from 'react-native';
+import {Text,View,TouchableOpacity,TextInput,ToastAndroid,DeviceEventEmitter} from 'react-native';
 import Title from './Title';
 import MySorage from '../api/storage';
 
@@ -28,7 +28,9 @@ export default class Network extends React.Component{
         MySorage._sava('netWorkIp',this.state.network);
         MySorage._remove('userinfo');
         ToastAndroid.show('网络设置成功',ToastAndroid.SHORT)
+        window.jconfig.netWorkIp = this.state.network;
         this.props.navigation.navigate('Auth')
+        this.forceUpdate()
     }
 
     componentWillUnmount = () => {

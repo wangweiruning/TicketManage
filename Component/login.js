@@ -1,11 +1,10 @@
 import React from 'react';
-import {View,TouchableOpacity,Text,Alert,ToastAndroid,Platform,BackHandler,DeviceEventEmitter,Image,TextInput,StatusBar} from 'react-native';
+import {View,TouchableOpacity,Text,Alert,ToastAndroid,Platform,BackHandler,Image,TextInput,StatusBar} from 'react-native';
 import {ActivityIndicator,Toast} from 'antd-mobile-rn';
 import HttpUtils from '../api/Httpdata3'
 import MySorage from '../api/storage';
 import TouchID from 'react-native-touch-id';
 import {TextInputLayout} from 'rn-textinputlayout';
-
 MySorage._getStorage()
 export default class Login extends React.Component{
      constructor(props){
@@ -35,7 +34,6 @@ export default class Login extends React.Component{
        }
 
     async componentDidMount () {
-        
         await new Promise((s1, s2) => {
             MySorage._load("history",(ress) => {
                 let infos = ress;
@@ -138,6 +136,7 @@ export default class Login extends React.Component{
 
         }catch(e){
             Toast.fail("服务器出现问题或网络连接异常",3,null,true)
+            console.log(this.state.http,e)
             this.setState({
                 loading:false
             })
@@ -174,7 +173,10 @@ export default class Login extends React.Component{
         <View style={{position:'absolute',width:'100%',height:'100%'}}>
         <Image source={require('../images/cc.jpg')} style={{width:'100%',height:'100%'}}/>
         </View>
-          <View style={{marginTop:"10%",alignItems:'center'}}>
+          <View style={{marginTop:"10%",alignItems:'center',marginBottom:"10%"}}>
+          <View style={{width:'95%',flexDirection:'row',justifyContent:"flex-end"}}>
+            <Text onPress={()=>this.props.navigation.navigate('Networks')} style={{color:'white',fontSize:18}}>网络设置</Text>
+          </View>
           <Image source={require('../images/log.png')} style={{width:70,height:70,marginBottom:10}} resizeMode = 'contain'/>
           <Text style={{fontWeight:'500',color:'white',fontSize:18}}>瑞智一体化两票管理系统</Text>
            <View style={{flexDirection:'row',alignItems:'flex-end',marginTop:15,height:60}}>
@@ -197,9 +199,9 @@ export default class Login extends React.Component{
                style={{elevation:3,marginTop:15,justifyContent:'center',alignItems:'center',width:'80%',backgroundColor:this.state.loading?'rgba(54,87,147,.3)':'#1296db',borderRadius:5,height:40}}>
           <Text style={{color:'white',fontSize:18}}>登录</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={()=>this.props.navigation.navigate('Networks')} style={{backgroundColor:'rgba(255,255,255,.4)',width:38,height:38,borderRadius:19,marginTop:40,justifyContent:'center',alignItems:'center'}}>
+        {/* <TouchableOpacity onPress={()=>this.props.navigation.navigate('Networks')} style={{backgroundColor:'rgba(255,255,255,.4)',width:38,height:38,borderRadius:19,marginTop:70,justifyContent:'center',alignItems:'center'}}>
          <Image source={require('../images/net.png')} style={{width:30,height:30}}/>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
         </View>
         </View>)
     }

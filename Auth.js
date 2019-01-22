@@ -3,7 +3,7 @@ import MySorage from './api/storage';
 // import {islogin} from './api/api'
 import HttpUtils from './api/Httpdata3'
 import TouchID from 'react-native-touch-id';
-import {StatusBar,View} from 'react-native';
+import {StatusBar} from 'react-native';
 MySorage._getStorage()
 window.jconfig={
     userinfo:{},
@@ -17,16 +17,19 @@ export default class AuthLoadingScreen extends React.Component {
         http:jconfig.netWorkIp?jconfig.netWorkIp:'http://59.172.204.182:8030/ttms',
         tou:false
       }
-      this.checklogin.bind(this)
     }
   
 
+    // componentWillMount(){
+    //     setTimeout(()=>this.checklogin(),1500) 
+    // }
+
     async checklogin(){
-        let d = `?code=50ACD07A6C49F3B9E082EF40461AC6D1`;
-        let ff = await HttpUtils.AjaxData(`${this.state.http}/common/login_checkSession.action`,d);
-        if(ff.form.status==0&&window.jconfig.userinfo!=null){
+        let token = `?code=50ACD07A6C49F3B9E082EF40461AC6D1`;
+        let session = await HttpUtils.AjaxData(`${this.state.http}/common/login_checkSession.action`,token);
+        if(session.form.status==0){
             this.props.navigation.navigate('Auth')
-          }
+        }
       }
 
 
@@ -38,8 +41,10 @@ export default class AuthLoadingScreen extends React.Component {
             this.setState({
               tou:true
             })
-          })
-       this._bootstrapAsync();
+          });
+
+       this.checklogin();
+       this._bootstrapAsync()
     }
 
     _bootstrapAsync = async () => {

@@ -36,7 +36,6 @@ export default class Me extends React.Component {
     let x = await HttpUtils.AjaxData(`${this.state.http}/home/home_showUserDatas.action`,''); //userlist
     let d = `?form.tree_node_operation=0`;
     let g = await HttpUtils.AjaxData(`${this.state.http}/ticketMng/ticketMng_loadGrid.action`,d); //historys
-    console.log(x,g)
     this.setState({
       list:x.form.paramAllList,
       user:g.form.userId

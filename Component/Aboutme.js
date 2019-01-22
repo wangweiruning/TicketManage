@@ -17,7 +17,7 @@ export default class Aboutme extends React.Component{
                    <Text style={{color:'black',fontSize:18,marginRight:13}}>v1.0.0</Text>
                   </View>
              </View>
-             <TouchableOpacity onPress={()=>this.props.navigation.navigate('Myapp')} style={{width:'100%',alignItems:'center',flexDirection:'row'}} activeOpacity={.8}>
+             <TouchableOpacity style={{width:'100%',alignItems:'center',flexDirection:'row'}} activeOpacity={.8}>
                   <View style={{width:'8%'}}>
                     <Image source={require('../images/some.png')} style={{marginLeft:10,width:20,height:20,resizeMode:Image.resizeMode.contain}}/>
                   </View>

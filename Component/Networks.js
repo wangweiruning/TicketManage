@@ -12,15 +12,23 @@ export default class Networks extends React.Component{
     }
 
     submit(){
+        window.jconfig.netWorkIp = this.state.network;
         MySorage._sava('netWorkIp',this.state.network);
-        ToastAndroid.show('网络配置成功',ToastAndroid.SHORT)
-        this.props.navigation.navigate('Auth')
+        ToastAndroid.show('网络配置成功',ToastAndroid.SHORT);
+        this.props.navigation.navigate('login')
+        this.forceUpdate()
     }
 
     handleInput(k, v){
         this.setState({
             [k]:v,
         });
+    }
+
+    componentWillUnmount = () => {
+        this.setState = (state,callback)=>{
+          return;
+        };
     }
 
     testBlur(){
