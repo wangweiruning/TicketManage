@@ -18,6 +18,7 @@ export default class Tdetail extends React.Component {
         super(props)
         this.state = {
             http:jconfig.netWorkIp?jconfig.netWorkIp:'http://59.172.204.182:8030/ttms',
+            zero:[],
             one:[],
             tow:[],
             three:[],
@@ -329,7 +330,7 @@ async getliucheng(){
         }
 }
 
-
+    info=[];    
     //获取模板列表
     async getCanNotdata() {
         var ticketFlowrole = [];//定义该流程所属类型的所有状态角色
@@ -361,11 +362,51 @@ async getliucheng(){
 
         let r = '?form.jqgrid_row_selected_id=' + templateID;
         let x = await HttpUtils.AjaxData(`${this.state.http}/baseInformation/templateMng_templateContentSearch.action`,r) //TicketBasicInfo(r);//获取模板
+        let zero = [];
         let one = [];
         let tow = [];
         let three = [];
         let four = [];
         let five = [];
+        let t = []
+        let c = []
+
+
+        // test  最外层
+        this.info = x.form.templateContents.filter(v=>v.FatherID=='null');
+        let p = x.form.templateContents;
+        for (let i=0;i<this.info.length;i++) {
+            let item = this.info[i];
+            let TemplateContentID =  item.TemplateContentID;
+            
+            for (let j=0;j<p.length;j++) {
+                let subItem = p[j];
+                if( subItem && (TemplateContentID==subItem.FatherID)){
+                    if(!item['subList']) item['subList']=[]
+                    item['subList'].push(p[j]);
+                }
+            }
+
+        }
+
+
+        console.log("this.info",this.info);
+
+
+
+        // x.form.templateContents.filter(v=>v.FatherID=='null').map((v)=>{
+        //   zero.push(v)
+        // })
+        // for(let i =0;i<x.form.templateContents.length;i++){
+        //         let p = x.form.templateContents[i]
+        //         for(let o = 0;o<zero.length;o++){
+        //             let l = zero[o]
+        //             if(p.TemplateContentID==l.FatherID){
+        //                 t.push(p)
+        //             }
+        //         }
+                
+        // }
         x.form.templateContents.filter(v=>v.ParaTypeID==2).map((v)=>{
             one.push(v)
         })
@@ -383,13 +424,14 @@ async getliucheng(){
         })
         this.setState({
             templateContents: x.form.templateContents,
+            zero:zero,
             one:one,
             tow:tow,
             three:three,
             four:four,
             five:five
         })
-
+        console.log(t,'ccccccccccccc')
         //查询当前两票基本信息  
         let aas = '?form.ticketNum=' + ticketNum;
         // let searchs = await searchTicketBasicInfo(aas);
@@ -709,8 +751,6 @@ async getliucheng(){
         })
 
         if (ParaName == "班组") {
-        
-
             let y = params == '' ? `?form.departmentId=` : `?form.departmentId=${params.join(",")}`
             let Team = await HttpUtils.AjaxData(`${this.state.http}/ticketMng/ticketMng_searchUserForDepartment.action`,y) //ForDepartment(y)
             this.setState({ ParaId: [] }, () => {
@@ -720,7 +760,6 @@ async getliucheng(){
                 this.forceUpdate()
             })
         } else {
-          
             this.state.ischanges = false;
             this.forceUpdate()
         }
@@ -748,7 +787,8 @@ async getliucheng(){
         return <View style={{alignItems:'center',height:44,paddingRight:8,flexDirection:'row',marginLeft:15,width:'96%',borderBottomColor:'#e9e9ef',borderStyle:'solid',borderBottomWidth:1}}>
                     <Text style={{color: '#363434',flex:1,fontSize:16}}>流转目标</Text>
                     <DropdownCheckbox open={this.open.bind(this)} TextColor={{ color: '#363434', fontSize: 13}}
-                        style={{justifyContent: 'center'}} SelectData={this.state.searchRole} touch={{marginRight:18}}/>
+                        style={{justifyContent: 'center'}} SelectData={this.state.searchRole}/>
+                    <Image source={require('../images/goto.png')} style={{width:20,height:20}} />
                </View>
     }
     getliuzhuan = () => {
@@ -767,8 +807,8 @@ async getliucheng(){
                 options={arr} />
             <Image source={require('../images/goto.png')} style={{width:20,height:20}}/>
         </View>
-
     }
+
     async getNewSubdeta(index, isBack, ticketFlowRole, skipFlowId) {
         //设置回转状态及回转目标
         
@@ -848,10 +888,6 @@ async getliucheng(){
           
             // let arrFuFlowRoleID = [FuFlowRoleID];
             var nextRoleId = ticketFlowrole[index + 1].ticketroleid;
-            
-           
-
-
             const dui = "?form.roleId=" + nextRoleId;
             let tt = ticketFlowrole[index + 1].ticketflowid;
           
@@ -861,12 +897,10 @@ async getliucheng(){
             this.setState({
                 nextFlow: arr,
                 searchRole: searchRole.form.dataList,
-                
-
             })
-          
         }
     }
+
     changeAgree = async(index, flag, value) => {
         let arr = [];
         arr.push(value)
@@ -889,14 +923,13 @@ async getliucheng(){
             
             let roleid =this.state.nextRoleIdarr[index];
             
-                if(index>0){
-                    statusId = this.state.currentflowroleid[index];
+            if(index>0){
+                statusId = this.state.currentflowroleid[index];
 
-                }else{
-                    statusId = this.state.statusId1;
-                }
-                
-          
+            }else{
+                statusId = this.state.statusId1;
+            }
+            
             const dui = "?form.roleId=" + roleid;
             const searchRoles = await HttpUtils.AjaxData(`${this.state.http}/ticketMng/ticketMng_searchUserForRole.action`,dui) //searchUserForRole(dui);
             this.setState({
@@ -908,9 +941,8 @@ async getliucheng(){
                 ticketID:this.state.nextStatusIdarr[index]
             })
         }
-
-
     }
+
     aggreeall = () => {
         let arr = ["同意"];
         const aggress = this.state.aggree;
@@ -1344,10 +1376,8 @@ async getliucheng(){
                     onChangeText={(values) => this.handleInput(v.TicketParaID, values)}
                     style={{alignItems:'center',color:dis?'#444444':'#ccc',fontSize:14,paddingHorizontal:0,height:44,maxWidth:'100%',minWidth:'100%'}} />
                     </View>
-           }
-                
-        </View>
-        )
+          }
+        </View>)
     }
 
 
@@ -1381,7 +1411,7 @@ async getliucheng(){
                     <ScrollView>
                      <View style={{height:15}}></View>
                       <View style={{width:'100%',backgroundColor:'white',borderBottomColor:"#ccc",borderStyle:"solid",borderBottomWidth:1,borderTopColor:"#ccc",borderTopWidth:1}}>
-                        {this.state.one.map((v,i)=>{
+                        {/* {this.state.one.map((v,i)=>{
                         let dis = this.ischacked(v.TicketParaID);
                         return (<View key={i} style={{width:'96%',borderBottomColor:'#ccc',borderStyle:'solid',justifyContent:'center',borderBottomWidth:1,marginLeft:15}}>
                             <Text style={{fontSize:16,color:dis?'#444444':'#ccc',paddingRight:5,flex:1,marginTop:5}}>{v.ParaName}</Text>
@@ -1427,7 +1457,31 @@ async getliucheng(){
                             </TouchableOpacity>}
                             </View>
                             {this.AreaInput(v,dis)}
-                        </View>)})}
+                        </View>)})} */}
+
+                        {this.info.map((v,index)=>{
+                            let {ParaName,subList} = v;
+                            return (
+                                <View>
+                                    <View><Text>{ParaName}</Text></View>
+                                    {subList.map((item)=>{
+                                         let {ParaName,ParaTypeID} = item;
+                                         let dis = this.ischacked(item.TicketParaID);
+                                        return (
+                                            <View>
+                                                <Text>{ParaName}</Text>
+                                                {ParaTypeID==2 && this.GetText(item,dis)}
+                                                {ParaTypeID==3 && this.NormalCheck(item,dis)}
+                                                {ParaTypeID==4 && this.MoreCheck(item,dis)}
+                                                {ParaTypeID==5 && this.CheckDates(item,dis)}
+                                                {ParaTypeID==6 && this.AreaInput(item,dis)}
+                                            </View>
+                                        )
+                                    })}
+                                </View>
+                            )
+                        })}
+
                       </View>
                         {this.props.navigation.state.params.isqianfa&&!this.state.mengCard&&<View>
                             <View style={{width:'100%',padding:5,justifyContent:'center'}}>

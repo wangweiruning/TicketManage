@@ -111,85 +111,85 @@ const RouteConfigs={
     waitPlan:{
       screen: WaitPlan,
       navigationOptions: {
-              header: null,
-              gesturesEnabled: true
+            header: null,
+            gesturesEnabled: true
           }
     },
     correlationPlan:{
       screen: CorrelationPlan,
       navigationOptions: {
-              header: null,
-              gesturesEnabled: true
+            header: null,
+            gesturesEnabled: true
           }
     },
     historyPlan:{
       screen: HistoryPlan,
       navigationOptions: {
-              header: null,
-              gesturesEnabled: true
+            header: null,
+            gesturesEnabled: true
           }
     },  
     AddNewTictets:{
       screen: AddNewT,
       navigationOptions: {
-              header: null,
-              gesturesEnabled: true
+            header: null,
+            gesturesEnabled: true
           }
     },
     TicketDetail:{
       screen:Tdetail,
       navigationOptions: {
-              header: null,
-              gesturesEnabled: true
+            header: null,
+            gesturesEnabled: true
           }
     },
     Result:{
       screen:Result,
       navigationOptions: {
-              header: null,
-              gesturesEnabled: true
+            header: null,
+            gesturesEnabled: true
           }
     },
     TicketModel:{
       screen:TicketModel,
       navigationOptions: {
-              header: null,
-              gesturesEnabled: true
+            header: null,
+            gesturesEnabled: true
           }
     },
     TicketFlew:{
       screen:TicketFlew,
       navigationOptions: {
-              header: null,
-              gesturesEnabled: true
+            header: null,
+            gesturesEnabled: true
           }
     },
     Aboutme:{
       screen:Aboutme,
       navigationOptions: {
-              header: null,
-              gesturesEnabled: true
+            header: null,
+            gesturesEnabled: true
           }
     },
     Network:{
       screen:Network,
       navigationOptions: {
-              header: null,
-              gesturesEnabled: true
+            header: null,
+            gesturesEnabled: true
           }
     },
     AddNewTictetsTow:{
       screen:AddNewTT,
       navigationOptions: {
-              header: null,
-              gesturesEnabled: true
+            header: null,
+            gesturesEnabled: true
           }
     },
     Myapp:{
       screen:Myapp,
       navigationOptions:{
-              header: null,
-              gesturesEnabled: true
+            header: null,
+            gesturesEnabled: true
           }
     }
   };
@@ -230,15 +230,15 @@ const Auths = createStackNavigator({
     login:{
       screen:Login,
       navigationOptions: {
-          header: null,
-          gesturesEnabled: true
+        header: null,
+        gesturesEnabled: true
       }
     },
     Networks:{
       screen:Networks,
       navigationOptions: {
-          header: null,
-          gesturesEnabled: true
+        header: null,
+        gesturesEnabled: true
       }
     },
     Touchid:{

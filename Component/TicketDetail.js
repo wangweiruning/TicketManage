@@ -4,16 +4,7 @@ import {TextareaItem,ActivityIndicator} from 'antd-mobile-rn';
 import {View,Text,ScrollView,TouchableOpacity,TextInput,ToastAndroid,Alert,Image} from 'react-native';
 import ModalDropdown from 'react-native-modal-dropdown';
 import DatePicker from 'react-native-datepicker'
-// import {newTiceketNum,
-//         TicketBasicInfo,
-//         searchTicketFlow,
-//         editquanxian,
-//         searchUserForRole,
-//         searchTicketRecord,
-//         tijiao,
-//         historys,
-//         userlist,
-//         AllMangerUser,AllDepartment,ForDepartment} from './../api/api';
+// import {newTiceketNum,TicketBasicInfo,searchTicketFlow,editquanxian,searchUserForRole,searchTicketRecord,tijiao,historys,userlist,AllMangerUser,AllDepartment,ForDepartment} from './../api/api';
 import HttpUtils from '../api/Httpdata3';
 import TicketDropdownCheckBox from './TicketDropdownCheckBox';
 import CheckBox from 'react-native-checkbox';
@@ -72,160 +63,159 @@ export default class Tdetail extends React.Component{
         }
     }
 
-      async componentDidMount(){
-          try{
-            this.getData()
-          }catch(e){
-              
-          }
-      }
+    async componentDidMount(){
+        try{
+        this.getData()
+        }catch(e){
+            
+        }
+    }
     
-     loading(){
-        if(this.state.num!=''){
-             setTimeout(()=>ToastAndroid.show("加载完毕", ToastAndroid.SHORT))
-        } 
-     }
+    loading(){
+    if(this.state.num!=''){
+            setTimeout(()=>ToastAndroid.show("加载完毕", ToastAndroid.SHORT))
+    } 
+    }
 
-     componentWillUnmount = () => {
-        this.setState = (state,callback)=>{
-          return;
-        };
-      }
-
-
-     async getData(){
-        let e = this.props.navigation.state.params.name;
-        let r = `?form.templateId=${e}`;
-        let x = await HttpUtils.AjaxData(`${this.state.http}/ticketMng/ticketMng_newTiceketNum.action`,r)  //newTiceketNum(r);
+    componentWillUnmount = () => {
+    this.setState = (state,callback)=>{
+        return;
+    };
+    }
 
 
-        // let j = x.form.newTicket;
-        // let a = `?form.ticketNum=${j}`;
-        // let g = await searchTicketBasicInfo(a);
-        // let ggs= `?form.basicInfoId=null`
-        // let ssgg= await HttpUtils.AjaxData(`${this.state.http}/ticketMng/ticketMng_searchTicketRecord.action`,ggs) //searchTicketRecord(ggs)
-
-        let opt = `?form.tree_node_operation=0`;
-        let userId = await HttpUtils.AjaxData(`${this.state.http}/ticketMng/ticketMng_loadGrid.action`,opt) //historys(opt);
-        let list = await HttpUtils.AjaxData(`${this.state.http}/home/home_showUserDatas.action`,'') //userlist();
-        let kjl = `?form.jqgrid_row_selected_id=${e}`;
-        let bool = await HttpUtils.AjaxData(`${this.state.http}/baseInformation/templateMng_templateContentSearch.action`,kjl)  //TicketBasicInfo(kjl);
-
-        let i = this.props.navigation.state.params.v;
-        let ghr = `?form.ticketTypeName=${i}`;
-        let good = await HttpUtils.AjaxData(`${this.state.http}/ticketMng/ticketMng_searchTicketFlow.action`,ghr) //searchTicketFlow(ghr);
-
-        let black = `?form.flowroleid=${good.form.fatherList[0].FlowRoleID}`;
-        let feel = await HttpUtils.AjaxData(`${this.state.http}/ticketMng/ticketMng_searchEditPara.action`,black) //editquanxian(black);
-
-        let fate = `?form.roleId=${good.form.fatherList[1].ticketroleid}`;
-        let zero = await HttpUtils.AjaxData(`${this.state.http}/ticketMng/ticketMng_searchUserForRole.action`,fate)  //searchUserForRole(fate);
-
-        let aa = [];
-        let kobe = zero.form.dataList;
-
-        let AllManger = await HttpUtils.AjaxData(`${this.state.http}/ticketMng/ticketMng_searchAllMangerUser.action`,'') //AllMangerUser();
-        let Department = await HttpUtils.AjaxData(`${this.state.http}/ticketMng/ticketMng_searchAllDepartment.action`,'') //AllDepartment();
-        let y = `?form.departmentId=`
-        let Team =await HttpUtils.AjaxData(`${this.state.http}/ticketMng/ticketMng_searchUserForDepartment.action`,y) // ForDepartment(y)
-        for(let j in kobe){
-              let bryent = kobe[j].realname;
-              aa.push(bryent);
-          }
-          let aaa=[];
-          let getAllTempanyId = [];
-          let aas=[];
-          let c =[];
-          bool.form.templateContents.findIndex((v11)=>{
-            feel.form.dataList.findIndex((v22)=>{
-                  if(v11.TemplateContentID==v22.TemplateContentID){
-                    c.push(v11)
-                  }
-              })
-          })
-          c.map((item,i)=>{
-            let idss = item.TicketParaID;
-            getAllTempanyId.push(idss)
-            let dd={["datalist"+i]:null};
-             aaa=Object.assign(this.state.pagedata,dd)
-             if(item.IsAdd==1){
-                 aas=Object.assign(this.state.isadd,{[item.TicketParaID]:1});
-            }
-          })
-
-          this.setState({pagedata:aaa,getAllTempanyId:getAllTempanyId,isadd:aas})
-            let kl = [];
-            let google = good.form.fatherList[1].ticketstatusname;
-            kl.push(google)
-            let tt;
-            feel.form.dataList.map(item=>{
-                    tt = Object.assign(this.state.newpagedata,{[item.TicketParaID]:item.ParaName=='班组'|| item.ParaName=='班组成员'?null:''});
-                })
-        this.setState({
-            ParaId:Team.form.dataList,
-            AllManger:AllManger.form.dataList,
-            Department:Department.form.dataList,
-            userId:userId.form.userId,
-            user:zero.form.dataList,
-            monst:good.form.fatherList[1].ticketroleid,
-            statuss:good.form.fatherList[1].ticketstatusid,
-            roleid:good.form.fatherList[1].ticketflowid,
-            status:kl,
-            more:good.form.fatherList[1].FlowRoleID,
-            basicInfoId:good.form.fatherList[0].FlowRoleID,
-            flowroleid:bool.form.templateContents[1].FlowRoleID,
-            num:x.form.newTicket,
-            jax:bool.form.templateContents,
-            zed:feel.form.dataList,
-            newpagedata:tt,
-            newsz:c
-       })
-       this.loading();
-       this.pipei(list.form.paramAllList);
-       this.xunahn(this.state.jax,this.state.zed);
-       this.getlls(bool.form.templateContents);
-      }
-      
-      getlls(data){
-        let datas = [];
-            data.map((v,i)=>{
-            datas.push(v.TemplateContentID);
-           
-        })
-        this.setState({
-            listdata:datas
-        })
-      }
-
-    
-      pipei(sss){
-        let s = sss;
-        let itemsss= [];
-        
-        let index = s.findIndex((item)=>{
-            if(item.userid == this.state.userId){
-                itemsss.push(item);
-                this.setState({
-                      itemsss:itemsss
-                })
-            }
-        });
-      }
+    async getData(){
+    let e = this.props.navigation.state.params.name;
+    let r = `?form.templateId=${e}`;
+    let x = await HttpUtils.AjaxData(`${this.state.http}/ticketMng/ticketMng_newTiceketNum.action`,r)  //newTiceketNum(r);
 
 
-      xunahn(sss,kkk){
-        let s = sss;
-        let g = kkk;
-        for(let i in s){
-            for(let c in g){
-                if(this.state.ContentID===this.state.rolecontentid){
-                this.state.ContentID = g[c].TicketParaID,
-                this.state.rolecontentid = s[i].TicketParaID
+    // let j = x.form.newTicket;
+    // let a = `?form.ticketNum=${j}`;
+    // let g = await searchTicketBasicInfo(a);
+    // let ggs= `?form.basicInfoId=null`
+    // let ssgg= await HttpUtils.AjaxData(`${this.state.http}/ticketMng/ticketMng_searchTicketRecord.action`,ggs) //searchTicketRecord(ggs)
+
+    let opt = `?form.tree_node_operation=0`;
+    let userId = await HttpUtils.AjaxData(`${this.state.http}/ticketMng/ticketMng_loadGrid.action`,opt) //historys(opt);
+    let list = await HttpUtils.AjaxData(`${this.state.http}/home/home_showUserDatas.action`,'') //userlist();
+    let kjl = `?form.jqgrid_row_selected_id=${e}`;
+    let bool = await HttpUtils.AjaxData(`${this.state.http}/baseInformation/templateMng_templateContentSearch.action`,kjl)  //TicketBasicInfo(kjl);
+
+    let i = this.props.navigation.state.params.v;
+    let ghr = `?form.ticketTypeName=${i}`;
+    let good = await HttpUtils.AjaxData(`${this.state.http}/ticketMng/ticketMng_searchTicketFlow.action`,ghr) //searchTicketFlow(ghr);
+
+    let black = `?form.flowroleid=${good.form.fatherList[0].FlowRoleID}`;
+    let feel = await HttpUtils.AjaxData(`${this.state.http}/ticketMng/ticketMng_searchEditPara.action`,black) //editquanxian(black);
+
+    let fate = `?form.roleId=${good.form.fatherList[1].ticketroleid}`;
+    let zero = await HttpUtils.AjaxData(`${this.state.http}/ticketMng/ticketMng_searchUserForRole.action`,fate)  //searchUserForRole(fate);
+
+    let aa = [];
+    let kobe = zero.form.dataList;
+
+    let AllManger = await HttpUtils.AjaxData(`${this.state.http}/ticketMng/ticketMng_searchAllMangerUser.action`,'') //AllMangerUser();
+    let Department = await HttpUtils.AjaxData(`${this.state.http}/ticketMng/ticketMng_searchAllDepartment.action`,'') //AllDepartment();
+    let y = `?form.departmentId=`
+    let Team =await HttpUtils.AjaxData(`${this.state.http}/ticketMng/ticketMng_searchUserForDepartment.action`,y) // ForDepartment(y)
+    for(let j in kobe){
+            let bryent = kobe[j].realname;
+            aa.push(bryent);
+        }
+        let aaa=[];
+        let getAllTempanyId = [];
+        let aas=[];
+        let c =[];
+        bool.form.templateContents.findIndex((v11)=>{
+        feel.form.dataList.findIndex((v22)=>{
+                if(v11.TemplateContentID==v22.TemplateContentID){
+                c.push(v11)
                 }
+            })
+        })
+        c.map((item,i)=>{
+        let idss = item.TicketParaID;
+        getAllTempanyId.push(idss)
+        let dd={["datalist"+i]:null};
+            aaa=Object.assign(this.state.pagedata,dd)
+            if(item.IsAdd==1){
+                aas=Object.assign(this.state.isadd,{[item.TicketParaID]:1});
+        }
+        })
+
+        this.setState({pagedata:aaa,getAllTempanyId:getAllTempanyId,isadd:aas})
+        let kl = [];
+        let google = good.form.fatherList[1].ticketstatusname;
+        kl.push(google)
+        let tt;
+        feel.form.dataList.map(item=>{
+                tt = Object.assign(this.state.newpagedata,{[item.TicketParaID]:item.ParaName=='班组'|| item.ParaName=='班组成员'?null:''});
+            })
+    this.setState({
+        ParaId:Team.form.dataList,
+        AllManger:AllManger.form.dataList,
+        Department:Department.form.dataList,
+        userId:userId.form.userId,
+        user:zero.form.dataList,
+        monst:good.form.fatherList[1].ticketroleid,
+        statuss:good.form.fatherList[1].ticketstatusid,
+        roleid:good.form.fatherList[1].ticketflowid,
+        status:kl,
+        more:good.form.fatherList[1].FlowRoleID,
+        basicInfoId:good.form.fatherList[0].FlowRoleID,
+        flowroleid:bool.form.templateContents[1].FlowRoleID,
+        num:x.form.newTicket,
+        jax:bool.form.templateContents,
+        zed:feel.form.dataList,
+        newpagedata:tt,
+        newsz:c
+    })
+    this.loading();
+    this.pipei(list.form.paramAllList);
+    this.xunahn(this.state.jax,this.state.zed);
+    this.getlls(bool.form.templateContents);
+    }
+      
+    getlls(data){
+    let datas = [];
+        data.map((v,i)=>{
+        datas.push(v.TemplateContentID);
+        
+    })
+    this.setState({
+        listdata:datas
+    })
+    }
+
+    
+    pipei(sss){
+    let s = sss;
+    let itemsss= [];
+    
+    let index = s.findIndex((item)=>{
+        if(item.userid == this.state.userId){
+            itemsss.push(item);
+            this.setState({
+                    itemsss:itemsss
+            })
+        }
+    });
+    }
+
+
+    xunahn(sss,kkk){
+    let s = sss;
+    let g = kkk;
+    for(let i in s){
+        for(let c in g){
+            if(this.state.ContentID===this.state.rolecontentid){
+            this.state.ContentID = g[c].TicketParaID,
+            this.state.rolecontentid = s[i].TicketParaID
             }
         }
-        
-        this.forceUpdate();
+      }
+     this.forceUpdate();
     }
 
     open(val){
@@ -339,18 +329,16 @@ export default class Tdetail extends React.Component{
             pagedata:data,
             newpagedata:data1
         });
-      }
+    }
 
 
     onChangecoform(value,dis,index){
-   
-    let s = this.state.newpagedata[value];
-    if(!s)s = [];
-    s[index] = dis?"1":"0";
-    this.state.newpagedata[value] = s;
-    this.state.showChecked=s;
-    this.setState(this.state);
-
+        let s = this.state.newpagedata[value];
+        if(!s)s = [];
+        s[index] = dis?"1":"0";
+        this.state.newpagedata[value] = s;
+        this.state.showChecked=s;
+        this.setState(this.state);
     }
 
     handleInput(k, v,three){
@@ -363,6 +351,7 @@ export default class Tdetail extends React.Component{
             newpagedata:datas
         });
     }
+
     handleInputmore(k, v,three,index){
         let datamores = this.state.datamore;
         let moredata = Object.values(datamores);
@@ -757,8 +746,7 @@ export default class Tdetail extends React.Component{
                   flexWrap:'wrap',
                   borderBottomWidth:(v.ParaTypeID==3||v.ParaTypeID==5||v.ParaTypeID==2||v.ParaTypeID==4||v.ParaTypeID==6)&&this.state.newsz.length==i+1?0:1,
                   borderStyle:'solid',
-                  flexDirection:v.ParaName.length>25?'column':'row',
-                  alignItems:v.ParaName.length>25?'baseline':'center'}}>
+                  flexDirection:v.ParaName.length>25?'column':'row',alignItems:v.ParaName.length>25?'baseline':'center'}}>
                  <Text style={{fontSize:v.ParaTypeID=='1'?16:15,color:'#333',marginLeft:v.ParaTypeID==3||v.ParaTypeID==2||v.ParaTypeID==4||v.ParaTypeID==6?0:v.ParaTypeID==5?v.ParaName=='至'?7:0:10,flex:1,flexWrap:'wrap',paddingRight:5}}>{v.ParaName}</Text>
                   {v.IsAdd==1?<TouchableOpacity onPress={()=>this.add(v.TicketParaID)} style={{width:'11.6%',height:25,justifyContent:'center',alignItems:'center'}}>
                             <Image style={{width:23,top:1,height:23,resizeMode:Image.resizeMode.contain}} source={require('../images/add.png')}/>

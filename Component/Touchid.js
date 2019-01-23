@@ -66,8 +66,10 @@ export default class Touchid extends React.Component{
         return(<View style={{alignItems:'center',position:'relative',width:'100%',height:'100%'}}>
             <StatusBar barStyle='dark-content' />
             <Text style={{marginTop:StatusBar.currentHeight+20,fontSize:18,marginLeft:5}}>指纹收集，保护重要信息。</Text>
-             <TouchableOpacity style={{padding:10,width:'100%',flexDirection:'row',justifyContent:'flex-end',height:50,alignItems:'center'}}>
-                <Text style={{marginRight:10,borderColor:'grey',borderRadius:5,borderWidth:1,borderStyle:'solid',textAlign:"center"}} onPress={()=>this.props.navigation.navigate('App')}>跳过</Text>
+             <TouchableOpacity onPress={()=>this.props.navigation.navigate('App')} style={{padding:10,width:'100%',flexDirection:'row',justifyContent:'flex-end',height:50,alignItems:'center'}}>
+                <View style={{width:35,marginRight:10,borderColor:'grey',borderRadius:5,borderWidth:1,borderStyle:'solid',height:35,justifyContent:"center",alignItems:'center'}}>
+                    <Text style={{color:'black'}}>跳过</Text>
+                </View>
              </TouchableOpacity>
              <View style={{position:'absolute',bottom:10,flexDirection:'row',padding:5,justifyContent:'center',alignItems:'center',height:35}}>
              <Switch checked={this.state.checked} onChange={(e)=>this.onSwitchChange(e)} />

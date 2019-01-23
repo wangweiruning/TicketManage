@@ -4,11 +4,7 @@ import TouchID from 'react-native-touch-id';
 import {ActivityIndicator,Toast} from 'antd-mobile-rn';
 import {login} from '../api/api';
 import MySorage from '../api/storage';
-import {StackActions, NavigationActions} from 'react-navigation';
-const resetAction = StackActions.reset({
-    index: 0,
-    actions: [NavigationActions.navigate({ routeName: 'Tab' })],
-  });
+
  
 export default class Touchlogin extends React.Component{
     constructor(props){
@@ -32,7 +28,7 @@ export default class Touchlogin extends React.Component{
                 s1();
             })
       })
-      MySorage._getStorage(); 
+      MySorage._getStorage();
     }
 
    async submitgo(){
@@ -45,7 +41,7 @@ export default class Touchlogin extends React.Component{
              if(result.form.status == 1){
                 window.jconfig.userinfo=result.form;
                 MySorage._sava("userinfo",JSON.stringify(result.form));            
-                this.props.navigation.dispatch(resetAction);
+                this.props.navigation.navigate('App')
               }
               else{
                 this.setState({

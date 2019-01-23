@@ -108,10 +108,14 @@ export default class Me extends React.Component {
                      </View>
                      <Text style={{fontSize:18,color:'white',fontWeight:'300',marginLeft:10}}>{jconfig.userinfo.user?this.state.realname:'暂无'}</Text>
                 </View>
-            {this.state.tou?<Text style={{marginLeft:10,marginTop:10,color:'grey',fontSize:10}}>本机不支持指纹功能或未开启指纹功能，指纹登录将无法使用</Text>:<Text style={{marginLeft:10,marginTop:10,color:'grey',fontSize:10}}>开启后可以使用指纹进行快捷登录，设置仅对本机生效，如需修改指纹，请在手机系统设置里面操作。</Text>}
+            {this.state.tou?<Text style={{marginLeft:10,marginTop:10,color:'grey',fontSize:10}}>本机不支持指纹功能或未开启指纹功能，指纹登录将无法使用</Text>:<Text style={{marginLeft:10,marginTop:10,color:'grey',fontSize:10,paddingRight:10}}>开启后可以使用指纹进行快捷登录，设置仅对本机生效，如需修改指纹，请在手机系统设置里面操作。</Text>}
             <View style={{paddingBottom:15,paddingTop:15,marginTop:10,alignItems:'center',flexDirection:'row',width:'100%',backgroundColor:'white',borderTopColor:"lightgrey",borderBottomColor:'lightgrey',borderTopWidth:1,borderBottomWidth:1,borderStyle:'solid'}}>
                    <Image source={this.state.tou?require('../images/touch1.png'):require('../images/touch.png')} style={{width:20,height:20,resizeMode:Image.resizeMode.contain,marginLeft:10}}/>
-                   <Text style={{color:this.state.tou?'lightgrey':'black',fontSize:18,flex:1,marginLeft:10}}>{this.state.bools?'关闭指纹验证':'打开指纹验证'}</Text>
+                   {this.state.tou?<Text style={{color:'lightgrey',fontSize:18,flex:1,marginLeft:10}}>
+                             指纹验证无法使用
+                       </Text>:<Text style={{color:this.state.tou?'lightgrey':'black',fontSize:18,flex:1,marginLeft:10}}>
+                           {this.state.bools?'指纹验证已关闭':'指纹验证已打开'}
+                       </Text>}
                    <Switch disabled={this.state.tou} style={{marginRight:10}} checked={this.state.bools} onChange={(e)=>this.change(e)}/>
             </View>
              <View style={{marginTop:20,backgroundColor:'white',width:'100%',borderTopColor:"lightgrey",borderBottomColor:'lightgrey',borderTopWidth:1,borderBottomWidth:1,borderStyle:'solid'}}>

@@ -10,7 +10,7 @@ window.jconfig={
     netWorkIp:null
 }
 
-export default class AuthLoadingScreen extends React.Component {
+export default class AuthLoadingScreen extends React.Component{
     constructor(props) {
       super(props);
       this.state={
