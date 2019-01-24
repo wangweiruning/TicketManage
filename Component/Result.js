@@ -330,7 +330,7 @@ async getliucheng(){
         }
 }
 
-    info=[];    
+    info=[];
     //获取模板列表
     async getCanNotdata() {
         var ticketFlowrole = [];//定义该流程所属类型的所有状态角色
@@ -362,14 +362,14 @@ async getliucheng(){
 
         let r = '?form.jqgrid_row_selected_id=' + templateID;
         let x = await HttpUtils.AjaxData(`${this.state.http}/baseInformation/templateMng_templateContentSearch.action`,r) //TicketBasicInfo(r);//获取模板
-        let zero = [];
-        let one = [];
-        let tow = [];
-        let three = [];
-        let four = [];
-        let five = [];
-        let t = []
-        let c = []
+        // let zero = [];
+        // let one = [];
+        // let tow = [];
+        // let three = [];
+        // let four = [];
+        // let five = [];
+        // let t = []
+        // let c = []
 
 
         // test  最外层
@@ -377,7 +377,7 @@ async getliucheng(){
         let p = x.form.templateContents;
         for (let i=0;i<this.info.length;i++) {
             let item = this.info[i];
-            let TemplateContentID =  item.TemplateContentID;
+            let TemplateContentID = item.TemplateContentID;
             
             for (let j=0;j<p.length;j++) {
                 let subItem = p[j];
@@ -386,13 +386,7 @@ async getliucheng(){
                     item['subList'].push(p[j]);
                 }
             }
-
         }
-
-
-        console.log("this.info",this.info);
-
-
 
         // x.form.templateContents.filter(v=>v.FatherID=='null').map((v)=>{
         //   zero.push(v)
@@ -407,31 +401,30 @@ async getliucheng(){
         //         }
                 
         // }
-        x.form.templateContents.filter(v=>v.ParaTypeID==2).map((v)=>{
-            one.push(v)
-        })
-        x.form.templateContents.filter(v=>v.ParaTypeID==3).map((v)=>{
-            tow.push(v)
-        })
-        x.form.templateContents.filter(v=>v.ParaTypeID==4).map((v)=>{
-            three.push(v)
-        })
-        x.form.templateContents.filter(v=>v.ParaTypeID==5).map((v)=>{
-            four.push(v)
-        })
-        x.form.templateContents.filter(v=>v.ParaTypeID==6).map((v)=>{
-            five.push(v)
-        })
+        // x.form.templateContents.filter(v=>v.ParaTypeID==2).map((v)=>{
+        //     one.push(v)
+        // })
+        // x.form.templateContents.filter(v=>v.ParaTypeID==3).map((v)=>{
+        //     tow.push(v)
+        // })
+        // x.form.templateContents.filter(v=>v.ParaTypeID==4).map((v)=>{
+        //     three.push(v)
+        // })
+        // x.form.templateContents.filter(v=>v.ParaTypeID==5).map((v)=>{
+        //     four.push(v)
+        // })
+        // x.form.templateContents.filter(v=>v.ParaTypeID==6).map((v)=>{
+        //     five.push(v)
+        // })
         this.setState({
             templateContents: x.form.templateContents,
-            zero:zero,
-            one:one,
-            tow:tow,
-            three:three,
-            four:four,
-            five:five
+            // zero:zero,
+            // one:one,
+            // tow:tow,
+            // three:three,
+            // four:four,
+            // five:five
         })
-        console.log(t,'ccccccccccccc')
         //查询当前两票基本信息  
         let aas = '?form.ticketNum=' + ticketNum;
         // let searchs = await searchTicketBasicInfo(aas);
@@ -539,7 +532,7 @@ async getliucheng(){
                 ParaId: Team.form.dataList,
                 newpagedata:tt
             })
-
+            console.log(saves.form.dataList,'xxxxxxxxxxxxxxxxxx')
             //设置提交目标
             for (var i = 0; i < newTicket.length; i++) {
                 
@@ -778,11 +771,13 @@ async getliucheng(){
             newpagedata: data1
         });
     }
+
     isChange = (ss) => {
         let sss = this.state.pagedata;
         let aa = Object.values(sss);
         return aa;
     }
+
     gotSubmit = () => {
         return <View style={{alignItems:'center',height:44,paddingRight:8,flexDirection:'row',marginLeft:15,width:'96%',borderBottomColor:'#e9e9ef',borderStyle:'solid',borderBottomWidth:1}}>
                     <Text style={{color: '#363434',flex:1,fontSize:16}}>流转目标</Text>
@@ -791,6 +786,7 @@ async getliucheng(){
                     <Image source={require('../images/goto.png')} style={{width:20,height:20}} />
                </View>
     }
+
     getliuzhuan = () => {
         let arr = this.state.nextFlowarr;
         
@@ -1409,7 +1405,7 @@ async getliucheng(){
                         <Text style={{color:"#363434",textAlign:"center",marginTop:10,fontSize:15}}>加载中...</Text>
                         </View>}
                     <ScrollView>
-                     <View style={{height:15}}></View>
+                     <View style={{height:13}}></View>
                       <View style={{width:'100%',backgroundColor:'white',borderBottomColor:"#ccc",borderStyle:"solid",borderBottomWidth:1,borderTopColor:"#ccc",borderTopWidth:1}}>
                         {/* {this.state.one.map((v,i)=>{
                         let dis = this.ischacked(v.TicketParaID);
@@ -1462,21 +1458,27 @@ async getliucheng(){
                         {this.info.map((v,index)=>{
                             let {ParaName,subList} = v;
                             return (
-                                <View>
-                                    <View><Text>{ParaName}</Text></View>
-                                    {subList.map((item)=>{
-                                         let {ParaName,ParaTypeID} = item;
-                                         let dis = this.ischacked(item.TicketParaID);
-                                        return (
-                                            <View>
-                                                <Text>{ParaName}</Text>
+                                <View key={index} style={{width:'96%',justifyContent:'center',marginLeft:15}}>
+                                    <View style={{paddingBottom:10,paddingTop:10,flexDirection:'row',alignItems:'center',borderStyle:'solid',borderBottomColor:'black',borderBottomWidth:1,borderTopColor:'#ccc',borderTopWidth:ParaName=='基本信息'?0:1}}>
+                                        <Image source={require('../images/rpng.png')} style={{width:20,height:20,marginRight:5,resizeMode:Image.resizeMode.contain}}/>
+                                        <Text style={{fontSize:16,color:'#444444',paddingRight:5,flex:1}}>{ParaName}</Text>
+                                    </View>
+                                    {subList.map((item,index)=>{
+                                        let {ParaName,ParaTypeID} = item;
+                                        let dis = this.ischacked(item.TicketParaID);
+                                        return (<View key={index} style={{borderBottomWidth:subList.length==index+1?0:1,borderBottomColor:'#ccc',borderStyle:'solid'}}>
+                                                <View style={{flexDirection:'row',justifyContent:'center'}}>
+                                                    <Text style={{flex:1,color:dis?'#444':'#ccc'}}>{ParaName}</Text>
+                                                     {(item.IsAdd==1&&dis)&&<TouchableOpacity onPress={()=>this.add(item,item.TicketParaID+"*1",item.TicketParaID+"_1")} style={{width:'10%',alignItems:'center'}}>
+                                                        <Image style={{width:23,top:1,height:23,resizeMode:Image.resizeMode.contain}} source={require('../images/add.png')}/>  
+                                                    </TouchableOpacity>}
+                                                </View>
                                                 {ParaTypeID==2 && this.GetText(item,dis)}
                                                 {ParaTypeID==3 && this.NormalCheck(item,dis)}
                                                 {ParaTypeID==4 && this.MoreCheck(item,dis)}
                                                 {ParaTypeID==5 && this.CheckDates(item,dis)}
                                                 {ParaTypeID==6 && this.AreaInput(item,dis)}
-                                            </View>
-                                        )
+                                            </View>)
                                     })}
                                 </View>
                             )
