@@ -28,6 +28,7 @@ export default class Tdetail extends React.Component {
             xccv:'',
             nnnmmm: false,
             vvval: "",//获取流转对象
+            svalus:"",
             part1Value: false,
             TiceketNum: "",
             username: '',
@@ -331,6 +332,7 @@ async getliucheng(){
 }
 
     info=[];
+    infos=[];
     //获取模板列表
     async getCanNotdata() {
         var ticketFlowrole = [];//定义该流程所属类型的所有状态角色
@@ -373,20 +375,7 @@ async getliucheng(){
 
 
         // test  最外层
-        this.info = x.form.templateContents.filter(v=>v.FatherID=='null');
-        let p = x.form.templateContents;
-        for (let i=0;i<this.info.length;i++) {
-            let item = this.info[i];
-            let TemplateContentID = item.TemplateContentID;
-            
-            for (let j=0;j<p.length;j++) {
-                let subItem = p[j];
-                if( subItem && (TemplateContentID==subItem.FatherID)){
-                    if(!item['subList']) item['subList']=[]
-                    item['subList'].push(p[j]);
-                }
-            }
-        }
+        
 
         // x.form.templateContents.filter(v=>v.FatherID=='null').map((v)=>{
         //   zero.push(v)
@@ -453,6 +442,7 @@ async getliucheng(){
         if (ticketNum) {//数据库中已有记录
             
             let qwer = liucheng.form.fatherList[1].ticketstatusid;
+            let keris = liucheng.form.fatherList[1].FlowRoleID;
             // 这里需要获取已经经过的流程fl
             const flewFrom = "?form.basicInfoId=" + ticketbasicinfoid;
             const ticket = '?form.ticketNum='+ticketNum;
@@ -477,12 +467,20 @@ async getliucheng(){
 				}
             }
             let sonList = liucheng.form.sonList;
-            
-          
+            let op = []
+            for(let z=0;z<sonList.length;z++){
+                let c = sonList[z]
+                op.push(c.FlowRoleID)
+            }
+            op.unshift(keris)
             //将已填写的参数值填入页面
             const TicketRecord = await HttpUtils.AjaxData(`${this.state.http}/ticketMng/ticketMng_searchTicketRecord.action`,flewFrom) //searchTicketRecord(flewFrom);
             const list = TicketRecord.form.dataList;//获取到票数据内容，等待传入页面
+
+            
+
             this.setState({
+                svalus:op.join(','),
                 fatherIndex:fatherIndex,
                 qwer:qwer,
                 statusId: statusId,
@@ -517,13 +515,73 @@ async getliucheng(){
             let Team = await HttpUtils.AjaxData(`${this.state.http}/ticketMng/ticketMng_searchUserForDepartment.action`,y) //ForDepartment(y) //根据部门id获取用户
             //获取工作负责人
             const groupnumber = await HttpUtils.AjaxData(`${this.state.http}/ticketMng/ticketMng_searchAllMangerUser.action`,'')  //AllMangerUser()
-           
             const paramsItem = "?form.flowroleid=" + ticketFlowList[0].FlowRoleID;
             const saves = await HttpUtils.AjaxData(`${this.state.http}/ticketMng/ticketMng_searchEditPara.action`,paramsItem) //editquanxian(paramsItem);//获取可编辑内容区域
+            let bool = await HttpUtils.AjaxData(`${this.state.http}/ticketMng/ticketMng_searchEditPara.action`,`?form.flowroleid=${this.state.svalus}`)
+            console.log('bbbbbbbbbbbbbbbbb',bool.form.dataList)
             let tt;
             saves.form.dataList.map(item=>{
                  tt = Object.assign(this.state.newpagedata,{[item.TicketParaID]:item.ParaName=='班组'|| item.ParaName=='班组成员'?null:''});
             })
+
+            // this.infos = x.form.templateContents;
+            // for(let y=0;y<this.infos.length;y++){
+            //     let k = this.infos[y]
+            //     for(let x = 0;x<list.length;x++){
+            //         let b = list[x]
+            //         if(b.TicketParaID==k.TicketParaID){
+            //             k['subList'].push(list[x])
+            //         }
+            //     }
+            // }
+            
+            let ok = x.form.templateContents
+            
+            
+
+            
+            let info = x.form.templateContents.filter(v=>v.FatherID=='null');
+            let p = x.form.templateContents;
+            for (let i=0;i<info.length;i++) {
+                let item = info[i];
+                let TemplateContentID = item.TemplateContentID;
+                for (let j=0;j<p.length;j++){
+                    let subItem = p[j];
+                    if( subItem && (TemplateContentID==subItem.FatherID)){
+                        if(!item['subList']) item['subList']=[]
+                        item['subList'].push(p[j]);
+                    }
+                }
+            }
+
+            let ccxz = info
+
+            for(let c = 0;c<ccxz.length;c++){
+                let ads = ccxz[c]
+                for(let t =0;t<ads.subList.length;t++){
+                    let q = ads.subList[t]
+                    for(let x = 0;x<list.length;x++){
+                        let b = list[x]
+                        if(bool.form.dataList.length){
+                            for(let i = 0;i<bool.form.dataList.length;i++) {
+                                let g = bool.form.dataList[i]
+                                if(g.FatherID==ads.TemplateContentID){
+                                    ads['subLists'].push(list[x])
+                                }
+                            }
+                            
+                        }
+                        else if( b && (b.TicketParaID==q.TicketParaID)){
+                            if(!ads['subLists']) ads['subLists']=[]
+                            ads['subLists'].push(list[x])
+                        }
+                    }
+                }
+            }
+
+
+
+            console.log(ccxz,'jjjjjjjjjjjjjjjjjj')
             this.setState({
                 nnnmmm: true,
                 groupName: bumen.form.dataList,
@@ -532,7 +590,6 @@ async getliucheng(){
                 ParaId: Team.form.dataList,
                 newpagedata:tt
             })
-            console.log(saves.form.dataList,'xxxxxxxxxxxxxxxxxx')
             //设置提交目标
             for (var i = 0; i < newTicket.length; i++) {
                 
@@ -994,7 +1051,6 @@ async getliucheng(){
     }
 
     async submitResult() {
-
         let newpagedata = this.state.newpagedata==undefined?{defaultValue:1}:this.state.newpagedata;
            
 
@@ -1455,10 +1511,9 @@ async getliucheng(){
                             {this.AreaInput(v,dis)}
                         </View>)})} */}
 
-                        {this.info.map((v,index)=>{
+                        {/* {this.info.map((v,index)=>{
                             let {ParaName,subList} = v;
-                            return (
-                                <View key={index} style={{width:'96%',justifyContent:'center',marginLeft:15}}>
+                            return (<View key={index} style={{width:'96%',justifyContent:'center',marginLeft:15}}>
                                     <View style={{paddingBottom:10,paddingTop:10,flexDirection:'row',alignItems:'center',borderStyle:'solid',borderBottomColor:'black',borderBottomWidth:1,borderTopColor:'#ccc',borderTopWidth:ParaName=='基本信息'?0:1}}>
                                         <Image source={require('../images/rpng.png')} style={{width:20,height:20,marginRight:5,resizeMode:Image.resizeMode.contain}}/>
                                         <Text style={{fontSize:16,color:'#444444',paddingRight:5,flex:1}}>{ParaName}</Text>
@@ -1480,10 +1535,9 @@ async getliucheng(){
                                                 {ParaTypeID==6 && this.AreaInput(item,dis)}
                                             </View>)
                                     })}
-                                </View>
-                            )
-                        })}
-
+                                </View>)
+                            })
+                        } */}
                       </View>
                         {this.props.navigation.state.params.isqianfa&&!this.state.mengCard&&<View>
                             <View style={{width:'100%',padding:5,justifyContent:'center'}}>
