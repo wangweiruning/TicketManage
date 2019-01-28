@@ -638,18 +638,19 @@ export default class Tdetail extends React.Component{
       return (<View style={{marginRight:10,flexDirection:'row',alignItems:'center'}}>
                 <Modals gets={this.gets.bind(this)} leixin={TempanyId} pagedata={index} textStyle={{color:'#666',fontSize:13}} data={this.state.AllManger}
                   style={{backgroundColor:"white",height:44,justifyContent:'center',paddingLeft:6}} />
-                  <Image source={require('../images/goto.png')} style={{width:20,height:20}}/>
+                  <Image source={require('../images/goto.png')} style={{width:15,height:15}}/>
               </View>)
     }
 
     GetText(index,TempanyId,value){
-      return(<View style={{height:44,backgroundColor:"white",justifyContent:'center'}}>
+      return(<View style={{marginLeft:10,minHeight:44,flexDirection:"row-reverse",backgroundColor:"white",justifyContent:"flex-end",flex:1}}>
                 {value.IsConfirm==1?<View style={{flexDirection:'row',paddingLeft:5,borderTopColor:'#f5f5f5',borderStyle:'solid',paddingTop:7,marginTop:7}}>
                                     <CheckBox labelStyle={{color:'#363434'}} checkboxStyle={{width:18,height:18}} label={''} style={{backgroundColor:'rgba(255,255,255,.1)'}}
                                     onChange={(e)=>this.onChangecoform(TempanyId+"_1",e)}></CheckBox></View>:null}
-             <TextInput onSubmitEditing={()=>{this.testBlur()}} ref="inputWR" multiline={true} placeholder={"请输入"} underlineColorAndroid="transparent" placeholderTextColor="#666"
+             
+              <TextInput onSubmitEditing={()=>{this.testBlur()}} ref="inputWR"  multiline={true} placeholder={"请输入"} underlineColorAndroid="transparent" placeholderTextColor="#666"
                 onChangeText={(v)=>this.handleInput(index,v,TempanyId)}
-                style={{padding:0,color:'#666',maxWidth:value.ParaName.length>20?'100%':'67%',minWidth:'20%'}}/>
+                style={{padding:0,color:'#666',flex:1,flexDirection:"row-reverse",textAlign:'right'}}/>
             </View>)
     }
 
@@ -679,7 +680,7 @@ export default class Tdetail extends React.Component{
             minDate={new Date(2015, 1, 1)}
             placeholder={"请选择时间"}      
             onDateChange={(e)=>this.onChange(index,e,TempanyId)}/>
-            <Image source={require('../images/goto.png')} style={{width:20,height:20}}/>
+            <Image source={require('../images/goto.png')} style={{width:15,height:15}}/>
             </View>)
     }
 
@@ -711,7 +712,7 @@ export default class Tdetail extends React.Component{
               <Text style={{color:'#363434',flex:1,fontSize:16}}>是否同意</Text>
               <ModalDropdown dropdownTextStyle={{fontSize:15}} dropdownStyle={{width:'50%',backgroundColor:'#eee',borderWidth:0,elevation:3}} textStyle={{color:'#363434',fontSize:13}} 
                style={{justifyContent:'center',marginLeft:10}} defaultValue={'同意'} options={['同意']} onSelect={(index,v)=>this.sssgo(index,v)}/>
-               <Image source={require('../images/goto.png')} style={{width:20,height:20,marginRight:10}}/>
+               <Image source={require('../images/goto.png')} style={{width:15,height:15,marginRight:10}}/>
             </View>
             <View style={{marginLeft:15,height:50,paddingBottom:8,paddingTop:8,flexDirection:'row',width:'96%',alignItems:'center',borderBottomColor:'#ccc',borderStyle:'solid',borderBottomWidth:1}}>
               <Text style={{color:'#363434',flex:1,fontSize:16}}>流转状态</Text>
@@ -719,7 +720,7 @@ export default class Tdetail extends React.Component{
               this.state.status!="" && <ModalDropdown dropdownTextStyle={{fontSize:15}} dropdownStyle={{width:'50%',backgroundColor:'#eee',borderWidth:0,elevation:3}} textStyle={{color:'#363434',fontSize:13}} 
               style={{justifyContent:'center',marginLeft:10}} defaultValue={'请选择'} options={this.state.status}/>
              }
-             <Image source={require('../images/goto.png')} style={{width:20,height:20,marginRight:10}}/>
+             <Image source={require('../images/goto.png')} style={{width:15,height:15,marginRight:10}}/>
             </View>
             <View style={{flexDirection:'row',marginLeft:15,width:'96%',borderBottomColor:'#ccc',borderStyle:'solid',borderBottomWidth:1,paddingBottom:10,paddingTop:10}}>
               <Text style={{color:'#363434',fontSize:16,flex:1}}>流转目标</Text>
@@ -744,13 +745,12 @@ export default class Tdetail extends React.Component{
               <Text style={{color:'#363434',fontSize:15,marginTop:15,zIndex:1000000}}>加载中...</Text>
         </View>}
         <ScrollView>
-        <View style={{height:13}}></View>
         <View style={{width:'100%',backgroundColor:'white',borderBottomColor:"#ccc",borderStyle:"solid",borderBottomWidth:1,borderTopColor:"#ccc",borderTopWidth:1}}>
         {
             this.kelid.map((value,index)=>{
                 let {ParaName,subList} = value;
-                return(<View key={index} style={{width:'96%',justifyContent:'center',marginLeft:15}}>
-                        <View style={{paddingBottom:10,paddingTop:10,flexDirection:'row',alignItems:'center',borderStyle:'solid',borderBottomColor:'black',borderBottomWidth:1,borderTopColor:'#ccc',borderTopWidth:ParaName=='基本信息'?0:1}}>
+                return(<View key={index} style={{justifyContent:'center'}}>
+                        <View style={{paddingLeft:15,backgroundColor:'#e9e9ef',paddingBottom:10,paddingTop:10,flexDirection:'row',alignItems:'center'}}>
                             <Image source={require('../images/rpng.png')} style={{width:20,height:20,marginRight:5,resizeMode:Image.resizeMode.contain}}/>
                             <Text style={{fontSize:16,color:'#444444',paddingRight:5,flex:1}}>{ParaName}</Text>
                         </View>
@@ -758,9 +758,9 @@ export default class Tdetail extends React.Component{
                           let {ParaName,ParaTypeID} = v;
                           let dis = this.chackSSSS(v.TicketParaID);
                           let itemMsg = this.isChacked(index);
-                          return(!dis&&<View key={index} style={{borderBottomWidth:subList.length==index+1?0:1,borderBottomColor:'#ccc',borderStyle:'solid'}}>
-                                <View style={{flexDirection:ParaName.length>20?ParaTypeID==6?'row':'column':'row',justifyContent:'center',alignItems:ParaName.length>20?ParaTypeID==6?'center':'baseline':'center',borderBottomWidth:ParaTypeID==6?1:0,borderStyle:'solid',borderBottomColor:"#ccc",paddingBottom:ParaTypeID==6?10:0,paddingTop:ParaTypeID==6?10:0}}>
-                                    <Text style={{flex:1,color:'#444'}}>{ParaName}</Text>
+                          return(!dis&&<View key={index} style={{marginLeft:15,width:'96%',borderBottomWidth:subList.length==index+1?0:1,borderBottomColor:'#ccc',borderStyle:'solid'}}>
+                                <View style={{flexDirection:ParaName.length>20?ParaTypeID==6?'row':'column':'row',justifyContent:'center',alignItems:ParaName.length>20?ParaTypeID==6?'center':'baseline':'center',borderBottomWidth:ParaTypeID==6?1:0,borderStyle:'solid',borderBottomColor:"#ccc"}}>
+                                    <Text style={{flex:1,color:'#444',marginTop:ParaName.length>20||ParaTypeID==6?7:0}}>{ParaName}</Text>
                                     {v.IsAdd==1&&<TouchableOpacity onPress={()=>this.add(v.TicketParaID)} style={{width:'10%',alignItems:'center'}}>
                                     <Image style={{width:23,height:23,resizeMode:Image.resizeMode.contain}} source={require('../images/add.png')}/>  
                                     </TouchableOpacity>}

@@ -18,12 +18,9 @@ export default class Tdetail extends React.Component {
         super(props)
         this.state = {
             http:jconfig.netWorkIp?jconfig.netWorkIp:'http://59.172.204.182:8030/ttms',
+            kkzh:[],
             zero:[],
-            one:[],
-            tow:[],
-            three:[],
-            four:[],
-            five:[],
+            statussa:[],
             qwer:'',
             xccv:'',
             nnnmmm: false,
@@ -295,7 +292,7 @@ async getliucheng(){
 						nextStatusName = fatherList[fatherIndex + 1].ticketstatusname;//statusname
 						nextFlowRoleId = fatherList[fatherIndex + 1].FlowRoleID;//FlowRoleId
                         nextRoleId = fatherList[fatherIndex + 1].ticketroleid;
-
+                        let kkzh =  [fatherList[fatherIndex].FlowRoleID];
                         let nextStatusNamedarr= [nextStatusName];//获取下一个状态名字
                         let nextFlowIdarr = [nextFlowId];
                         let nextStatusIdarr= [nextStatusId];
@@ -311,15 +308,16 @@ async getliucheng(){
                             nextFlowRoleIdarr.push(target_FlowRole[i].target_flowroleid);
                             nextRoleIdarr.push(target_FlowRole[i].target_roleid);
                             currentflowroleid.push(item.son_firstflowroleid);
+                            kkzh.push(item.son_firstflowroleid)
                         })
-                        
                         this.setState({
                             nextFlowarr:nextStatusNamedarr,
                             nextFlowIdarr:nextFlowIdarr,
                             nextStatusIdarr:nextStatusIdarr,
                             nextFlowRoleIdarr:nextFlowRoleIdarr,
                             nextRoleIdarr:nextRoleIdarr,
-                            currentflowroleid:currentflowroleid
+                            currentflowroleid:currentflowroleid,
+                            kkzh:kkzh
                         })
 
 					}
@@ -331,8 +329,18 @@ async getliucheng(){
         }
 }
 
+    checkIsShow (id) {
+        let list = this.list;
+        for (let i=0;i<list.length;i++) {
+            let {TicketParaID} = list[i];
+            if(id==TicketParaID) return true;
+        }
+        return false;
+    }
+
     info=[];
-    infos=[];
+    list=[];
+    opps=[];
     //获取模板列表
     async getCanNotdata() {
         var ticketFlowrole = [];//定义该流程所属类型的所有状态角色
@@ -364,55 +372,10 @@ async getliucheng(){
 
         let r = '?form.jqgrid_row_selected_id=' + templateID;
         let x = await HttpUtils.AjaxData(`${this.state.http}/baseInformation/templateMng_templateContentSearch.action`,r) //TicketBasicInfo(r);//获取模板
-        // let zero = [];
-        // let one = [];
-        // let tow = [];
-        // let three = [];
-        // let four = [];
-        // let five = [];
-        // let t = []
-        // let c = []
-
-
-        // test  最外层
-        
-
-        // x.form.templateContents.filter(v=>v.FatherID=='null').map((v)=>{
-        //   zero.push(v)
-        // })
-        // for(let i =0;i<x.form.templateContents.length;i++){
-        //         let p = x.form.templateContents[i]
-        //         for(let o = 0;o<zero.length;o++){
-        //             let l = zero[o]
-        //             if(p.TemplateContentID==l.FatherID){
-        //                 t.push(p)
-        //             }
-        //         }
-                
-        // }
-        // x.form.templateContents.filter(v=>v.ParaTypeID==2).map((v)=>{
-        //     one.push(v)
-        // })
-        // x.form.templateContents.filter(v=>v.ParaTypeID==3).map((v)=>{
-        //     tow.push(v)
-        // })
-        // x.form.templateContents.filter(v=>v.ParaTypeID==4).map((v)=>{
-        //     three.push(v)
-        // })
-        // x.form.templateContents.filter(v=>v.ParaTypeID==5).map((v)=>{
-        //     four.push(v)
-        // })
-        // x.form.templateContents.filter(v=>v.ParaTypeID==6).map((v)=>{
-        //     five.push(v)
-        // })
+ 
         this.setState({
             templateContents: x.form.templateContents,
-            // zero:zero,
-            // one:one,
-            // tow:tow,
-            // three:three,
-            // four:four,
-            // five:five
+
         })
         //查询当前两票基本信息  
         let aas = '?form.ticketNum=' + ticketNum;
@@ -467,20 +430,15 @@ async getliucheng(){
 				}
             }
             let sonList = liucheng.form.sonList;
-            let op = []
-            for(let z=0;z<sonList.length;z++){
-                let c = sonList[z]
-                op.push(c.FlowRoleID)
-            }
-            op.unshift(keris)
+           
             //将已填写的参数值填入页面
             const TicketRecord = await HttpUtils.AjaxData(`${this.state.http}/ticketMng/ticketMng_searchTicketRecord.action`,flewFrom) //searchTicketRecord(flewFrom);
             const list = TicketRecord.form.dataList;//获取到票数据内容，等待传入页面
-
+            
+            this.list=list;
             
 
             this.setState({
-                svalus:op.join(','),
                 fatherIndex:fatherIndex,
                 qwer:qwer,
                 statusId: statusId,
@@ -517,71 +475,45 @@ async getliucheng(){
             const groupnumber = await HttpUtils.AjaxData(`${this.state.http}/ticketMng/ticketMng_searchAllMangerUser.action`,'')  //AllMangerUser()
             const paramsItem = "?form.flowroleid=" + ticketFlowList[0].FlowRoleID;
             const saves = await HttpUtils.AjaxData(`${this.state.http}/ticketMng/ticketMng_searchEditPara.action`,paramsItem) //editquanxian(paramsItem);//获取可编辑内容区域
-            let bool = await HttpUtils.AjaxData(`${this.state.http}/ticketMng/ticketMng_searchEditPara.action`,`?form.flowroleid=${this.state.svalus}`)
-            console.log('bbbbbbbbbbbbbbbbb',bool.form.dataList)
+        
             let tt;
             saves.form.dataList.map(item=>{
                  tt = Object.assign(this.state.newpagedata,{[item.TicketParaID]:item.ParaName=='班组'|| item.ParaName=='班组成员'?null:''});
             })
-
-            // this.infos = x.form.templateContents;
-            // for(let y=0;y<this.infos.length;y++){
-            //     let k = this.infos[y]
-            //     for(let x = 0;x<list.length;x++){
-            //         let b = list[x]
-            //         if(b.TicketParaID==k.TicketParaID){
-            //             k['subList'].push(list[x])
-            //         }
-            //     }
-            // }
-            
-            let ok = x.form.templateContents
-            
-            
-
-            
+        
+            this.getliucheng();
+            let bool = await HttpUtils.AjaxData(`${this.state.http}/ticketMng/ticketMng_searchEditPara.action`,`?form.flowroleid=${this.state.kkzh.join(',')}`)
             let info = x.form.templateContents.filter(v=>v.FatherID=='null');
             let p = x.form.templateContents;
+
             for (let i=0;i<info.length;i++) {
                 let item = info[i];
                 let TemplateContentID = item.TemplateContentID;
                 for (let j=0;j<p.length;j++){
                     let subItem = p[j];
                     if( subItem && (TemplateContentID==subItem.FatherID)){
-                        if(!item['subList']) item['subList']=[]
-                        item['subList'].push(p[j]);
-                    }
-                }
-            }
-
-            let ccxz = info
-
-            for(let c = 0;c<ccxz.length;c++){
-                let ads = ccxz[c]
-                for(let t =0;t<ads.subList.length;t++){
-                    let q = ads.subList[t]
-                    for(let x = 0;x<list.length;x++){
-                        let b = list[x]
-                        if(bool.form.dataList.length){
-                            for(let i = 0;i<bool.form.dataList.length;i++) {
-                                let g = bool.form.dataList[i]
-                                if(g.FatherID==ads.TemplateContentID){
-                                    ads['subLists'].push(list[x])
+                        let {TicketParaID} = p[j];
+                        if(this.checkIsShow(TicketParaID)){
+                                if(!item['subList']) item['subList']=[]
+                                item['subList'].push(p[j]);
+                        }
+                        if(this.state.kkzh.length>1){
+                            for(let v=0;v<bool.form.dataList.length;v++){
+                                let fg = bool.form.dataList[v];
+                                if(fg.FatherID==TemplateContentID){
+                                    if(!item['subList']) item['subList']=[]
+                                        if(item['subList'].indexOf(p[j]) == -1){
+                                        item['subList'].push(p[j]);
+                                    }
                                 }
                             }
-                            
-                        }
-                        else if( b && (b.TicketParaID==q.TicketParaID)){
-                            if(!ads['subLists']) ads['subLists']=[]
-                            ads['subLists'].push(list[x])
                         }
                     }
                 }
             }
 
+            this.opps = info.filter(v=>v.subList)
 
-
-            console.log(ccxz,'jjjjjjjjjjjjjjjjjj')
             this.setState({
                 nnnmmm: true,
                 groupName: bumen.form.dataList,
@@ -666,9 +598,7 @@ async getliucheng(){
         setTimeout(()=>ToastAndroid.show("加载完毕", ToastAndroid.SHORT))
         this.setState({ mengCard: false })
         // this.getSubdata(this.state.index, this.state.ticketFlowrole);
-
         
-        this.getliucheng();
     }
     getSelect(e, value, datalist) {
         let s = { [datalist]: [value] };
@@ -735,13 +665,25 @@ async getliucheng(){
 
     ischacked = (asd) => {
         let sss = this.state.havChangeList;
+        let qsd = this.state.statussa;
         let index = 0;
+        let indexs = 0;
         if (sss.length > 0 && !this.props.navigation.state.params.canot) {
             index = sss.findIndex((v) => {
                 return v.TicketParaID == asd;
             });
-            return index != -1;
-        } else {
+            if(qsd.length>0){
+                indexs = qsd.findIndex((v) => {
+                    return v.TicketParaID == asd;
+            })
+            return indexs != -1 ;
+            }else{
+                return index != -1;
+            }
+           
+        }
+
+        else {
             return false;
         }
     }
@@ -973,7 +915,7 @@ async getliucheng(){
         }
         
         if(flag==1){//流转状态
-            
+            let kks = this.state.kkzh[index];
             let roleid =this.state.nextRoleIdarr[index];
             
             if(index>0){
@@ -982,12 +924,13 @@ async getliucheng(){
             }else{
                 statusId = this.state.statusId1;
             }
-            
+            let bool = await HttpUtils.AjaxData(`${this.state.http}/ticketMng/ticketMng_searchEditPara.action`,`?form.flowroleid=${kks}`)
             const dui = "?form.roleId=" + roleid;
             const searchRoles = await HttpUtils.AjaxData(`${this.state.http}/ticketMng/ticketMng_searchUserForRole.action`,dui) //searchUserForRole(dui);
             this.setState({
             //     currentstatusid:this.state.sonstatusid[index],
                 targetFlowId:this.state.nextFlowRoleIdarr[index],
+                statussa:bool.form.dataList,
                 searchRole: searchRoles.form.dataList,
                 flowRoleId:this.state.nextFlowIdarr[index],
                 statusId:statusId,
@@ -1367,21 +1310,20 @@ async getliucheng(){
     GetText(v,dis){
         return(<View style={{height:44,justifyContent:'center'}}>
         {v.IsConfirm == 1 ? <View style={{flexDirection:'row',width:'100%'}}>
-        <CheckBox labelStyle={{color:'#363434'}} checkboxStyle={{width:18,height:18}} label={''}
+        <CheckBox labelStyle={{color:'#363434'}} checkboxStyle={{width:18,height:18,marginTop:7}} label={''}
             checked={this.state.newChecked[v.TicketParaID+"_1"]==1}
             onChange={(e) => dis && this.onChangeTextCheck(v.TicketParaID + '_1', e, dis)}
             underlayColor={"transparent"}></CheckBox>
         <TextInput multiline={true} value={this.getchecked(v.TicketParaID)}
-            editable={dis} placeholder={dis?"请输入":""}
-            underlineColorAndroid="transparent"
-            placeholderTextColor="#f5f5f5"
+            editable={dis} placeholder={dis?"请输入":""} underlineColorAndroid="transparent"
+            placeholderTextColor={dis?"#363434":"#cccccc"}
             onChangeText={(values) => this.handleInput(v.TicketParaID, values)}
-            style={{padding:0,color:dis?'#444444':'#ccc',flexWrap:'wrap'}} />
+            style={{width:'94%',padding:0,color:dis?'#444444':'#cccccc',flexWrap:'wrap',marginLeft:7}} />
             </View>:<View style={{width:"100%"}}>
             <TextInput multiline={true} value={this.getchecked(v.TicketParaID)} underlineColorAndroid="transparent"
-            editable={dis} placeholder={dis?"请输入":""} placeholderTextColor="#363434"
+            editable={dis} placeholder={dis?"请输入":""} placeholderTextColor={dis?"#363434":"#cccccc"}
             onChangeText={(values) => this.handleInput(v.TicketParaID, values)}
-            style={{padding:0,color:dis?'#444444':'#ccc',flexWrap:'wrap'}} />
+            style={{padding:0,color:dis?'#444444':'#cccccc',flexWrap:'wrap'}} />
             </View>}
         </View>)
     }
@@ -1461,7 +1403,6 @@ async getliucheng(){
                         <Text style={{color:"#363434",textAlign:"center",marginTop:10,fontSize:15}}>加载中...</Text>
                         </View>}
                     <ScrollView>
-                     <View style={{height:13}}></View>
                       <View style={{width:'100%',backgroundColor:'white',borderBottomColor:"#ccc",borderStyle:"solid",borderBottomWidth:1,borderTopColor:"#ccc",borderTopWidth:1}}>
                         {/* {this.state.one.map((v,i)=>{
                         let dis = this.ischacked(v.TicketParaID);
@@ -1511,20 +1452,20 @@ async getliucheng(){
                             {this.AreaInput(v,dis)}
                         </View>)})} */}
 
-                        {/* {this.info.map((v,index)=>{
+                        {this.opps.map((v,index)=>{
                             let {ParaName,subList} = v;
-                            return (<View key={index} style={{width:'96%',justifyContent:'center',marginLeft:15}}>
-                                    <View style={{paddingBottom:10,paddingTop:10,flexDirection:'row',alignItems:'center',borderStyle:'solid',borderBottomColor:'black',borderBottomWidth:1,borderTopColor:'#ccc',borderTopWidth:ParaName=='基本信息'?0:1}}>
+                            return (<View key={index} style={{justifyContent:'center'}}>
+                                    <View style={{paddingLeft:15,backgroundColor:'#e9e9ef',paddingBottom:10,paddingTop:10,flexDirection:'row',alignItems:'center'}}>
                                         <Image source={require('../images/rpng.png')} style={{width:20,height:20,marginRight:5,resizeMode:Image.resizeMode.contain}}/>
                                         <Text style={{fontSize:16,color:'#444444',paddingRight:5,flex:1}}>{ParaName}</Text>
                                     </View>
                                     {subList.map((item,index)=>{
                                         let {ParaName,ParaTypeID} = item;
                                         let dis = this.ischacked(item.TicketParaID);
-                                        return (<View key={index} style={{borderBottomWidth:subList.length==index+1?0:1,borderBottomColor:'#ccc',borderStyle:'solid'}}>
+                                        return (<View key={index} style={{marginLeft:15,width:'96%',borderBottomWidth:subList.length==index+1?0:1,borderBottomColor:'#ccc',borderStyle:'solid'}}>
                                                 <View style={{flexDirection:'row',justifyContent:'center'}}>
-                                                    <Text style={{flex:1,color:dis?'#444':'#ccc'}}>{ParaName}</Text>
-                                                     {(item.IsAdd==1&&dis)&&<TouchableOpacity onPress={()=>this.add(item,item.TicketParaID+"*1",item.TicketParaID+"_1")} style={{width:'10%',alignItems:'center'}}>
+                                                    <Text style={{flex:1,color:dis?'#444':'#ccc',marginTop:7}}>{ParaName}</Text>
+                                                     {(item.IsAdd==1&&dis)&&<TouchableOpacity onPress={()=>this.add(item,item.TicketParaID+"*1",item.TicketParaID+"_1")} style={{marginTop:7,width:'10%',alignItems:'center'}}>
                                                         <Image style={{width:23,top:1,height:23,resizeMode:Image.resizeMode.contain}} source={require('../images/add.png')}/>  
                                                     </TouchableOpacity>}
                                                 </View>
@@ -1537,7 +1478,7 @@ async getliucheng(){
                                     })}
                                 </View>)
                             })
-                        } */}
+                        }
                       </View>
                         {this.props.navigation.state.params.isqianfa&&!this.state.mengCard&&<View>
                             <View style={{width:'100%',padding:5,justifyContent:'center'}}>
