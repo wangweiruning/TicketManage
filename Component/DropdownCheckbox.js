@@ -129,7 +129,7 @@ export default class DropdownCheckbox extends React.Component {
                 this.props.open(actives, this.props.leixin, this.props.ParaName)
             }}>
             <View style={{backgroundColor:'rgba(0,0,0,.3)',width:'100%',height:'100%'}}>
-            <TouchableOpacity style={{width:'100%',height:'40%'}} onPress={()=>{this.setState({visible:false,SelectData:this.props.SelectData});this.props.open(this.state.activeItem, this.props.leixin, this.props.ParaName)}}></TouchableOpacity>
+            <TouchableOpacity style={{width:'100%',height:'40%'}} onPress={()=>{this.setState({visible:false})}}></TouchableOpacity>
             <View style={{width:'100%',backgroundColor:'white',height:'60%',borderTopStartRadius:5,borderTopEndRadius:5}}>
             <View style={{flexDirection:'row',padding:7,justifyContent:'flex-end'}}>
             <Text style={{elevation:3,backgroundColor:'#0390e8',textAlign:'center',width:50,color:'white',borderRadius:5,fontSize:15,padding:5}} onPress={()=>{

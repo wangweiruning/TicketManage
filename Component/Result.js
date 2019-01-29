@@ -782,7 +782,7 @@ async getliucheng(){
                     <Text style={{color: '#363434',flex:1,fontSize:16}}>流转目标</Text>
                     <DropdownCheckbox open={this.open.bind(this)} TextColor={{ color: '#363434', fontSize: 13}}
                         style={{justifyContent: 'center'}} SelectData={this.state.searchRole}/>
-                    <Image source={require('../images/goto.png')} style={{width:20,height:20}} />
+                    <Image source={require('../images/goto.png')} style={{width:15,height:15}} />
                </View>
     }
 
@@ -800,7 +800,7 @@ async getliucheng(){
                 defaultValue={"请选择"}
                 onSelect={(index, value) => this.changeAgree(index, 1, value)}
                 options={arr} />
-            <Image source={require('../images/goto.png')} style={{width:20,height:20}}/>
+            <Image source={require('../images/goto.png')} style={{width:15,height:15}}/>
         </View>
     }
 
@@ -954,7 +954,7 @@ async getliucheng(){
                 textStyle={{ color: '#363434', fontSize: 13}}
                 onSelect={(index, value) => this.changeAgree(index, 0, value)}
                 options={arr} />
-            <Image source={require('../images/goto.png')} style={{width:20,height:20}}/>
+            <Image source={require('../images/goto.png')} style={{width:15,height:15}}/>
         </View>
     }
 
@@ -1248,7 +1248,7 @@ async getliucheng(){
             checkeds=checkeds!=undefined? checkeds.split("&$"):["0"];
         let newds = ds!=undefined? ds.split('&$'):[""];
         return newds.map((item,qIndex)=>{
-            return (<View style={{alignItems:'center',flexDirection:'row',width:"100%",borderBottomColor:'#ccc',borderStyle:'solid',borderBottomColor:'#ccc',borderBottomWidth:newds.length==qIndex+1?0:1,borderStyle:'solid'}} key={qIndex}>
+            return (<View style={{alignItems:'center',flexDirection:'row',width:"100%",borderBottomColor:'#ccc',borderStyle:'solid',borderBottomColor:'#ccc',borderBottomWidth:newds.length==qIndex+1?0:0,borderStyle:'solid'}} key={qIndex}>
             {v.IsConfirm==1&&<View style={{padding:10}}>
             <CheckBox labelStyle={{color:'#363434'}} checkboxStyle={{width:18,height:18}}
                 checked={checkeds[qIndex]=="1"} label={''}
@@ -1261,7 +1261,7 @@ async getliucheng(){
                              this.state.pagedata[v.TicketParaID+"*1"] = newds.join("&$");
                              this.state.newpagedata[v.TicketParaID+"*1"]=newds;}}
                              autoHeight last={true}
-                             style={{maxWidth:"100%",width:'100%',paddingVertical:10,paddingHorizontal:0,color:dis?'#444444':'#ccc',fontSize:14}} />
+                             style={{maxWidth:"100%",width:'100%',paddingVertical:10,paddingHorizontal:0,color:dis?'#444444':'#ccc',fontSize:14,borderStyle:'solid',borderTopColor:'#ccc',borderTopWidth:1}} />
             </View>
             {v.IsAdd==1&&dis&&v.ParaTypeID ==6&& <TouchableOpacity onPress={()=>{
             this.setState(({pagedata})=>{
@@ -1368,7 +1368,7 @@ async getliucheng(){
                     <TextareaItem editable={dis} rows={4} placeholderTextColor="#666" placeholder={dis?"请输入":""}
                     defaultValue={this.getchecked(v.TicketParaID)} autoHeight last={true}
                     onChangeText={(values) => this.handleInput(v.TicketParaID, values)}
-                    style={{alignItems:'center',color:dis?'#444444':'#ccc',fontSize:14,paddingHorizontal:0,height:44,maxWidth:'100%',minWidth:'100%'}} />
+                    style={{alignItems:'center',color:dis?'#444444':'#ccc',fontSize:14,paddingHorizontal:0,height:44,maxWidth:'100%',minWidth:'100%',borderStyle:'solid',borderTopColor:'#ccc',borderTopWidth:1}} />
                     </View>
           }
         </View>)
@@ -1403,70 +1403,22 @@ async getliucheng(){
                         <Text style={{color:"#363434",textAlign:"center",marginTop:10,fontSize:15}}>加载中...</Text>
                         </View>}
                     <ScrollView>
-                      <View style={{width:'100%',backgroundColor:'white',borderBottomColor:"#ccc",borderStyle:"solid",borderBottomWidth:1,borderTopColor:"#ccc",borderTopWidth:1}}>
-                        {/* {this.state.one.map((v,i)=>{
-                        let dis = this.ischacked(v.TicketParaID);
-                        return (<View key={i} style={{width:'96%',borderBottomColor:'#ccc',borderStyle:'solid',justifyContent:'center',borderBottomWidth:1,marginLeft:15}}>
-                            <Text style={{fontSize:16,color:dis?'#444444':'#ccc',paddingRight:5,flex:1,marginTop:5}}>{v.ParaName}</Text>
-                            {(v.IsAdd==1&&dis)&&<TouchableOpacity dis={dis} onPress={()=>this.add(v,v.TicketParaID+"*1",v.TicketParaID+"_1")} style={{width:'10%',height:25,justifyContent:'center',alignItems:'center'}}>
-                                <Image style={{width:23,top:1,height:23,resizeMode:Image.resizeMode.contain}} source={require('../images/add.png')}/>  
-                            </TouchableOpacity>}
-                            {this.GetText(v,dis)}
-                        </View>)})}
-                        {this.state.tow.map((v,i)=>{
-                        let dis = this.ischacked(v.TicketParaID);
-                        return (<View key={i} style={{width:'96%',borderBottomColor:'#ccc',borderStyle:'solid',justifyContent:'center',borderBottomWidth:1,marginLeft:15}}>
-                            <Text style={{fontSize:16,color:dis?'#444444':'#ccc',paddingRight:5,flex:1,marginTop:5}}>{v.ParaName}</Text>
-                            {(v.IsAdd==1&&dis)&&<TouchableOpacity dis={dis} onPress={()=>this.add(v,v.TicketParaID+"*1",v.TicketParaID+"_1")} style={{width:'10%',height:25,justifyContent:'center',alignItems:'center'}}>
-                                <Image style={{width:23,top:1,height:23,resizeMode:Image.resizeMode.contain}} source={require('../images/add.png')}/>  
-                            </TouchableOpacity>}
-                            {this.NormalCheck(v,dis)}
-                        </View>)})}
-                        {this.state.three.map((v,i)=>{
-                        let dis = this.ischacked(v.TicketParaID);
-                        return (<View key={i} style={{width:'96%',borderBottomColor:'#ccc',borderStyle:'solid',justifyContent:'center',borderBottomWidth:1,marginLeft:15}}>
-                            <Text style={{fontSize:16,color:dis?'#444444':'#ccc',paddingRight:5,flex:1,marginTop:5}}>{v.ParaName}</Text>
-                            {(v.IsAdd==1&&dis)&&<TouchableOpacity dis={dis} onPress={()=>this.add(v,v.TicketParaID+"*1",v.TicketParaID+"_1")} style={{width:'10%',height:25,justifyContent:'center',alignItems:'center'}}>
-                                <Image style={{width:23,top:1,height:23,resizeMode:Image.resizeMode.contain}} source={require('../images/add.png')}/>  
-                            </TouchableOpacity>}
-                            {this.MoreCheck(v,dis)}
-                        </View>)})}
-                        {this.state.four.map((v,i)=>{
-                        let dis = this.ischacked(v.TicketParaID);
-                        return (<View key={i} style={{width:'96%',borderBottomColor:'#ccc',borderStyle:'solid',justifyContent:'center',borderBottomWidth:1,marginLeft:15}}>
-                            <Text style={{fontSize:16,color:dis?'#444444':'#ccc',paddingRight:5,flex:1,marginTop:5}}>{v.ParaName}</Text>
-                            {(v.IsAdd==1&&dis)&&<TouchableOpacity dis={dis} onPress={()=>this.add(v,v.TicketParaID+"*1",v.TicketParaID+"_1")} style={{width:'10%',height:25,justifyContent:'center',alignItems:'center'}}>
-                                <Image style={{width:23,top:1,height:23,resizeMode:Image.resizeMode.contain}} source={require('../images/add.png')}/>  
-                            </TouchableOpacity>}
-                            {this.CheckDates(v,dis)}
-                        </View>)})}
-                        {this.state.five.map((v,i)=>{
-                        let dis = this.ischacked(v.TicketParaID);
-                        return (<View key={i} style={{width:'96%',borderBottomColor:'#ccc',borderStyle:'solid',justifyContent:'center',borderBottomWidth:this.state.five.length==i+1?0:1,marginLeft:15}}>
-                            <View style={{flexDirection:'row',width:'100%',alignItems:"center"}}>
-                            <Text style={{fontSize:16,color:dis?'#444444':'#ccc',paddingRight:5,flex:1,marginTop:5}}>{v.ParaName}</Text>
-                            {(v.IsAdd==1&&dis)&&<TouchableOpacity dis={dis} onPress={()=>this.add(v,v.TicketParaID+"*1",v.TicketParaID+"_1")} style={{marginTop:5,width:'10%',height:25,justifyContent:'center',alignItems:'center'}}>
-                                <Image style={{width:23,top:1,height:23,resizeMode:Image.resizeMode.contain}} source={require('../images/add.png')}/>  
-                            </TouchableOpacity>}
-                            </View>
-                            {this.AreaInput(v,dis)}
-                        </View>)})} */}
-
+                      <View style={{width:'100%',backgroundColor:'white',borderBottomColor:"#ccc",borderStyle:"solid",borderBottomWidth:1}}>
                         {this.opps.map((v,index)=>{
                             let {ParaName,subList} = v;
                             return (<View key={index} style={{justifyContent:'center'}}>
-                                    <View style={{paddingLeft:15,backgroundColor:'#e9e9ef',paddingBottom:10,paddingTop:10,flexDirection:'row',alignItems:'center'}}>
+                                    <View style={{paddingLeft:15,backgroundColor:'#e9e9ef',paddingBottom:8,paddingTop:8,flexDirection:'row',alignItems:'center',borderStyle:"solid",borderBottomColor:'#ccc',borderBottomWidth:1,borderTopColor:"#ccc",borderTopWidth:ParaName=='基本信息'?0:1}}>
                                         <Image source={require('../images/rpng.png')} style={{width:20,height:20,marginRight:5,resizeMode:Image.resizeMode.contain}}/>
                                         <Text style={{fontSize:16,color:'#444444',paddingRight:5,flex:1}}>{ParaName}</Text>
                                     </View>
                                     {subList.map((item,index)=>{
                                         let {ParaName,ParaTypeID} = item;
                                         let dis = this.ischacked(item.TicketParaID);
-                                        return (<View key={index} style={{marginLeft:15,width:'96%',borderBottomWidth:subList.length==index+1?0:1,borderBottomColor:'#ccc',borderStyle:'solid'}}>
+                                        return (<View key={index} style={{marginLeft:ParaTypeID==5?23:15,width:ParaTypeID==5?'93.5%':'96%',borderBottomWidth:subList.length==index+1?0:1,borderBottomColor:'#ccc',borderStyle:'solid'}}>
                                                 <View style={{flexDirection:'row',justifyContent:'center'}}>
-                                                    <Text style={{flex:1,color:dis?'#444':'#ccc',marginTop:7}}>{ParaName}</Text>
+                                                    <Text style={{fontSize:16,flex:1,color:dis?'#444':'#ccc',marginTop:7,marginBottom:ParaName.length>20||ParaTypeID==6?7:0}}>{ParaName}</Text>
                                                      {(item.IsAdd==1&&dis)&&<TouchableOpacity onPress={()=>this.add(item,item.TicketParaID+"*1",item.TicketParaID+"_1")} style={{marginTop:7,width:'10%',alignItems:'center'}}>
-                                                        <Image style={{width:23,top:1,height:23,resizeMode:Image.resizeMode.contain}} source={require('../images/add.png')}/>  
+                                                        <Image style={{width:23,height:23,resizeMode:Image.resizeMode.contain}} source={require('../images/add.png')}/>  
                                                     </TouchableOpacity>}
                                                 </View>
                                                 {ParaTypeID==2 && this.GetText(item,dis)}
@@ -1481,10 +1433,11 @@ async getliucheng(){
                         }
                       </View>
                         {this.props.navigation.state.params.isqianfa&&!this.state.mengCard&&<View>
-                            <View style={{width:'100%',padding:5,justifyContent:'center'}}>
-                                <Text style={{color:'#363434',marginLeft:15,fontSize:15}}>提交</Text>
+                            <View style={{width:'100%',padding:7,alignItems:'center',flexDirection:'row'}}>
+                            <Image source={require('../images/push.png')} style={{marginRight:5,marginLeft:8,width:20,height:20,resizeMode:Image.resizeMode.contain}}/>
+                                <Text style={{color:'#363434',fontSize:14}}>提交</Text>
                             </View>
-                            <View style={{width:'100%',backgroundColor:'white'}}>
+                            <View style={{width:'100%',backgroundColor:'white',borderBottomColor:"#ccc",borderBottomWidth:1,borderTopColor:"#ccc",borderTopWidth:1,borderStyle:'solid'}}>
                                 {this.aggreeall()}
                                 {this.getliuzhuan()}
                                 {this.gotSubmit()}

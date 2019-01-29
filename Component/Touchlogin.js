@@ -17,7 +17,7 @@ export default class Touchlogin extends React.Component{
     }
 
     async componentDidMount(){
-        this.pressHandler()
+        // this.pressHandler()
         await new Promise((s1, s2) => {
             MySorage._load("history",(ress) => {
                 let infos = ress;
@@ -50,7 +50,7 @@ export default class Touchlogin extends React.Component{
                return Alert.alert('',result.form.targetresult,[{text:'是',onPress:this.opntion2Selected}])
               }
         }catch(e){
-            Toast.fail("服务器开小差了~~",3,null,true)
+            Toast.fail("服务器出现问题或网络连接异常",2,null,true)
             this.setState({
                 loading:false
             })
@@ -61,8 +61,8 @@ export default class Touchlogin extends React.Component{
     pressHandler() {
         const optionalConfigObject = {
             title: "指纹验证登录", // Android
-            color: "#12e2a3", // Android,
-            imageColor: "#12e2a3", // Android
+            color: "#0390e8", // Android,
+            imageColor: "#0390e8", // Android
             imageErrorColor: "#ff0000", // Android
             sensorDescription: "请放入指纹", // Android
             sensorErrorDescription: "验证失败，请重试", // Android
@@ -77,13 +77,10 @@ export default class Touchlogin extends React.Component{
             // Success code
         })
         .catch(error => {
-    // Failure code
+           // Failure code
             this.setState({
                 loading:false
             })
-            Alert.alert("指纹验证提示",'您的手机不支持指纹登录或未开启指纹功能，请选择手动登录',[{text:'确定'}],
-                {cancelable:false}
-            )
         });
         TouchID.authenticate('', optionalConfigObject)
             .then(success => {
@@ -94,7 +91,7 @@ export default class Touchlogin extends React.Component{
         return(<View style={{position:'relative',flex:1,alignItems:'center'}}>
           <StatusBar barStyle='dark-content' />
           <Text style={{marginTop:StatusBar.currentHeight+20,fontSize:18,marginLeft:5}}>指纹验证登录，更便捷的登录方式。</Text>
-          {this.state.loading?<View style={{alignItems:'center',top:'75%'}}>
+          {this.state.loading?<View style={{alignItems:'center',top:'65%'}}>
            <View style={{borderRadius:4,
                       borderColor:'rgba(255,255,255,.5)',
                       borderWidth:1,
@@ -110,8 +107,8 @@ export default class Touchlogin extends React.Component{
               <Text style={{color:'white',fontSize:15,marginTop:20}}>登录中...</Text>
         </View>
         </View>:null}
-           <TouchableOpacity style={{padding:10,justifyContent:'center',height:30,alignItems:'center',top:100,borderColor:'grey',borderRadius:10,borderWidth:1,borderStyle:'solid'}}>
-             <Text onPress={()=>this.pressHandler()}>再试一次</Text>
+           <TouchableOpacity style={{padding:10,justifyContent:'center',height:30,alignItems:'center',top:100,borderColor:'grey',borderRadius:10,borderWidth:1,borderStyle:'solid',backgroundColor:'#0390e8'}}>
+             <Text onPress={()=>this.pressHandler()}>指纹登录</Text>
            </TouchableOpacity>
            <TouchableOpacity style={{padding:10,justifyContent:'center',height:30,bottom:10,alignItems:'center',position:'absolute',borderColor:'grey',borderRadius:10,borderWidth:1,borderStyle:'solid'}}>
              <Text onPress={()=>this.props.navigation.navigate('login')}>更多</Text>

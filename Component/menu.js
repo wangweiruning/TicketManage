@@ -1,5 +1,5 @@
 import React from 'react';
-import {View,Text,TouchableOpacity,Alert,Image,StatusBar,ToastAndroid} from 'react-native';
+import {View,Text,TouchableOpacity,Alert,Image,ToastAndroid} from 'react-native';
 import MySorage from '../api/storage';
 import TouchID from 'react-native-touch-id';
 // import {userlist,historys} from '../api/api';
@@ -120,31 +120,40 @@ export default class Me extends React.Component {
             </View>
              <View style={{marginTop:20,backgroundColor:'white',width:'100%',borderTopColor:"lightgrey",borderBottomColor:'lightgrey',borderTopWidth:1,borderBottomWidth:1,borderStyle:'solid'}}>
              <TouchableOpacity onPress={()=>this.props.navigation.navigate('Network')} style={{width:'100%',alignItems:'center',flexDirection:'row'}} activeOpacity={.8}>
-                  <View style={{marginLeft:10}}>
-                    <Image source={require('../images/shezhi.png')} style={{width:20,height:20,resizeMode:Image.resizeMode.contain}}/>
-                  </View>
-                  <View style={{flexDirection:'row',width:'90%',alignItems:'center',marginLeft:10,paddingTop:15,paddingBottom:15,borderBottomWidth:1,borderBottomColor:'lightgrey',borderStyle:'solid'}}>
-                   <Text style={{color:'black',fontSize:18,flex:1}}>网络配置</Text>
-                   <Image source={require('../images/go1.png')} style={{marginRight:10,width:15,height:15,resizeMode:Image.resizeMode.contain}}/>
-                  </View>
+                <View style={{marginLeft:10}}>
+                  <Image source={require('../images/shezhi.png')} style={{width:20,height:20,resizeMode:Image.resizeMode.contain}}/>
+                </View>
+                <View style={{flexDirection:'row',width:'90%',alignItems:'center',marginLeft:10,paddingTop:15,paddingBottom:15,borderBottomWidth:1,borderBottomColor:'lightgrey',borderStyle:'solid'}}>
+                  <Text style={{color:'black',fontSize:18,flex:1}}>网络配置</Text>
+                  <Image source={require('../images/go1.png')} style={{marginRight:10,width:15,height:15,resizeMode:Image.resizeMode.contain}}/>
+                </View>
              </TouchableOpacity>
+             {this.state.tou?null:<TouchableOpacity onPress={()=>this.props.navigation.navigate('Touchid')} style={{width:'100%',alignItems:'center',flexDirection:'row'}} activeOpacity={.8}>
+                <View style={{marginLeft:10}}>
+                  <Image source={require('../images/touch.png')} style={{width:20,height:20,resizeMode:Image.resizeMode.contain}}/>
+                </View>
+                <View style={{flexDirection:'row',width:'90%',alignItems:'center',marginLeft:10,paddingTop:15,paddingBottom:15,borderBottomWidth:1,borderBottomColor:'lightgrey',borderStyle:'solid'}}>
+                  <Text style={{color:'black',fontSize:18,flex:1}}>绑定指纹</Text>
+                  <Image source={require('../images/go1.png')} style={{marginRight:10,width:15,height:15,resizeMode:Image.resizeMode.contain}}/>
+                </View>
+             </TouchableOpacity>}
              <TouchableOpacity onPress={()=>this.props.navigation.navigate('Aboutme')} style={{width:'100%',alignItems:'center',flexDirection:'row'}} activeOpacity={.8}>
-                 <View style={{marginLeft:10}}>
-                   <Image source={require('../images/ours.png')} style={{width:20,height:20,resizeMode:Image.resizeMode.contain}}/>
-                 </View>
-                  <View style={{flexDirection:'row',width:'90%',alignItems:'center',marginLeft:10,paddingTop:15,paddingBottom:15,borderBottomWidth:1,borderBottomColor:'lightgrey',borderStyle:'solid'}}>
-                   <Text style={{color:'black',fontSize:18,flex:1}}>关于</Text>
-                   <Image source={require('../images/go1.png')} style={{marginRight:10,width:15,height:15,resizeMode:Image.resizeMode.contain}}/>
-                  </View>
+                <View style={{marginLeft:10}}>
+                  <Image source={require('../images/ours.png')} style={{width:20,height:20,resizeMode:Image.resizeMode.contain}}/>
+                </View>
+                <View style={{flexDirection:'row',width:'90%',alignItems:'center',marginLeft:10,paddingTop:15,paddingBottom:15,borderBottomWidth:1,borderBottomColor:'lightgrey',borderStyle:'solid'}}>
+                  <Text style={{color:'black',fontSize:18,flex:1}}>关于</Text>
+                  <Image source={require('../images/go1.png')} style={{marginRight:10,width:15,height:15,resizeMode:Image.resizeMode.contain}}/>
+                </View>
              </TouchableOpacity>
              <TouchableOpacity onPress={()=> this.out()} style={{width:'100%',alignItems:'center',flexDirection:'row'}} activeOpacity={.5}>
-                  <View style={{marginLeft:10}}>
-                   <Image source={require('../images/out.png')} style={{width:20,height:20,resizeMode:Image.resizeMode.contain}}/>
-                 </View>
-                 <View style={{flexDirection:'row',width:'90%',alignItems:'center',paddingTop:15,paddingBottom:15,marginLeft:10}}>
-                   <Text style={{color:'black',fontSize:18,flex:1}}>退出系统</Text>
-                   <Image source={require('../images/go1.png')} style={{marginRight:10,width:15,height:15,resizeMode:Image.resizeMode.contain}}/>
-                 </View>
+                <View style={{marginLeft:10}}>
+                  <Image source={require('../images/out.png')} style={{width:20,height:20,resizeMode:Image.resizeMode.contain}}/>
+                </View>
+                <View style={{flexDirection:'row',width:'90%',alignItems:'center',paddingTop:15,paddingBottom:15,marginLeft:10}}>
+                  <Text style={{color:'black',fontSize:18,flex:1}}>退出系统</Text>
+                  <Image source={require('../images/go1.png')} style={{marginRight:10,width:15,height:15,resizeMode:Image.resizeMode.contain}}/>
+                </View>
              </TouchableOpacity>
              </View>
              </View>)

@@ -3,35 +3,21 @@ import {View,TouchableOpacity,Text,Alert,ToastAndroid,Platform,BackHandler,Image
 import {ActivityIndicator,Toast} from 'antd-mobile-rn';
 import HttpUtils from '../api/Httpdata3'
 import MySorage from '../api/storage';
-import TouchID from 'react-native-touch-id';
 import {TextInputLayout} from 'rn-textinputlayout';
 MySorage._getStorage()
 export default class Login extends React.Component{
      constructor(props){
-         super(props);
+         super(props)
          this.state={
             http:jconfig.netWorkIp?jconfig.netWorkIp:'http://59.172.204.182:8030/ttms',
             bool:null,
             user:'',
-            tou:false,
             pass:'',
             result:{},
             userpass:{},
             loading:false
         }
-     }
-
-     componentWillMount(){
-        TouchID.isSupported().then(biometryType => {
-          // Success code
-        })
-        .catch(error => {
-         // Failure code
-          this.setState({
-            tou:true
-          })
-        });
-       }
+    }
 
     async componentDidMount () {
         await new Promise((s1, s2) => {
@@ -86,7 +72,7 @@ export default class Login extends React.Component{
             //  );
      } 
 
-     onBackClicked = () => {
+    onBackClicked = () => {
         return true;
     }
 
@@ -95,10 +81,8 @@ export default class Login extends React.Component{
         return;
       };
     }
-     
+    
     async submitgo(){
-        let boll = this.state.bool;
-        let ttt = this.state.tou
         this.setState({
             loading:true
         })
@@ -121,22 +105,20 @@ export default class Login extends React.Component{
             this.setState({
                 userpass:{data:this.state.user,datag:this.state.pass},
             })
-            MySorage._sava("history",this.state.userpass);    
-            !boll&&!ttt?this.props.navigation.navigate('Touchid'):this.props.navigation.navigate('App')
+            MySorage._sava("history",this.state.userpass);
+            this.props.navigation.navigate('App')
           }
          else{
             Alert.alert('',result.form.targetresult,[{text:'是',onPress:this.opntion2Selected}])
             this.setState({
                loading:false
-           })
+            })
         }
          this.setState({
-              result:result,  //序列化：转换为一个 (字符串)JSON字符串
-        });
-
+            result:result,  //序列化：转换为一个 (字符串)JSON字符串
+        })
         }catch(e){
-            Toast.fail("服务器出现问题或网络连接异常",3,null,true)
-            console.log(this.state.http,e)
+            Toast.fail("服务器出现问题或网络连接异常",2,null,true)
             this.setState({
                 loading:false
             })
@@ -199,9 +181,6 @@ export default class Login extends React.Component{
                style={{elevation:3,marginTop:15,justifyContent:'center',alignItems:'center',width:'80%',backgroundColor:this.state.loading?'rgba(54,87,147,.3)':'#1296db',borderRadius:5,height:40}}>
           <Text style={{color:'white',fontSize:18}}>登录</Text>
         </TouchableOpacity>
-        {/* <TouchableOpacity onPress={()=>this.props.navigation.navigate('Networks')} style={{backgroundColor:'rgba(255,255,255,.4)',width:38,height:38,borderRadius:19,marginTop:70,justifyContent:'center',alignItems:'center'}}>
-         <Image source={require('../images/net.png')} style={{width:30,height:30}}/>
-        </TouchableOpacity> */}
         </View>
         </View>)
     }

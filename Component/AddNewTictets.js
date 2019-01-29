@@ -28,8 +28,8 @@ export default class AddNewT extends React.Component{
         let h = await HttpUtils.AjaxData(`${this.state.http}/ticketMng/ticketMng_loadTemplate.action`,j) // ttmsTickets(j);
         if(h.form.dataList.length==0){
             return Alert.alert(
-                 "提示",
-                 "该票错误，请选择其他票！",
+                 "",
+                 "此模板暂无法操作",
                  [
                    {text: '确定'},
                  ],

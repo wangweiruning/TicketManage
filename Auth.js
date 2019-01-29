@@ -64,16 +64,16 @@ export default class AuthLoadingScreen extends React.Component{
             }
             else{
                 this.props.navigation.navigate('App');
-            }
-          })
-          }catch(e){
+               }
+             })
+           }catch(e){
           return
-         }
+        }
     }
 
     render() {
         return (<React.Fragment>
                <StatusBar backgroundColor='transparent' translucent={true} />
             </React.Fragment>);
-      }
+        }
 }

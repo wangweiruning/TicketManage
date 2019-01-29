@@ -50,7 +50,7 @@ const RouteConfig = { // 表示各个页面路由配置,让导航器知道需要
     AddNewT: {
         screen: AddNewT,
         navigationOptions: { // 指定路由页面的配置选项
-            tabBarLabel: '模板', // 可用作头部标�?headerTitle ，或者Tab标题 tabBarLabel
+            tabBarLabel: '两票模板', // 可用作头部标�?headerTitle ，或者Tab标题 tabBarLabel
             tabBarIcon: ({ focused }) => ( 
                 <Image resizeMode = 'contain' source = { focused ? require('./images/nnne.png') : require('./images/wmode.png') } style = { { width: 28, height: 28 } }
                 />
@@ -191,6 +191,13 @@ const RouteConfigs={
             header: null,
             gesturesEnabled: true
           }
+    },
+    Touchid:{
+      screen:Touchid,
+      navigationOptions: {
+        header: null,
+        gesturesEnabled: true
+      }
     }
   };
   
@@ -236,13 +243,6 @@ const Auths = createStackNavigator({
     },
     Networks:{
       screen:Networks,
-      navigationOptions: {
-        header: null,
-        gesturesEnabled: true
-      }
-    },
-    Touchid:{
-      screen:Touchid,
       navigationOptions: {
         header: null,
         gesturesEnabled: true

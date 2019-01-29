@@ -126,7 +126,7 @@ export default class CorrelationPlan extends React.Component{
             <View style={{backgroundColor:'#eee',width:'97%',flexDirection:'row',borderRadius:15,alignItems:'center',height:40}}> 
             <Image source={require('../images/search.png')} style={{width:20,height:20,marginLeft:8}}/>
               <TextInput onSubmitEditing={()=>{this.testBlur()}} ref="inputWR" underlineColorAndroid={'transparent'} multiline={true} autoFocus={false} onChangeText={(e)=>this.onChanegeTextKeyword(e)}
-               style={{marginLeft:5,fontSize:13, color: '#f5f5f5',overflow:'hidden',width:'98%',height:'100%',padding:0}} placeholder="请输入两票名称"/>
+               style={{marginLeft:5,fontSize:13, color:'#363434',overflow:'hidden',width:'98%',height:'100%',padding:0}} placeholder="请输入两票名称"/>
             </View>
             </View>
             <ScrollView style={{marginTop:8}}>
